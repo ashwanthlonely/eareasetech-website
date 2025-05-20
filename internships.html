@@ -2,15 +2,22 @@
 <html lang="en">
 
 <head>
+  <link rel="icon" href="assets/favicon.ico" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EarEase Internships</title>
+  <title>EarEase-Nexus Internships</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #FFF; /* White background */
+    }
+    header {
+      font-family: Arial, sans-serif; /* Override Poppins for header */
+    }
+    header * {
+      font-family: inherit; /* Ensure all header children use Arial */
     }
     .custom-transition {
       transition: all 0.3s ease;
@@ -27,22 +34,63 @@
     .shadow-mustard {
       box-shadow: 0 4px 6px -1px rgba(212, 160, 23, 0.1), 0 2px 4px -1px rgba(212, 160, 23, 0.06);
     }
+    .yellow-bg {
+      background: linear-gradient(135deg, #FFC107, #FFCA28);
+    }
+    .black-text {
+      color: #000000;
+    }
+    .gray-accent {
+      color: #D3D3D3;
+    }
+    .custom-transition:hover {
+      transform: scale(1.05);
+    }
+    /* Gray outline for future form inputs */
+    input, select {
+      border: 1px solid #9CA3AF; /* Tailwind's gray-400 */
+    }
   </style>
 </head>
 
 <body class="text-gray-900">
   <!-- Header -->
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo and Brand -->
       <div class="flex items-center space-x-3">
-        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain custom-transition" />
-        <h1 class="text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+        <a href="index.html" class="flex items-center space-x-3">
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
+          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+        </a>
       </div>
-      <nav>
-        <ul class="flex space-x-6">
-          <li><a href="index.html" class="hover:text-[#D4A017]">Home</a></li>
-        </ul>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
+        <a href="index.html#about" class="hover:text-[#D4A017]">About</a>
+        <a href="index.html#services" class="hover:text-[#D4A017]">Services</a>
+        <a href="index.html#booking" class="hover:text-[#D4A017]">Book a Session</a>
+        <a href="index.html#contact" class="hover:text-[#D4A017]">Contact</a>
       </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-expanded="false" aria-label="Toggle navigation">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
+      <a href="index.html#about" class="block text-gray-700 hover:text-[#D4A017]">About</a>
+      <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
+      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
+      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
     </div>
   </header>
 
@@ -55,7 +103,7 @@
 
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
       <div class="bg-white rounded-2xl shadow-mustard max-w-3xl p-6 relative overflow-y-auto max-h-[90vh]">
-        <button onclick="closeModal()" class="absolute top-2 right-4 text-gray-500 hover:mustard-text text-xl">×</button>
+        <button onclick="closeModal()" class="absolute top-2 right-4 text-gray-500 hover:mustard-text text-xl" aria-label="Close modal">×</button>
         <h2 id="modalTitle" class="text-2xl font-bold mb-4 mustard-text"></h2>
         <div id="modalContent" class="space-y-2 mb-4"></div>
       </div>
@@ -90,7 +138,7 @@
           `<ul class="list-disc pl-5"><li>Internship on Real-time ML/AI Use-Cases with EarEase Tools or Partner Firms</li><li>End-to-End Projects: Problem Understanding → Deployment</li><li>Collaboration using Git, Notion/Jira, Agile Tasks</li><li>Prepare Executive Reports: Model Explanation + Business Value</li><li>Final Internship Report: Codebase + Notebooks + Deployment Links</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Fee Structure</h3>`,
           `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th><th class="border p-2">Price (INR)</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live 45-day course + capstone project</td><td class="border p-2">45 days</td><td class="border p-2">Freshers, early learners</td><td class="border p-2">₹24,999</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month Capstone projects + Soft Skills + resume, GitHub, LinkedIn guidance, Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Final-year students, job switchers</td><td class="border p-2">₹39,999</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + freelancing setup + global interview prep + lifetime access to future webinars/events + 100% Placement Assistance + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td><td class="border p-2">₹59,999</td></tr></tbody></table>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons (Optional)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Portfolio website hosting: ₹2,500, free with advanced and above subscriptions</li><li>Freelancing Gig Templates & Setup: ₹5,000, free with advanced and above subscriptions</li><li>Guaranteed Job Interview Calls: ₹10,000, free with advanced and above subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
         ]
@@ -103,7 +151,7 @@
           `<p><strong>Frontend Development (HTML, CSS, JavaScript, React)</strong></p>`,
           `<ul class="list-disc pl-5"><li>HTML5, CSS3, Responsive Design (Bootstrap, Flexbox, Grid)</li><li>JavaScript (ES6+), DOM, Fetch API, Promises, Async/Await</li><li>React.js (Components, Props, State, Lifecycle, Hooks, Routing)</li></ul>`,
           `<p><strong>Backend Development (Node.js, Express.js, MongoDB)</strong></p>`,
-          `<ul class="list-disc pl-5"><li>Node.js Basics, Express.js APIs, Middleware, RESTful Architecture</li><li>MongoDB CRUD Operations,部队 Mongoose ODM</li><li>Authentication (JWT, Bcrypt), API Security</li><li>Connecting Frontend & Backend – Full MERN Stack Integration</li><li>Deployment (Render/Vercel + MongoDB Atlas)</li></ul>`,
+          `<ul class="list-disc pl-5"><li>Node.js Basics, Express.js APIs, Middleware, RESTful Architecture</li><li>MongoDB CRUD Operations, Mongoose ODM</li><li>Authentication (JWT, Bcrypt), API Security</li><li>Connecting Frontend & Backend – Full MERN Stack Integration</li><li>Deployment (Render/Vercel + MongoDB Atlas)</li></ul>`,
           `<p>Daily Assignments + Mini Projects Included</p>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills (1 Month)</h3>`,
           `<p><strong>Capstone Projects:</strong></p>`,
@@ -114,7 +162,7 @@
           `<ul class="list-disc pl-5"><li>Real-time MERN Projects with Industry Mentors</li><li>Code Review Practices, Version Control with Git/GitHub</li><li>Weekly Stand-ups, Sprint Planning & Demo Days</li><li>Exposure to DevOps tools (CI/CD basics), and Deployment Pipelines</li><li>Documentation & Agile Workflow Training</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Fee Structure</h3>`,
           `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th><th class="border p-2">Price (INR)</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + 1 capstone project + internship + basic placement support</td><td class="border p-2">45 days</td><td class="border p-2">Freshers, early learners</td><td class="border p-2">₹24,999</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month capstone projects + Soft Skills + freelancing guidance + GitHub + resume review + Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Final-year students, job switchers</td><td class="border p-2">₹39,999</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time Project Experience + Upwork/Internshala portal setup + full-stack freelancing mentoring + 1:1 mock sessions + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td><td class="border p-2">₹50,000</td></tr></tbody></table>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons (Optional)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Portfolio website hosting: ₹2,500, free with advanced and above subscriptions</li><li>Freelancing Gig Templates & Setup: ₹5,000, free with advanced and above subscriptions</li><li>Guaranteed Job Interview Calls: ₹10,000, free with advanced and above subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
         ]
@@ -144,7 +192,7 @@
           `<ul class="list-disc pl-5"><li>Real-time analytics projects from internal tools or client firms</li><li>Work with cross-functional teams (Product, Sales, Finance)</li><li>Use Jira/Notion for documentation, sprint-based tasks</li><li>Prepare executive summary reports, performance tracking</li><li>Submit final internship report with dashboard + queries + insights</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Fee Structure</h3>`,
           `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th><th class="border p-2">Price (INR)</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone + 1-month soft skills & client demo project</td><td class="border p-2">45 days</td><td class="border p-2">Tier 2/3 college graduates</td><td class="border p-2">₹24,999</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">Full course + 1-month internship Capstone projects + Soft Skills + resume + GitHub repo + portfolio dashboard + Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Freshers & career changers</td><td class="border p-2">₹39,999</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + freelancing coaching + mock interviews + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, professionals</td><td class="border p-2">₹59,999</td></tr></tbody></table>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons (Optional)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Career Accelerator Pack (mock interviews + job referrals): ₹5,000, Free with Advanced and above Subscriptions</li><li>Personal Portfolio Website (hosted): ₹2,500, Free with Advanced and above Subscriptions</li><li>Power BI/Tableau Advanced Mastery Module: ₹5,000, Free with Advanced and above Subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
         ]
@@ -175,7 +223,7 @@
           `<ul class="list-disc pl-5"><li>Work on Real Client Projects (SMM, SEO, Ads)</li><li>Participate in Weekly Client Reviews</li><li>Practice: Monthly Campaign Planning, Strategy Docs</li><li>Cross-collaboration with Content, Design & Analytics Teams</li><li>Final Internship Portfolio with Metrics + Testimonial</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Fee Structure</h3>`,
           `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th><th class="border p-2">Price (INR)</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone project + client simulation + LinkedIn support</td><td class="border p-2">45 days</td><td class="border p-2">College students, Graduates, freelancers</td><td class="border p-2">₹24,999</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month internship Capstone projects + Soft Skills + freelancing coaching + real client leads</td><td class="border p-2">3 months</td><td class="border p-2">Serious job seekers, part-time freelancers</td><td class="border p-2">₹39,999</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + full portfolio setup + agency starter pack + personalized mentorship + lifetime access to future webinars/events</td><td class="border p-2">6 months</td><td class="border p-2">All above, Career switchers, aspiring agency owners</td><td class="border p-2">₹50,000</td></tr></tbody></table>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons (Optional)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Personal Brand & Reels Strategy: ₹5,000, Free with Advanced and above Subscriptions</li><li>LinkedIn + Insta Ad Setup Templates: ₹3,000, Free with Advanced and above Subscriptions</li><li>Access to Premium Tools (Canva Pro, Ahrefs Trial, etc.): ₹4,000, Free with Advanced and above Subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
         ]
@@ -272,6 +320,15 @@
       modal.classList.add("hidden");
       modal.classList.remove("flex");
     }
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
+      menuToggle.setAttribute('aria-expanded', isExpanded);
+    });
   </script>
 </body>
 
