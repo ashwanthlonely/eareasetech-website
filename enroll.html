@@ -1,0 +1,166 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarEase Internship Enrollment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F5E050; /* Light yellow background */
+    }
+    .custom-transition {
+      transition: all 0.3s ease;
+    }
+    .mustard-bg {
+      background-color: #D4A017; /* Mustard background */
+    }
+    .mustard-text {
+      color: #D4A017; /* Mustard text */
+    }
+    .hover\:mustard-text:hover {
+      color: #D4A017; /* Mustard hover text */
+    }
+    .shadow-mustard {
+      box-shadow: 0 4px 6px -1px rgba(212, 160, 23, 0.1), 0 2px 4px -1px rgba(212, 160, 23, 0.06);
+    }
+  </style>
+</head>
+
+<body class="text-black">
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain custom-transition" />
+        <h1 class="text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+      </div>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="index.html" class="hover:text-[#D4A017]">Home</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto p-6">
+    <h1 class="text-4xl font-bold text-center mb-10 mustard-text">🚀 Enroll in EarEase-Nexus Internship Programs</h1>
+    
+    <!-- Enrollment Form -->
+    <div class="bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto">
+      <form id="enrollmentForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdFoVbxEB0TKepUPR3PnOAI6-_vAIsUNRawIfF4Fyg-jZYf1g/formResponse" method="POST" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium mustard-text">Full Name</label>
+          <input type="text" id="name" name="entry.917782833" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium mustard-text">Email Address</label>
+          <input type="email" id="email" name="entry.1686118249" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium mustard-text">Phone Number</label>
+          <input type="tel" id="phone" name="entry.1607351760" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+        </div>
+        <div>
+          <label for="course" class="block text-sm font-medium mustard-text">Select Course</label>
+          <select id="course" name="entry.179214206" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50">
+            <option value="" disabled selected>Select a course</option>
+            <option value="Data Science Mastery">Data Science Mastery</option>
+            <option value="MERN Stack Development">MERN Stack Development</option>
+            <option value="Data Analytics with BI Tools">Data Analytics with BI Tools</option>
+            <option value="Digital Marketing Mastery">Digital Marketing Mastery</option>
+            <option value="HR Recruiter Internship">HR Recruiter Internship Program</option>
+            <option value="HR Analyst Internship">HR Analyst Internship Program</option>
+            <option value="Finance Internship">Finance Internship Program</option>
+            <option value="Sales & Marketing Internship">Sales & Marketing Internship</option>
+          </select>
+        </div>
+        <div>
+          <label for="tier" class="block text-sm font-medium mustard-text">Select Tier</label>
+          <select id="tier" name="entry.1972886111" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50">
+            <option value="" disabled selected>Select a tier</option>
+            <option value="Standard (45 Days)">Standard (45 Days)</option>
+            <option value="Advanced (3 Months)">Advanced (3 Months)</option>
+            <option value="Premium (6 Months)">Premium (6 Months)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full mustard-bg text-white py-2 px-4 rounded-md hover:bg-yellow-600 custom-transition">Submit Enrollment</button>
+      </form>
+    </div>
+
+    <!-- Thank You Message (Hidden Initially) -->
+    <div id="thankYouMessage" class="hidden bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto mt-6 text-center">
+      <h2 class="text-2xl font-bold mustard-text mb-4">Thank You!</h2>
+      <p class="text-black">Thank you for choosing EarEase-Tech for your career path. Our team will reach you soon!</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('enrollmentForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors' // Google Forms requires no-cors for cross-origin requests
+        });
+        
+        // Hide form and show thank-you message
+        form.classList.add('hidden');
+        thankYouMessage.classList.remove('hidden');
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting the form. Please try again.');
+      }
+    });
+  </script>
+</body>
+
+</html>
