@@ -5,32 +5,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us | EarEase</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/scrollreveal"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #FFF;
     }
-    header {
-      font-family: Arial, sans-serif;
+    .yellow-bg {
+      background: linear-gradient(135deg, #FFC107, #FFCA28);
     }
-    header * {
-      font-family: inherit;
-    }
-    .mustard-text {
-      color: #d4a017;
+    .black-text {
+      color: #000000;
     }
     .mustard-bg {
-      background-color: #f6d030;
+      background-color: #efbe18;
     }
-    .dark-mustard-bg {
-      background-color: #d4a017;
-    }
-    .dark-gray-bg {
-      background-color: #f3f4f6;
+    .gray-accent {
+      color: #D3D3D3;
     }
     .custom-transition {
       transition: all 0.3s ease;
@@ -48,31 +41,32 @@
   </style>
 </head>
 
-<body class="text-black">
+<body class="bg-gray-100 text-gray-900">
   <!-- Header -->
   <header class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <!-- Logo and Brand -->
       <div class="flex items-center space-x-3">
         <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" loading="lazy">
           <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
         </a>
       </div>
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-        <a href="index.html#services" class="hover:text-[#D4A017]">Services</a>
-        <a href="index.html#booking" class="hover:text-[#D4A017]">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017]">Internships</a>
-        <a href="index.html#contact" class="hover:text-[#D4A017]">Contact</a>
+        <a href="index.html" class="text-gray-700 hover:text-[#D4A017]">Home</a>
+        <a href="index.html#services" class="text-gray-700 hover:text-[#D4A017]">Services</a>
+        <a href="index.html#booking" class="text-gray-700 hover:text-[#D4A017]">Book a Session</a>
+        <a href="internships.html" class="text-gray-700 hover:text-[#D4A017]">Internships</a>
+        <a href="index.html#contact" class="text-gray-700 hover:text-[#D4A017]">Contact</a>
       </nav>
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden">
         <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-expanded="false" aria-label="Toggle navigation">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-label="Menu icon">
+            <title>Menu</title>
             <path d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
@@ -84,22 +78,22 @@
       <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
       <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
       <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Internships</a>      
+      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Internships</a>
       <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="mustard-bg text-black py-16 text-center bg-gradient-to-b from-[#f6d030] to-[#ffe066]">
+  <section class="yellow-bg text-black py-16 text-center">
     <div class="container mx-auto px-4 flex flex-col justify-center">
       <h1 class="text-5xl font-bold mb-4">About EarEase</h1>
       <p class="text-xl max-w-2xl mx-auto mb-12">Where Mental Wellness Meets Tech Brilliance</p>
-      <img src="assets/images/team-collaboration.jpg" alt="Diverse team collaborating at laptops in a modern office" class="max-w-md mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
+      <img src="assets/images/team-collaboration.jpg" alt="Diverse team collaborating at laptops in a modern office" class="w-full max-w-md mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
     </div>
   </section>
 
   <!-- Founder Section -->
-  <section class="mustard-bg py-16">
+  <section class="bg-gray-50 py-16">
     <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div class="space-y-4">
         <h2 class="text-3xl font-semibold">Our Team</h2>
@@ -107,7 +101,7 @@
         <p class="leading-relaxed">Passionate about transforming lives and careers, our team creates an inclusive ecosystem where mental health and tech growth thrive together.</p>
       </div>
       <div>
-        <img src="assets/images/professional-team.jpeg" alt="Smiling professional team in a meeting" class="max-w-lg mx-auto rounded-2xl shadow-xl border-2 border-[#f6d030] custom-transition" loading="lazy">
+        <img src="assets/images/professional-team.jpeg" alt="Smiling professional team in a meeting" class="w-full max-w-lg mx-auto rounded-2xl shadow-xl border-2 border-[#D4A017] custom-transition" loading="lazy">
       </div>
     </div>
   </section>
@@ -115,8 +109,8 @@
   <!-- Animation Section -->
   <section class="mustard-bg py-16 text-center" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
     <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-semibold mb-8 mustard-text border-b-2 border-[#f6d030] pb-2 inline-block" style="color: #000;">Empowering Wellness & Tech</h2>
-      <img src="assets/animations/mental-health.gif" alt="Mental Wellness Animation" style="width: 500px; height: 300px; margin: 0 auto; max-width: 100%;" class="rounded-2xl shadow-xl border-2 border-[#f6d030] custom-transition">
+      <h2 class="text-4xl font-semibold mb-8 black-text border-b-2 border-[#D4A017] pb-2 inline-block">Empowering Wellness & Tech</h2>
+      <img src="assets/animations/mental-health.gif" alt="Mental Wellness Animation" class="w-full max-w-md h-auto mx-auto rounded-2xl shadow-xl border-2 border-[#D4A017] custom-transition" loading="lazy">
       <p class="mt-4 text-lg max-w-3xl mx-auto leading-relaxed">Empowering minds and careers through wellness and tech.</p>
     </div>
   </section>
@@ -124,45 +118,45 @@
   <!-- Vision Section -->
   <section class="bg-white text-black py-16">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold mb-4 mustard-text border-b-2 border-[#f6d030] pb-2 inline-block">Our Vision</h2>
+      <h2 class="text-4xl font-bold mb-4 text-[#D4A017] border-b-2 border-[#D4A017] pb-2 inline-block">Our Vision</h2>
       <p class="max-w-3xl mx-auto mt-8 leading-relaxed">To create a safe, empowering space where mental health and IT excellence go hand in hand. At EarEase, we envision a world where healing meets upskilling — transforming both careers and lives.</p>
-      <img src="assets/images/minimal-workspace.jpeg" alt="Minimal workspace with MacBook and potted plant on white table" class="max-w-sm mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
+      <img src="assets/images/minimal-workspace.jpeg" alt="Minimal workspace with MacBook and potted plant on white table" class="w-full max-w-sm mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
     </div>
   </section>
 
   <!-- Services Section -->
-  <section class="bg-white py-16">
+  <section class="bg-gray-50 py-16" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
     <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-12 mustard-text border-b-2 border-[#f6d030] pb-2">What We Do</h2>
+      <h2 class="text-4xl font-bold text-center mb-12 text-[#D4A017] border-b-2 border-[#D4A017] pb-2">What We Do</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
         <div class="space-y-8">
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-services-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-services-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <span id="it-services-desc" class="sr-only">Icon for IT Services & Consulting</span>
-              <h3 class="text-xl font-semibold mustard-text">IT Services & Consulting</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">IT Services & Consulting</h3>
             </div>
             <p class="mt-4 leading-relaxed">We provide expert IT consulting and services to optimize technology solutions for businesses and individuals, ensuring efficiency and innovation.</p>
           </div>
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-training-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-training-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
               <span id="it-training-desc" class="sr-only">Icon for IT Training & Upskilling</span>
-              <h3 class="text-xl font-semibold mustard-text">IT Training & Upskilling</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">IT Training & Upskilling</h3>
             </div>
             <p class="mt-4 leading-relaxed">We provide personalized training in Data Science, Full Stack Development, Cybersecurity, and more—taught by industry veterans.</p>
           </div>
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="staffing-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="staffing-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
               <span id="staffing-desc" class="sr-only">Icon for IT & Non-IT Staffing</span>
-              <h3 class="text-xl font-semibold mustard-text">IT & Non-IT Staffing</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">IT & Non-IT Staffing</h3>
             </div>
             <p class="mt-4 leading-relaxed">Connecting businesses with top-tier IT and non-IT talent through efficient staffing solutions tailored to organizational needs.</p>
           </div>
@@ -170,31 +164,31 @@
         <div class="space-y-8">
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="mental-wellness-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="mental-wellness-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <span id="mental-wellness-desc" class="sr-only">Icon for Mental Wellness</span>
-              <h3 class="text-xl font-semibold mustard-text">Mental Wellness & Listening Sessions</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">Mental Wellness & Listening Sessions</h3>
             </div>
             <p class="mt-4 leading-relaxed">Our certified psychology team offers confidential sessions to support emotional balance and mental clarity for IT professionals and students.</p>
           </div>
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
               <span id="career-counseling-desc" class="sr-only">Icon for Career Counseling</span>
-              <h3 class="text-xl font-semibold mustard-text">Career Counseling & Mentorship</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">Career Counseling & Mentorship</h3>
             </div>
             <p class="mt-4 leading-relaxed">Guiding you through career choices, skill-building, and industry expectations to ensure long-term success in tech careers.</p>
           </div>
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="b2b-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="b2b-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
               <span id="b2b-desc" class="sr-only">Icon for B2B Solutions</span>
-              <h3 class="text-xl font-semibold mustard-text">B2B Solutions & Collaboration</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">B2B Solutions & Collaboration</h3>
             </div>
             <p class="mt-4 leading-relaxed">Partnering with consultancies and firms across the globe, we deliver white-label solutions, project support, and tailored tech services.</p>
           </div>
@@ -204,11 +198,11 @@
         <div class="space-y-8">
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="startup-desc">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="startup-desc">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               <span id="startup-desc" class="sr-only">Icon for Project Incubation</span>
-              <h3 class="text-xl font-semibold mustard-text">Project Incubation & Startup Support</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">Project Incubation & Startup Support</h3>
             </div>
             <p class="mt-4 leading-relaxed">We support innovative thinkers by helping them incubate and launch their tech projects through funding, mentorship, and technical infrastructure.</p>
           </div>
@@ -216,11 +210,11 @@
         <div class="space-y-8">
           <div class="p-6 border border-gray-200 rounded-lg service-card">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f6d030]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc-2">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
               <span id="career-counseling-desc-2" class="sr-only">Icon for Career Counseling</span>
-              <h3 class="text-xl font-semibold mustard-text">Career Counseling & Mentorship</h3>
+              <h3 class="text-xl font-semibold text-[#D4A017]">Career Counseling & Mentorship</h3>
             </div>
             <p class="mt-4 leading-relaxed">Guiding you through career choices, skill-building, and industry expectations to ensure long-term success in tech careers.</p>
           </div>
@@ -228,14 +222,14 @@
       </div>
       <!-- Infographic -->
       <div class="mt-16 text-center p-4">
-        <h3 class="text-2xl font-bold mb-4 mustard-text">Impact by Numbers</h3>
+        <h3 class="text-2xl font-bold mb-4 text-[#D4A017]">Impact by Numbers</h3>
         <canvas id="impactChart" class="max-w-lg mx-auto"></canvas>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="dark-gray-bg text-black py-6 text-center">
+  <footer class="bg-gray-50 text-black py-6 text-center">
     <div class="container mx-auto px-4">
       <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
     </div>
@@ -265,7 +259,7 @@
         datasets: [{
           label: 'EarEase Impact',
           data: [1500, 75, 12, 200],
-          backgroundColor: '#f6d030',
+          backgroundColor: '#D4A017',
           borderColor: '#000',
           borderWidth: 1,
           borderRadius: 6
