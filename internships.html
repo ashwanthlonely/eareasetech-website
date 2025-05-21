@@ -25,6 +25,9 @@
     .mustard-bg {
       background-color: #D4A017; /* Mustard background */
     }
+    .dark-gray-bg {
+      background-color: #f3f4f6;
+    }
     .mustard-text {
       color: #D4A017; /* Mustard text */
     }
@@ -68,7 +71,7 @@
       <!-- Desktop Nav -->
       <nav class="hidden md:flex space-x-6">
         <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-        <a href="index.html#about" class="hover:text-[#D4A017]">About</a>
+        <a href="about.html" class="hover:text-[#D4A017]">About</a>
         <a href="index.html#services" class="hover:text-[#D4A017]">Services</a>
         <a href="index.html#booking" class="hover:text-[#D4A017]">Book a Session</a>
         <a href="index.html#contact" class="hover:text-[#D4A017]">Contact</a>
@@ -87,7 +90,7 @@
     <!-- Mobile Dropdown Menu -->
     <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
       <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-      <a href="index.html#about" class="block text-gray-700 hover:text-[#D4A017]">About</a>
+      <a href="about.html" class="block text-gray-700 hover:text-[#D4A017]">About</a>
       <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
       <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
       <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
@@ -330,6 +333,19 @@
       menuToggle.setAttribute('aria-expanded', isExpanded);
     });
   </script>
+    <!-- Footer -->
+  <footer class="dark-gray-bg text-black py-6 text-center">
+    <div class="container mx-auto px-4">
+      <!-- <div class="mt-4 flex justify-center space-x-4">
+        <a href="https://www.linkedin.com/company/earease-tech/" target="_blank" aria-label="LinkedIn">
+          <img src="assets/images/linkedin-icon.png" alt="LinkedIn Icon" class="w-6 h-6 custom-transition">
+        </a>
+      </div> -->
+      <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
+      <!-- <p class="text-base mt-2">Photos by Christina @ wocintechchat.com on Unsplash, Fauxels and Kelly on Pexels.</p> -->
+      
+    </div>
+  </footer>
 </body>
 
 </html>
