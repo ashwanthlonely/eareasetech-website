@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="assets/favicon.ico" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Services | EarEase-Tech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .yellow-bg { background: linear-gradient(135deg, #FFC107, #FFCA28); }
+    .black-text { color: #000000; }
+    .gray-accent { color: #D3D3D3; }
+    .custom-transition { transition: all 0.3s ease; }
+    .custom-transition:hover { transform: scale(1.05); }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      max-width: 700px;
+      width: 90%;
+      padding: 2rem;
+      text-align: left;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #555;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-3">
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
+          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+        </a>
+      </div>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
+        <a href="our-services.html" class="hover:text-[#D4A017] ">Services</a>
+        <a href="about.html" class="hover:text-[#D4A017] ">About</a>
+        <a href="index.html#booking" class="hover:text-[#D4A017] ">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017] ">Mentorships</a>
+        <a href="index.html#contact" class="hover:text-[#D4A017] ">Contact</a>
+      </nav>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">Home</a>
+      <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">Services</a>
+      <a href="about.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">About</a>
+      <a href="#booking" class="block text-gray-700 hover:text-[#D4A017] font-medium">Book a Session</a>
+      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
+      <a href="#contact" class="block text-gray-700 hover:text-[#D4A017] font-medium">Contact</a>
+    </div>
+  </header>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
+  <section class="services-section py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-2xl md:text-4xl font-extrabold mb-4 text-gray-900">Our Services</h1>
+      <p class="text-lg md:text-xl text-gray-700 mb-10">Explore the services we offer to make technology accessible, meaningful, and stress-free.</p>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('itServices')">
+          <img src="assets/itservices.png" alt="IT Services" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+          <h2 class="text-xl font-semibold mb-2">IT Services</h2>
+          <p class="text-gray-700">Click to view our IT Services</p>
+        </div>       
+        
+
+      <!-- Freelancing Support -->
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('freelancing')">
+        <img src="assets/freelancing.jpeg" alt="Freelancing Support" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+        <h2 class="text-xl font-semibold mb-2">Freelancing Support</h2>
+        <p class="text-gray-700">Click to view freelancing guidance.</p>
+      </div>
+
+      <!-- Drop Servicing -->
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('dropServicing')">
+        <img src="assets/dropservicing.png" alt="Drop Servicing" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+        <h2 class="text-xl font-semibold mb-2">IT Drop Servicing</h2>
+        <p class="text-gray-700">Click to explore drop servicing solutions.</p>
+      </div>
+
+      <!-- Career Counseling -->
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('careerCounseling')">
+        <img src="assets/counselling.png" alt="Career Counseling" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+        <h2 class="text-xl font-semibold mb-2">Career Counseling</h2>
+        <p class="text-gray-700">Click to know more about career guidance.</p>
+      </div>
+
+      <!-- Mental Wellness -->
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('mentalWellness')">
+        <img src="assets/wellness.png" alt="Mental Wellness" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+        <h2 class="text-xl font-semibold mb-2">Mental Wellness</h2>
+        <p class="text-gray-700">Click to discover wellness programs.</p>
+      </div>
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('listening')">
+          <img src="assets/listening.png" alt="Listening Services" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+          <h2 class="text-xl font-semibold mb-2">Listening Services</h2>
+          <p class="text-gray-700">Click to view our Listening Services</p>
+        </div>
+
+      </div>
+      <!-- Training & Placement -->
+      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('trainingPlacement')">
+        <img src="assets/mentoring.png" alt="Training and Placement" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
+        <h2 class="text-xl font-semibold mb-2">Mentorships</h2>
+        <p class="text-gray-700">Click to learn about our training programs.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="itServices">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('itServices')">×</span>
+      <h2 class="text-2xl font-bold mb-4">IT Services</h2>
+      <p class="text-gray-700 mb-4">Our IT services are crafted to help startups, academic institutions, and businesses excel in today’s tech-driven world.</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Artificial Intelligence (AI):</strong> AI solutions for automation, personalization, and optimization.</li>
+        <li><strong>Machine Learning (ML):</strong> Predictive modeling, classification, clustering, and recommendation engines.</li>
+        <li><strong>Data Science:</strong> End-to-end data workflows, insights, model deployment, and dashboarding.</li>
+        <li><strong>Data Analytics:</strong> BI, reporting, KPIs, and real-time analytics tailored to your domain.</li>
+        <li><strong>Web Designing:</strong> Clean, modern, and responsive websites that reflect your brand.</li>
+        <li><strong>App Development:</strong> Mobile apps (Android/iOS) and cross-platform solutions using modern frameworks.</li>
+        <li><strong>Custom Solutions:</strong> Tailored apps, dashboards, and APIs.</li>
+        <li><strong>Tech Stack:</strong> React, Node, Python, Flutter, AWS, and more.</li>
+        <li><strong>Scalability:</strong> Built with performance and scale in mind.</li>
+        <li><strong>Other IT Services:</strong> Cloud services, DevOps, UI/UX audits, maintenance and performance tuning.</li>
+        
+      </ul>
+    </div>
+  </div>  
+
+  <!-- Freelancing Support Modal -->
+  <div class="modal" id="freelancing">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('freelancing')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Freelancing Support</h2>
+      <p class="text-gray-700 mb-4">We help you launch your freelance career with confidence. Services include:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Portal Setup:</strong> Profiles on Fiverr, Upwork, Freelancer, etc.</li>
+        <li><strong>Proposal Writing:</strong> Templates and live mentoring.</li>
+        <li><strong>Client Management:</strong> Communication, deliverables, and scaling.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Drop Servicing Modal -->
+  <div class="modal" id="dropServicing">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('dropServicing')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Drop Servicing</h2>
+      <p class="text-gray-700 mb-4">We manage client services by outsourcing project execution to vetted developers, ensuring:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Quality Assurance:</strong> All deliverables are monitored by tech leads.</li>
+        <li><strong>Business Growth:</strong> Focus on sales, while we handle execution.</li>
+        <li><strong>Trusted Network:</strong> Pre-screened freelancers and agencies.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Career Counseling Modal -->
+  <div class="modal" id="careerCounseling">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('careerCounseling')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Career Counseling</h2>
+      <p class="text-gray-700 mb-4">Personalized guidance for students and professionals looking to upskill, shift domains, or aim higher:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Profile Review:</strong> Strengths, gaps, and roadmaps.</li>
+        <li><strong>One-on-One Mentoring:</strong> With industry experts.</li>
+        <li><strong>Career Pathways:</strong> Tech roles, product management, freelancing, and more.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Mental Wellness Modal -->
+  <div class="modal" id="mentalWellness">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('mentalWellness')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Mental Wellness Programs</h2>
+      <p class="text-gray-700 mb-4">We prioritize emotional well-being alongside career growth:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>One-on-One Listening:</strong> Safe and confidential conversations.</li>
+        <li><strong>Group Therapy:</strong> Sessions on stress, burnout, and motivation.</li>
+        <li><strong>Work-Life Balance Events:</strong> Talks, retreats, and wellness workshops.</li>
+        <li><strong>Weekend Trips:</strong> Organized scenic getaways to relax and rejuvenate.</li>
+        <li><strong>Long Rides:</strong> Planned bike/car rides for those who love the road and nature.</li>
+        <li><strong>Group Games:</strong> Interactive and bonding activities to reduce stress and enhance collaboration.</li>
+        <li><strong>Social Gatherings:</strong> Meetups, food walks, and celebrations to unwind and connect.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="listening">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('listening')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Listening Services</h2>
+      <p class="text-gray-700 mb-4">Sometimes, all we need is someone who listens. At EarEase, our listening services are designed to support mental wellness by offering a safe space for expression:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Confidential Sessions:</strong> Speak your heart out – we're here to listen without judgment.</li>
+        <li><strong>Trained Listeners:</strong> Our volunteers are empathetic and compassionate.</li>
+        <li><strong>Accessible Support:</strong> Book a session online at your convenience.</li>
+        <li><strong>Emotional Relief:</strong> Experience the peace of being heard and understood.</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Training & Placement Modal -->
+  <div class="modal" id="trainingPlacement">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('trainingPlacement')">×</span>
+      <h2 class="text-2xl font-bold mb-4">Training & Placement</h2>
+      <p class="text-gray-700 mb-4">Our industry-aligned training ensures students are ready for real-world software roles. We offer:</p>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li><strong>Courses:</strong> MERN Stack, Java Full Stack, Data Science, AI, DevOps, VLSI, and more.</li>
+        <li><strong>Live Projects:</strong> Hands-on with production-grade apps.</li>
+        <li><strong>Placement Support:</strong> Resume, mock interviews, and recruiter connects.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <footer class="text-black py-6 text-center bg-[#f6d030]" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

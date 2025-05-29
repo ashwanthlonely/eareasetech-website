@@ -13,6 +13,12 @@
     body {
       font-family: 'Poppins', sans-serif;
     }
+    header {
+      font-family: Arial, sans-serif; /* Override Poppins for header */
+    }
+    header * {
+      font-family: inherit; /* Ensure all header children use Arial */
+    }
     .yellow-bg {
       background: linear-gradient(135deg, #FFC107, #FFCA28);
     }
@@ -45,41 +51,35 @@
   <!-- Header -->
   <header class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <!-- Logo and Brand -->
       <div class="flex items-center space-x-3">
         <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" loading="lazy">
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
           <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
         </a>
       </div>
-
-      <!-- Desktop Nav -->
       <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="text-gray-700 hover:text-[#D4A017]">Home</a>
-        <a href="index.html#services" class="text-gray-700 hover:text-[#D4A017]">Services</a>
-        <a href="index.html#booking" class="text-gray-700 hover:text-[#D4A017]">Book a Session</a>
-        <a href="internships.html" class="text-gray-700 hover:text-[#D4A017]">Internships</a>
-        <a href="index.html#contact" class="text-gray-700 hover:text-[#D4A017]">Contact</a>
+        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
+        <a href="our-services.html" class="hover:text-[#D4A017] ">Services</a>
+        <a href="about.html" class="hover:text-[#D4A017] ">About</a>
+        <a href="index.html#booking" class="hover:text-[#D4A017] ">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017] ">Mentorships</a>
+        <a href="index.html#contact" class="hover:text-[#D4A017] ">Contact</a>
       </nav>
-
-      <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-expanded="false" aria-label="Toggle navigation">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-label="Menu icon">
-            <title>Menu</title>
+        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile Dropdown Menu -->
     <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-      <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
-      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Internships</a>
-      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
+      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017] ">Home</a>
+      <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017] ">Services</a>
+      <a href="about.html" class="block text-gray-700 hover:text-[#D4A017] ">About</a>
+      <a href="#booking" class="block text-gray-700 hover:text-[#D4A017] ">Book a Session</a>
+      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
+      <a href="#contact" class="block text-gray-700 hover:text-[#D4A017] ">Contact</a>
     </div>
   </header>
 
