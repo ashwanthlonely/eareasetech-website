@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <title>Data Analytics Flash Sale - EarEase-Tech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F5E050; /* Light yellow background */
+    }
+    header {
+      font-family: Arial, sans-serif; /* Override Poppins for header */
+    }
+    header * {
+      font-family: inherit; /* Ensure all header children use Arial */
+    }
+    .custom-transition {
+      transition: all 0.3s ease;
+    }
+    .mustard-bg {
+      background-color: #D4A017; /* Mustard background */
+    }
+    .mustard-text {
+      color: #D4A017; /* Mustard text */
+    }
+    .hover\:mustard-text:hover {
+      color: #D4A017; /* Mustard hover text */
+    }
+    .shadow-mustard {
+      box-shadow: 0 4px 6px -1px rgba(212, 160, 23, 0.1), 0 2px 4px -1px rgba(212, 160, 23, 0.06);
+    }
+    input, select {
+      border: 1px solid #9CA3AF; /* Tailwind's gray-400 */
+    }
+    .flash-sale-badge {
+      background: linear-gradient(135deg, #FF4500, #FF6347);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      display: inline-block;
+      font-weight: bold;
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="text-black">
+  <!-- Header -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-3">
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
+          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+        </a>
+      </div>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
+        <a href="about-us.html" class="hover:text-[#D4A017]">About Us</a>
+        <a href="index.html#services" class="hover:text-[#D4A017]">Services</a>
+        <a href="index.html#booking" class="hover:text-[#D4A017]">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017]">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
+        <a href="index.html#contact" class="hover:text-[#D4A017]">Contact</a>
+      </nav>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-expanded="false" aria-label="Toggle navigation">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
+      <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017]">About Us</a>
+      <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
+      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
+      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
+      <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
+      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="max-w-7xl mx-auto p-6">
+    <section class="mustard-bg rounded-xl py-12 text-center">
+      <span class="flash-sale-badge text-lg mb-4 pulse">Flash Sale - Limited Time!</span>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white">Data Analytics Course</h1>
+      <p class="mt-4 text-lg md:text-xl text-white">Batch Starts: June 19, 2025</p>
+      <p class="mt-2 text-lg md:text-xl text-white">Was ₹24,999, Now <span class="font-bold text-2xl">₹4,999</span>!</p>
+      <div id="countdown" class="mt-6 text-2xl font-bold text-white"></div>
+    </section>
+
+    <!-- Course Details -->
+    <section class="mt-12">
+      <h2 class="text-3xl font-bold text-center mustard-text mb-8">Why Our Data Analytics Course?</h2>
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="bg-white rounded-xl p-6 shadow-mustard custom-transition">
+          <h3 class="text-xl font-semibold mustard-text">Expert Instructors</h3>
+          <p class="mt-2 text-gray-700">Learn from industry leaders with real-world experience.</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-mustard custom-transition">
+          <h3 class="text-xl font-semibold mustard-text">Hands-On Projects</h3>
+          <p class="mt-2 text-gray-700">Build a portfolio with real-world data analytics projects.</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-mustard custom-transition">
+          <h3 class="text-xl font-semibold mustard-text">Flexible Learning</h3>
+          <p class="mt-2 text-gray-700">Access materials anytime with lifetime course access.</p>
+        </div>
+      </div>
+      <h2 class="text-3xl font-bold text-center mustard-text mt-12 mb-8">What You’ll Learn</h2>
+      <ul class="list-disc list-inside mx-auto max-w-2xl text-lg text-gray-700">
+        <li>Data Visualization with Tableau and Power BI</li>
+        <li>Statistical Analysis with Python and R</li>
+        <li>SQL for Data Querying</li>
+        <li>Machine Learning Basics for Predictive Analytics</li>
+        <li>Data Cleaning and Preprocessing Techniques</li>
+      </ul>
+    </section>
+
+    <!-- Enrollment Form -->
+    <section id="enroll" class="mt-12">
+      <div class="bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mustard-text mb-6">Enroll Now - Flash Sale!</h2>
+        <p class="text-center text-gray-700 mb-6">Was ₹24,999, Now <span class="font-bold text-xl mustard-text">₹4,999</span>! Fill out the form to secure your spot.</p>
+        <form id="enrollmentForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdFoVbxEB0TKepUPR3PnOAI6-_vAIsUNRawIfF4Fyg-jZYf1g/formResponse" method="POST" class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium mustard-text">Full Name</label>
+            <input type="text" id="name" name="entry.917782833" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium mustard-text">Email Address</label>
+            <input type="email" id="email" name="entry.1686118249" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium mustard-text">Phone Number</label>
+            <input type="tel" id="phone" name="entry.1607351760" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
+          </div>
+          <div>
+            <label for="course" class="block text-sm font-medium mustard-text">Course</label>
+            <input type="text" id="course" name="entry.179214206" value="Data Analytics" readonly class="mt-1 block w-full rounded-md shadow-sm bg-gray-100" />
+          </div>
+          <div>
+            <label for="tier" class="block text-sm font-medium mustard-text">Tier</label>
+            <input type="text" id="tier" name="entry.1972886111" value="Flash Sale (45 Days)" readonly class="mt-1 block w-full rounded-md shadow-sm bg-gray-100" />
+          </div>
+          <div class="text-center">
+            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_QajsLs05YqJFoe" async> </script> </form>
+          </div>
+        </form>
+      </div>
+      <div id="thankYouMessage" class="hidden bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto mt-6 text-center">
+        <h2 class="text-2xl font-bold mustard-text mb-4">Thank You!</h2>
+        <p class="text-black">Thank you for enrolling in our Data Analytics course! Our team will reach out soon.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 bg-[#f6d030]" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="text-base text-black">© 2025 EarEase Tech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
+      menuToggle.setAttribute('aria-expanded', isExpanded);
+    });
+
+    // Countdown Timer
+    const countdownElement = document.getElementById('countdown');
+    const endTime = new Date().getTime() + 48 * 60 * 60 * 1000; // 48 hours from now
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const timeLeft = endTime - now;
+      if (timeLeft <= 0) {
+        countdownElement.textContent = 'Flash Sale Ended!';
+        return;
+      }
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      countdownElement.textContent = `Hurry! Sale ends in ${hours}h ${minutes}m ${seconds}s`;
+      setTimeout(updateCountdown, 1000);
+    }
+    updateCountdown();
+
+    // Form Submission and Payment
+    const form = document.getElementById('enrollmentForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+    const submissions = JSON.parse(localStorage.getItem('enrollments')) || [];
+
+    // Simulate payment success detection
+    const paymentButton = document.querySelector('form [data-payment_button_id="pl_QajsLs05YqJFoe"]');
+    if (paymentButton) {
+      paymentButton.addEventListener('click', () => {
+        // Store form data in localStorage before payment
+        const formData = new FormData(form);
+        const submission = {
+          name: formData.get('entry.917782833'),
+          email: formData.get('entry.1686118249'),
+          phone: formData.get('entry.1607351760'),
+          course: formData.get('entry.179214206'),
+          tier: formData.get('entry.1972886111'),
+          timestamp: new Date().toISOString()
+        };
+        submissions.push(submission);
+        localStorage.setItem('enrollments', JSON.stringify(submissions));
+
+        // Simulate payment success (replace with server-side webhook in production)
+        setTimeout(async () => {
+          try {
+            await fetch(form.action, {
+              method: 'POST',
+              body: formData,
+              mode: 'no-cors'
+            });
+            form.classList.add('hidden');
+            thankYouMessage.classList.remove('hidden');
+          } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Enrollment saved, but form submission failed. Please contact support.');
+          }
+        }, 5000); // Simulate delay for payment processing
+      });
+    }
+  </script>
+</body>
+</html>
