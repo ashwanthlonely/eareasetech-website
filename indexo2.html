@@ -4,123 +4,486 @@
   <link rel="icon" href="assets/favicon.ico" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EarEase-Tech</title>
+  <title>EarEase-Tech | Where Mental Wellness Meets Tech Excellence</title>
+  <meta name="description" content="Transform your tech career with comprehensive training, mental wellness support, and real-world project experience. Join EarEase-Tech today.">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Poppins', sans-serif; 
+    }
+    header {
+      font-family: Arial, sans-serif;
+    }
+    header * {
+      font-family: inherit;
+    }
+    .gradient-bg { 
+      background: linear-gradient(135deg, #FFC107 0%, #FFCA28 50%, #D4A017 100%); 
+    }
+    .custom-transition { 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .hover-lift:hover { 
+      transform: translateY(-4px); 
+    }
+    .glass-effect { 
+      background: rgba(255, 255, 255, 0.95); 
+      backdrop-filter: blur(10px); 
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .text-gradient { 
+      background: linear-gradient(135deg, #D4A017, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .floating { 
+      animation: floating 3s ease-in-out infinite; 
+    }
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .stats-counter { 
+      font-variant-numeric: tabular-nums; 
+    }
+    .service-card {
+      transition: all 0.3s ease;
+    }
+    .service-card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      background-color: #f9fafb;
+    }
+    
+    /* Chatbot Styles */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .chatbot-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #D4A017, #FFC107);
+      color: white;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+    }
+    .chatbot-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(212, 160, 23, 0.6);
+    }
+    .chatbot-window {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chatbot-header {
+      background: linear-gradient(135deg, #D4A017, #FFC107);
+      color: white;
+      padding: 15px;
+      font-weight: 600;
+    }
+    .chatbot-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      max-height: 350px;
+    }
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+    .message.bot {
+      background: #f3f4f6;
+      color: #374151;
+      align-self: flex-start;
+    }
+    .message.user {
+      background: #D4A017;
+      color: white;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    .chatbot-input {
+      padding: 15px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      gap: 10px;
+    }
+    .chatbot-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      outline: none;
+    }
+    .chatbot-input button {
+      background: #D4A017;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+      .chatbot-window {
+        width: 300px;
+        height: 400px;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-50 text-gray-900">
 
-  <!-- Header -->
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
-        <h1 class="text-2xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+  <!-- Enhanced Header -->
+  <header class="glass-effect shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <!-- Original Logo -->
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="flex items-center space-x-3">
+            <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
+            <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+          </a>
+        </div>
+
+        <!-- Enhanced Navigation -->
+        <nav class="hidden lg:flex items-center space-x-8">
+          <a href="index.html" class="text-gray-700 hover:text-[#D4A017] font-medium custom-transition">Home</a>
+          <a href="our-services.html" class="text-gray-700 hover:text-[#D4A017] font-medium custom-transition">Services</a>
+          <a href="about-us.html" class="text-gray-700 hover:text-[#D4A017] font-medium custom-transition">About Us</a>
+          <a href="internships.html" class="text-gray-700 hover:text-[#D4A017] font-medium custom-transition">Programs</a>
+          <a href="careers.html" class="text-gray-700 hover:text-[#D4A017] font-medium custom-transition">Careers</a>
+          <div class="flex items-center space-x-3">
+            <a href="#contact" class="px-4 py-2 text-[#D4A017] border border-[#D4A017] rounded-lg hover:bg-[#D4A017] hover:text-white custom-transition">
+              Contact Us
+            </a>
+            <a href="#booking" class="px-4 py-2 bg-[#D4A017] text-white rounded-lg hover:bg-yellow-600 custom-transition shadow-lg">
+              Book Session
+            </a>
+          </div>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 custom-transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
-      <nav>
-        <ul class="flex space-x-6">
-          <li><a href="#about" class="hover:text-[#D4A017]">About</a></li>
-          <li><a href="#services" class="hover:text-[#D4A017]">Services</a></li>
-          <li><a href="#booking" class="hover:text-[#D4A017]">Book a Session</a></li>
-          <li><a href="#contact" class="hover:text-[#D4A017]">Contact</a></li>
-        </ul>
-      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 space-y-2 mt-4">
+        <a href="index.html" class="block text-gray-700 hover:text-[#D4A017] py-2">Home</a>
+        <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017] py-2">Services</a>
+        <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017] py-2">About Us</a>
+        <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017] py-2">Programs</a>
+        <a href="careers.html" class="block text-gray-700 hover:text-[#D4A017] py-2">Careers</a>
+        <a href="#contact" class="block text-gray-700 hover:text-[#D4A017] py-2">Contact</a>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-white py-20">
-    <div class="max-w-5xl mx-auto text-center px-4">
-      <h2 class="text-4xl font-extrabold">Building Future with Innovations</h2>
-      <p class="mt-4 text-xl">Stress-Free IT Solutions, Mentorship & Services for Fresh Talent</p>
-      <a href="#contact" class="mt-6 inline-block bg-white text-[#D4A017] font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-100">Get in Touch</a>
+  <!-- Enhanced Hero Section -->
+  <section class="gradient-bg text-white py-20 relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="floating absolute top-20 left-10 w-16 h-16 bg-white rounded-full"></div>
+      <div class="floating absolute top-40 right-20 w-12 h-12 bg-white rounded-full" style="animation-delay: 0.5s;"></div>
+      <div class="floating absolute bottom-20 left-1/4 w-8 h-8 bg-white rounded-full" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+      <!-- Flash Sale Banner -->
+      <div class="mb-6">
+        <a href="flashsale.html" class="inline-block">
+          <span class="px-6 py-3 bg-red-600 text-white rounded-full text-sm font-bold animate-pulse shadow-lg hover:bg-red-700 custom-transition">
+            🔥 FLASH SALE: Data Analytics Course - 80% OFF! Limited Time
+          </span>
+        </a>
+      </div>
+      
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+        Building Future with <span class="text-yellow-200">Innovations</span><br>
+        <span class="text-yellow-200">Stress-Free IT Solutions</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
+        Mentorship & Services for Fresh Talent. We create jobs, reduce stress in tech careers, and upskill future professionals with comprehensive Mental Health support.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+        <a href="internships.html" class="px-8 py-4 bg-white text-[#D4A017] rounded-xl font-semibold hover:bg-gray-100 custom-transition shadow-xl hover-lift">
+          Explore Programs
+        </a>
+        <a href="#booking" class="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-[#D4A017] custom-transition">
+          Book Free Session
+        </a>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="text-3xl md:text-4xl font-bold stats-counter">1500+</div>
+          <div class="text-white/80">Students Trained</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-bold stats-counter">75+</div>
+          <div class="text-white/80">Projects Delivered</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-bold stats-counter">12+</div>
+          <div class="text-white/80">Startups Supported</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-bold stats-counter">200+</div>
+          <div class="text-white/80">Sessions Conducted</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- About Section -->
   <section id="about" class="py-16 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h3 class="text-2xl font-bold mb-4">Who We Are</h3>
-      <p class="text-gray-700"><strong>EarEase-Tech</strong> is a pioneering initiative dedicated to creating jobs, reducing stress in tech careers, and upskilling future professionals. Our core focus lies in developing impactful in-house projects across Mental Health (including Listening Sessions, Career Counseling, and Travel-Based Wellness Activities), IT Services, Drop Servicing, and cutting-edge R&D initiatives that drive innovation and societal value.
-<br>
-To support our mission of empowering careers and wellness, <strong>EarEase-Nexus</strong>—our training and placement division—is proud to partner exclusively with <strong>Janaki IT Solutions LLP</strong>, combining expertise to deliver real-world training and sustainable employment opportunities for aspiring tech professionals.
-
-</p>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section id="services" class="py-16">
     <div class="max-w-6xl mx-auto px-4">
-      <h3 class="text-2xl font-bold text-center mb-10">Our Services</h3>
-      <div class="grid md:grid-cols-3 gap-8">
-
-        <!-- Service 1 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">IT Services</h4>
-          <p>Custom development, automation, analytics, and AI integration services tailored for startups and businesses.</p>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-3xl md:text-4xl font-bold mb-6">Who We Are</h3>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            <strong>EarEase-Tech</strong> is a pioneering initiative dedicated to creating jobs, reducing stress in tech careers, and upskilling future professionals. Our core focus lies in developing impactful in-house projects across Mental Health, IT Services, and cutting-edge R&D initiatives.
+          </p>
+          <p class="text-gray-700 mb-8 leading-relaxed">
+            <strong>EarEase-Nexus</strong>—our training and placement division—partners exclusively with <strong>Janaki IT Solutions LLP</strong>, combining expertise to deliver real-world training and sustainable employment opportunities.
+          </p>
+          <a href="about-us.html" class="inline-flex items-center px-6 py-3 bg-[#D4A017] text-white rounded-lg hover:bg-yellow-600 custom-transition">
+            Learn More About Us
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
         </div>
-
-        <!-- Service 2 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">IT Drop Servicing</h4>
-          <p>Get your projects done by trained professionals and fresh talents guided by senior engineers.</p>
+        <div>
+          <img src="assets/images/team-collaboration.jpg" alt="Team collaboration" class="w-full rounded-2xl shadow-xl hover-lift custom-transition">
         </div>
-
-        <!-- Service 3 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">Mental Wellness Activities</h4>
-          <p>We offer weekend trips, creative breaks, and a low-stress work model for better mental health.</p>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">Listening Sessions</h4>
-          <p>Personalized sessions where individuals can talk, vent, and feel heard in a safe, non-judgmental environment.</p>
-        </div>
-
-        <!-- Service 5 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">Career Counselling</h4>
-          <p>Guided paths for students and professionals with personalized advice on learning, career growth, and transition.</p>
-        </div>
-        
-        <!-- Service 6 -->
-        <div class="bg-white p-6 rounded shadow">
-          <h4 class="text-xl font-semibold mb-2">Training & Mentoring</h4>
-          <p>Affordable AI, MERN stack, and Data Science mentoring to empower students and jobseekers.</p>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- Booking Section -->
-<section id="booking" class="py-16 bg-white">
-  <div class="max-w-4xl mx-auto px-4 text-center">
-    <h3 class="text-2xl font-bold mb-6">Book a Session with Us</h3>
-    <p class="text-gray-700 mb-8">Choose a service and schedule a session that fits your needs.</p>
-    <div class="flex flex-col sm:flex-row justify-center gap-6">
-      <a href="https://calendly.com/eareasetech/30min" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">🎧 Listening Session</a>
-      <a href="https://calendly.com/eareasetech/earease-career-counseling" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">💼 Career Counseling</a>
-      <a href="https://calendly.com/eareasetech/business-appointment" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">📊 Business Appointment</a>
-    </div>
-  </div>
-</section>
+  <!-- Enhanced Services Section -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Our <span class="text-gradient">Services</span></h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive solutions combining technology excellence with mental wellness support</p>
+      </div>
 
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- IT Services -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <img src="assets/itservices.png" alt="IT Services" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">IT Services & Consulting</h4>
+          <p class="text-gray-600 mb-6">Custom development, automation, analytics, and AI integration services tailored for startups and businesses.</p>
+          <a href="our-services.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
 
-  <!-- Contact -->
-  <section id="contact" class="py-16 bg-yellow-100">
-    <div class="max-w-xl mx-auto px-4 text-center">
-      <h3 class="text-2xl font-bold mb-4">Contact Us</h3>
-      <p class="mb-6">Reach out to us for partnerships, training, or services!</p>
-      <a href="mailto:ashwanth@eareasetech.com" class="inline-block bg-[#D4A017] text-white px-6 py-2 rounded hover:bg-yellow-700">Contact-Email</a>
+        <!-- Drop Servicing -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+            <img src="assets/dropservicing.png" alt="Drop Servicing" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">IT Drop Servicing</h4>
+          <p class="text-gray-600 mb-6">Get your projects done by trained professionals and fresh talents guided by senior engineers.</p>
+          <a href="our-services.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
+
+        <!-- Mental Wellness -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+            <img src="assets/wellness.png" alt="Mental Wellness" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">Mental Wellness Activities</h4>
+          <p class="text-gray-600 mb-6">Weekend trips, creative breaks, and a low-stress work model for better mental health.</p>
+          <a href="our-services.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
+
+        <!-- Listening Sessions -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
+            <img src="assets/listening.png" alt="Listening Sessions" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">Listening Sessions</h4>
+          <p class="text-gray-600 mb-6">Personalized sessions where individuals can talk, vent, and feel heard in a safe environment.</p>
+          <a href="our-services.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
+
+        <!-- Career Counselling -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+            <img src="assets/counselling.png" alt="Career Counselling" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">Career Counselling</h4>
+          <p class="text-gray-600 mb-6">Guided paths for students and professionals with personalized advice on career growth.</p>
+          <a href="our-services.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
+
+        <!-- Training & Mentoring -->
+        <div class="service-card bg-white p-8 rounded-2xl shadow-lg hover-lift custom-transition text-center border border-gray-100">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+            <img src="assets/mentoring.png" alt="Training and Mentoring" class="w-12 h-12 object-contain" />
+          </div>
+          <h4 class="text-xl font-semibold mb-4 text-gray-900">Training & Mentoring</h4>
+          <p class="text-gray-600 mb-6">Affordable mentorships in Data Science, Analytics, MERN stack, HR, and Sales & Marketing.</p>
+          <a href="internships.html" class="text-[#D4A017] font-medium hover:text-yellow-600 custom-transition">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="our-services.html" class="inline-flex items-center px-8 py-4 bg-[#D4A017] text-white rounded-xl font-semibold hover:bg-yellow-600 custom-transition shadow-lg">
+          View All Services
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="text-center py-6 bg-white shadow mt-10">
-    <p class="text-gray-500 text-sm">&copy; 2025 EarEase-Tech. All rights reserved.</p>
-  </footer>
+  <!-- Featured Programs Preview -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Featured <span class="text-gradient">Programs</span></h2>
+        <p class="text-xl text-gray-600">Industry-aligned training programs with 100% placement assistance</p>
+      </div>
 
-</body>
-</html>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Data Science -->
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl custom-transition hover-lift overflow-hidden">
+          <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 relative">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute bottom-4 left-6 text-white">
+              <h3 class="text-2xl font-bold">Data Science</h3>
+              <p class="text-blue-100">AI/ML • Python • Analytics</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">6 Months</span>
+              <span class="text-2xl font-bold text-[#D4A017]">₹59,999</span>
+            </div>
+            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+              <li>✓ Python, ML, Deep Learning</li>
+              <li>✓ Real-world capstone projects</li>
+              <li>✓ 3-month paid internship</li>
+              <li>✓ 100% placement assistance</li>
+            </ul>
+            <a href="internships.html" class="w-full block py-3 bg-[#D4A017] text-white rounded-lg font-semibold hover:bg-yellow-600 custom-transition text-center">
+              View Details
+            </a>
+          </div>
+        </div>
+
+        <!-- MERN Stack -->
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl custom-transition hover-lift overflow-hidden">
+          <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 relative">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute bottom-4 left-6 text-white">
+              <h3 class="text-2xl font-bold">MERN Stack</h3>
+              <p class="text-green-100">React • Node.js • MongoDB</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">6 Months</span>
+              <span class="text-2xl font-bold text-[#D4A017]">₹50,000</span>
+            </div>
+            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+              <li>✓ Full-stack development</li>
+              <li>✓ Modern React & Node.js</li>
+              <li>✓ Deployment & DevOps basics</li>
+              <li>✓ Portfolio projects</li>
+            </ul>
+            <a href="internships.html" class="w-full block py-3 bg-[#D4A017] text-white rounded-lg font-semibold hover:bg-yellow-600 custom-transition text-center">
+              View Details
+            </a>
+          </div>
+        </div>
+
+        <!-- Data Analytics (Flash Sale) -->
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl custom-transition hover-lift overflow-hidden border-2 border-red-500">
+          <div class="h-48 bg-gradient-to-br from-purple-400 to-purple-600 relative">
+            <div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+              FLASH SALE
+            </div>
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute bottom-4 left-6 text-white">
+              <h3 class="text-2xl font-bold">Data Analytics</h3>
+              <p class="text-purple-100">Power BI • SQL • Python</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">45 Days</span>
+              <div class="text-right">
+                <span class="text-sm text-gray-500 line-through">₹24,999</span>
+                <span class="text-2xl font-bold text-red-600 ml-2">₹4,999</span>
+              </div>
+            </div>
+            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+              <li>✓ Excel, SQL, Python</li>
+              <li>✓ Power BI & Tableau</li>
+              <li>✓ Business intelligence</li>
+              <li>✓ Analytics dashboards</li>
+            </ul>
+            <a href="flashsale.html" class="w-full block py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 custom-transition text-center">
+              Get Flash Sale Deal
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="internships.html" class="inline-flex items-center px-8 py-4 border-2 border-[#D4A017] text-[#D4A017] rounded-xl font-semibold hover:bg-[#D4A017] hover:text-white custom-transition">
+          View All Programs
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enhanced Booking Section -->
+  <section id="booking" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Book a Session with Us</h2>
+      <p class="text-xl text-gray-600 mb-12">Start your journey with a free consultation session</p>
+      
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <div class="bg-gray-50 p-6 rounded-2xl">
+          <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
