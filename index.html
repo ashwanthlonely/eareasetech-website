@@ -15,6 +15,15 @@
     .gray-accent { color: #D3D3D3; }
     .custom-transition { transition: all 0.3s ease; }
     .custom-transition:hover { transform: scale(1.05); }
+    @keyframes marquee {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 12s linear infinite;
+    }
+
   </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -84,13 +93,14 @@
 
     <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
       <!-- Flash Sale Banner -->
-      <div class="mb-6">
-        <a href="flashsale.html" class="inline-block">
-          <span class="px-6 py-3 bg-red-600 text-white rounded-full text-sm font-bold animate-pulse shadow-lg hover:bg-red-700 custom-transition">
-            🔥 FLASH NEWS: Data Science batch starting from Oct 3rd! Enroll and grab your seat befor its too late...
-          </span>
+      <div class="mb-6 overflow-hidden">
+        <a href="flashsale.html" class="inline-block w-full">
+          <div class="whitespace-nowrap animate-marquee px-6 py-3 bg-red-600 text-white rounded-full text-sm md:text-base font-bold shadow-lg hover:bg-red-700 custom-transition">
+            🔥 FLASH NEWS: Data Science batch starting from Oct 3rd! Enroll and grab your seat before it's too late...
+          </div>
         </a>
       </div>
+
       
       <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
         Building Future with <span class="text-yellow-200">Innovations</span><br>
