@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- AOS Animations -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <head>
   <link rel="icon" href="assets/favicon.ico" />
   <meta charset="UTF-8" />
@@ -70,7 +73,7 @@
   </script>
 
   <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-white py-20">
+  <section class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white py-20">
     <div class="max-w-5xl mx-auto text-center px-4">
       <h2 class="text-4xl font-extrabold">Building Future with Innovations</h2>
       <p class="mt-4 text-xl">Stress-Free IT Solutions, Mentorship & Services for Fresh Talent</p>
@@ -91,58 +94,61 @@ To support our mission of empowering careers and wellness, <strong>EarEase-Nexus
   </section>
 
   <!-- Services Section -->
-  <!-- Services Section -->
-  <section id="services" class="py-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <h3 class="text-2xl font-bold text-center mb-10">Our Services</h3>
-      <div class="grid md:grid-cols-3 gap-8">
+ <!-- SERVICES -->
+<section id="services" class="py-20 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-12">Our Services</h2>
+    <div class="grid md:grid-cols-3 gap-10">
+      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in">
+        <img src="assets/itservices.png" alt="IT Services" class="w-20 mx-auto mb-4" />
+        <h3 class="text-xl font-semibold">IT Services</h3>
+        <p class="mt-2 text-gray-600">Custom software, AI integration & automation for startups and businesses.</p>
+      </div>
 
-        <!-- IT Services -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/itservices.png" alt="IT Services" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">IT Services</h4>
-          <p>Custom development, automation, analytics, and AI integration services tailored for startups and businesses.</p>
-        </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="200">
+        <img src="assets/mentoring.png" alt="Mentorship" class="w-20 mx-auto mb-4" />
+        <h3 class="text-xl font-semibold">Mentorships</h3>
+        <p class="mt-2 text-gray-600">Affordable mentorships in AI, Data Science, HR, and Sales for job seekers.</p>
+      </div>
 
-        <!-- IT Drop Servicing -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/dropservicing.png" alt="IT Drop Servicing" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">IT Drop Servicing</h4>
-          <p>Get your projects done by trained professionals and fresh talents guided by senior engineers.</p>
-        </div>
-
-        <!-- Mental Wellness Activities -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/wellness.png" alt="Mental Wellness" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">Mental Wellness Activities</h4>
-          <p>We offer weekend trips, creative breaks, and a low-stress work model for better mental health.</p>
-        </div>
-
-        <!-- Listening Sessions -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/listening.png" alt="Listening Sessions" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">Listening Sessions</h4>
-          <p>Personalized sessions where individuals can talk, vent, and feel heard in a safe, non-judgmental environment.</p>
-        </div>
-
-        <!-- Career Counselling -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/counselling.png" alt="Career Counselling" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">Career Counselling</h4>
-          <p>Guided paths for students and professionals with personalized advice on learning, career growth, and transition.</p>
-        </div>
-
-        <!-- Training & Mentoring -->
-        <div class="bg-white p-6 rounded shadow custom-transition text-center">
-          <img src="assets/mentoring.png" alt="Training and Mentoring" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h4 class="text-xl font-semibold mb-2">Training & Mentoring</h4>
-          <p>Affordable Mentorships in Data Science & AI, Data Analytics, MERN stack, HR Analytics with BI Tools, HR Recruiter Internship and  Sales & Marketing Internship mentoring to empower students and jobseekers.</p>
-        </div>
-
+      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="400">
+        <img src="assets/wellness.png" alt="Wellness" class="w-20 mx-auto mb-4" />
+        <h3 class="text-xl font-semibold">Mental Wellness</h3>
+        <p class="mt-2 text-gray-600">Listening sessions, career counseling & stress-free work models.</p>
       </div>
     </div>
-  </section>
 
+    <!-- Button for more services -->
+    <div class="mt-12">
+      <a href="our-services.html"
+         class="inline-block bg-[#D4A017] text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-600 transition">
+        View More Services →
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-12">What People Say</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up">
+        <p class="italic text-gray-600">“EarEase mentorship helped me land my first AI internship. The guidance was priceless!”</p>
+        <h4 class="mt-4 font-semibold text-[#D4A017]">— Student, Bangalore</h4>
+      </div>
+      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="200">
+        <p class="italic text-gray-600">“Their IT services transformed our business workflows. Super reliable team.”</p>
+        <h4 class="mt-4 font-semibold text-[#D4A017]">— Startup Founder</h4>
+      </div>
+      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="400">
+        <p class="italic text-gray-600">“Finally found career counseling that actually reduced my stress!”</p>
+        <h4 class="mt-4 font-semibold text-[#D4A017]">— Graduate, Hyderabad</h4>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Booking Section -->
 <section id="booking" class="py-4 bg-white">
@@ -208,6 +214,13 @@ To support our mission of empowering careers and wellness, <strong>EarEase-Nexus
       
     </div>
   </footer>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,   // animation duration (ms)
+    once: true,       // whether animation should happen only once
+  });
+</script>
 
 </body>
 </html>

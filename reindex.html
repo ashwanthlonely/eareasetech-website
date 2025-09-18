@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarEase Tech | AI Consulting & Mentorship</title>
+  <meta name="description" content="EarEase Tech - AI Consulting, Mentorship, IT Solutions & Mental Wellness for professionals and students." />
+  <link rel="icon" href="assets/favicon.ico" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS for Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <style>
+    .custom-transition { transition: all 0.4s ease; }
+    .custom-transition:hover { transform: translateY(-5px) scale(1.03); }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-scroll { animation: scroll 18s linear infinite; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- HEADER (unchanged from original, keeping brand identity) -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <h1 class="text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
+        <a href="our-services.html" class="hover:text-[#D4A017]">Services</a>
+        <a href="about-us.html" class="hover:text-[#D4A017]">About</a>
+        <a href="#booking" class="hover:text-[#D4A017]">Book</a>
+        <a href="internships.html" class="hover:text-[#D4A017]">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
+        <a href="#contact" class="hover:text-[#D4A017]">Contact</a>
+      </nav>
+      <button id="menu-toggle" class="md:hidden text-[#D4A017]">
+        ☰
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white px-6 py-4 space-y-3">
+      <a href="about-us.html" class="block hover:text-[#D4A017]">About</a>
+      <a href="our-services.html" class="block hover:text-[#D4A017]">Services</a>
+      <a href="#booking" class="block hover:text-[#D4A017]">Book</a>
+      <a href="internships.html" class="block hover:text-[#D4A017]">Mentorships</a>
+      <a href="careers.html" class="block hover:text-[#D4A017]">Careers</a>
+      <a href="#contact" class="block hover:text-[#D4A017]">Contact</a>
+    </div>
+  </header>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 items-center py-20 px-6 gap-12">
+      <div data-aos="fade-right">
+        <h1 class="text-5xl font-extrabold leading-tight">Building Smarter Futures with AI & Innovation</h1>
+        <p class="mt-6 text-lg">We provide AI consulting, IT services, mentorships, and stress-free career guidance for tomorrow’s leaders.</p>
+        <div class="mt-8 flex gap-4">
+          <a href="#services" class="bg-white text-[#D4A017] px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100">Explore Services</a>
+          <a href="#contact" class="bg-[#D4A017] text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-yellow-700">Get in Touch</a>
+        </div>
+      </div>
+      <div data-aos="fade-left">
+        <img src="assets/images/hero-illustration.svg" alt="Innovation" class="w-full" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <img src="assets/images/about-us.svg" alt="About Us" data-aos="fade-right" />
+      <div data-aos="fade-left">
+        <h2 class="text-3xl font-bold mb-4">Who We Are</h2>
+        <p class="text-gray-700 mb-4">
+          At <strong>EarEase Tech</strong>, we’re reshaping careers by combining <span class="text-[#D4A017]">AI, mentorship, and mental wellness</span>.  
+          With partnerships like <strong>Trisemi Technologies</strong> & <strong>Sree Godavari Education’s</strong>, we bridge the gap between learning and real-world opportunities.
+        </p>
+        <a href="about-us.html" class="inline-block mt-4 text-[#D4A017] font-semibold hover:underline">Learn More →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">Our Services</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in">
+          <img src="assets/itservices.png" alt="IT Services" class="w-20 mx-auto mb-4" />
+          <h3 class="text-xl font-semibold">IT Services</h3>
+          <p class="mt-2 text-gray-600">Custom software, AI integration & automation for startups and businesses.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="200">
+          <img src="assets/mentoring.png" alt="Mentorship" class="w-20 mx-auto mb-4" />
+          <h3 class="text-xl font-semibold">Mentorships</h3>
+          <p class="mt-2 text-gray-600">Affordable mentorships in AI, Data Science, HR, and Sales for job seekers.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="400">
+          <img src="assets/wellness.png" alt="Wellness" class="w-20 mx-auto mb-4" />
+          <h3 class="text-xl font-semibold">Mental Wellness</h3>
+          <p class="mt-2 text-gray-600">Listening sessions, career counseling & stress-free work models.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-12">What People Say</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up">
+          <p class="italic text-gray-600">“EarEase mentorship helped me land my first AI internship. The guidance was priceless!”</p>
+          <h4 class="mt-4 font-semibold text-[#D4A017]">— Student, Bangalore</h4>
+        </div>
+        <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="200">
+          <p class="italic text-gray-600">“Their IT services transformed our business workflows. Super reliable team.”</p>
+          <h4 class="mt-4 font-semibold text-[#D4A017]">— Startup Founder</h4>
+        </div>
+        <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="400">
+          <p class="italic text-gray-600">“Finally found career counseling that actually reduced my stress!”</p>
+          <h4 class="mt-4 font-semibold text-[#D4A017]">— Graduate, Hyderabad</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="booking" class="py-20 bg-gray-900 text-center text-white">
+    <h2 class="text-3xl font-bold mb-6">Book a Session</h2>
+    <a href="https://calendly.com/eareasetech/business-appointment" target="_blank"
+       class="bg-[#D4A017] px-8 py-3 rounded-lg shadow-lg font-semibold hover:bg-yellow-600 transition">
+       📅 Schedule Now
+    </a>
+  </section>
+
+  <!-- PARTNERS -->
+  <section id="collaborations" class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-10">Our Partners</h2>
+      <div class="overflow-hidden relative">
+        <div class="flex animate-scroll space-x-16">
+          <img src="assets/Trisemi-LOGO.svg" class="h-16" alt="Trisemi Technologies" />
+          <img src="assets/SGE Logo.png" class="h-20" alt="Sree Godavari Educations" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20 bg-[#f6d030] text-center">
+    <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+    <p class="mb-6">Reach out for partnerships, training, or services!</p>
+    <a href="mailto:hr@eareasetech.com"
+       class="bg-[#D4A017] text-white px-8 py-3 rounded-lg shadow hover:bg-yellow-700">
+       ✉️ hr@eareasetech.com
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-6 bg-gray-900 text-gray-300 text-center">
+    <p>© 2025 EarEase Tech. All rights reserved.</p>
+  </footer>
+
+  <script>AOS.init();</script>
+</body>
+</html>
