@@ -1,280 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="assets/favicon.ico" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="assets/favicon.ico" />
   <title>Our Services | EarEase-Tech</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    .yellow-bg { background: linear-gradient(135deg, #FFC107, #FFCA28); }
-    .black-text { color: #000000; }
-    .gray-accent { color: #D3D3D3; }
-    .custom-transition { transition: all 0.3s ease; }
-    .custom-transition:hover { transform: scale(1.05); }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.6);
-      justify-content: center;
-      align-items: center;
+    :root { --brand: #d4a017; }
+    *, *::before, *::after { box-sizing: border-box; }
+    img, video { max-width: 100%; height: auto; display: block; }
+    body { font-family: 'Poppins', sans-serif; background: #f6f4ef; color: #1f2933; margin: 0; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    header { font-family: 'Poppins', sans-serif; }
+    .glassy-panel { background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.6)); border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(18px); box-shadow: 0 25px 45px rgba(0,0,0,0.08); }
+    .golden-ring { position: relative; }
+    .golden-ring::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid rgba(212,160,23,0.4); pointer-events: none; }
+    .shine { position: relative; overflow: hidden; }
+    .shine::after { content: ""; position: absolute; inset: -150% 25% auto; width: 50%; height: 220%; transform: rotate(35deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); animation: sheen 6s infinite; }
+    @keyframes sheen { 0% { transform: translateX(-200%) rotate(35deg); } 60% { transform: translateX(200%) rotate(35deg); } 100% { transform: translateX(200%) rotate(35deg); } }
+    .floating-bubble { position: absolute; border-radius: 999px; opacity: 0.35; animation: float 12s ease-in-out infinite alternate; }
+    @keyframes float { from { transform: translateY(0px); } to { transform: translateY(-35px); } }
+    [data-animate] { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    [data-animate].visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
-    .modal-content {
-      background-color: #ffffff;
-      border-radius: 1rem;
-      max-width: 700px;
-      width: 90%;
-      padding: 2rem;
-      text-align: left;
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #555;
-    }
+    .service-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+    .service-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.12); }
+    .modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(15,15,15,0.65); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-content { max-width: 720px; width: 100%; border-radius: 32px; position: relative; padding: 2.5rem; border: 1px solid rgba(255,255,255,0.5); background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,255,255,0.82)); box-shadow: 0 40px 80px rgba(0,0,0,0.2); }
+    .close-btn { position: absolute; top: 1.2rem; right: 1.4rem; font-size: 1.5rem; cursor: pointer; color: #4b5563; }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="antialiased">
 
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
-          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
-        </a>
-      </div>
-      <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
-        <a href="our-services.html" class="hover:text-[#D4A017] ">Services</a>
-        <a href="about-us.html" class="hover:text-[#D4A017] ">About Us</a>
-        <a href="index.html#booking" class="hover:text-[#D4A017] ">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017] ">Mentorships</a>
-        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-        <a href="index.html#contact" class="hover:text-[#D4A017] ">Contact</a>
+  <header class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <p class="text-xl font-semibold tracking-tight">EarEase<span class="text-[#D4A017]">-Tech</span></p>
+      </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
+        <a href="index.html" class="hover:text-[#D4A017] transition">Home</a>
+        <a href="our-services.html" class="text-[#D4A017]">Services</a>
+        <a href="about-us.html" class="hover:text-[#D4A017] transition">About Us</a>
+        <a href="contact-us.html" class="hover:text-[#D4A017] transition">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017] transition">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017] transition">Careers</a>
+        <a href="contact-us.html#contact" class="hover:text-[#D4A017] transition">Contact</a>
       </nav>
-      <div class="md:hidden">
-        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
+      <button id="menu-toggle" class="md:hidden text-[#D4A017] focus:outline-none">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">Home</a>
-      <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">Services</a>
-      <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017] font-medium">About Us</a>
-      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017] font-medium">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
-      <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017] font-medium">Contact</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
+      <a href="index.html" class="block hover:text-[#D4A017]">Home</a>
+      <a href="our-services.html" class="block text-[#D4A017]">Services</a>
+      <a href="about-us.html" class="block hover:text-[#D4A017]">About Us</a>
+      <a href="contact-us.html" class="block hover:text-[#D4A017]">Book a Session</a>
+      <a href="internships.html" class="block hover:text-[#D4A017]">Mentorships</a>
+      <a href="careers.html" class="block hover:text-[#D4A017]">Careers</a>
+      <a href="contact-us.html#contact" class="block hover:text-[#D4A017]">Contact</a>
     </div>
   </header>
 
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    });
-  </script>
-
-  <section class="services-section py-16 bg-gray-50">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h1 class="text-2xl md:text-4xl font-extrabold mb-4 text-gray-900">Our Services</h1>
-      <p class="text-lg md:text-xl text-gray-700 mb-10">Explore the services we offer to make technology accessible, meaningful, and stress-free.</p>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('itServices')">
-          <img src="assets/itservices.png" alt="IT Services" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h2 class="text-xl font-semibold mb-2">IT Services</h2>
-          <p class="text-gray-700">Click to view our IT Services</p>
-        </div>       
-        
-
-      <!-- Freelancing Support -->
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('freelancing')">
-        <img src="assets/freelancing.jpeg" alt="Freelancing Support" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-        <h2 class="text-xl font-semibold mb-2">Freelancing Support</h2>
-        <p class="text-gray-700">Click to view freelancing guidance.</p>
-      </div>
-
-      <!-- Drop Servicing -->
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('dropServicing')">
-        <img src="assets/dropservicing.png" alt="Drop Servicing" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-        <h2 class="text-xl font-semibold mb-2">IT Drop Servicing</h2>
-        <p class="text-gray-700">Click to explore drop servicing solutions.</p>
-      </div>
-
-      <!-- Career Counseling -->
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('careerCounseling')">
-        <img src="assets/counselling.png" alt="Career Counseling" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-        <h2 class="text-xl font-semibold mb-2">Career Counseling</h2>
-        <p class="text-gray-700">Click to know more about career guidance.</p>
-      </div>
-
-      <!-- Mental Wellness -->
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('mentalWellness')">
-        <img src="assets/wellness.png" alt="Mental Wellness" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-        <h2 class="text-xl font-semibold mb-2">Mental Wellness</h2>
-        <p class="text-gray-700">Click to discover wellness programs.</p>
-      </div>
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('listening')">
-          <img src="assets/listening.png" alt="Listening Services" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-          <h2 class="text-xl font-semibold mb-2">Listening Services</h2>
-          <p class="text-gray-700">Click to view our Listening Services</p>
+  <section class="relative overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-yellow-200">
+    <div class="floating-bubble w-72 h-72 bg-[#D4A017]/20 top-10 -left-16"></div>
+    <div class="floating-bubble w-48 h-48 bg-amber-300/30 bottom-8 right-2" style="animation-delay: 3s;"></div>
+    <div class="max-w-6xl mx-auto px-4 py-20 grid gap-12 lg:grid-cols-2 items-center">
+      <div data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Service Studio</p>
+        <h1 class="mt-5 text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">
+          Integrated IT, wellness, and mentorship services for every journey
+        </h1>
+        <p class="mt-6 text-lg text-gray-700">
+          From AI builds to mentorship pods and wellness immersions, we design experiences that feel premium yet grounded. Choose a track or mix-and-match support to fit your journey.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#catalog" class="inline-flex items-center px-6 py-3 rounded-full bg-[#D4A017] text-white font-semibold shadow-lg hover:bg-[#b78a12] transition">Explore services</a>
+          <a href="contact-us.html" class="inline-flex items-center px-6 py-3 rounded-full border border-gray-300 text-gray-800 font-semibold hover:border-[#D4A017] hover:text-[#D4A017] transition">Book a call</a>
         </div>
-
+        <div class="mt-10 grid grid-cols-3 gap-6 text-sm text-gray-600">
+          <div>
+            <p class="text-3xl font-bold text-gray-900">40+</p>
+            <p>Programs shipped</p>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">15</p>
+            <p>Cities & campuses</p>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">98%</p>
+            <p>Session satisfaction</p>
+          </div>
+        </div>
       </div>
-      <!-- Training & Placement -->
-      <div class="service-card bg-white p-6 rounded-lg shadow custom-transition text-center" onclick="openModal('trainingPlacement')">
-        <img src="assets/mentoring.png" alt="Training and Placement" class="w-32 h-32 mx-auto rounded-xl mb-4 object-cover" />
-        <h2 class="text-xl font-semibold mb-2">Mentorships</h2>
-        <p class="text-gray-700">Click to learn about our training programs.</p>
+      <div class="relative" data-animate>
+        <div class="absolute inset-0 blur-3xl bg-[#D4A017]/30 translate-y-6 translate-x-4 rounded-full"></div>
+        <div class="relative glassy-panel rounded-[36px] p-10 golden-ring space-y-6">
+          <div class="flex items-center justify-between">
+            <p class="text-sm uppercase tracking-[0.4em] text-gray-500">Playlists</p>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-yellow-100 text-[#D4A017]">New</span>
+          </div>
+          <p class="text-2xl font-semibold text-gray-900">Modular support arcs</p>
+          <p class="text-gray-600">Blend IT consulting, listening pods, coaching labs, and curated experiences. Each arc has its dedicated pod of engineers, counselors, and mentors.</p>
+          <div class="grid gap-4 text-sm text-gray-700">
+            <div class="flex items-center space-x-3">
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>AI Studio � MVP builds � Full-stack retainers</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>Mental wellness journeys � Retreat orchestration</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>Nexus mentorship and freelancing accelerators</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <section class="max-w-6xl mx-auto px-4 py-16" id="catalog">
+    <div class="text-center max-w-3xl mx-auto" data-animate>
+      <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Service Pods</p>
+      <h2 class="mt-4 text-3xl md:text-4xl font-bold text-gray-900">Choose the lane that fits your mission</h2>
+      <p class="mt-4 text-gray-600">Tap any card for a deeper look. Every pod opens a detailed view with scope, delivery, and impact notes.</p>
+    </div>
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <article class="glassy-panel rounded-3xl p-8 shine service-card" data-animate>
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold text-gray-900">IT & Product Studio</h3>
+          <button onclick="openModal('itServices')" class="text-sm font-semibold text-[#D4A017] hover:text-[#a8770e]">View ?</button>
+        </div>
+        <p class="mt-4 text-gray-700">AI, ML, data, web, and app builds tailored for founders, institutions, and SMBs. All solutions are orchestrated with wellness-aware workflows.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">AI + ML models</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Data storytelling</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">MVP engineering</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Web & mobile</p>
+        </div>
+      </article>
+      <article class="glassy-panel rounded-3xl p-8 shine service-card" data-animate>
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold text-gray-900">IT Staffing & Talent Pods</h3>
+          <button onclick="openModal('itStaffing')" class="text-sm font-semibold text-[#D4A017] hover:text-[#a8770e]">View ?</button>
+        </div>
+        <p class="mt-4 text-gray-700">Curated squads of developers, architects, and analysts with wellness-aware schedules and mentorship built-in.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Augmentation pods</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Leadership hiring</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Campus-to-production</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Wellness playbooks</p>
+        </div>
+      </article>
+      <article class="glassy-panel rounded-3xl p-8 shine service-card" data-animate>
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold text-gray-900">Freelancing & Drop Services</h3>
+          <button onclick="openModal('freelancing')" class="text-sm font-semibold text-[#D4A017] hover:text-[#a8770e]">View ?</button>
+        </div>
+        <p class="mt-4 text-gray-700">Launch your portfolio, pitch confidently, and scale revenue with our white-label execution network.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Portal setup</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Proposal lab</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Client ops</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Drop service pod</p>
+        </div>
+      </article>
+      <article class="glassy-panel rounded-3xl p-8 shine service-card" data-animate>
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold text-gray-900">Career & Mentorship Lab</h3>
+          <button onclick="openModal('careerCounseling')" class="text-sm font-semibold text-[#D4A017] hover:text-[#a8770e]">View ?</button>
+        </div>
+        <p class="mt-4 text-gray-700">Roadmaps, coaching, and job-ready skilling for students, working pros, and community leaders.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Profile review</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">1:1 mentoring</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Career pathways</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Placement ops</p>
+        </div>
+      </article>
+      <article class="glassy-panel rounded-3xl p-8 shine service-card" data-animate>
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold text-gray-900">Wellness & Listening Studio</h3>
+          <button onclick="openModal('mentalWellness')" class="text-sm font-semibold text-[#D4A017] hover:text-[#a8770e]">View ?</button>
+        </div>
+        <p class="mt-4 text-gray-700">Safe spaces, guided activities, and curated escapes for teams and individuals. Includes one-on-one listening, group labs, and destination retreats.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-600">
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Therapy pods</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Retreat design</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Weekend rides</p>
+          <p class="px-3 py-2 rounded-2xl bg-white/70 border border-white/60">Listening rooms</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="bg-gray-900 text-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto" data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-yellow-300">Delivery Loop</p>
+        <h2 class="mt-4 text-3xl font-bold">How we craft glossy yet grounded experiences</h2>
+      </div>
+      <div class="mt-12 grid gap-8 md:grid-cols-4">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">01</p>
+          <h3 class="mt-3 text-xl font-semibold">Listen</h3>
+          <p class="mt-2 text-sm">Discovery labs capture stressors, ambition, and constraints.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">02</p>
+          <h3 class="mt-3 text-xl font-semibold">Design</h3>
+          <p class="mt-2 text-sm">We architect modular playbooks blending tech + wellness.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">03</p>
+          <h3 class="mt-3 text-xl font-semibold">Deliver</h3>
+          <p class="mt-2 text-sm">Pods execute with transparent checkpoints and live dashboards.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">04</p>
+          <h3 class="mt-3 text-xl font-semibold">Elevate</h3>
+          <p class="mt-2 text-sm">Reflection rituals and upgrades keep momentum steady.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <div class="grid gap-10 lg:grid-cols-2 items-center">
+      <div data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Curated Highlights</p>
+        <h2 class="mt-4 text-3xl font-bold text-gray-900">Signature offerings</h2>
+        <ul class="mt-6 space-y-4 text-gray-700">
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>IT Drop-Servicing:</strong> Sales-led teams plug into our vetted engineering guild for white-label delivery.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>EarEase-Nexus Mentorship:</strong> Guided cohorts, freelance accelerators, and leadership labs.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>Mental Wellness & Listening:</strong> Confidential sessions, weekend rides, long-drive therapy, and group rituals.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>Career Clinics:</strong> Resume command rooms, mock interviews, recruiter demos, and job placement support.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="glassy-panel rounded-[32px] p-10 golden-ring space-y-6" data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Impact Snapshot</p>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-4xl font-bold text-gray-900">4.9/5</p>
+            <p class="text-sm text-gray-600">Average coaching score</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">1200+</p>
+            <p class="text-sm text-gray-600">Hours of listening</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">50+</p>
+            <p class="text-sm text-gray-600">Custom IT builds</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">600+</p>
+            <p class="text-sm text-gray-600">Professionals mentored</p>
+          </div>
+        </div>
+        <p class="text-gray-700">Glossy documents, cinematic dashboards, and mindful facilitators keep every engagement premium.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 bg-gradient-to-r from-white via-yellow-50 to-white">
+    <div class="max-w-5xl mx-auto glassy-panel rounded-[36px] p-12 golden-ring text-center space-y-4" data-animate>
+      <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Ready to design your arc?</p>
+      <h2 class="text-3xl font-bold text-gray-900">Let�s combine tech, care, coaching, and play.</h2>
+      <p class="text-gray-600">Share your challenge and we will assemble a pod of engineers, listeners, and mentors to build the right path.</p>
+      <div class="flex flex-wrap justify-center gap-4 mt-6">
+        <a href="contact-us.html" class="inline-flex items-center px-8 py-3 rounded-full bg-[#D4A017] text-white font-semibold shadow-lg hover:bg-[#b78a12] transition">Book a discovery session</a>
+        <a href="mailto:hello@eareasetech.com" class="inline-flex items-center px-8 py-3 rounded-full border border-gray-300 text-gray-800 font-semibold hover:border-[#D4A017] hover:text-[#D4A017] transition">Write to us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modals -->
   <div class="modal" id="itServices">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('itServices')">×</span>
-      <h2 class="text-2xl font-bold mb-4">IT Services</h2>
-      <p class="text-gray-700 mb-4">Our IT services are crafted to help startups, academic institutions, and businesses excel in today’s tech-driven world.</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Artificial Intelligence (AI):</strong> AI solutions for automation, personalization, and optimization.</li>
-        <li><strong>Machine Learning (ML):</strong> Predictive modeling, classification, clustering, and recommendation engines.</li>
-        <li><strong>Data Science:</strong> End-to-end data workflows, insights, model deployment, and dashboarding.</li>
-        <li><strong>Data Analytics:</strong> BI, reporting, KPIs, and real-time analytics tailored to your domain.</li>
-        <li><strong>Web Designing:</strong> Clean, modern, and responsive websites that reflect your brand.</li>
-        <li><strong>App Development:</strong> Mobile apps (Android/iOS) and cross-platform solutions using modern frameworks.</li>
-        <li><strong>Custom Solutions:</strong> Tailored apps, dashboards, and APIs.</li>
-        <li><strong>Tech Stack:</strong> React, Node, Python, Flutter, AWS, and more.</li>
-        <li><strong>Scalability:</strong> Built with performance and scale in mind.</li>
-        <li><strong>Other IT Services:</strong> Cloud services, DevOps, UI/UX audits, maintenance and performance tuning.</li>
-        
-      </ul>
-    </div>
-  </div>  
-
-  <!-- Freelancing Support Modal -->
-  <div class="modal" id="freelancing">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('freelancing')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Freelancing Support</h2>
-      <p class="text-gray-700 mb-4">We help you launch your freelance career with confidence. Services include:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Portal Setup:</strong> Profiles on Fiverr, Upwork, Freelancer, etc.</li>
-        <li><strong>Proposal Writing:</strong> Templates and live mentoring.</li>
-        <li><strong>Client Management:</strong> Communication, deliverables, and scaling.</li>
+      <span class="close-btn" onclick="closeModal('itServices')">&times;</span>
+      <h2 class="text-3xl font-bold mb-4 text-gray-900">IT Services</h2>
+      <p class="text-gray-700 mb-4">Our IT services help startups, academic institutions, and businesses excel in today�s tech-driven world.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>Artificial Intelligence:</strong> Automation, personalization, optimization.</li>
+        <li><strong>Machine Learning:</strong> Predictive models, classification, recommendations.</li>
+        <li><strong>Data Science:</strong> End-to-end workflows, deployment, dashboards.</li>
+        <li><strong>Data Analytics:</strong> BI, KPI tracking, real-time scorecards.</li>
+        <li><strong>Web Designing:</strong> Clean, responsive sites reflecting your brand.</li>
+        <li><strong>App Development:</strong> Android, iOS, and cross-platform builds.</li>
+        <li><strong>Custom Solutions:</strong> Tailored apps, dashboards, APIs.</li>
+        <li><strong>Tech Stack:</strong> React, Node, Python, Flutter, AWS, more.</li>
+        <li><strong>Scalability & QA:</strong> Performance-ready architecture.</li>
+        <li><strong>Other Services:</strong> Cloud, DevOps, UI/UX audits, maintenance.</li>
       </ul>
     </div>
   </div>
 
-  <!-- Drop Servicing Modal -->
-  <div class="modal" id="dropServicing">
+  <div class="modal" id="freelancing">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('dropServicing')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Drop Servicing</h2>
-      <p class="text-gray-700 mb-4">We manage client services by outsourcing project execution to vetted developers, ensuring:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Quality Assurance:</strong> All deliverables are monitored by tech leads.</li>
-        <li><strong>Business Growth:</strong> Focus on sales, while we handle execution.</li>
+      <span class="close-btn" onclick="closeModal('freelancing')">&times;</span>
+      <h2 class="text-3xl font-bold mb-4 text-gray-900">Freelancing Support</h2>
+      <p class="text-gray-700 mb-4">Launch your freelance career with confidence.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>Portal Setup:</strong> Profiles on Fiverr, Upwork, Freelancer.</li>
+        <li><strong>Proposal Writing:</strong> Templates, coaching, live reviews.</li>
+        <li><strong>Client Management:</strong> Communication, delivery, scaling.</li>
+      </ul>
+      <hr class="my-6 border-gray-200" />
+      <h3 class="text-xl font-semibold mb-3 text-gray-900">Drop Servicing</h3>
+      <p class="text-gray-700 mb-3">We manage client services by outsourcing execution to vetted developers.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>Quality Assurance:</strong> Tech leads monitor every sprint.</li>
+        <li><strong>Business Growth:</strong> You focus on sales while we deliver.</li>
         <li><strong>Trusted Network:</strong> Pre-screened freelancers and agencies.</li>
       </ul>
     </div>
   </div>
 
-  <!-- Career Counseling Modal -->
   <div class="modal" id="careerCounseling">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('careerCounseling')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Career Counseling</h2>
-      <p class="text-gray-700 mb-4">Personalized guidance for students and professionals looking to upskill, shift domains, or aim higher:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Profile Review:</strong> Strengths, gaps, and roadmaps.</li>
-        <li><strong>One-on-One Mentoring:</strong> With industry experts.</li>
-        <li><strong>Career Pathways:</strong> Tech roles, product management, freelancing, and more.</li>
+      <span class="close-btn" onclick="closeModal('careerCounseling')">&times;</span>
+      <h2 class="text-3xl font-bold mb-4 text-gray-900">Career Counseling & Mentorships</h2>
+      <p class="text-gray-700 mb-4">Personalized guidance for students and professionals looking to upskill, shift domains, or aim higher.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>Profile Review:</strong> Strengths, gaps, and strategic roadmaps.</li>
+        <li><strong>One-on-One Mentoring:</strong> Sessions with industry experts.</li>
+        <li><strong>Career Pathways:</strong> Tech, product, freelancing, entrepreneurship.</li>
+        <li><strong>Training & Placement:</strong> MERN, Java, Data Science, AI, DevOps, VLSI, more.</li>
+        <li><strong>Live Projects:</strong> Production-grade applications.</li>
+        <li><strong>Placement Support:</strong> Resumes, mock interviews, recruiter connects.</li>
       </ul>
     </div>
   </div>
 
-  <!-- Mental Wellness Modal -->
   <div class="modal" id="mentalWellness">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('mentalWellness')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Mental Wellness Programs</h2>
-      <p class="text-gray-700 mb-4">We prioritize emotional well-being alongside career growth:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>One-on-One Listening:</strong> Safe and confidential conversations.</li>
-        <li><strong>Group Therapy:</strong> Sessions on stress, burnout, and motivation.</li>
-        <li><strong>Work-Life Balance Events:</strong> Talks, retreats, and wellness workshops.</li>
-        <li><strong>Weekend Trips:</strong> Organized scenic getaways to relax and rejuvenate.</li>
-        <li><strong>Long Rides:</strong> Planned bike/car rides for those who love the road and nature.</li>
-        <li><strong>Group Games:</strong> Interactive and bonding activities to reduce stress and enhance collaboration.</li>
-        <li><strong>Social Gatherings:</strong> Meetups, food walks, and celebrations to unwind and connect.</li>
+      <span class="close-btn" onclick="closeModal('mentalWellness')">&times;</span>
+      <h2 class="text-3xl font-bold mb-4 text-gray-900">Mental Wellness & Listening</h2>
+      <p class="text-gray-700 mb-4">We prioritize emotional well-being alongside career growth.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>One-on-One Listening:</strong> Safe, confidential conversations.</li>
+        <li><strong>Group Therapy:</strong> Stress, burnout, motivation circles.</li>
+        <li><strong>Wellness Events:</strong> Talks, retreats, immersive workshops.</li>
+        <li><strong>Weekend Trips:</strong> Scenic getaways to reset.</li>
+        <li><strong>Long Rides:</strong> Planned rides for nature lovers.</li>
+        <li><strong>Group Games:</strong> Bonding activities for teams.</li>
+        <li><strong>Social Gatherings:</strong> Meetups, food walks, celebrations.</li>
+        <li><strong>Listening Rooms:</strong> Book a slot to be heard without judgment.</li>
       </ul>
     </div>
   </div>
-  <div class="modal" id="listening">
+  <div class="modal" id="itStaffing">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('listening')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Listening Services</h2>
-      <p class="text-gray-700 mb-4">Sometimes, all we need is someone who listens. At EarEase, our listening services are designed to support mental wellness by offering a safe space for expression:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Confidential Sessions:</strong> Speak your heart out – we're here to listen without judgment.</li>
-        <li><strong>Trained Listeners:</strong> Our volunteers are empathetic and compassionate.</li>
-        <li><strong>Accessible Support:</strong> Book a session online at your convenience.</li>
-        <li><strong>Emotional Relief:</strong> Experience the peace of being heard and understood.</li>
-      </ul>
-    </div>
-  </div>
-  <!-- Training & Placement Modal -->
-  <div class="modal" id="trainingPlacement">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('trainingPlacement')">×</span>
-      <h2 class="text-2xl font-bold mb-4">Training & Placement</h2>
-      <p class="text-gray-700 mb-4">Our industry-aligned training ensures students are ready for real-world software roles. We offer:</p>
-      <ul class="list-disc pl-6 text-gray-700">
-        <li><strong>Courses:</strong> MERN Stack, Java Full Stack, Data Science, AI, DevOps, VLSI, and more.</li>
-        <li><strong>Live Projects:</strong> Hands-on with production-grade apps.</li>
-        <li><strong>Placement Support:</strong> Resume, mock interviews, and recruiter connects.</li>
+      <span class="close-btn" onclick="closeModal('itStaffing')">&times;</span>
+      <h2 class="text-3xl font-bold mb-4 text-gray-900">IT Staffing & Talent Pods</h2>
+      <p class="text-gray-700 mb-4">Build flexible teams with ready-to-deploy talent while preserving calm workflows.</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><strong>Augmentation Pods:</strong> Full-time or fractional developers, designers, data specialists with mentors attached.</li>
+        <li><strong>Leadership Staffing:</strong> Interim CTO, product leads, and wellness-oriented managers.</li>
+        <li><strong>Campus-to-Production:</strong> Convert Nexus mentees into job-ready hires with 30/60/90-day pods.</li>
+        <li><strong>Wellness Add-ons:</strong> Listening rooms, therapy stipends, and calm cadence plans bundled in.</li>
       </ul>
     </div>
   </div>
 
-
-  <footer class="text-black py-2 text-center bg-[#f6d030]" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
-    <div class="max-w-7xl mx-auto px-4">
-      <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
+  <footer class="bg-[#1b1f2a] text-white/80 py-6">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
+      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
     </div>
   </footer>
 
   <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
     function openModal(id) {
       document.getElementById(id).style.display = 'flex';
     }
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
     }
-    window.onclick = function(event) {
-      const modals = document.querySelectorAll('.modal');
-      modals.forEach(modal => {
+    window.addEventListener('click', (event) => {
+      document.querySelectorAll('.modal').forEach(modal => {
         if (event.target === modal) {
           modal.style.display = 'none';
         }
       });
-    }
+    });
   </script>
 
 </body>

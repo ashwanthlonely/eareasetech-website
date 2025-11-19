@@ -1,303 +1,651 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<!-- AOS Animations -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
 <head>
-  <link rel="icon" href="assets/favicon.ico" />
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KRB9PCZ7');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EarEase-Tech</title>
+  <meta name="description" content="EarEase-Tech is a human-first studio delivering IT services, mentorship pods, and wellness journeys for ambitious teams." />
+  <meta name="keywords" content="EarEase Tech, glossy IT services, mentorship pods, wellness tech, data science training, drop servicing" />
+  <meta name="author" content="EarEase-Tech" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.eareasetech.com/" />
+  <meta property="og:title" content="EarEase-Tech | Human-First IT & Mentorship Studio" />
+  <meta property="og:description" content="Book glossy IT services, curated mentorships, and wellness labs that help teams build calmly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.eareasetech.com/" />
+  <meta property="og:image" content="https://www.eareasetech.com/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EarEase-Tech | Human-First IT & Mentorship Studio" />
+  <meta name="twitter:description" content="Mentorship pods, IT drop servicing, and wellness rituals crafted in India for the world." />
+  <meta name="twitter:image" content="https://www.eareasetech.com/assets/logo.png" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "name":"EarEase-Tech",
+      "url":"https://www.eareasetech.com/",
+      "logo":"https://www.eareasetech.com/assets/logo.png",
+      "email":"mailto:hr@eareasetech.com",
+      "telephone":"+91 78936 91717",
+      "description":"EarEase-Tech delivers IT services, mentorship programs, and wellness experiences for tech-first communities.",
+      "sameAs":["https://www.linkedin.com/company/earease-tech/"],
+      "address":{"@type":"PostalAddress","streetAddress":"Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli","addressLocality":"Bengaluru","addressRegion":"Karnataka","postalCode":"560008","addressCountry":"IN"}
+    }
+  </script>
   <style>
-    .yellow-bg { background: linear-gradient(135deg, #FFC107, #FFCA28); }
-    .black-text { color: #000000; }
-    .gray-accent { color: #D3D3D3; }
-    .custom-transition { transition: all 0.3s ease; }
-    .custom-transition:hover { transform: scale(1.05); }
+    :root {
+      --brand: #d4a017;
+      --ink: #0f172a;
+      --muted: #6c6456;
+      --paper: #fffaf2;
+      --blush: #fff2d7;
+      --cloud: #edf5ff;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    img, video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .sunrise {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(255,226,181,0.8), transparent 45%),
+                  radial-gradient(circle at 85% 15%, rgba(209,234,255,0.7), transparent 40%),
+                  radial-gradient(circle at 70% 80%, rgba(255,239,210,0.5), transparent 45%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .site-header {
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 12px 35px rgba(15,23,42,0.08);
+    }
+    .nav-link {
+      color: var(--ink);
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--brand);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #fffdf7 0%, #f0f6ff 60%, #fff8ec 100%);
+    }
+    .surface {
+      background: #ffffff;
+      border: 1px solid #f0e8d9;
+      border-radius: 30px;
+      box-shadow: 0 25px 70px rgba(15,23,42,0.07);
+      height: 100%;
+    }
+    .surface-soft {
+      background: #fff7e5;
+      border: 1px solid #f7e2bf;
+      border-radius: 24px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .surface-muted {
+      background: #f2f7ff;
+      border: 1px solid #dfe9ff;
+      border-radius: 24px;
+    }
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #f1e9d6;
+      border-radius: 22px;
+      padding: 1.2rem;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+      min-width: 150px;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.3rem;
+      text-align: center;
+    }
+    .stat-card strong {
+      font-size: 2rem;
+      display: block;
+      color: var(--ink);
+    }
+    .impact-column {
+      margin-top: 2rem;
+    }
+    @media (min-width: 1024px) {
+      .impact-column {
+        margin-top: 3.5rem;
+      }
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.75rem 1.15rem;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #f0e6ce;
+      font-size: 0.85rem;
+      box-shadow: 0 15px 40px rgba(15,23,42,0.08);
+    }
+    .hero-pill span {
+      color: var(--brand);
+      font-weight: 700;
+    }
+    .hero-logo-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 24px;
+      border: 1px dashed rgba(212,160,23,0.6);
+      background: #fffdf3;
+    }
+    .hero-visual {
+      position: relative;
+      width: clamp(200px, 30vw, 280px);
+      height: clamp(200px, 30vw, 280px);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(15,23,42,0.15);
+      border: 1px solid rgba(15,23,42,0.08);
+      margin: 0;
+      margin-right: auto;
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      border: 1px solid rgba(255,255,255,0.35);
+      pointer-events: none;
+    }
+    .hero-visual img,
+    .hero-visual video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .card-media {
+      width: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+      aspect-ratio: 16 / 9;
+      margin-bottom: 1rem;
+      box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+    }
+    .card-media-sm {
+      aspect-ratio: 4 / 3;
+    }
+    .card-media-top {
+      object-position: center 25%;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    .tag-marquee {
+      border-top: 1px solid #f4ead0;
+      border-bottom: 1px solid #f4ead0;
+      background: linear-gradient(90deg, rgb(204, 198, 188, 0.95), rgba(255,248,229,0.9));
+      overflow: hidden;
+    }
+    .tag-track {
+      display: inline-flex;
+      gap: 2rem;
+      white-space: nowrap;
+      animation: marquee 25s linear infinite;
+      width: max-content;
+    }
+    .tag-track span {
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid #f1e1c2;
+      background: #fff;
+      letter-spacing: 0.4em;
+      font-size: 0.7rem;
+    }
     @keyframes marquee {
-      0%   { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
-    .animate-marquee {
-      display: inline-block;
-      animation: marquee 12s linear infinite;
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
     }
-
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.8rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(212,160,23,0), rgba(212,160,23,0.8), rgba(212,160,23,0));
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.1rem;
+      top: 0.4rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 6px rgba(212,160,23,0.25);
+    }
+    details summary {
+      list-style: none;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    details summary {
+      cursor: pointer;
+    }
+    details p {
+      margin-top: 0.75rem;
+      color: #4b5563;
+    }
+    .form-field {
+      width: 100%;
+      border: 1px solid #e6ddca;
+      border-radius: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.95);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-field:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(212,160,23,0.25);
+    }
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+      .stat-card {
+        text-align: center;
+      }
+    }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-[#fffaf2] text-slate-900">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRB9PCZ7"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-  <header class="bg-white shadow sticky top-0 z-50">
+  <div class="sunrise" aria-hidden="true"></div>
+
+  <header class="site-header sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <!-- Logo and Brand -->
-      <div class="flex items-center space-x-3">
-        <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
-          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
-        </a>
-      </div>
-
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
-        <a href="our-services.html" class="hover:text-[#D4A017] ">Services</a>
-        <a href="about-us.html" class="hover:text-[#D4A017]">About Us</a>
-        <!-- <a href="#services" class="hover:text-[#D4A017]">Services</a> -->
-        <a href="#booking" class="hover:text-[#D4A017]">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017]">Mentorships</a>
-        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-        <a href="#contact" class="hover:text-[#D4A017]">Contact</a>
-
+      <a href="index.html#top" class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <h1 class="text-xl font-bold text-slate-900">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+      </a>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="our-services.html" class="nav-link">Services</a>
+        <a href="about-us.html" class="nav-link">About Us</a>
+        <a href="contact-us.html#booking" class="nav-link">Book a Session</a>
+        <a href="internships.html" class="nav-link">Mentorships</a>
+        <a href="careers.html" class="nav-link">Careers</a>
+        <a href="contact-us.html#contact" class="nav-link">Contact</a>
       </nav>
-
-      <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <button id="menu-toggle" class="text-[#D4A017]" aria-label="Toggle navigation">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-      <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017]">About Us</a>
-      <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
-      <a href="#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
-      <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-      <a href="#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm font-medium text-slate-800">
+      <a href="index.html" class="block text-[#D4A017]">Home</a>
+      <a href="our-services.html" class="block">Services</a>
+      <a href="about-us.html" class="block">About Us</a>
+      <a href="contact-us.html#booking" class="block">Book a Session</a>
+      <a href="internships.html" class="block">Mentorships</a>
+      <a href="careers.html" class="block">Careers</a>
+      <a href="contact-us.html#contact" class="block">Contact</a>
     </div>
   </header>
 
-  <script>
-    // Toggle Mobile Menu
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    });
-  </script>
-
-  <!-- Hero Section -->
-<!-- Enhanced Hero Section -->
-<section class="bg-gradient-to-r from-yellow-400 to-yellow-600 py-20 relative overflow-hidden">
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="floating absolute top-20 left-10 w-16 h-16 bg-white rounded-full"></div>
-      <div class="floating absolute top-40 right-20 w-12 h-12 bg-white rounded-full" style="animation-delay: 0.5s;"></div>
-      <div class="floating absolute bottom-20 left-1/4 w-8 h-8 bg-white rounded-full" style="animation-delay: 1s;"></div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
-      <!-- Flash Sale Banner -->
-      <div class="mb-6 overflow-hidden">
-        <a class="inline-block w-full">
-          <div class="whitespace-nowrap animate-marquee px-6 py-3 bg-red-600 text-white rounded-full text-sm md:text-base font-bold shadow-lg hover:bg-red-700 custom-transition">
-            🔥 FLASH NEWS: Data Science batch starting from Oct 2nd Week! Enroll and grab your seat before it's too late...
+  <main id="top" class="relative">
+    <section class="hero-gradient overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 py-20 grid gap-14 lg:grid-cols-2 items-center relative">
+        <div data-animate>
+          <!-- <p class="section-label">Human-first launchpad</p> -->
+          <div class="hero-visual mb-6">
+            <video src="assets/Logo-v.mp4" autoplay muted loop playsinline aria-label="EarEase-Tech studio reel"></video>
           </div>
-        </a>
-      </div>
-
-      
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-        Building Future with <span class="text-yellow-200">Innovations</span><br>
-        <span class="text-yellow-200">Stress-Free IT Solutions</span>
-      </h1>
-      
-      <p class="text-lg md:text-xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-        Mentorship & Services for Fresh Talent. We create jobs, reduce stress in tech careers, and upskill future professionals with comprehensive Mental Health support.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-        <a href="internships.html" class="px-8 py-4 bg-white text-[#D4A017] rounded-xl font-semibold hover:bg-gray-100 custom-transition shadow-xl hover-lift">
-          Explore Programs
-        </a>
-        <a href="#booking" class="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-[#D4A017] custom-transition">
-          Book Free Session
-        </a>
-      </div>
-
-      <!-- Trust Indicators -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-          <div class="text-3xl md:text-4xl font-bold stats-counter">1500+</div>
-          <div class="text-white/80">Students Trained</div>
+          <h1 class="mt-6 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">Human-first sprints blending IT craftsmanship, mentorship pods, and restorative rituals.</h1>
+          <p class="mt-6 text-lg text-slate-600">We architect AI-ready products, coach cross-functional squads, and host wellness rituals so you can scale without chaos.</p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="contact-us.html#booking" class="px-7 py-3 rounded-full bg-[#D4A017] text-white font-semibold shadow-lg hover:bg-[#b78a12] transition">Book strategy call</a>
+            <a href="internships.html" class="px-7 py-3 rounded-full border border-slate-300 text-slate-900 font-semibold hover:border-[#D4A017] hover:text-[#D4A017] transition">View mentorships</a>
+          </div>
+          <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5 text-sm">
+            <div class="stat-card">
+              <strong>35+</strong>
+              <p class="text-slate-500">Hybrid pods</p>
+            </div>
+            <div class="stat-card">
+              <strong>4.9/5</strong>
+              <p class="text-slate-500">Mentor rating</p>
+            </div>
+            <div class="stat-card">
+              <strong>15</strong>
+              <p class="text-slate-500">City touchpoints</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="text-3xl md:text-4xl font-bold stats-counter">75+</div>
-          <div class="text-white/80">Projects Delivered</div>
+        <div class="space-y-6 flex flex-col impact-column" data-animate>
+          <div class="surface p-8 space-y-6">
+            <p class="section-label text-[0.65rem]">Impact snapshots</p>
+            <div class="space-y-4">
+              <div class="surface-soft p-4">
+                <p class="text-sm text-slate-500">AI studio sprint</p>
+                <p class="text-2xl font-semibold text-slate-900">32% faster launch</p>
+                <p class="text-sm text-slate-600">Fewer handoffs through calm cadence + drop servicing.</p>
+              </div>
+              <div class="surface-soft p-4">
+                <p class="text-sm text-slate-500">Nexus residency</p>
+                <p class="text-2xl font-semibold text-slate-900">62 job offers</p>
+                <p class="text-sm text-slate-600">Latest dual-city cohort with hybrid pods.</p>
+              </div>
+              <div class="surface-soft p-4">
+                <p class="text-sm text-slate-500">Wellness lab</p>
+                <p class="text-2xl font-semibold text-slate-900">4.8 / 5 calm index</p>
+                <p class="text-sm text-slate-600">Measured via listening minutes + retreat retros.</p>
+              </div>
+            </div>
+            <a href="mailto:hr@eareasetech.com" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#D4A017] text-white font-semibold hover:bg-[#b78a12] transition">Request case study &rarr;</a>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="hero-pill"><span>&#9733;</span>230+ weekly listening minutes</div>
+            <div class="hero-pill"><span>&#9733;</span>7 sector playbooks</div>
+          </div>
+          <!-- <div class="hero-logo-card">
+            <img src="assets/logo.png" alt="EarEase-Tech emblem" class="w-14 h-14 object-contain" />
+            <div>
+              <h4 class="text-lg font-semibold text-slate-900">EarEase-Tech PVT LTD</h4>
+              <p class="text-sm text-slate-600">IT services &bull; Solution Architects &bull; Mentors &bull; Listeners in one pod.</p>
+            </div>
+          </div> -->
         </div>
-        <div>
-          <div class="text-3xl md:text-4xl font-bold stats-counter">12+</div>
-          <div class="text-white/80">Startups Supported</div>
+      </div>
+    </section>
+
+    <section class="tag-marquee py-6" id="experiences">
+      <div class="tag-track text-slate-700">
+        <span>AI Solutions</span>
+        <span>IT &amp; Web Application Services</span>
+        <span>Mobile Applications</span>
+        <span>IT Staffing</span>
+        <span>Drop Servicing Guild</span>
+        <span>Listening Pods</span>
+        <span>Cohort-based Learning</span>
+        <span>Travel Therapy</span>
+        <span>Freelancing Accelerators</span>
+        <span>AI Solutions</span>
+        <span>IT &amp; Web Application Services</span>
+        <span>Mobile Applications</span>
+        <span>IT Staffing</span>
+        <span>Drop Servicing Guild</span>
+        <span>Listening Pods</span>
+        <span>Cohort-based Learning</span>
+        <span>Travel Therapy</span>
+        <span>Freelancing Accelerators</span>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-16" id="signature">
+      <div class="text-center max-w-3xl mx-auto" data-animate>
+        <p class="section-label">Signature arcs</p>
+        <h2 class="mt-4 text-3xl font-bold text-slate-900">Choose an experience or design your own</h2>
+        <p class="mt-3 text-slate-600">Each arc blends technology, coaching, and rituals with a measurable success metric.</p>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2" data-animate>
+        <div class="surface p-6 flex flex-col gap-3">
+          <img src="assets/itservices.png" alt="Developers refining product dashboards" class="card-media" loading="lazy" />
+          <h3 class="text-2xl font-semibold text-slate-900">Studio Sprint</h3>
+          <p class="text-slate-600">Rapid MVP build, AI integration, and GTM launch in six weeks plus weekly wellness concierge.</p>
+          <p class="text-sm text-[#D4A017] font-semibold">For pre-seed &amp; seed teams</p>
         </div>
-        <div>
-          <div class="text-3xl md:text-4xl font-bold stats-counter">200+</div>
-          <div class="text-white/80">Sessions Conducted</div>
+        <div class="surface p-6 flex flex-col gap-3">
+          <img src="assets/mentoring.png" alt="Mentors guiding Nexus residency cohort" class="card-media" loading="lazy" />
+          <h3 class="text-2xl font-semibold text-slate-900">Nexus Residency</h3>
+          <p class="text-slate-600">Micro-cohort mentorship, freelancing accelerator, and guided rituals with lifetime alumni council.</p>
+          <p class="text-sm text-[#D4A017] font-semibold">For campuses &amp; communities</p>
+        </div>
+        <div class="surface p-6 flex flex-col gap-3">
+          <img src="assets/listening.png" alt="Calm operations pod hosting a listening ritual" class="card-media card-media-top" loading="lazy" />
+          <h3 class="text-2xl font-semibold text-slate-900">Calm Ops Retainer</h3>
+          <p class="text-slate-600">Drop servicing, QA governance, and team wellbeing kits bundled into one subscription.</p>
+          <p class="text-sm text-[#D4A017] font-semibold">For agencies &amp; collectives</p>
+        </div>
+        <div class="surface p-6 flex flex-col gap-3">
+          <img src="assets/wellness.png" alt="Retreat participants working outdoors" class="card-media" loading="lazy" />
+          <h3 class="text-2xl font-semibold text-slate-900">Retreat + Build</h3>
+          <p class="text-slate-600">Destination offsites mixing roadmap clinics, co-working, and travel therapy prompts.</p>
+          <p class="text-sm text-[#D4A017] font-semibold">For reset &amp; strategy weeks</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-16 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h3 class="text-2xl font-bold mb-4">Who We Are</h3>
-      <p class="text-gray-700"><strong>EarEase-Tech</strong> is a pioneering initiative dedicated to creating jobs, reducing stress in tech careers, and upskilling future professionals. Our core focus lies in developing impactful in-house projects across Mental Health (including Listening Sessions, Career Counseling, and Travel-Based Wellness Activities), IT Services, Drop Servicing, and cutting-edge R&D initiatives that drive innovation and societal value.
-<br>
-To support our mission of empowering careers and wellness, <strong>EarEase-Nexus</strong>—our training and placement division—is proud to partner exclusively with <strong>Trisemi Technologies Pvt Ltd, Bangalore & Sree Godavari Education's, Rajahmundry</strong>, combining expertise to deliver real-world training and sustainable employment opportunities for aspiring tech professionals.
-
-</p>
-    </div>
-  </section>
-
-  <!-- Services Section -->
- <!-- SERVICES -->
-<section id="services" class="py-20 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-bold mb-12">Our Services</h2>
-    <div class="grid md:grid-cols-3 gap-10">
-      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in">
-        <img src="assets/itservices.png" alt="IT Services" class="w-20 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold">IT Services</h3>
-        <p class="mt-2 text-gray-600">Custom software, AI integration & automation for startups and businesses.</p>
+    <section class="max-w-6xl mx-auto px-4 py-16 grid gap-10 lg:grid-cols-2 items-start">
+      <div class="surface p-10 space-y-6" data-animate>
+        <p class="section-label">Our arc</p>
+        <h2 class="text-3xl font-bold text-slate-900">From distressed founders to balanced ecosystems</h2>
+        <p class="text-slate-600">EarEase-Tech started as a listening circle for burnt-out engineers. Today we are a multidisciplinary studio spanning AI, product, people operations, and wellness.</p>
+        <div class="timeline mt-6 space-y-8">
+          <div class="timeline-item">
+            <p class="text-sm uppercase tracking-[0.4em] text-slate-500">2019</p>
+            <h3 class="text-xl font-semibold text-slate-900">Campus calm labs</h3>
+            <p class="text-slate-600">Built safe-space pods, mindfulness playlists, and alumni mentoring.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="text-sm uppercase tracking-[0.4em] text-slate-500">2021</p>
+            <h3 class="text-xl font-semibold text-slate-900">IT + wellness sprints</h3>
+            <p class="text-slate-600">Paired engineering retainers with mental health counselors.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="text-sm uppercase tracking-[0.4em] text-slate-500">2024</p>
+            <h3 class="text-xl font-semibold text-slate-900">EarEase-Nexus</h3>
+            <p class="text-slate-600">Micro-cohorts + drop servicing + travel therapy for new economies.</p>
+          </div>
+        </div>
       </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="200">
-        <img src="assets/mentoring.png" alt="Mentorship" class="w-20 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold">Mentorships</h3>
-        <p class="mt-2 text-gray-600">Affordable mentorships in AI, Data Science, HR, and Sales for job seekers.</p>
+      <div class="space-y-6" data-animate>
+        <div class="surface-soft p-8">
+          <p class="text-sm uppercase tracking-[0.3em] text-slate-500">Market intelligence</p>
+          <div class="grid gap-4 sm:grid-cols-2 mt-6 text-sm text-slate-700">
+            <div class="surface-muted p-4">Top search term: "stress-free IT services India"</div>
+            <div class="surface-muted p-4">Partner network: Trisemi Tech, Sree Godavari Educations</div>
+            <div class="surface-muted p-4">Audience: founders, campuses, returning pros</div>
+            <div class="surface-muted p-4">Formats: Remote + city pop-up labs</div>
+          </div>
+        </div>
+        <div class="surface p-8">
+          <p class="text-sm uppercase tracking-[0.3em] text-slate-500">Signals we track</p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700 list-disc list-inside">
+            <li>AI policy + accessibility guidelines</li>
+            <li>Hybrid learning engagement metrics</li>
+            <li>Mental health sentiment &amp; listening hours</li>
+            <li>Freelance + drop servicing market rates</li>
+          </ul>
+        </div>
       </div>
+    </section>
 
-      <div class="bg-white p-6 rounded-xl shadow-lg custom-transition" data-aos="zoom-in" data-aos-delay="400">
-        <img src="assets/wellness.png" alt="Wellness" class="w-20 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold">Mental Wellness</h3>
-        <p class="mt-2 text-gray-600">Listening sessions, career counseling & stress-free work models.</p>
+    <section id="services" class="max-w-6xl mx-auto px-4 py-16">
+      <div class="text-center max-w-3xl mx-auto" data-animate>
+        <p class="section-label">Studios</p>
+        <h2 class="mt-4 text-3xl font-bold text-slate-900">Studio sessions designed for every mission</h2>
+        <p class="mt-3 text-slate-600">Blend IT retainers, mentorship pods, and wellness rituals into one contract.</p>
       </div>
-    </div>
-
-    <!-- Button for more services -->
-    <div class="mt-12">
-      <a href="our-services.html"
-         class="inline-block bg-[#D4A017] text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-600 transition">
-        View More Services →
-      </a>
-    </div>
-  </div>
-</section>
-
-
-<!-- TESTIMONIALS -->
-<section class="py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-bold mb-12">What People Say</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up">
-        <p class="italic text-gray-600">“EarEase mentorship helped me land my first AI internship. The guidance was priceless!”</p>
-        <h4 class="mt-4 font-semibold text-[#D4A017]">— Student, Bangalore</h4>
+      <div class="mt-12 grid gap-8 md:grid-cols-2">
+        <article class="surface p-8 space-y-4" data-animate>
+          <img src="assets/data-analytics.jpg" alt="Developers collaborating on analytics dashboards" class="card-media card-media-sm" loading="lazy" />
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-2xl font-semibold text-slate-900">IT &amp; Product Studio</h3>
+            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Details &rarr;</a>
+          </div>
+          <p class="text-slate-600">AI, data, and full-stack builds with embedded UX, QA, and DevOps.</p>
+          <p class="text-sm text-slate-500">React · Next.js · Node · Python · AWS · MLOps</p>
+        </article>
+        <article class="surface p-8 space-y-4" data-animate>
+          <img src="assets/hr.jpg" alt="Mentorship pods collaborating with EarEase coaches" class="card-media card-media-sm" loading="lazy" />
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-2xl font-semibold text-slate-900">Mentorship &amp; Placement</h3>
+            <a href="internships.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Cohorts &rarr;</a>
+          </div>
+          <p class="text-slate-600">EarEase-Nexus pods for AI, MERN, HR, finance, and sales.</p>
+          <p class="text-sm text-slate-500">Micro-groups · Capstones · Job &amp; freelance ops</p>
+        </article>
+        <article class="surface p-8 space-y-4" data-animate>
+          <img src="assets/counselling.png" alt="Wellness and listening lab experience" class="card-media card-media-sm" loading="lazy" />
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-2xl font-semibold text-slate-900">Wellness &amp; Listening Lab</h3>
+            <a href="about-us.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Culture &rarr;</a>
+          </div>
+          <p class="text-slate-600">Confidential listening rooms, community rides, audio therapy, offsites.</p>
+          <p class="text-sm text-slate-500">Group rituals · Travel therapy · Calm kits</p>
+        </article>
+        <article class="surface p-8 space-y-4" data-animate>
+          <img src="assets/dropservicing.png" alt="Drop servicing pod coordinating deliverables" class="card-media card-media-sm" loading="lazy" />
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-2xl font-semibold text-slate-900">Drop Servicing Accelerator</h3>
+            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Scale &rarr;</a>
+          </div>
+          <p class="text-slate-600">Sell confidently while we run execution through our vetted guild.</p>
+          <p class="text-sm text-slate-500">Proposal lab · QA governance · White-label squads</p>
+        </article>
       </div>
-      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="200">
-        <p class="italic text-gray-600">“Their IT services transformed our business workflows. Super reliable team.”</p>
-        <h4 class="mt-4 font-semibold text-[#D4A017]">— Startup Founder</h4>
+    </section>
+
+    <section id="case" class="py-16 bg-[#f7f3ff]">
+      <div class="max-w-6xl mx-auto px-4 space-y-10">
+        <div class="text-center max-w-2xl mx-auto" data-animate>
+          <p class="section-label">Proof</p>
+          <h2 class="mt-4 text-3xl font-bold text-slate-900">Case mixes &amp; testimonials</h2>
+          <p class="mt-3 text-slate-600">Real rollout patterns and what partners say.</p>
+        </div>
+        <div class="grid gap-8 lg:grid-cols-3">
+          <div class="surface p-6 space-y-3" data-animate>
+            <p class="text-sm text-slate-500">Case: Healthtech SaaS</p>
+            <h3 class="text-xl font-semibold text-slate-900">AI triage assistant</h3>
+            <p class="text-sm text-slate-600">Built HIPAA-ready workflows plus listening pods for care coaches. Result: 32% faster patient responses.</p>
+            <p class="text-xs text-slate-500">Stack: React, Node, Python, AWS, Figma</p>
+          </div>
+          <div class="surface p-6 space-y-3" data-animate>
+            <p class="text-sm text-slate-500">Case: University</p>
+            <h3 class="text-xl font-semibold text-slate-900">Nexus campus labs</h3>
+            <p class="text-sm text-slate-600">Hybrid mentorship + travel therapy package. 280 students, 94% completion, 62 job offers.</p>
+            <p class="text-xs text-slate-500">Focus: DS/ML, MERN, HR recruiter</p>
+          </div>
+          <div class="surface p-6 space-y-3" data-animate>
+            <p class="text-sm text-slate-500">Case: Remote agency</p>
+            <h3 class="text-xl font-semibold text-slate-900">Drop servicing pod</h3>
+            <p class="text-sm text-slate-600">We ran delivery for 18 projects, integrated client rituals, and launched wellness stipends.</p>
+            <p class="text-xs text-slate-500">Impact: +41% revenue, churn &lt; 2%</p>
+          </div>
+        </div>
+        <div class="surface p-8" data-animate>
+          <p class="text-sm uppercase tracking-[0.3em] text-slate-500">Voices</p>
+          <div class="grid gap-6 md:grid-cols-3 text-sm text-slate-700 mt-6">
+            <blockquote>"The only team that gave us a playbook covering AI stack <em>and</em> team wellbeing." - Growth lead, Fintech</blockquote>
+            <blockquote>"Mentors + clinicians in the same pod changed how our campus views careers." - Program director</blockquote>
+            <blockquote>"We finally scaled freelancing ops without burning out founders." - Agency duo</blockquote>
+          </div>
+        </div>
       </div>
-      <div class="p-6 rounded-lg shadow-md bg-gray-50" data-aos="fade-up" data-aos-delay="400">
-        <p class="italic text-gray-600">“Finally found career counseling that actually reduced my stress!”</p>
-        <h4 class="mt-4 font-semibold text-[#D4A017]">— Graduate, Hyderabad</h4>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-  <!-- Booking Section -->
-<section id="booking" class="py-4 bg-gray">
-  <div class="max-w-4xl mx-auto px-4 text-center">
-    <h3 class="text-2xl font-bold mb-6">Book a Session with Us</h3>
-    <!-- <p class="text-gray-700 mb-8">Choose a service and schedule a session that fits your needs.</p> -->
-     <p class="text-gray-700 mb-8">Book a session with us to learn more about our services.</p>
-    <div class="flex flex-col sm:flex-row justify-center gap-6">
-      <!-- <a href="https://calendly.com/eareasetech/30min" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">🎧 Listening Session</a>
-      <a href="https://calendly.com/eareasetech/earease-career-counseling" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">💼 Career Counseling</a> -->
-      <a href="https://calendly.com/eareasetech/business-appointment" target="_blank" class="bg-[#D4A017] text-white font-medium px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition">📊 Appointment</a>
-    </div>
-  </div>
-</section>
-<!-- Collaborations Section -->
-<section id="collaborations" class="py-4 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-4 text-center">
-    <h3 class="text-2xl font-bold mb-8">Our Partners</h3>
-    <div class="overflow-hidden relative">
-      <div class="flex animate-scroll space-x-12">
-        <!-- Example Logos -->
-        <img src="assets/Trisemi-LOGO.svg" alt="Trisemi Technologies Pvt Ltd, Bangalore." class="h-16 object-contain" />
-        <img src="assets/SGE Logo.png" alt="Sree Godavari Educations, Rajahmundry" class="h-24 object-contain" />
-        <!-- <img src="assets/collab3.png" alt="Janaki IT Solutions LLP, Hyderabad" class="h-16 object-contain" /> -->
-        <!-- <img src="assets/collab4.png" alt="Collab 4" class="h-16 object-contain" />
-        <img src="assets/collab5.png" alt="Collab 5" class="h-16 object-contain" /> -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  @keyframes scroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-  .animate-scroll {
-    display: inline-flex;
-    animation: scroll 20s linear infinite;
-  }
-</style>
-
-
-  <!-- Contact -->
-<section id="contact" class="py-5 bg-[#daa009]" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
-  <div class="flex flex-col items-center text-center">
-    <h3 class="text-2xl font-bold mb-4">Contact Us</h3>
-    <p class="mb-2">Reach out for partnerships, training, or services!</p>
     
-    <div class="flex items-center gap-6">
-      <a href="mailto:hr@eareasetech.com"
-        class="bg-[#D4A017] text-white px-8 py-3 rounded-lg shadow hover:bg-yellow-700 transition">
-        ✉️ Mail us
-      </a>
 
-      <a href="https://wa.me/917893691717" target="_blank" aria-label="Chat on WhatsApp"
-        class="p-2 rounded-full shadow-lg hover:scale-105 transition">
-        <img src="assets/images/WhatsApp.png" alt="WhatsApp" class="w-12 h-12">
-      </a>
-    </div>
-    <p class="text-base font-medium text-gray-800 mb-6">
-      📍 Address: Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008...
-    </p>
+  </main>
 
-  </div>
-</section>
-
-
-  <!-- Footer -->
-  <footer class="text-black py-2 text-center">
-    <!-- <div class="container mx-auto px-4">
-      <div class="mt-4 flex justify-center space-x-4">
-        <a href="https://www.linkedin.com/company/earease-tech/" target="_blank" aria-label="LinkedIn">
-          <img src="assets/images/linkedin-icon.png" alt="LinkedIn Icon" class="w-6 h-6 custom-transition">
-        </a>
-      </div> -->
-      <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
-      <!-- <p class="text-base mt-2">Photos by Christina @ wocintechchat.com on Unsplash, Fauxels and Kelly on Pexels.</p> -->
-      
+  <footer class="bg-[#1b1f2a] text-white/80 py-6">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
+      <!-- <p class="text-sm">Crafted with mentors, engineers &amp; listeners.</p> -->
+      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
     </div>
   </footer>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 1000,   // animation duration (ms)
-    once: true,       // whether animation should happen only once
-  });
-</script>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-KRB9PCZ7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GTM-KRB9PCZ7');
+  </script>
 
 </body>
 </html>

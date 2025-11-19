@@ -1,292 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="assets/favicon.ico" />
-  <title>About Us | EarEase</title>
+  <title>About Us | EarEase-Tech</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/scrollreveal"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-    header {
-      font-family: Arial, sans-serif; /* Override Poppins for header */
-    }
-    header * {
-      font-family: inherit; /* Ensure all header children use Arial */
-    }
-    .yellow-bg {
-      background: linear-gradient(135deg, #FFC107, #FFCA28);
-    }
-    .black-text {
-      color: #000000;
-    }
-    .mustard-bg {
-      background-color: #efbe18;
-    }
-    .gray-accent {
-      color: #D3D3D3;
-    }
-    .custom-transition {
-      transition: all 0.3s ease;
-    }
-    .custom-transition:hover {
-      transform: scale(1.05);
-    }
-    .service-card {
-      transition: all 0.3s ease;
-    }
-    .service-card:hover {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      background-color: #f9fafb;
+    :root { --brand: #d4a017; }
+    *, *::before, *::after { box-sizing: border-box; }
+    img, video { max-width: 100%; height: auto; display: block; }
+    body { font-family: 'Poppins', sans-serif; background: #f9fafb; color: #1f2933; margin: 0; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    header { font-family: 'Poppins', sans-serif; }
+    .glassy-panel { background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.6)); border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(16px); box-shadow: 0 25px 45px rgba(0,0,0,0.08); }
+    .golden-ring { position: relative; }
+    .golden-ring::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid rgba(212,160,23,0.4); pointer-events: none; }
+    .shine { position: relative; overflow: hidden; }
+    .shine::after { content: ""; position: absolute; inset: -150% 25% auto; width: 50%; height: 200%; transform: rotate(35deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); animation: sheen 6s infinite; }
+    @keyframes sheen { 0% { transform: translateX(-200%) rotate(35deg); } 60% { transform: translateX(200%) rotate(35deg); } 100% { transform: translateX(200%) rotate(35deg); } }
+    .floating-bubble { position: absolute; border-radius: 999px; filter: blur(0px); opacity: 0.3; animation: float 12s ease-in-out infinite alternate; }
+    @keyframes float { from { transform: translateY(0px); } to { transform: translateY(-40px); } }
+    .founder-avatar { position: relative; width: clamp(8rem, 28vw, 12rem); height: clamp(8rem, 28vw, 12rem); border-radius: 999px; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(212,160,23,0.25)); padding: 0.6rem; box-shadow: 0 25px 60px rgba(15,23,42,0.15); display: grid; place-items: center; }
+    .founder-avatar::after { content: ""; position: absolute; inset: 0.4rem; border-radius: inherit; border: 1px solid rgba(255,255,255,0.5); pointer-events: none; }
+    .founder-avatar img { width: 100%; height: 100%; border-radius: 999px; object-fit: cover; border: 4px solid rgba(255,255,255,0.8); box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08); }
+    [data-animate] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    [data-animate].visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
+<body class="bg-[#f6f4ef] text-gray-900 antialiased">
 
-<body class="bg-gray-100 text-gray-900">
-  <!-- Header -->
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
-          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
-        </a>
-      </div>
-      <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
-        <a href="our-services.html" class="hover:text-[#D4A017] ">Services</a>
-        <a href="about-us.html" class="hover:text-[#D4A017] ">About Us</a>
-        <a href="index.html#booking" class="hover:text-[#D4A017] ">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017] ">Mentorships</a>
-        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-        <a href="index.html#contact" class="hover:text-[#D4A017] ">Contact</a>
+  <header class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <p class="text-xl font-semibold tracking-tight">EarEase<span class="text-[#D4A017]">-Tech</span></p>
+      </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
+        <a href="index.html" class="hover:text-[#D4A017] transition">Home</a>
+        <a href="our-services.html" class="hover:text-[#D4A017] transition">Services</a>
+        <a href="about-us.html" class="text-[#D4A017]">About Us</a>
+        <a href="contact-us.html" class="hover:text-[#D4A017] transition">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017] transition">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017] transition">Careers</a>
+        <a href="contact-us.html#contact" class="hover:text-[#D4A017] transition">Contact</a>
       </nav>
-      <div class="md:hidden">
-        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
+      <button id="menu-toggle" class="md:hidden text-[#D4A017] focus:outline-none">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017] ">Home</a>
-      <a href="our-services.html" class="block text-gray-700 hover:text-[#D4A017] ">Services</a>
-      <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017] ">About Us</a>
-      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017] ">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
-      <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017] ">Contact</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
+      <a href="index.html" class="block hover:text-[#D4A017]">Home</a>
+      <a href="our-services.html" class="block hover:text-[#D4A017]">Services</a>
+      <a href="about-us.html" class="block text-[#D4A017]">About Us</a>
+      <a href="contact-us.html" class="block hover:text-[#D4A017]">Book a Session</a>
+      <a href="internships.html" class="block hover:text-[#D4A017]">Mentorships</a>
+      <a href="careers.html" class="block hover:text-[#D4A017]">Careers</a>
+      <a href="contact-us.html#contact" class="block hover:text-[#D4A017]">Contact</a>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-16 text-center">
-    <div class="container mx-auto px-4 flex flex-col justify-center">
-      <h1 class="text-5xl font-bold mb-4">About EarEase</h1>
-      <p class="text-xl max-w-2xl mx-auto mb-12">Where Mental Wellness Meets Tech Brilliance</p>
-      <img src="assets/images/team-collaboration.jpg" alt="Diverse team collaborating at laptops in a modern office" class="w-full max-w-md mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
-    </div>
-  </section>
-
-  <!-- Founder Section -->
-  <section class="bg-gray-50 py-16">
-    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="space-y-4">
-        <h2 class="text-3xl font-semibold">Our Team</h2>
-        <p class="leading-relaxed">We are a dedicated team of HRs, IT professionals, and marketing experts who combine technical excellence with compassion and vision. Our collaborative efforts drive EarEase forward, blending wellness with innovation.</p>
-        <p class="leading-relaxed">Passionate about transforming lives and careers, our team creates an inclusive ecosystem where mental health and tech growth thrive together.</p>
-      </div>
-      <div>
-        <img src="assets/images/professional-team.jpeg" alt="Smiling professional team in a meeting" class="w-full max-w-lg mx-auto rounded-2xl shadow-xl border-2 border-[#D4A017] custom-transition" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <!-- Animation Section -->
-  <section class="mustard-bg py-16 text-center" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-semibold mb-8 black-text border-b-2 border-[#D4A017] pb-2 inline-block">Empowering Wellness & Tech</h2>
-      <img src="assets/animations/mental-health.gif" alt="Mental Wellness Animation" class="w-full max-w-md h-auto mx-auto rounded-2xl shadow-xl border-2 border-[#D4A017] custom-transition" loading="lazy">
-      <p class="mt-4 text-lg max-w-3xl mx-auto leading-relaxed">Empowering minds and careers through wellness and tech.</p>
-    </div>
-  </section>
-
-  <!-- Vision Section -->
-  <section class="bg-white text-black py-16">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold mb-4 text-[#D4A017] border-b-2 border-[#D4A017] pb-2 inline-block">Our Vision</h2>
-      <p class="max-w-3xl mx-auto mt-8 leading-relaxed">To create a safe, empowering space where mental health and IT excellence go hand in hand. At EarEase, we envision a world where healing meets upskilling — transforming both careers and lives.</p>
-      <img src="assets/images/minimal-workspace.jpeg" alt="Minimal workspace with MacBook and potted plant on white table" class="w-full max-w-sm mx-auto mt-12 rounded-lg shadow-lg custom-transition" loading="lazy">
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section class="bg-gray-50 py-16" style="background-image: url('assets/images/white-wall.png'); background-size: cover;">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-12 text-[#D4A017] border-b-2 border-[#D4A017] pb-2">What We Do</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div class="space-y-8">
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-services-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span id="it-services-desc" class="sr-only">Icon for IT Services & Consulting</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">IT Services & Consulting</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">We provide expert IT consulting and services to optimize technology solutions for businesses and individuals, ensuring efficiency and innovation.</p>
-          </div>
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="it-training-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-              <span id="it-training-desc" class="sr-only">Icon for IT Training & Upskilling</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">IT Training & Upskilling</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">We provide personalized training in Data Science, Full Stack Development, Cybersecurity, and more—taught by industry veterans.</p>
-          </div>
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="staffing-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span id="staffing-desc" class="sr-only">Icon for IT & Non-IT Staffing</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">IT & Non-IT Staffing</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">Connecting businesses with top-tier IT and non-IT talent through efficient staffing solutions tailored to organizational needs.</p>
-          </div>
+  <section class="relative overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-yellow-100">
+    <div class="floating-bubble w-72 h-72 bg-[#D4A017]/20 top-12 -left-20"></div>
+    <div class="floating-bubble w-40 h-40 bg-amber-400/30 bottom-8 right-0" style="animation-delay: 2s;"></div>
+    <div class="max-w-6xl mx-auto px-4 py-20 grid gap-12 lg:grid-cols-2 items-center">
+      <div data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">About EarEase-Tech</p>
+        <h1 class="mt-5 text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">
+          Human-first technology for calmer, smarter workplaces
+        </h1>
+        <p class="mt-6 text-lg text-gray-700">
+          We combine deep IT craftsmanship with mental wellness expertise so teams can innovate without burning out. Every product, workshop, and partnership is built with empathy, clarity, and measurable outcomes.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#story" class="inline-flex items-center px-6 py-3 rounded-full bg-[#D4A017] text-white font-semibold shadow-lg hover:bg-[#b78a12] transition">Explore our story</a>
+          <a href="#team" class="inline-flex items-center px-6 py-3 rounded-full border border-gray-300 text-gray-800 font-semibold hover:border-[#D4A017] hover:text-[#D4A017] transition">Meet the team</a>
         </div>
-        <div class="space-y-8">
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="mental-wellness-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span id="mental-wellness-desc" class="sr-only">Icon for Mental Wellness</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">Mental Wellness & Listening Sessions</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">Our certified psychology team offers confidential sessions to support emotional balance and mental clarity for IT professionals and students.</p>
+        <div class="mt-10 grid grid-cols-3 gap-6 text-sm text-gray-600">
+          <div>
+            <p class="text-3xl font-bold text-gray-900">30+</p>
+            <p>Cross-domain specialists</p>
           </div>
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span id="career-counseling-desc" class="sr-only">Icon for Career Counseling</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">Career Counseling & Mentorship</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">Guiding you through career choices, skill-building, and industry expectations to ensure long-term success in tech careers.</p>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">12</p>
+            <p>Industries served</p>
           </div>
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="b2b-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-              <span id="b2b-desc" class="sr-only">Icon for B2B Solutions</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">B2B Solutions & Collaboration</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">Partnering with consultancies and firms across the globe, we deliver white-label solutions, project support, and tailored tech services.</p>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">95%</p>
+            <p>Client retention</p>
           </div>
         </div>
       </div>
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div class="space-y-8">
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
+      <div class="relative" data-animate>
+        <div class="absolute inset-0 blur-3xl bg-[#D4A017]/30 translate-y-6 translate-x-4 rounded-full"></div>
+        <div class="relative glassy-panel rounded-3xl p-8 golden-ring">
+          <p class="text-sm uppercase tracking-[0.3em] text-gray-500">In practice</p>
+          <h2 class="mt-4 text-2xl font-semibold text-gray-900">Mindful innovation studio</h2>
+          <p class="mt-4 text-gray-700">From employee listening apps to enterprise readiness coaching, we architect experiences that honor both productivity and peace of mind.</p>
+          <div class="mt-6 space-y-4 text-sm text-gray-600">
             <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="startup-desc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span id="startup-desc" class="sr-only">Icon for Project Incubation</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">Project Incubation & Startup Support</h3>
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>Embedded counselors + solution architects for every program</p>
             </div>
-            <p class="mt-4 leading-relaxed">We support innovative thinkers by helping them incubate and launch their tech projects through funding, mentorship, and technical infrastructure.</p>
+            <div class="flex items-center space-x-3">
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>Modular delivery model for startups, campuses, and enterprises</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="w-2 h-2 rounded-full bg-[#D4A017]"></span>
+              <p>Impact dashboards to track emotional and business outcomes</p>
+            </div>
           </div>
         </div>
-        <div class="space-y-8">
-          <div class="p-6 border border-gray-200 rounded-lg service-card">
-            <div class="flex items-center space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4A017]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-describedby="career-counseling-desc-2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span id="career-counseling-desc-2" class="sr-only">Icon for Career Counseling</span>
-              <h3 class="text-xl font-semibold text-[#D4A017]">Career Counseling & Mentorship</h3>
-            </div>
-            <p class="mt-4 leading-relaxed">Guiding you through career choices, skill-building, and industry expectations to ensure long-term success in tech careers.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Infographic -->
-      <div class="mt-16 text-center p-4">
-        <h3 class="text-2xl font-bold mb-4 text-[#D4A017]">Impact by Numbers</h3>
-        <canvas id="impactChart" class="max-w-lg mx-auto"></canvas>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-50 text-black py-2 text-center">
-    <div class="container mx-auto px-4">
-      <p class="text-base">© 2025 EarEase Tech. All rights reserved.</p>
+  <section id="story" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="grid gap-10 lg:grid-cols-2 items-center">
+      <div data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Our Origin</p>
+        <h2 class="mt-4 text-3xl font-bold text-gray-900">From burnout stories to a balanced ecosystem</h2>
+        <p class="mt-6 text-gray-700 leading-relaxed">
+          EarEase-Tech was born when AI Architects, HR strategists, and therapists united to confront the rising mental-health gap in fast-paced tech corridors. We watched high-performing teams lose clarity under constant noise, relentless speed, and rigid operational silos. Today, we partner with campuses, founders, and global workforces to deliver accessible care pathways alongside resilient, intelligence-driven digital operations.
+        </p>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div class="glassy-panel rounded-2xl p-6 shine">
+            <p class="text-sm uppercase tracking-widest text-gray-500">Focus</p>
+            <p class="mt-3 text-xl font-semibold text-gray-900">Wellness x IT</p>
+            <p class="mt-2 text-sm text-gray-600">Product clinics, tech mentorships, and audio-therapy experiences.</p>
+          </div>
+          <div class="glassy-panel rounded-2xl p-6 shine">
+            <p class="text-sm uppercase tracking-widest text-gray-500">Promise</p>
+            <p class="mt-3 text-xl font-semibold text-gray-900">People-first data</p>
+            <p class="mt-2 text-sm text-gray-600">Transparent insights, compassionate action plans, quick wins.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl shadow-xl p-10 golden-ring" data-animate>
+        <p class="uppercase text-xs tracking-[0.3em] text-gray-500">Guiding Pillars</p>
+        <div class="mt-6 space-y-6">
+          <div>
+            <p class="text-lg font-semibold text-gray-900">1. Compassion in code</p>
+            <p class="text-sm text-gray-600 mt-2">Accessibility, inclusive language, and mindful defaults shape every launch.</p>
+          </div>
+          <div>
+            <p class="text-lg font-semibold text-gray-900">2. Science-backed care</p>
+            <p class="text-sm text-gray-600 mt-2">Our clinical advisors validate every wellness framework and workshop.</p>
+          </div>
+          <div>
+            <p class="text-lg font-semibold text-gray-900">3. Co-creation</p>
+            <p class="text-sm text-gray-600 mt-2">Clients design with us through live labs, listening tours, and open demos.</p>
+          </div>
+          <div>
+            <p class="text-lg font-semibold text-gray-900">4. Lasting impact</p>
+            <p class="text-sm text-gray-600 mt-2">We measure behavioral shifts, retention lifts, and community wellbeing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray-900 text-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto" data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-yellow-300">Milestones</p>
+        <h2 class="mt-4 text-3xl font-bold">A journey of patient listening and bold experimentation</h2>
+      </div>
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">2019</p>
+          <h3 class="mt-3 text-xl font-semibold">Campus beginnings</h3>
+          <p class="mt-2 text-sm">Built the first EarEase safe-space pods for student communities and early founders.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">2021</p>
+          <h3 class="mt-3 text-xl font-semibold">Industry collaborations</h3>
+          <p class="mt-2 text-sm">Partnered with healthcare startups to bring real-time counseling into product sprints.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6" data-animate>
+          <p class="text-yellow-200 text-sm uppercase tracking-widest">2024</p>
+          <h3 class="mt-3 text-xl font-semibold">Experience labs</h3>
+          <p class="mt-2 text-sm">Launched AI-assisted listening hubs, hybrid retreats, and leadership mentorship pods.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="text-center max-w-2xl mx-auto" data-animate>
+      <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Leadership</p>
+      <h2 class="mt-4 text-3xl font-bold text-gray-900">Faces behind the mission</h2>
+      <p class="mt-4 text-gray-600">Strategists, engineers, therapists, and storytellers working side-by-side.</p>
+    </div>
+    <div class="mt-12 relative">
+      <div class="absolute inset-0 bg-gradient-to-br from-yellow-100 via-white to-yellow-50 rounded-[36px] shadow-2xl"></div>
+      <div class="absolute -top-6 -left-8 w-32 h-32 bg-[#D4A017]/30 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-10 right-6 w-40 h-40 bg-yellow-200/40 rounded-full blur-2xl"></div>
+      <div class="relative px-6 py-12 flex flex-col items-center" data-animate>
+        <div class="text-center space-y-2">
+          <p class="text-sm font-semibold text-[#D4A017] tracking-[0.4em] uppercase">Spotlight</p>
+          <p class="text-gray-600 text-sm">Founding stories, lived experience, grounded strategy.</p>
+        </div>
+        <div class="mt-10 glassy-panel rounded-3xl p-10 flex flex-col items-center text-center gap-6 transition transform hover:-translate-y-1 hover:shadow-2xl">
+          <div class="founder-avatar">
+            <img src="assets/images/founder.jpg" alt="Founder portrait" />
+          </div>
+          <div>
+            <p class="text-2xl font-semibold text-gray-900">Ashwanth Karibindi</p>
+            <p class="text-xs uppercase tracking-[0.5em] text-[#D4A017] mt-2">Founder & Chief Data Scientist</p>
+            <p class="mt-4 text-sm text-gray-600 leading-relaxed">AI solutions architect & strategist turned mental wellness advocate, guiding holistic programs and cross-functional squads with clarity and care.</p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-3 text-xs font-semibold text-gray-600">
+            <span class="px-3 py-1 rounded-full bg-gray-100/80 border border-white">People Design</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100/80 border border-white">Community</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100/80 border border-white">Leadership labs</span>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-4 text-left w-full">
+            <div class="rounded-2xl border border-white/60 bg-white/40 p-4">
+              <p class="text-xs uppercase tracking-widest text-gray-500">Focus</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">AI + Wellness</p>
+            </div>
+            <div class="rounded-2xl border border-white/60 bg-white/40 p-4">
+              <p class="text-xs uppercase tracking-widest text-gray-500">Strength</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">Systems Strategy</p>
+            </div>
+            <div class="rounded-2xl border border-white/60 bg-white/40 p-4">
+              <p class="text-xs uppercase tracking-widest text-gray-500">Fuel</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">Empathy & data</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-8 text-center" data-animate>
+      <p class="text-sm text-gray-600">Advisors include clinical psychologists, speech therapists, and former CHROs.</p>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-white via-yellow-50 to-white py-16">
+    <div class="max-w-6xl mx-auto px-4 grid gap-10 lg:grid-cols-2 items-center">
+      <div data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Experience Framework</p>
+        <h2 class="mt-4 text-3xl font-bold text-gray-900">What collaboration with EarEase-Tech feels like</h2>
+        <ul class="mt-6 space-y-4 text-gray-700">
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>Discovery labs:</strong> immersive listening sessions to map stressors, aspirations, and digital friction.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>Coaching pods:</strong> curated mentors, therapists, and technologists guiding each cohort.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-2 w-2 h-2 rounded-full bg-[#D4A017]"></span>
+            <span><strong>Proof dashboards:</strong> glossy micro-portals that display ROI, sentiment, and adoption metrics.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="glassy-panel rounded-3xl p-10 golden-ring" data-animate>
+        <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Impact Snapshot</p>
+        <div class="mt-6 grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-4xl font-bold text-gray-900">4.8/5</p>
+            <p class="text-sm text-gray-600">Average session rating</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">1200+</p>
+            <p class="text-sm text-gray-600">Coach hours delivered</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">38%</p>
+            <p class="text-sm text-gray-600">Drop in attrition risk</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-gray-900">15</p>
+            <p class="text-sm text-gray-600">Cities reached</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-4" id="connect">
+    <div class="max-w-4xl mx-auto glassy-panel rounded-3xl p-10 text-center golden-ring" data-animate>
+      <p class="uppercase text-xs tracking-[0.4em] text-gray-500">Next Step</p>
+      <h2 class="mt-4 text-3xl font-bold text-gray-900">Let�s co-create calmer tech, purposeful teams, and measurable care.</h2>
+      <p class="mt-4 text-gray-600">Book a discovery call or invite us to your campus/offsite to experience an EarEase immersion.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="contact-us.html" class="inline-flex items-center px-8 py-3 rounded-full bg-[#D4A017] text-white font-semibold shadow-lg hover:bg-[#b78a12] transition">Book a session</a>
+        <a href="mailto:hello@eareasetech.com" class="inline-flex items-center px-8 py-3 rounded-full border border-gray-300 text-gray-800 font-semibold hover:border-[#D4A017] hover:text-[#D4A017] transition">Write to us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#1b1f2a] text-white/80 py-6">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
+      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
     </div>
   </footer>
 
   <script>
-    // Mobile Menu Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
-      menuToggle.setAttribute('aria-expanded', isExpanded);
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
     });
 
-    // ScrollReveal
-    ScrollReveal().reveal('section', { delay: 100, distance: '50px', origin: 'bottom', duration: 800, reset: false });
-    ScrollReveal().reveal('.service-card', { delay: 200, interval: 100 });
-    ScrollReveal().reveal('footer img', { delay: 300, interval: 100 });
-
-    // Chart.js
-    const ctx = document.getElementById('impactChart').getContext('2d');
-    const impactChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Students Trained', 'Projects Delivered', 'Startups Supported', 'Sessions Conducted'],
-        datasets: [{
-          label: 'EarEase Impact',
-          data: [1500, 75, 12, 200],
-          backgroundColor: '#D4A017',
-          borderColor: '#000',
-          borderWidth: 1,
-          borderRadius: 6
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: { color: '#e5e7eb' },
-            ticks: { color: '#000' }
-          },
-          x: {
-            grid: { display: false },
-            ticks: { color: '#000' }
-          }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
-      }
-    });
-  </script>
-</body>
+      });
+    }, { threshold: 0.1 });
 
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+  </script>
+
+</body>
 </html>

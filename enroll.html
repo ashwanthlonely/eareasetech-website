@@ -1,205 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="assets/favicon.ico" />
-  <title>EarEase Mentorship Enrollment</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-latest/xlsx.full.min.js"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #F5E050; /* Light yellow background */
-    }
-    header {
-      font-family: Arial, sans-serif; /* Override Poppins for header */
-    }
-    header * {
-      font-family: inherit; /* Ensure all header children use Arial */
-    }
-    .custom-transition {
-      transition: all 0.3s ease;
-    }
-    .mustard-bg {
-      background-color: #D4A017; /* Mustard background */
-    }
-    .mustard-text {
-      color: #D4A017; /* Mustard text */
-    }
-    .hover\:mustard-text:hover {
-      color: #D4A017; /* Mustard hover text */
-    }
-    .shadow-mustard {
-      box-shadow: 0 4px 6px -1px rgba(212, 160, 23, 0.1), 0 2px 4px -1px rgba(212, 160, 23, 0.06);
-    }
-    /* Gray outline for form inputs */
-    input, select {
-      border: 1px solid #9CA3AF; /* Tailwind's gray-400 */
-    }
-  </style>
-</head>
-
-<body class="text-black">
-  <!-- Header -->
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <!-- Logo and Brand -->
-      <div class="flex items-center space-x-3">
-        <a href="index.html" class="flex items-center space-x-3">
-          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain custom-transition" />
-          <h1 class="text-base md:text-xl font-bold">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
-        </a>
-      </div>
-
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-6">
-        <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-        <a href="about-us.html" class="hover:text-[#D4A017]">About Us</a>
-        <a href="index.html#services" class="hover:text-[#D4A017]">Services</a>
-        <a href="index.html#booking" class="hover:text-[#D4A017]">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017]">Mentorships</a>
-        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-        <a href="index.html#contact" class="hover:text-[#D4A017]">Contact</a>
-      </nav>
-
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-expanded="false" aria-label="Toggle navigation">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-      <a href="index.html" class="block text-gray-700 hover:text-[#D4A017]">Home</a>
-      <a href="about-us.html" class="block text-gray-700 hover:text-[#D4A017]">About Us</a>
-      <a href="index.html#services" class="block text-gray-700 hover:text-[#D4A017]">Services</a>
-      <a href="index.html#booking" class="block text-gray-700 hover:text-[#D4A017]">Book a Session</a>
-      <a href="internships.html" class="block text-gray-700 hover:text-[#D4A017]">Mentorships</a>
-      <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
-      <a href="index.html#contact" class="block text-gray-700 hover:text-[#D4A017]">Contact</a>
-    </div>
-  </header>
-
-  <div class="max-w-7xl mx-auto p-6">
-    <h1 class="text-4xl text-center mb-10" style="color: #000000;">Enroll <br> <strong>EarEase-Nexus</strong> Mentorship</h1>
-    
-    <!-- Enrollment Form -->
-    <div class="bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto">
-      <form id="enrollmentForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdFoVbxEB0TKepUPR3PnOAI6-_vAIsUNRawIfF4Fyg-jZYf1g/formResponse" method="POST" class="space-y-4">
-        <div>
-          <label for="name" class="block text-sm font-medium mustard-text">Full Name</label>
-          <input type="text" id="name" name="entry.917782833" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
-        </div>
-        <div>
-          <label for="email" class="block text-sm font-medium mustard-text">Email Address</label>
-          <input type="email" id="email" name="entry.1686118249" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
-        </div>
-        <div>
-          <label for="phone" class="block text-sm font-medium mustard-text">Phone Number</label>
-          <input type="tel" id="phone" name="entry.1607351760" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50" />
-        </div>
-        <div>
-          <label for="course" class="block text-sm font-medium mustard-text">Select Course</label>
-          <select id="course" name="entry.179214206" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50">
-            <option value="" disabled selected>Select a course</option>
-            <option value="Data Science Mastery">Data Science Mastery</option>
-            <option value="MERN Stack Development">MERN Stack Development</option>
-            <option value="Data Analytics with BI Tools">Data Analytics with BI Tools</option>
-            <option value="HR Recruiter Internship">HR Recruiter Internship Program</option>
-            <option value="HR Analyst Internship">HR Analyst Internship Program</option>
-            <option value="Finance Internship">Finance Internship Program</option>
-            <option value="Sales & Marketing Internship">Sales & Marketing Internship</option>
-          </select>
-        </div>
-        <div>
-          <label for="tier" class="block text-sm font-medium mustard-text">Select Tier</label>
-          <select id="tier" name="entry.1972886111" required class="mt-1 block w-full rounded-md shadow-sm focus:border-mustard focus:ring focus:ring-mustard focus:ring-opacity-50">
-            <option value="" disabled selected>Select a tier</option>
-            <option value="Standard (45 Days)">Standard (45 Days)</option>
-            <option value="Advanced (3 Months)">Advanced (3 Months)</option>
-            <option value="Premium (6 Months)">Premium (6 Months)</option>
-          </select>
-        </div>
-        <button type="submit" class="w-full mustard-bg text-white py-2 px-4 rounded-md hover:bg-yellow-600 custom-transition">Submit Enrollment</button>
-      </form>
-    </div>
-
-    <!-- Thank You Message (Hidden Initially) -->
-    <div id="thankYouMessage" class="hidden bg-white rounded-xl shadow-mustard p-6 max-w-2xl mx-auto mt-6 text-center">
-      <h2 class="text-2xl font-bold mustard-text mb-4">Thank You!</h2>
-      <p class="text-black">Thank you for choosing EarEase-Tech for your career path. Our team will reach you soon!</p>
-    </div>
-  </div>
-
-  <script>
-    // XLSX Processing
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-      if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-          var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-          var firstSheetName = workbook.SheetNames[0];
-          var worksheet = workbook.Sheets[firstSheetName];
-          var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-          var filteredData = jsonData.filter(row => row.some(filledCell));
-          var headerRowIndex = filteredData.findIndex((row, index) =>
-            row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-          );
-          if (headerRowIndex === -1 || headerRowIndex > 25) {
-            headerRowIndex = 0;
-          }
-          var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
-          csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-          return csv;
-        } catch (e) {
-          console.error(e);
-          return "";
-        }
-      }
-      return gk_fileData[filename] || "";
-    }
-
-    // Mobile Menu Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
-      menuToggle.setAttribute('aria-expanded', isExpanded);
-    });
-
-    // Form Submission
-    const form = document.getElementById('enrollmentForm');
-    const thankYouMessage = document.getElementById('thankYouMessage');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try {
-        const formData = new FormData(form);
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          mode: 'no-cors'
-        });
-        form.classList.add('hidden');
-        thankYouMessage.classList.remove('hidden');
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('There was an error submitting the form. Please try again.');
-      }
-    });
-  </script>
-</body>
-
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <title>EarEase-Nexus Enrollment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/xlsx.full.min.js"></script>
+  <style>
+    :root { --brand: #d4a017; }
+    *, *::before, *::after { box-sizing: border-box; }
+    img, video { max-width: 100%; height: auto; display: block; }
+    body { font-family: 'Poppins', sans-serif; background: #0f0f0f; color: #f1f5f9; margin: 0; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    header { font-family: 'Poppins', sans-serif; }
+    .glassy { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(18px); box-shadow: 0 25px 45px rgba(0,0,0,0.35); }
+    .glassy-light { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(18px); }
+    .accent-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; color: #fef3c7; }
+    .step-card { border-left: 4px solid rgba(212,160,23,0.6); padding-left: 1rem; }
+    .shadow-mustard { box-shadow: 0 4px 6px -1px rgba(212, 160, 23, 0.2), 0 2px 4px -1px rgba(212, 160, 23, 0.08); }
+    input, select, textarea { border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: #f1f5f9; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(212,160,23,0.25); }
+    [data-animate] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    [data-animate].visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-3">
+          <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain" />
+          <h1 class="text-base md:text-xl font-bold text-gray-900">EarEase<span class="text-[#D4A017]">-Tech</span></h1>
+        </a>
+      </div>
+      <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
+        <a href="index.html" class="hover:text-[#D4A017]">Home</a>
+        <a href="about-us.html" class="hover:text-[#D4A017]">About</a>
+        <a href="our-services.html" class="hover:text-[#D4A017]">Services</a>
+        <a href="internships.html" class="text-[#D4A017]">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017]">Careers</a>
+        <a href="contact-us.html#contact" class="hover:text-[#D4A017]">Contact</a>
+      </nav>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-[#D4A017] focus:outline-none" aria-label="Toggle navigation">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-gray-700">
+      <a href="index.html" class="block hover:text-[#D4A017]">Home</a>
+      <a href="about-us.html" class="block hover:text-[#D4A017]">About</a>
+      <a href="our-services.html" class="block hover:text-[#D4A017]">Services</a>
+      <a href="internships.html" class="block text-[#D4A017]">Mentorships</a>
+      <a href="careers.html" class="block hover:text-[#D4A017]">Careers</a>
+      <a href="contact-us.html#contact" class="block hover:text-[#D4A017]">Contact</a>
+    </div>
+  </header>
+
+  <section class="relative overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-yellow-200">
+    <div class="max-w-6xl mx-auto px-4 py-20 grid gap-12 lg:grid-cols-2 items-start">
+      <div class="space-y-6" data-animate>
+        <span class="accent-chip">earEase-nexus</span>
+        <h1 class="text-4xl font-extrabold text-gray-900">Enroll into mentorship pods that mix mastery with calm.</h1>
+        <p class="text-gray-700">Choose your track, define your tempo, and unlock EarEase playbooks—AI labs, care rituals, freelancing accelerators, and campus residencies.</p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="glassy-light rounded-2xl p-4">
+            <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Fall window</p>
+            <p class="text-lg font-semibold text-gray-900">Hybrid cohorts · 15 seats / pod</p>
+            <!-- <p class="text-sm text-gray-600">Hybrid cohorts · 15 seats / pod</p> -->
+          </div>
+          <div class="glassy-light rounded-2xl p-4">
+            <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Scholarships</p>
+            <p class="text-lg font-semibold text-gray-900">Need-based · Merit</p>
+            <p class="text-sm text-gray-600">Available for students & returnees</p>
+          </div>
+        </div>
+        <ul class="space-y-3 text-sm text-gray-700">
+          <li class="flex gap-3"><span class="text-[#D4A017]">?</span> Data Science, MERN, HR, marketing, finance, sales pods</li>
+          <li class="flex gap-3"><span class="text-[#D4A017]">?</span> Drop-servicing + freelancing accelerators</li>
+          <li class="flex gap-3"><span class="text-[#D4A017]">?</span> Travel therapy, listening rooms, calm kits</li>
+        </ul>
+      </div>
+      <div class="glassy rounded-[32px] p-8 space-y-6 border border-white/40" data-animate>
+        <div>
+          <p class="text-xs uppercase tracking-[0.4em] text-gray-400">What to expect</p>
+          <h2 class="text-2xl font-semibold text-white">Application timeline</h2>
+        </div>
+        <div class="space-y-4 text-sm text-gray-200">
+          <div class="step-card">
+            <p class="font-semibold text-white">1 · Submit form</p>
+            <p class="text-gray-300">Tell us about your goals, cohort preference, and background.</p>
+          </div>
+          <div class="step-card">
+            <p class="font-semibold text-white">2 · Alignment call</p>
+            <p class="text-gray-300">Meet mentors to shape your plan, scholarships, or custom pace.</p>
+          </div>
+          <div class="step-card">
+            <p class="font-semibold text-white">3 · Welcome kit</p>
+            <p class="text-gray-300">Receive playbooks, calendar invites, and your calm ritual kit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 py-16 space-y-8">
+    <div class="text-center" data-animate>
+      <p class="uppercase text-xs tracking-[0.4em] text-gray-400">Ready to enroll</p>
+      <h2 class="mt-3 text-3xl font-bold text-white">Complete the official EarEase-Nexus form</h2>
+      <p class="mt-3 text-gray-300 text-sm">This embedded Google Form feeds directly into our enrollment system so every submission is captured instantly.</p>
+      <a href="https://forms.gle/wg5SdcTGdjK1wZTU9" target="_blank" rel="noopener" class="inline-flex items-center px-6 py-3 mt-4 rounded-full bg-[#D4A017] text-black font-semibold hover:bg-[#b78a12] transition">Open form in a new tab</a>
+    </div>
+    <div class="glassy rounded-[32px] p-4 lg:p-6 border border-white/10" data-animate>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdFoVbxEB0TKepUPR3PnOAI6-_vAIsUNRawIfF4Fyg-jZYf1g/viewform?embedded=true" width="100%" height="1500" frameborder="0" marginheight="0" marginwidth="0" class="w-full rounded-2xl bg-white">Loading…</iframe>
+    </div>
+  </section>
+
+  <footer class="bg-[#1b1f2a] text-white/80 py-6">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
+      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
+
+
+

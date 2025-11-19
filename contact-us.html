@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | EarEase-Tech</title>
+  <link rel="icon" href="assets/favicon.ico" />
+  <meta name="description" content="Book a strategy session with EarEase-Tech or reach our hybrid pods across India." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brand: #d4a017;
+      --ink: #0f172a;
+      --paper: #fffaf2;
+      --cloud: #eef4ff;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    img, video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 12px 40px rgba(15,23,42,0.08);
+    }
+    .hero-panel {
+      background: linear-gradient(135deg, #fff7e0, #f0f6ff);
+      border-radius: 36px;
+      padding: clamp(2rem, 6vw, 4rem);
+      box-shadow: 0 30px 80px rgba(15,23,42,0.1);
+    }
+    .surface {
+      background: #ffffff;
+      border: 1px solid rgba(15,23,42,0.05);
+      border-radius: 32px;
+      box-shadow: 0 25px 70px rgba(15,23,42,0.08);
+    }
+    .surface-soft {
+      background: #f7faff;
+      border-radius: 24px;
+      border: 1px solid rgba(15,23,42,0.06);
+    }
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: rgba(15,23,42,0.6);
+    }
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(212,160,23,0.3);
+      background: rgba(212,160,23,0.1);
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+    .form-field {
+      width: 100%;
+      border: 1px solid #e6ddca;
+      border-radius: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.95);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-field:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(212,160,23,0.25);
+    }
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#fffaf2] text-slate-900">
+  <header class="sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <p class="text-xl font-semibold tracking-tight">EarEase<span class="text-[#D4A017]">-Tech</span></p>
+      </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-800">
+        <a href="index.html" class="hover:text-[#D4A017] transition">Home</a>
+        <a href="our-services.html" class="hover:text-[#D4A017] transition">Services</a>
+        <a href="about-us.html" class="hover:text-[#D4A017] transition">About Us</a>
+        <a href="contact-us.html#booking" class="text-[#D4A017]">Book a Session</a>
+        <a href="internships.html" class="hover:text-[#D4A017] transition">Mentorships</a>
+        <a href="careers.html" class="hover:text-[#D4A017] transition">Careers</a>
+        <a href="contact-us.html#contact" class="text-[#D4A017]">Contact</a>
+      </nav>
+      <button id="menu-toggle" class="md:hidden text-[#D4A017]" aria-label="Toggle navigation">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm font-medium text-slate-800">
+      <a href="index.html" class="block">Home</a>
+      <a href="our-services.html" class="block">Services</a>
+      <a href="about-us.html" class="block">About Us</a>
+      <a href="contact-us.html#booking" class="block text-[#D4A017]">Book a Session</a>
+      <a href="internships.html" class="block">Mentorships</a>
+      <a href="careers.html" class="block">Careers</a>
+      <a href="contact-us.html#contact" class="block text-[#D4A017]">Contact</a>
+    </div>
+  </header>
+
+  <main class="pb-16">
+    <section class="max-w-5xl mx-auto px-4 py-16">
+      <div class="hero-panel" data-animate>
+        <p class="section-label">Contact EarEase-Tech</p>
+        <h1 class="mt-6 text-4xl md:text-5xl font-extrabold leading-tight text-slate-900">Tell us your mission. We'll map the right pod.</h1>
+        <p class="mt-6 text-lg text-slate-700 max-w-3xl">Whether you need an AI product sprint, a placement-ready mentorship pod, or a calm ops retainer, our hybrids in Bengaluru and Hyderabad respond within 24 hours with a bespoke roadmap.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <div class="contact-pill">&#128337; Response within 24 hours</div>
+          <div class="contact-pill">&#128205; Bengaluru &amp; Hyderabad &amp; Rajahmundry pods</div>
+          <div class="contact-pill">&#129309; Human-first, data-backed</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="py-16 px-4 bg-gradient-to-r from-[#fff2ce] via-[#fff9ec] to-[#eaf3ff]">
+      <div class="max-w-5xl mx-auto surface p-10 grid gap-10 lg:grid-cols-2 items-center">
+        <div data-animate>
+          <p class="section-label">Book</p>
+          <h2 class="mt-4 text-3xl font-bold text-slate-900">Share your brief for a custom plan.</h2>
+          <p class="mt-4 text-slate-600">Tell us about your team, stack, or wellness needs. You receive a curated mix of IT services, mentorship pods, and rituals with transparent pricing.</p>
+          <ul class="mt-6 space-y-3 text-sm text-slate-600">
+            <li>&#10003; Discovery call + stakeholder kit</li>
+            <li>&#10003; Options: IT, mentorship, wellness, or mix</li>
+            <li>&#10003; Access to templates + rituals</li>
+          </ul>
+        </div>
+        <form action="https://formsubmit.co/hr@eareasetech.com" method="POST" class="space-y-4" data-animate>
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_subject" value="New landing page inquiry" />
+          <input type="hidden" name="_template" value="table" />
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input type="text" name="Full Name" placeholder="Full Name" required class="form-field" />
+            <input type="email" name="Email" placeholder="Email Address" required class="form-field" />
+          </div>
+          <input type="text" name="Organization" placeholder="Company / Campus" class="form-field" />
+          <select name="Interest" class="form-field">
+            <option>IT Services &amp; Drop Servicing</option>
+            <option>Mentorship / Training</option>
+            <option>Wellness / Listening</option>
+            <option>Collaboration / Partnership</option>
+          </select>
+          <textarea name="Message" rows="4" placeholder="Share context, goals, or timelines" class="form-field"></textarea>
+          <button type="submit" class="w-full bg-[#D4A017] text-white py-3 rounded-xl font-semibold hover:bg-[#b78a12] transition">Submit</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-16 grid gap-8 lg:grid-cols-3">
+      <div class="surface-soft p-6 space-y-3" data-animate>
+        <p class="section-label text-xs tracking-[0.3em]">Studios</p>
+        <h3 class="text-xl font-semibold text-slate-900">Hybrid pods</h3>
+        <p class="text-slate-600 text-sm">AI studio apartments, Nexus mentorship pods, and listening lounges across Bengaluru, Hyderabad, and remote cohorts.</p>
+      </div>
+      <div class="surface-soft p-6 space-y-3" data-animate>
+        <p class="section-label text-xs tracking-[0.3em]">Hours</p>
+        <h3 class="text-xl font-semibold text-slate-900">Availability</h3>
+        <p class="text-slate-600 text-sm">Monday - Saturday, 9 AM to 8 PM IST. Emergency calm-ops support available for retainers.</p>
+      </div>
+      <div class="surface-soft p-6 space-y-3" data-animate>
+        <p class="section-label text-xs tracking-[0.3em]">Channels</p>
+        <h3 class="text-xl font-semibold text-slate-900">Preferred</h3>
+        <p class="text-slate-600 text-sm">Mail, WhatsApp, or a quick Loom—your choice. Secure docs are shared through our client portal.</p>
+      </div>
+    </section>
+    <section class="max-w-6xl mx-auto px-4 py-16 grid gap-6 md:grid-cols-2">
+      <div class="surface p-8" data-animate>
+        <p class="section-label">Insights</p>
+        <p class="mt-4 text-slate-600">We optimize content for "mentorship studio India", "drop servicing partner", "wellness for tech teams", "AI consulting with wellbeing". Each landing narrative is data-backed from LinkedIn polls, WhatsApp communities, and user interviews.</p>
+        <p class="mt-4 text-slate-600">Keywords covered: mentorship program India, AI drop servicing, mental wellness consulting, listening services, travel therapy retreat, data science training.</p>
+      </div>
+      <div class="surface p-8" data-animate>
+        <p class="section-label">FAQs</p>
+        <div class="mt-4 space-y-4 text-sm">
+          <details class="surface-muted p-4">
+            <summary>How fast do you onboard?</summary>
+            <p>Discovery in 24h, pod design in 3 days, launch in under a week.</p>
+          </details>
+          <details class="surface-muted p-4">
+            <summary>Do mentorships include placements?</summary>
+            <p>Yes. We include job cells, recruiter connects, freelancing gigs, and alumni referrals.</p>
+          </details>
+          <details class="surface-muted p-4">
+            <summary>Can we mix services?</summary>
+            <p>Absolutely. Most partners combine IT retainers + mentorship pods + wellness kits for the same teams.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="py-16 px-4 bg-gradient-to-r from-white via-[#f6fbff] to-[#fff6e7]">
+      <div class="max-w-5xl mx-auto text-center space-y-6">
+        <p class="section-label font-bold">Contact</p>
+        <!-- <h2 class="text-3xl font-bold text-slate-900">Mail, WhatsApp, or visit our Hyderabad + Bengaluru bases</h2> -->
+        <!-- <p class="text-slate-700">Email: <a href="mailto:hr@eareasetech.com" class="font-semibold text-[#D4A017]">hr@eareasetech.com</a> &bull; WhatsApp: <a href="https://wa.me/917893691717" target="_blank" rel="noopener" class="font-semibold text-[#25D366]">+91 78936 91717</a></p> -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="mailto:hr@eareasetech.com" class="inline-flex items-center px-6 py-3 rounded-full bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm">Mail us</a>
+          <a href="https://wa.me/917893691717" class="inline-flex items-center px-6 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-sm" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          <a href="https://www.linkedin.com/company/earease-tech/" class="inline-flex items-center px-6 py-3 rounded-full border border-slate-300 text-slate-900 font-semibold shadow-sm" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <p class="text-slate-500 text-sm font-bold">Address : Unit 101, Oxford Towers, 139 HAL Old Airport Road, Kodihalli, Bengaluru, Karnataka 560008.</p>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#1b1f2a] text-white/80 py-6">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
+      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
