@@ -92,7 +92,36 @@
       color: var(--brand);
     }
     .hero-gradient {
-      background: linear-gradient(135deg, #fffdf7 0%, #f0f6ff 60%, #fff8ec 100%);
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 10% 20%, rgba(244, 229, 190, 0.8), transparent 55%),
+                  radial-gradient(circle at 85% 10%, rgba(182, 217, 255, 0.5), transparent 45%),
+                  linear-gradient(135deg, #fffdf7 0%, #f0f6ff 60%, #fff8ec 100%);
+    }
+    .hero-gradient::before,
+    .hero-gradient::after {
+      content: "";
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .hero-gradient::before {
+      top: -160px;
+      right: -120px;
+      background: radial-gradient(circle, rgba(255, 196, 140, 0.6), rgba(255,237,205,0));
+    }
+    .hero-gradient::after {
+      bottom: -140px;
+      left: -80px;
+      background: radial-gradient(circle, rgba(150, 212, 255, 0.7), rgba(255,255,255,0));
+    }
+    .hero-gradient > * {
+      position: relative;
+      z-index: 1;
     }
     .surface {
       background: #ffffff;
@@ -170,31 +199,76 @@
       border: 1px dashed rgba(212,160,23,0.6);
       background: #fffdf3;
     }
+    .hero-floating-card-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.75rem;
+    }
+    .hero-floating-card {
+      flex: 1 1 160px;
+      min-width: 150px;
+      padding: 1rem 1.2rem;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(238,243,255,0.8));
+      box-shadow: 0 15px 35px rgba(15,23,42,0.12);
+    }
+    .hero-floating-card p {
+      margin: 0;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .hero-floating-card span {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+    .hero-floating-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(212,160,23,0.9), rgba(255,207,111,0.8));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      box-shadow: 0 12px 25px rgba(212,160,23,0.3);
+    }
     .hero-visual {
       position: relative;
       width: clamp(200px, 30vw, 280px);
       height: clamp(200px, 30vw, 280px);
       border-radius: 999px;
-      overflow: hidden;
+      padding: 8px;
+      background: linear-gradient(140deg, rgba(212,160,23,0.5), rgba(255,255,255,0.4));
       box-shadow: 0 30px 80px rgba(15,23,42,0.15);
-      border: 1px solid rgba(15,23,42,0.08);
+      overflow: hidden;
       margin: 0;
       margin-right: auto;
     }
     .hero-visual::after {
       content: "";
       position: absolute;
-      inset: 4px;
-      border-radius: inherit;
-      border: 1px solid rgba(255,255,255,0.35);
+      inset: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 65%);
       pointer-events: none;
+      z-index: 1;
     }
-    .hero-visual img,
     .hero-visual video {
+      position: relative;
+      z-index: 2;
+      border-radius: 999px;
       width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.15);
     }
     .card-media {
       width: 100%;
@@ -384,6 +458,23 @@
             <div class="stat-card">
               <strong>15</strong>
               <p class="text-slate-500">City touchpoints</p>
+            </div>
+          </div>
+          <div class="hero-floating-card-row" aria-hidden="true">
+            <div class="hero-floating-card">
+              <div class="hero-floating-icon">IT</div>
+              <p>EET sprints</p>
+              <span>AI, data, and product releases</span>
+            </div>
+            <div class="hero-floating-card">
+              <div class="hero-floating-icon">NX</div>
+              <p>Nexus pods</p>
+              <span>Mentorship + wellness rituals</span>
+            </div>
+            <div class="hero-floating-card">
+              <div class="hero-floating-icon">CX</div>
+              <p>Calm ops</p>
+              <span>Drop servicing + listening labs</span>
             </div>
           </div>
         </div>
