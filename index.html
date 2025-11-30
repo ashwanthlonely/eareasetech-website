@@ -141,6 +141,46 @@
       border: 1px solid #dfe9ff;
       border-radius: 24px;
     }
+    .surface,
+    .surface-soft,
+    .surface-muted,
+    .stat-card,
+    .hero-floating-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .surface:hover,
+    .surface-soft:hover,
+    .surface-muted:hover,
+    .stat-card:hover,
+    .hero-floating-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 65px rgba(15,23,42,0.12);
+    }
+    .surface::after,
+    .surface-soft::after,
+    .surface-muted::after,
+    .stat-card::after,
+    .hero-floating-card::after {
+      content: "";
+      position: absolute;
+      inset: -150% 40% auto;
+      width: 55%;
+      height: 240%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      transform: rotate(32deg) translateX(-200%);
+      transition: transform 0.9s cubic-bezier(0.2, 0.6, 0.3, 1);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .surface:hover::after,
+    .surface-soft:hover::after,
+    .surface-muted:hover::after,
+    .stat-card:hover::after,
+    .hero-floating-card:hover::after {
+      transform: rotate(32deg) translateX(180%);
+    }
     .section-label {
       text-transform: uppercase;
       letter-spacing: 0.4em;
@@ -628,7 +668,7 @@
           <img src="assets/data-analytics.jpg" alt="Developers collaborating on analytics dashboards" class="card-media card-media-sm" loading="lazy" />
           <div class="flex items-center justify-between gap-4">
             <h3 class="text-2xl font-semibold text-slate-900">IT &amp; Product Studio</h3>
-            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Details &rarr;</a>
+            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1 transition hover:text-[#b78a12] hover:translate-x-1">Details &rarr;</a>
           </div>
           <p class="text-slate-600">AI, data, and full-stack builds with embedded UX, QA, and DevOps.</p>
           <p class="text-sm text-slate-500">React · Next.js · Node · Python · AWS · MLOps</p>
@@ -637,7 +677,7 @@
           <img src="assets/hr.jpg" alt="Mentorship pods collaborating with EarEase coaches" class="card-media card-media-sm" loading="lazy" />
           <div class="flex items-center justify-between gap-4">
             <h3 class="text-2xl font-semibold text-slate-900">Mentorship &amp; Placement</h3>
-            <a href="internships.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Cohorts &rarr;</a>
+            <a href="internships.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1 transition hover:text-[#b78a12] hover:translate-x-1">Cohorts &rarr;</a>
           </div>
           <p class="text-slate-600">EarEase-Nexus pods for AI, MERN, HR, finance, and sales.</p>
           <p class="text-sm text-slate-500">Micro-groups · Capstones · Job &amp; freelance ops</p>
@@ -646,7 +686,7 @@
           <img src="assets/counselling.png" alt="Wellness and listening lab experience" class="card-media card-media-sm" loading="lazy" />
           <div class="flex items-center justify-between gap-4">
             <h3 class="text-2xl font-semibold text-slate-900">Wellness &amp; Listening Lab</h3>
-            <a href="about-us.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Culture &rarr;</a>
+            <a href="about-us.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1 transition hover:text-[#b78a12] hover:translate-x-1">Culture &rarr;</a>
           </div>
           <p class="text-slate-600">Confidential listening rooms, community rides, audio therapy, offsites.</p>
           <p class="text-sm text-slate-500">Group rituals · Travel therapy · Calm kits</p>
@@ -655,7 +695,7 @@
           <img src="assets/dropservicing.png" alt="Drop servicing pod coordinating deliverables" class="card-media card-media-sm" loading="lazy" />
           <div class="flex items-center justify-between gap-4">
             <h3 class="text-2xl font-semibold text-slate-900">Drop Servicing Accelerator</h3>
-            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1">Scale &rarr;</a>
+            <a href="our-services.html" class="text-sm font-semibold text-[#D4A017] inline-flex items-center gap-1 transition hover:text-[#b78a12] hover:translate-x-1">Scale &rarr;</a>
           </div>
           <p class="text-slate-600">Sell confidently while we run execution through our vetted guild.</p>
           <p class="text-sm text-slate-500">Proposal lab · QA governance · White-label squads</p>
