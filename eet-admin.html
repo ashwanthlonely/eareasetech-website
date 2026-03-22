@@ -173,7 +173,7 @@
       </div>
       <div style="overflow-x:auto;">
         <table class="data-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Duration</th><th>Fee</th><th>Organization</th><th>Date</th><th>Status</th></tr></thead>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Duration</th><th>Fee</th><th>Organization</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="enroll-tbody"></tbody>
         </table>
       </div>
@@ -227,6 +227,41 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="document.getElementById('status-modal').classList.remove('show')">Cancel</button>
       <button class="btn-save" onclick="updateStatus()">Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ Enrollment Edit Modal ═══════ -->
+<div class="modal-overlay" id="enroll-modal">
+  <div class="modal" style="max-width:560px;">
+    <h3>Edit Enrollment</h3>
+    <input type="hidden" id="em-id"/>
+    <label>Name</label>
+    <input type="text" id="em-name"/>
+    <label>Email</label>
+    <input type="email" id="em-email"/>
+    <label>Phone</label>
+    <input type="text" id="em-phone"/>
+    <label>Course</label>
+    <select id="em-course" style="width:100%;padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;margin-top:6px;margin-bottom:6px;"></select>
+    <label>Duration</label>
+    <input type="text" id="em-duration"/>
+    <label>Fee (₹)</label>
+    <input type="number" id="em-fee"/>
+    <label>Organization</label>
+    <input type="text" id="em-organization"/>
+    <label>Qualification</label>
+    <input type="text" id="em-qualification"/>
+    <label>Status</label>
+    <select id="em-status" style="width:100%;padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;margin-top:6px;margin-bottom:6px;">
+      <option value="new">New</option>
+      <option value="contacted">Contacted</option>
+      <option value="enrolled">Enrolled</option>
+      <option value="completed">Completed</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="document.getElementById('enroll-modal').classList.remove('show')">Cancel</button>
+      <button class="btn-save" onclick="saveEnrollmentEdit()">Save</button>
     </div>
   </div>
 </div>
@@ -417,6 +452,10 @@ function filterEnrollments(){
       <td>${esc(e.course)}</td><td>${e.duration}</td><td>₹${(e.fee||0).toLocaleString('en-IN')}</td>
       <td>${esc(e.organization||'—')}</td><td>${dateStr}</td>
       <td><span class="badge badge-${st}" style="cursor:pointer" onclick="openStatusModal('${e.id}','${st}')">${st}</span></td>
+      <td style="white-space:nowrap;">
+        <button onclick="openEditEnrollment('${e.id}')" style="padding:6px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;margin-right:6px;cursor:pointer;font-size:13px;">Edit</button>
+        <button class="btn-danger" onclick="deleteEnrollment('${e.id}')">Delete</button>
+      </td>
     </tr>`;
   });
   document.getElementById('enroll-count').textContent=`Showing ${filtered.length} of ${allEnrollments.length} enrollments`;
@@ -542,6 +581,56 @@ async function deleteCourse(id){
   renderCourses();
 }
 
+// ─── ENROLLMENT EDIT / DELETE ───
+function openEditEnrollment(id){
+  const e=allEnrollments.find(x=>x.id===id); if(!e) return alert('Enrollment not found');
+  document.getElementById('em-id').value=e.id||'';
+  document.getElementById('em-name').value=e.name||'';
+  document.getElementById('em-email').value=e.email||'';
+  document.getElementById('em-phone').value=e.phone||'';
+  document.getElementById('em-duration').value=e.duration||'';
+  document.getElementById('em-fee').value=e.fee||0;
+  document.getElementById('em-organization').value=e.organization||'';
+  document.getElementById('em-qualification').value=e.qualification||'';
+  document.getElementById('em-status').value=e.status||'new';
+  // populate course options
+  const sel=document.getElementById('em-course'); sel.innerHTML='';
+  allCourses.forEach(c=>{const opt=document.createElement('option');opt.value=c.name;opt.textContent=c.name;sel.appendChild(opt);});
+  if(e.course) sel.value=e.course;
+  document.getElementById('enroll-modal').classList.add('show');
+}
+
+async function saveEnrollmentEdit(){
+  const id=document.getElementById('em-id').value; if(!id) return;
+  const data={
+    name:document.getElementById('em-name').value.trim(),
+    email:document.getElementById('em-email').value.trim(),
+    phone:document.getElementById('em-phone').value.trim(),
+    course:document.getElementById('em-course').value,
+    duration:document.getElementById('em-duration').value,
+    fee:Number(document.getElementById('em-fee').value)||0,
+    organization:document.getElementById('em-organization').value.trim(),
+    qualification:document.getElementById('em-qualification').value.trim(),
+    status:document.getElementById('em-status').value
+  };
+  try{
+    await window._updateDoc(window._doc(window._db,'enrollments',id),data);
+    const idx=allEnrollments.findIndex(x=>x.id===id);
+    if(idx>-1){Object.assign(allEnrollments[idx],data);}    
+    document.getElementById('enroll-modal').classList.remove('show');
+    renderDashboard(); renderEnrollments();
+  }catch(err){console.error('Edit save failed',err);alert('Save failed');}
+}
+
+async function deleteEnrollment(id){
+  if(!confirm('Delete this enrollment permanently?')) return;
+  try{
+    await window._deleteDoc(window._doc(window._db,'enrollments',id));
+    allEnrollments=allEnrollments.filter(x=>x.id!==id);
+    renderDashboard(); renderEnrollments();
+  }catch(err){console.error('Delete failed',err);alert('Delete failed');}
+}
+
 // ─── NAV ───
 function showPanel(name,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -560,6 +649,7 @@ window.filterEnrollments=filterEnrollments;window.exportCSV=exportCSV;
 window.openCourseModal=openCourseModal;window.editCourse=editCourse;window.closeCourseModal=closeCourseModal;
 window.saveCourse=saveCourse;window.toggleCourse=toggleCourse;window.deleteCourse=deleteCourse;
 window.openStatusModal=openStatusModal;window.updateStatus=updateStatus;
+window.openEditEnrollment=openEditEnrollment;window.saveEnrollmentEdit=saveEnrollmentEdit;window.deleteEnrollment=deleteEnrollment;
 </script>
 </body>
 </html>
