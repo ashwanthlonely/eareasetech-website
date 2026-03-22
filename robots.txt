@@ -1,0 +1,5 @@
+# https://www.eareasetech.com/robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://www.eareasetech.com/sitemap.xml
