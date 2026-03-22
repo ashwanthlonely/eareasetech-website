@@ -192,32 +192,8 @@
     <section id="step-1" class="step-section active fade-in">
       <h2 class="text-2xl font-bold text-center mb-2">Select Your Course</h2>
       <p class="text-gray-500 text-center mb-8">Choose the program that aligns with your career goals</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-        <div class="course-card bg-white rounded-2xl p-6 shadow-sm" data-course="Data Science">
-          <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-2xl mb-4">🧠</div>
-          <h3 class="text-lg font-bold mb-2">Data Science</h3>
-          <p class="text-gray-500 text-sm">Master Python, ML, deep learning, and AI with real-world capstone projects and industry datasets.</p>
-        </div>
-
-        <div class="course-card bg-white rounded-2xl p-6 shadow-sm" data-course="Data Analytics">
-          <div class="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center text-2xl mb-4">📊</div>
-          <h3 class="text-lg font-bold mb-2">Data Analytics</h3>
-          <p class="text-gray-500 text-sm">Learn SQL, Tableau, Power BI, Excel, and Python for data-driven decision making and business intelligence.</p>
-        </div>
-
-        <div class="course-card bg-white rounded-2xl p-6 shadow-sm" data-course="Digital Marketing">
-          <div class="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center text-2xl mb-4">📱</div>
-          <h3 class="text-lg font-bold mb-2">Digital Marketing</h3>
-          <p class="text-gray-500 text-sm">SEO, SEM, social media, content strategy, analytics, and performance marketing with live campaigns.</p>
-        </div>
-
-        <div class="course-card bg-white rounded-2xl p-6 shadow-sm" data-course="MERN Stack">
-          <div class="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center text-2xl mb-4">⚡</div>
-          <h3 class="text-lg font-bold mb-2">MERN Stack</h3>
-          <p class="text-gray-500 text-sm">MongoDB, Express, React, and Node.js — build full-stack web apps from scratch with deployment skills.</p>
-        </div>
-
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="courses-grid">
+        <!-- Courses will be loaded here dynamically -->
       </div>
       <div class="flex justify-center mt-10">
         <button id="btn-step1-next" class="btn-primary" disabled onclick="goToStep(2)">
@@ -400,7 +376,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC93dMM_xNhb4_9xlhbgpQ5GWUId2I0_QY",
@@ -415,25 +391,61 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Expose to global scope for onclick handlers
     window.firebaseDb = db;
     window.firebaseAddDoc = addDoc;
     window.firebaseCollection = collection;
     window.firebaseServerTimestamp = serverTimestamp;
+    window.firebaseGetDocs = getDocs;
+    window.firebaseQuery = query;
+    window.firebaseWhere = where;
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchCourses();
+    });
   </script>
 
   <script>
-    // ─── Pricing Data ───
-    const PRICES = {
-      "Data Science":      { "45 Days": 35000, "3 Months": 65000, "6 Months": 100000 },
-      "Data Analytics":    { "45 Days": 30000, "3 Months": 45000, "6 Months": 80000  },
-      "Digital Marketing": { "45 Days": 30000, "3 Months": 42000, "6 Months": 75000  },
-      "MERN Stack":        { "45 Days": 30000, "3 Months": 42000, "6 Months": 75000  }
-    };
-
-    // ─── State ───
+    // ─── Data ───
+    let COURSES = {};
     let selectedCourse = null;
     let selectedDuration = null;
+
+    // ─── Fetch Courses ───
+    async function fetchCourses() {
+      const q = window.firebaseQuery(window.firebaseCollection(window.firebaseDb, "courses"), window.firebaseWhere("active", "==", true));
+      const querySnapshot = await window.firebaseGetDocs(q);
+      let fetchedCourses = [];
+      querySnapshot.forEach((doc) => {
+        fetchedCourses.push({ id: doc.id, ...doc.data() });
+      });
+      fetchedCourses.sort((a,b) => (a.order || 99) - (b.order || 99));
+      
+      const coursesGrid = document.getElementById('courses-grid');
+      coursesGrid.innerHTML = '';
+      fetchedCourses.forEach(course => {
+        COURSES[course.name] = course;
+        const card = document.createElement('div');
+        card.className = 'course-card bg-white rounded-2xl p-6 shadow-sm';
+        card.dataset.course = course.name;
+        card.innerHTML = `
+          <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-2xl mb-4">${course.icon || '📦'}</div>
+          <h3 class="text-lg font-bold mb-2">${course.name}</h3>
+          <p class="text-gray-500 text-sm">${course.description}</p>
+        `;
+        coursesGrid.appendChild(card);
+      });
+
+      // Re-attach event listeners
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.course-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedCourse = card.dataset.course;
+          document.getElementById('btn-step1-next').disabled = false;
+        });
+      });
+    }
 
     // ─── Course Selection ───
     document.querySelectorAll('.course-card').forEach(card => {
@@ -474,7 +486,7 @@
           return;
         }
         // Populate review
-        const fee = PRICES[selectedCourse][selectedDuration];
+        const fee = COURSES[selectedCourse].prices[selectedDuration];
         document.getElementById('review-course').textContent = selectedCourse;
         document.getElementById('review-duration').textContent = selectedDuration;
         document.getElementById('review-fee').textContent = fmt(fee) + ' + GST';
@@ -486,7 +498,7 @@
 
       // Update prices when entering step 2
       if (step === 2 && selectedCourse) {
-        const p = PRICES[selectedCourse];
+        const p = COURSES[selectedCourse].prices;
         document.getElementById('price-45').textContent = fmt(p["45 Days"]);
         document.getElementById('price-3m').textContent = fmt(p["3 Months"]);
         document.getElementById('price-6m').textContent = fmt(p["6 Months"]);
@@ -532,7 +544,7 @@
         await window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, 'enrollments'), {
           course: selectedCourse,
           duration: selectedDuration,
-          fee: PRICES[selectedCourse][selectedDuration],
+          fee: COURSES[selectedCourse].prices[selectedDuration],
           name: document.getElementById('f-name').value.trim(),
           email: document.getElementById('f-email').value.trim(),
           phone: document.getElementById('f-phone').value.trim(),
