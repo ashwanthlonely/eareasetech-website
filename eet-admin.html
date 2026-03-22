@@ -503,6 +503,10 @@ function renderCourses(){
   const grid=document.getElementById('courses-grid');
   grid.innerHTML='';
   allCourses.forEach(c=>{
+    const p45 = c.prices?.['45 Days'] ? `₹${c.prices['45 Days'].toLocaleString('en-IN')}` : '—';
+    const p3m = c.prices?.['3 Months'] ? `₹${c.prices['3 Months'].toLocaleString('en-IN')}` : '—';
+    const p6m = c.prices?.['6 Months'] ? `₹${c.prices['6 Months'].toLocaleString('en-IN')}` : '—';
+
     grid.innerHTML+=`
     <div class="course-mgmt-card">
       ${!c.active?'<span class="inactive-tag">Inactive</span>':''}
@@ -512,9 +516,9 @@ function renderCourses(){
       </div>
       <p class="text-sm text-gray-500 mb-4">${esc(c.description||'')}</p>
       <div class="grid grid-cols-3 gap-2 mb-4">
-        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">45 Days</p><p class="font-bold text-sm">₹${(c.prices?.['45 Days']||0).toLocaleString('en-IN')}</p></div>
-        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">3 Months</p><p class="font-bold text-sm">₹${(c.prices?.['3 Months']||0).toLocaleString('en-IN')}</p></div>
-        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">6 Months</p><p class="font-bold text-sm">₹${(c.prices?.['6 Months']||0).toLocaleString('en-IN')}</p></div>
+        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">45 Days</p><p class="font-bold text-sm">${p45}</p></div>
+        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">3 Months</p><p class="font-bold text-sm">${p3m}</p></div>
+        <div class="text-center p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-400">6 Months</p><p class="font-bold text-sm">${p6m}</p></div>
       </div>
       <div class="flex gap-2">
         <button onclick="editCourse('${c.id}')" style="flex:1;padding:8px;background:#f1f5f9;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;">Edit</button>
@@ -548,11 +552,19 @@ function closeCourseModal(){document.getElementById('course-modal').classList.re
 
 async function saveCourse(){
   const id=document.getElementById('cm-id').value;
+  const prices = {};
+  const p45 = document.getElementById('cm-p45').value;
+  const p3m = document.getElementById('cm-p3m').value;
+  const p6m = document.getElementById('cm-p6m').value;
+  if (p45) prices['45 Days'] = Number(p45);
+  if (p3m) prices['3 Months'] = Number(p3m);
+  if (p6m) prices['6 Months'] = Number(p6m);
+
   const data={
     name:document.getElementById('cm-name').value.trim(),
     icon:document.getElementById('cm-icon').value.trim(),
     description:document.getElementById('cm-desc').value.trim(),
-    prices:{'45 Days':Number(document.getElementById('cm-p45').value)||0,'3 Months':Number(document.getElementById('cm-p3m').value)||0,'6 Months':Number(document.getElementById('cm-p6m').value)||0},
+    prices: prices,
     order:Number(document.getElementById('cm-order').value)||1,
     active:true
   };

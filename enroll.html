@@ -499,9 +499,31 @@
       // Update prices when entering step 2
       if (step === 2 && selectedCourse) {
         const p = COURSES[selectedCourse].prices;
-        document.getElementById('price-45').textContent = fmt(p["45 Days"]);
-        document.getElementById('price-3m').textContent = fmt(p["3 Months"]);
-        document.getElementById('price-6m').textContent = fmt(p["6 Months"]);
+        const price45 = document.getElementById('price-45');
+        const price3m = document.getElementById('price-3m');
+        const price6m = document.getElementById('price-6m');
+        
+        if (p['45 Days']) {
+          price45.textContent = fmt(p["45 Days"]);
+          price45.closest('.duration-card').style.display = 'block';
+        } else {
+          price45.closest('.duration-card').style.display = 'none';
+        }
+        
+        if (p['3 Months']) {
+            price3m.textContent = fmt(p["3 Months"]);
+            price3m.closest('.duration-card').style.display = 'block';
+        } else {
+            price3m.closest('.duration-card').style.display = 'none';
+        }
+
+        if (p['6 Months']) {
+            price6m.textContent = fmt(p["6 Months"]);
+            price6m.closest('.duration-card').style.display = 'block';
+        } else {
+            price6m.closest('.duration-card').style.display = 'none';
+        }
+
         document.getElementById('selected-course-label').textContent = selectedCourse;
         // Reset duration selection if course changed
         selectedDuration = null;
