@@ -1,102 +1,99 @@
-# EarEase-Tech — Human-First IT & Wellness Studio
+# EarEase-Tech - Human-First IT and Wellness Studio
 
-> **We ease your stress.** IT craftsmanship · Mentorship pods · Restorative rituals
+> We ease your stress. IT craftsmanship, mentorship pods, and restorative rituals.
 
 [![Website](https://img.shields.io/badge/Live-www.eareasetech.com-d4a017?style=for-the-badge)](https://www.eareasetech.com/)
 
----
+## About
 
-## 🌐 About
+EarEase-Tech Private Limited blends technology, mentorship, and mental wellness into one studio model.
 
-**EarEase-Tech Private Limited** blends technology, mentorship, and mental wellness into a single human-first studio. We architect AI-ready products, coach cross-functional squads, and host wellness rituals so teams can scale without chaos.
+- Founded: 2019 (Bengaluru, India)
+- Team: 25-35 hybrid pod members
+- Live site: https://www.eareasetech.com/
 
-- **Founded:** 2019 · Bengaluru, India
-- **Team:** 25–35 hybrid pod members across Bengaluru, Hyderabad & Rajahmundry
-- **Website:** [www.eareasetech.com](https://www.eareasetech.com/)
+## Services
 
----
+- IT and Product Studio
+- IT Staffing and Talent Pods
+- Freelancing and IT Drop Servicing
+- Career and Mentorship Lab
+- Wellness and Listening Studio
 
-## 🛠️ Services
+## EarEase-Nexus Programs
 
-| Service | Description |
-|---------|-------------|
-| **IT & Product Studio** | AI, ML, data, web, and app builds with wellness-aware workflows |
-| **IT Staffing & Talent Pods** | Curated squads of developers, architects, and analysts |
-| **Freelancing & Drop Services** | White-label execution network for freelancers and agencies |
-| **Career & Mentorship Lab** | Roadmaps, coaching, and job-ready skilling |
-| **Wellness & Listening Studio** | Safe spaces, guided activities, and curated escapes |
-
----
-
-## 📚 EarEase-Nexus Mentorship Programs
-
-Live cohort-based programs with placement support:
-
-- Data Science & ML
+- Data Science and ML
 - MERN Stack Development
 - Data Analytics
 - Digital Marketing
 - HR Recruiter
 - Finance
-- Sales & Marketing
+- Sales and Marketing
 
----
+## Project Structure
 
-## 📂 Project Structure
-
-```
+```text
 eareasetech-website/
-├── index.html            # Landing page
-├── about-us.html         # Company story & team
-├── our-services.html     # Service offerings
-├── contact-us.html       # Contact form & FAQs
-├── careers.html          # Open positions
-├── internships.html      # Mentorship programs
-├── curriculum.html       # Detailed program curriculum
-├── enroll.html           # Enrollment form
-├── flashsale.html        # Flash sale landing page
-├── robots.txt            # Search engine crawler rules
-├── sitemap.xml           # Sitemap for SEO
-├── CNAME                 # Custom domain config
-├── assets/               # Logo, favicon, images
-│   ├── logo.png
-│   └── favicon.ico
-└── css/                  # Stylesheets
+|-- index.html
+|-- about-us.html
+|-- our-services.html
+|-- contact-us.html
+|-- careers.html
+|-- internships.html
+|-- curriculum.html
+|-- enroll.html
+|-- flashsale.html
+|-- eet-admin.html
+|-- robots.txt
+|-- sitemap.xml
+|-- CNAME
+|-- README.md
+|-- LICENSE
+|-- assets/
+`-- css/
 ```
 
----
+## Tech Stack
 
-## 🚀 Tech Stack
+- HTML5
+- Tailwind CSS (CDN)
+- Google Fonts (Poppins)
+- Google Tag Manager (`GTM-KRB9PCZ7`)
+- Google Analytics 4 (`G-96F43FTVKJ`)
+- Razorpay checkout integration
+- GitHub Pages hosting
 
-- **HTML5** + **Tailwind CSS** (via CDN)
-- **Google Fonts** (Poppins)
-- **Google Tag Manager** (GTM-KRB9PCZ7)
-- **Google Analytics 4** (G-96F43FTVKJ)
-- **Razorpay** (payment integration on flash sale)
-- **Hosted on** GitHub Pages
+## SEO Status (Updated)
 
----
+Implemented site-wide SEO baseline and fixes:
 
-## 📈 SEO
+- Unique page titles (including homepage title fix)
+- Meta description, canonical, Open Graph, and Twitter tags across core pages
+- Valid JSON-LD on key pages:
+  - `Organization`
+  - `ProfessionalService`
+  - `JobPosting`
+  - `LocalBusiness`
+  - `FAQPage`
+  - `ItemList` / `Course`
+  - `WebPage`
+- `robots.txt` updated to disallow admin paths
+- `sitemap.xml` updated (includes `curriculum.html`)
+- Stale flash sale copy updated for current crawl context
+- Internal keyword backlinks added on key pages for:
+  - AI Development Services
+  - IT Drop Servicing
+  - Indias Best Mentorship Program
+  - Indias First Wellness and Listening Labs
 
-All pages include:
-- Meta descriptions, keywords, and robots directives
-- Open Graph & Twitter Card meta tags
-- Canonical URLs
-- Structured data (JSON-LD) — Organization, ProfessionalService, JobPosting, Course, FAQPage, LocalBusiness
-- `robots.txt` and `sitemap.xml`
+## Contact
 
----
+- Email: hr@eareasetech.com
+- Phone: +91 78936 91717
+- Address: Unit 101, Oxford Towers, 139 HAL Old Airport Road, Kodihalli, Bengaluru, Karnataka 560008
+- LinkedIn: https://www.linkedin.com/company/earease-tech/
 
-## 📬 Contact
+## License
 
-- **Email:** hr@eareasetech.com
-- **Phone:** +91 78936 91717
-- **Address:** Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru 560008
-- **LinkedIn:** [EarEase-Tech](https://www.linkedin.com/company/earease-tech/)
+Copyright (c) 2025 EarEase-Tech Private Limited. All rights reserved.
 
----
-
-## 📄 License
-
-© 2025 EarEase-Tech Private Limited. All rights reserved.

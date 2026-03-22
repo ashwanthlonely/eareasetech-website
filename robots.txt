@@ -1,6 +1,7 @@
 # https://www.eareasetech.com/robots.txt
 User-agent: *
 Allow: /
+Disallow: /eet-admin.html
 Disallow: /eet-admin-x7k9.html
 
 Sitemap: https://www.eareasetech.com/sitemap.xml
