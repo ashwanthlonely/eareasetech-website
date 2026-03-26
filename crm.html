@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CRM | EarEase-Tech</title>
+  <link rel="icon" href="assets/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --brand: #d4a017; --ink: #0f172a; --paper: #f8fafc; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--paper); color: var(--ink); }
+    .chip { border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
+    .stage-new { background: #dbeafe; color: #1d4ed8; }
+    .stage-contacted { background: #fef3c7; color: #b45309; }
+    .stage-proposal { background: #e9d5ff; color: #7e22ce; }
+    .stage-won { background: #dcfce7; color: #15803d; }
+    .stage-lost { background: #fee2e2; color: #b91c1c; }
+    .modal-backdrop { background: rgba(2, 6, 23, 0.6); }
+  </style>
+</head>
+<body>
+  <div id="crmLogin" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
+    <div class="w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl">
+      <div class="text-center mb-5">
+        <img src="assets/optimized/logo-256.png" alt="EarEase-Tech Logo" class="w-14 h-14 mx-auto mb-3" />
+        <h2 class="text-xl font-bold">CRM Staff Login</h2>
+        <p class="text-sm text-slate-500 mt-1">Sign in with your staff account</p>
+      </div>
+      <form id="crmLoginForm" class="space-y-3">
+        <input id="crmLoginEmail" type="email" placeholder="Email" required class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        <input id="crmLoginPassword" type="password" placeholder="Password" required class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        <p id="crmLoginError" class="text-sm text-red-600 hidden"></p>
+        <button id="crmLoginBtn" type="submit" class="w-full px-4 py-2 rounded-lg bg-[#d4a017] text-white font-semibold hover:bg-[#b88714] transition">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="crmApp" class="hidden">
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div class="flex items-center gap-3">
+        <img src="assets/optimized/logo-256.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+        <div>
+          <p class="text-sm text-slate-500">EarEase-Tech</p>
+          <h1 class="text-xl font-bold">CRM Dashboard</h1>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span id="crmUserEmail" class="px-3 py-2 rounded-lg bg-slate-100 text-slate-600 text-sm"></span>
+        <button id="crmLogoutBtn" class="px-4 py-2 rounded-lg border border-slate-300 bg-white font-medium hover:bg-slate-50 transition">Logout</button>
+        <button id="addLeadBtn" class="px-4 py-2 rounded-lg bg-[#d4a017] text-white font-semibold hover:bg-[#b88714] transition">+ Add Lead</button>
+        <button id="exportBtn" class="px-4 py-2 rounded-lg border border-slate-300 bg-white font-medium hover:bg-slate-50 transition">Export JSON</button>
+        <label class="px-4 py-2 rounded-lg border border-slate-300 bg-white font-medium hover:bg-slate-50 transition cursor-pointer">
+          Import JSON
+          <input id="importInput" type="file" accept=".json" class="hidden" />
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><p class="text-xs text-slate-500">Total Leads</p><p id="kpiTotal" class="text-2xl font-bold">0</p></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><p class="text-xs text-slate-500">New</p><p id="kpiNew" class="text-2xl font-bold">0</p></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><p class="text-xs text-slate-500">Proposal</p><p id="kpiProposal" class="text-2xl font-bold">0</p></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><p class="text-xs text-slate-500">Won</p><p id="kpiWon" class="text-2xl font-bold">0</p></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><p class="text-xs text-slate-500">Pipeline Value</p><p id="kpiValue" class="text-2xl font-bold">₹0</p></div>
+    </section>
+
+    <section class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="grid gap-3 md:grid-cols-4">
+        <input id="searchInput" type="text" placeholder="Search name, email, company..." class="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+        <select id="stageFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
+          <option value="">All Stages</option>
+          <option value="new">New</option>
+          <option value="contacted">Contacted</option>
+          <option value="proposal">Proposal</option>
+          <option value="won">Won</option>
+          <option value="lost">Lost</option>
+        </select>
+        <select id="ownerFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
+          <option value="">All Owners</option>
+        </select>
+        <select id="sourceFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
+          <option value="">All Sources</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div class="px-4 py-3 border-b border-slate-200">
+        <h2 class="font-semibold">Leads</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50">
+            <tr class="text-left text-slate-600">
+              <th class="px-4 py-3">Name</th>
+              <th class="px-4 py-3">Company</th>
+              <th class="px-4 py-3">Contact</th>
+              <th class="px-4 py-3">Source</th>
+              <th class="px-4 py-3">Owner</th>
+              <th class="px-4 py-3">Value</th>
+              <th class="px-4 py-3">Stage</th>
+              <th class="px-4 py-3">Next Follow-up</th>
+              <th class="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leadTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid gap-4 lg:grid-cols-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><h3 class="font-semibold mb-3">New</h3><div id="colNew" class="space-y-3"></div></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><h3 class="font-semibold mb-3">Contacted</h3><div id="colContacted" class="space-y-3"></div></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><h3 class="font-semibold mb-3">Proposal</h3><div id="colProposal" class="space-y-3"></div></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><h3 class="font-semibold mb-3">Won</h3><div id="colWon" class="space-y-3"></div></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4"><h3 class="font-semibold mb-3">Lost</h3><div id="colLost" class="space-y-3"></div></div>
+    </section>
+  </main>
+
+  <div id="leadModal" class="hidden fixed inset-0 z-50 modal-backdrop items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+        <h2 id="modalTitle" class="text-lg font-semibold">Add Lead</h2>
+        <button id="closeModalBtn" class="text-slate-500 hover:text-slate-900 text-xl">&times;</button>
+      </div>
+      <form id="leadForm" class="p-5 grid gap-4 md:grid-cols-2">
+        <input type="hidden" id="leadId" />
+        <div><label class="text-sm text-slate-600">Name</label><input id="name" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Company</label><input id="company" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Email</label><input id="email" type="email" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Phone</label><input id="phone" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Source</label><input id="source" placeholder="Website / LinkedIn / Referral" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Owner</label><input id="owner" placeholder="Sales Owner" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div><label class="text-sm text-slate-600">Value (INR)</label><input id="value" type="number" min="0" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div>
+          <label class="text-sm text-slate-600">Stage</label>
+          <select id="stage" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg">
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="proposal">Proposal</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+        <div class="md:col-span-2"><label class="text-sm text-slate-600">Next Follow-up</label><input id="followUp" type="date" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div class="md:col-span-2"><label class="text-sm text-slate-600">Notes</label><textarea id="notes" rows="4" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg"></textarea></div>
+        <div class="md:col-span-2 flex justify-end gap-2 pt-2">
+          <button type="button" id="cancelBtn" class="px-4 py-2 rounded-lg border border-slate-300 bg-white">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-[#d4a017] text-white font-semibold">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "eareasetech_crm_v1";
+    const STAGES = ["new", "contacted", "proposal", "won", "lost"];
+    const STAGE_CLASS = {
+      new: "stage-new",
+      contacted: "stage-contacted",
+      proposal: "stage-proposal",
+      won: "stage-won",
+      lost: "stage-lost"
+    };
+
+    let leads = [];
+
+    const el = {
+      modal: document.getElementById("leadModal"),
+      modalTitle: document.getElementById("modalTitle"),
+      form: document.getElementById("leadForm"),
+      table: document.getElementById("leadTableBody"),
+      addLeadBtn: document.getElementById("addLeadBtn"),
+      closeModalBtn: document.getElementById("closeModalBtn"),
+      cancelBtn: document.getElementById("cancelBtn"),
+      exportBtn: document.getElementById("exportBtn"),
+      importInput: document.getElementById("importInput"),
+      searchInput: document.getElementById("searchInput"),
+      stageFilter: document.getElementById("stageFilter"),
+      ownerFilter: document.getElementById("ownerFilter"),
+      sourceFilter: document.getElementById("sourceFilter"),
+      colNew: document.getElementById("colNew"),
+      colContacted: document.getElementById("colContacted"),
+      colProposal: document.getElementById("colProposal"),
+      colWon: document.getElementById("colWon"),
+      colLost: document.getElementById("colLost"),
+      kpiTotal: document.getElementById("kpiTotal"),
+      kpiNew: document.getElementById("kpiNew"),
+      kpiProposal: document.getElementById("kpiProposal"),
+      kpiWon: document.getElementById("kpiWon"),
+      kpiValue: document.getElementById("kpiValue")
+    };
+
+    function seedIfEmpty() {
+      if (leads.length) return;
+      leads = [
+        { id: crypto.randomUUID(), name: "Rahul Mehta", company: "AstraFin", email: "rahul@astrafin.in", phone: "+91 90000 11111", source: "Website", owner: "Ashwanth", value: 180000, stage: "proposal", followUp: "2026-03-29", notes: "Interested in SEO + paid ads retainer.", createdAt: new Date().toISOString() },
+        { id: crypto.randomUUID(), name: "Nisha Reddy", company: "SkillLane", email: "nisha@skilllane.com", phone: "+91 90000 22222", source: "LinkedIn", owner: "Harika", value: 95000, stage: "contacted", followUp: "2026-03-28", notes: "Needs social media strategy and content pipeline.", createdAt: new Date().toISOString() },
+        { id: crypto.randomUUID(), name: "Arjun S", company: "NorthStar Labs", email: "arjun@northstarlabs.ai", phone: "+91 90000 33333", source: "Referral", owner: "Vamshi", value: 250000, stage: "new", followUp: "2026-03-30", notes: "Exploring IT + growth partnership.", createdAt: new Date().toISOString() }
+      ];
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+    }
+
+    function load() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        leads = Array.isArray(parsed) ? parsed : [];
+      } catch {
+        leads = [];
+      }
+      seedIfEmpty();
+      save();
+    }
+
+    function inr(n) {
+      return `₹${Number(n || 0).toLocaleString("en-IN")}`;
+    }
+
+    function filteredLeads() {
+      const q = el.searchInput.value.trim().toLowerCase();
+      const stage = el.stageFilter.value;
+      const owner = el.ownerFilter.value;
+      const source = el.sourceFilter.value;
+      return leads.filter((l) => {
+        const matchesQ = !q || [l.name, l.company, l.email, l.phone].join(" ").toLowerCase().includes(q);
+        const matchesStage = !stage || l.stage === stage;
+        const matchesOwner = !owner || l.owner === owner;
+        const matchesSource = !source || l.source === source;
+        return matchesQ && matchesStage && matchesOwner && matchesSource;
+      });
+    }
+
+    function updateFilters() {
+      const owners = [...new Set(leads.map((l) => l.owner).filter(Boolean))].sort();
+      const sources = [...new Set(leads.map((l) => l.source).filter(Boolean))].sort();
+      const ownerCurrent = el.ownerFilter.value;
+      const sourceCurrent = el.sourceFilter.value;
+      el.ownerFilter.innerHTML = `<option value="">All Owners</option>${owners.map((o) => `<option value="${o}">${o}</option>`).join("")}`;
+      el.sourceFilter.innerHTML = `<option value="">All Sources</option>${sources.map((s) => `<option value="${s}">${s}</option>`).join("")}`;
+      el.ownerFilter.value = owners.includes(ownerCurrent) ? ownerCurrent : "";
+      el.sourceFilter.value = sources.includes(sourceCurrent) ? sourceCurrent : "";
+    }
+
+    function renderKPIs(list) {
+      el.kpiTotal.textContent = list.length;
+      el.kpiNew.textContent = list.filter((l) => l.stage === "new").length;
+      el.kpiProposal.textContent = list.filter((l) => l.stage === "proposal").length;
+      el.kpiWon.textContent = list.filter((l) => l.stage === "won").length;
+      const pipeline = list.filter((l) => l.stage !== "lost").reduce((s, l) => s + Number(l.value || 0), 0);
+      el.kpiValue.textContent = inr(pipeline);
+    }
+
+    function renderTable(list) {
+      if (!list.length) {
+        el.table.innerHTML = `<tr><td colspan="9" class="px-4 py-6 text-center text-slate-500">No leads found.</td></tr>`;
+        return;
+      }
+      el.table.innerHTML = list.map((l) => `
+        <tr class="border-t border-slate-100">
+          <td class="px-4 py-3 font-medium">${l.name || "-"}</td>
+          <td class="px-4 py-3">${l.company || "-"}</td>
+          <td class="px-4 py-3">${l.email || "-"}<br><span class="text-xs text-slate-500">${l.phone || ""}</span></td>
+          <td class="px-4 py-3">${l.source || "-"}</td>
+          <td class="px-4 py-3">${l.owner || "-"}</td>
+          <td class="px-4 py-3">${inr(l.value)}</td>
+          <td class="px-4 py-3"><span class="chip ${STAGE_CLASS[l.stage]}">${l.stage}</span></td>
+          <td class="px-4 py-3">${l.followUp || "-"}</td>
+          <td class="px-4 py-3">
+            <button class="text-blue-600 hover:underline mr-2" onclick="editLead('${l.id}')">Edit</button>
+            <button class="text-red-600 hover:underline" onclick="deleteLead('${l.id}')">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function miniCard(l) {
+      return `
+        <div class="border border-slate-200 rounded-lg p-3 bg-slate-50">
+          <p class="font-medium text-sm">${l.name}</p>
+          <p class="text-xs text-slate-600">${l.company || "-"}</p>
+          <p class="text-xs text-slate-600 mt-1">${inr(l.value)}</p>
+          <div class="mt-2 flex gap-2">
+            <button class="text-xs text-blue-600 hover:underline" onclick="editLead('${l.id}')">Open</button>
+            <select class="text-xs border border-slate-300 rounded px-1 py-0.5" onchange="changeStage('${l.id}', this.value)">
+              ${STAGES.map((s) => `<option value="${s}" ${s === l.stage ? "selected" : ""}>${s}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPipeline(list) {
+      const map = {
+        new: el.colNew,
+        contacted: el.colContacted,
+        proposal: el.colProposal,
+        won: el.colWon,
+        lost: el.colLost
+      };
+      STAGES.forEach((s) => {
+        const items = list.filter((l) => l.stage === s);
+        map[s].innerHTML = items.length ? items.map(miniCard).join("") : `<p class="text-sm text-slate-400">No leads</p>`;
+      });
+    }
+
+    function render() {
+      updateFilters();
+      const list = filteredLeads();
+      renderKPIs(list);
+      renderTable(list);
+      renderPipeline(list);
+    }
+
+    function openModal(isEdit = false) {
+      el.modal.classList.remove("hidden");
+      el.modal.classList.add("flex");
+      el.modalTitle.textContent = isEdit ? "Edit Lead" : "Add Lead";
+    }
+
+    function closeModal() {
+      el.modal.classList.add("hidden");
+      el.modal.classList.remove("flex");
+      el.form.reset();
+      document.getElementById("leadId").value = "";
+      document.getElementById("stage").value = "new";
+    }
+
+    function readForm() {
+      return {
+        id: document.getElementById("leadId").value || crypto.randomUUID(),
+        name: document.getElementById("name").value.trim(),
+        company: document.getElementById("company").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        source: document.getElementById("source").value.trim(),
+        owner: document.getElementById("owner").value.trim(),
+        value: Number(document.getElementById("value").value || 0),
+        stage: document.getElementById("stage").value,
+        followUp: document.getElementById("followUp").value,
+        notes: document.getElementById("notes").value.trim()
+      };
+    }
+
+    window.editLead = function editLead(id) {
+      const l = leads.find((x) => x.id === id);
+      if (!l) return;
+      document.getElementById("leadId").value = l.id;
+      document.getElementById("name").value = l.name || "";
+      document.getElementById("company").value = l.company || "";
+      document.getElementById("email").value = l.email || "";
+      document.getElementById("phone").value = l.phone || "";
+      document.getElementById("source").value = l.source || "";
+      document.getElementById("owner").value = l.owner || "";
+      document.getElementById("value").value = l.value || 0;
+      document.getElementById("stage").value = l.stage || "new";
+      document.getElementById("followUp").value = l.followUp || "";
+      document.getElementById("notes").value = l.notes || "";
+      openModal(true);
+    };
+
+    window.deleteLead = function deleteLead(id) {
+      if (!confirm("Delete this lead?")) return;
+      leads = leads.filter((l) => l.id !== id);
+      save();
+      render();
+    };
+
+    window.changeStage = function changeStage(id, stage) {
+      const lead = leads.find((l) => l.id === id);
+      if (!lead) return;
+      lead.stage = stage;
+      save();
+      render();
+    };
+
+    function exportJSON() {
+      const blob = new Blob([JSON.stringify(leads, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `crm-export-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importJSON(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(String(reader.result || "[]"));
+          if (!Array.isArray(parsed)) throw new Error("Invalid format");
+          leads = parsed.map((l) => ({ ...l, id: l.id || crypto.randomUUID(), stage: STAGES.includes(l.stage) ? l.stage : "new" }));
+          save();
+          render();
+          alert("Import complete.");
+        } catch {
+          alert("Invalid JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    el.addLeadBtn.addEventListener("click", () => openModal(false));
+    el.closeModalBtn.addEventListener("click", closeModal);
+    el.cancelBtn.addEventListener("click", closeModal);
+    el.exportBtn.addEventListener("click", exportJSON);
+    el.importInput.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) importJSON(file);
+      e.target.value = "";
+    });
+
+    [el.searchInput, el.stageFilter, el.ownerFilter, el.sourceFilter].forEach((node) => {
+      node.addEventListener("input", render);
+      node.addEventListener("change", render);
+    });
+
+    el.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const lead = readForm();
+      const idx = leads.findIndex((l) => l.id === lead.id);
+      if (idx >= 0) {
+        leads[idx] = { ...leads[idx], ...lead };
+      } else {
+        lead.createdAt = new Date().toISOString();
+        leads.unshift(lead);
+      }
+      save();
+      closeModal();
+      render();
+    });
+
+    let crmBooted = false;
+    window.startCRM = function startCRM() {
+      if (crmBooted) return;
+      crmBooted = true;
+      load();
+      render();
+    };
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const config = {
+      apiKey: "AIzaSyC93dMM_xNhb4_9xlhbgpQ5GWUId2I0_QY",
+      authDomain: "earease-tech.firebaseapp.com",
+      projectId: "earease-tech",
+      storageBucket: "earease-tech.firebasestorage.app",
+      messagingSenderId: "469886100146",
+      appId: "1:469886100146:web:59858358f22106c9215fab"
+    };
+
+    const app = initializeApp(config);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginWrap = document.getElementById("crmLogin");
+    const appWrap = document.getElementById("crmApp");
+    const loginForm = document.getElementById("crmLoginForm");
+    const loginBtn = document.getElementById("crmLoginBtn");
+    const loginErr = document.getElementById("crmLoginError");
+    const loginEmail = document.getElementById("crmLoginEmail");
+    const loginPassword = document.getElementById("crmLoginPassword");
+    const userEmail = document.getElementById("crmUserEmail");
+    const logoutBtn = document.getElementById("crmLogoutBtn");
+
+    function showError(msg) {
+      loginErr.textContent = msg;
+      loginErr.classList.remove("hidden");
+    }
+
+    function showCRM(email) {
+      loginWrap.classList.add("hidden");
+      appWrap.classList.remove("hidden");
+      userEmail.textContent = email || "";
+      if (window.startCRM) window.startCRM();
+    }
+
+    function showLogin() {
+      appWrap.classList.add("hidden");
+      loginWrap.classList.remove("hidden");
+    }
+
+    async function isAllowed(user) {
+      const email = (user.email || "").toLowerCase();
+      if (!email) return false;
+      const snap = await getDoc(doc(db, "crmUsers", email));
+      if (!snap.exists()) return false;
+      const data = snap.data() || {};
+      return data.active !== false;
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          showLogin();
+          return;
+        }
+        const allowed = await isAllowed(user);
+        if (!allowed) {
+          await signOut(auth);
+          showError("You are not allowed to access CRM. Contact admin.");
+          showLogin();
+          return;
+        }
+        showCRM(user.email || "");
+      } catch (err) {
+        console.error("CRM auth check failed", err);
+        showError("Access validation failed. Please try again.");
+        showLogin();
+      }
+    });
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginErr.classList.add("hidden");
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Signing in...";
+      try {
+        await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value);
+      } catch (err) {
+        showError(err.code === "auth/invalid-credential" ? "Invalid email or password." : (err.message || "Login failed"));
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Sign In";
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+  </script>
+</body>
+</html>
