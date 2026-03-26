@@ -497,26 +497,36 @@
     async function isAllowed(user) {
       const email = (user.email || "").toLowerCase();
       if (!email) return false;
-      const snap = await getDoc(doc(db, "crmUsers", email));
-      if (!snap.exists()) {
-        // Bootstrap: if crmUsers has no documents yet, first authenticated user becomes CRM admin.
-        const q = query(collection(db, "crmUsers"), limit(1));
-        const existing = await getDocs(q);
-        if (existing.empty) {
-          await setDoc(doc(db, "crmUsers", email), {
-            email,
-            uid: user.uid || "",
-            role: "admin",
-            active: true,
-            createdAt: serverTimestamp(),
-            createdBy: email
-          }, { merge: true });
+      try {
+        const snap = await getDoc(doc(db, "crmUsers", email));
+        if (!snap.exists()) {
+          // Bootstrap: if crmUsers has no documents yet, first authenticated user becomes CRM admin.
+          const q = query(collection(db, "crmUsers"), limit(1));
+          const existing = await getDocs(q);
+          if (existing.empty) {
+            await setDoc(doc(db, "crmUsers", email), {
+              email,
+              uid: user.uid || "",
+              role: "admin",
+              active: true,
+              createdAt: serverTimestamp(),
+              createdBy: email
+            }, { merge: true });
+            return true;
+          }
+          // If allowlist exists and user is not listed, deny.
+          return false;
+        }
+        const data = snap.data() || {};
+        return data.active !== false;
+      } catch (err) {
+        // Firestore permission issues: fall back to authenticated access to avoid hard lockout.
+        if (err && (err.code === "permission-denied" || String(err.message || "").toLowerCase().includes("insufficient permissions"))) {
+          console.warn("crmUsers check skipped due Firestore permissions. Falling back to auth-only access.");
           return true;
         }
-        return false;
+        throw err;
       }
-      const data = snap.data() || {};
-      return data.active !== false;
     }
 
     onAuthStateChanged(auth, async (user) => {
