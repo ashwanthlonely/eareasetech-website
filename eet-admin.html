@@ -210,6 +210,7 @@
             <option value="admin">Admin</option>
           </select>
           <button id="crm-add-user-btn" onclick="addCrmUser()" style="padding:10px 20px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Add CRM User</button>
+          <button onclick="syncMyCrmAccess()" style="padding:10px 20px;background:#0f172a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Sync My CRM Access</button>
         </div>
         <div style="overflow-x:auto;margin-top:14px;">
           <table class="data-table">
@@ -477,9 +478,29 @@ async function addCrmUser(){
     await loadCrmUsers();
     alert('CRM user created successfully.');
   }catch(err){
-    console.error('CRM user create failed',err);
-    alert('Failed to create user: '+(err.message||err.code||'Unknown error'));
+    if(err?.code==='auth/email-already-in-use'){
+      try{
+        await window._setDoc(window._doc(window._db,'crmUsers',email),{
+          email,
+          role,
+          active:true,
+          updatedAt:window._serverTimestamp(),
+          createdBy:window._auth.currentUser?.email||''
+        },{merge:true});
+        await loadCrmUsers();
+        alert('User already exists in Auth. CRM access has been granted/updated.');
+      }catch(innerErr){
+        console.error('CRM allowlist upsert failed',innerErr);
+        alert('User exists, but CRM allowlist update failed: '+(innerErr.message||innerErr.code||'Unknown error'));
+      }
+    }else{
+      console.error('CRM user create failed',err);
+      alert('Failed to create user: '+(err.message||err.code||'Unknown error'));
+    }
   }finally{
+    try{
+      if(secondaryApp) await window._deleteApp(secondaryApp);
+    }catch(_e){}
     btn.disabled=false; btn.textContent='Add CRM User';
   }
 }
@@ -488,6 +509,19 @@ async function toggleCrmUser(email,isActive){
   await window._updateDoc(window._doc(window._db,'crmUsers',email),{active:!isActive});
   const u=crmUsers.find(x=>(x.email||x.id)===email); if(u) u.active=!isActive;
   renderCrmUsers();
+}
+
+async function syncMyCrmAccess(){
+  const user=window._auth.currentUser;
+  if(!user){ alert('No active admin session. Please log in again.'); return; }
+  try{
+    await ensureCrmAdminAccess(user);
+    await loadCrmUsers();
+    alert('Your CRM admin access is synced.');
+  }catch(err){
+    console.error('Sync CRM access failed',err);
+    alert('Sync failed: '+(err.message||err.code||'Unknown error'));
+  }
 }
 
 // â”€â”€â”€ DASHBOARD â”€â”€â”€
@@ -790,7 +824,7 @@ window.openCourseModal=openCourseModal;window.editCourse=editCourse;window.close
 window.saveCourse=saveCourse;window.toggleCourse=toggleCourse;window.deleteCourse=deleteCourse;
 window.openStatusModal=openStatusModal;window.updateStatus=updateStatus;
 window.openEditEnrollment=openEditEnrollment;window.saveEnrollmentEdit=saveEnrollmentEdit;window.deleteEnrollment=deleteEnrollment;
-window.addCrmUser=addCrmUser;window.toggleCrmUser=toggleCrmUser;
+window.addCrmUser=addCrmUser;window.toggleCrmUser=toggleCrmUser;window.syncMyCrmAccess=syncMyCrmAccess;
 </script>
 </body>
 </html>
