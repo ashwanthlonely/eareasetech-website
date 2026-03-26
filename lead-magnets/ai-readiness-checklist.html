@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Readiness Checklist | EarEase-Tech</title>
+  <meta name="description" content="Assess your organization's readiness for AI integration with our 10-point checklist." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FFFDF8 0%, #FFF8E7 100%);
+      color: #1E293B;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .check-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: all 0.3s ease;
+    }
+    .check-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px -10px rgba(212, 160, 23, 0.15);
+    }
+    input[type="checkbox"] {
+      appearance: none;
+      background-color: #F8FAFC;
+      margin: 0;
+      font: inherit;
+      color: currentColor;
+      width: 1.5em;
+      height: 1.5em;
+      border: 2px solid #CBD5E1;
+      border-radius: 0.35em;
+      display: grid;
+      place-content: center;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    input[type="checkbox"]::before {
+      content: "";
+      width: 0.85em;
+      height: 0.85em;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1em 1em white;
+      background-color: transform;
+      transform-origin: center;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+    input[type="checkbox"]:checked {
+      background-color: #D4A017;
+      border-color: #D4A017;
+    }
+    input[type="checkbox"]:checked::before {
+      transform: scale(1);
+    }
+    .score-banner {
+      background: linear-gradient(90deg, #1E293B 0%, #0F172A 100%);
+      color: white;
+    }
+    /* Hide the print button when printing */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      .check-card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body class="py-12 px-4 sm:px-6 lg:px-8 w-full">
+  
+  <main class="max-w-4xl mx-auto w-full">
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <div class="inline-flex items-center justify-center space-x-2 mb-6">
+        <div class="w-8 h-8 rounded bg-[#D4A017] flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-800">EarEase<span class="text-[#D4A017]">-Tech</span></span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">The AI Readiness <span class="text-[#D4A017]">Checklist</span></h1>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">Evaluate your organization's data, infrastructure, and team culture before investing in Artificial Intelligence. Tick the boxes that apply entirely to your current state.</p>
+    </header>
+
+    <!-- Checklist Form -->
+    <form id="checklist-form" class="space-y-6">
+      
+      <!-- Category 1 -->
+      <div>
+        <h2 class="text-xl font-semibold mb-4 text-[#D4A017] flex items-center">
+          <span class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3 text-sm">1</span>
+          Data & Infrastructure
+        </h2>
+        <div class="grid gap-4">
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Centralized Data Storage</p>
+              <p class="text-slate-500 text-sm mt-1">Our core business data is stored in a centralized, accessible cloud data warehouse or robust CRM, not scattered entirely across siloed spreadsheets.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Data Quality & Cleanliness</p>
+              <p class="text-slate-500 text-sm mt-1">We have a process to regularly clean our data. We trust the accuracy of our current reporting and analytics.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Modern API Accessibility</p>
+              <p class="text-slate-500 text-sm mt-1">Our primary software tools (ERP, CRM, operational tech) have modern APIs available to allow integrations with third-party tools.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 2 -->
+      <div class="mt-10">
+        <h2 class="text-xl font-semibold mb-4 text-[#D4A017] flex items-center">
+          <span class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3 text-sm">2</span>
+          Business Strategy & Processes
+        </h2>
+        <div class="grid gap-4">
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Clear Business Use Cases</p>
+              <p class="text-slate-500 text-sm mt-1">We have identified at least one specific bottleneck or repetitive task that we believe AI could demonstrably automate or improve.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Documented Workflows</p>
+              <p class="text-slate-500 text-sm mt-1">Our standard operating procedures (SOPs) are clearly documented, allowing an AI model or developer to understand the logic flow.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Measurable ROI Targets</p>
+              <p class="text-slate-500 text-sm mt-1">We know exactly how we will measure the success of an AI implementation (e.g., hours saved, lead conversion rate, exact cost reduction).</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Budget Allocation</p>
+              <p class="text-slate-500 text-sm mt-1">We have dedicated a minimum viable budget for an AI pilot or consulting sprint, rather than expecting immediate free results.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 3 -->
+      <div class="mt-10">
+        <h2 class="text-xl font-semibold mb-4 text-[#D4A017] flex items-center">
+          <span class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3 text-sm">3</span>
+          Team & Culture
+        </h2>
+        <div class="grid gap-4">
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Leadership Sponsorship</p>
+              <p class="text-slate-500 text-sm mt-1">At least one C-level executive or Founder is an active champion for integrating AI into the business.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Mindful Change Management</p>
+              <p class="text-slate-500 text-sm mt-1">We focus on "AI as augmentation" to reduce burnout, rather than "AI as replacement." Our team is open to learning new tools.</p>
+            </div>
+          </label>
+          <label class="check-card rounded-xl p-5 flex items-start space-x-4 cursor-pointer">
+            <input type="checkbox" class="mt-1 flex-shrink-0" value="1">
+            <div>
+              <p class="font-medium text-slate-800 text-lg">Technical Openness</p>
+              <p class="text-slate-500 text-sm mt-1">We have either an internal technical resource capable of managing software, or we are entirely comfortable partnering with an external technical agency to handle maintenance.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- Score & Result -->
+    <div class="mt-12 score-banner rounded-2xl p-8 shadow-xl text-center relative overflow-hidden">
+      <!-- Decorative background -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at center, #D4A017 0%, transparent 70%);"></div>
+      
+      <h3 class="text-2xl font-bold mb-2 relative z-10">Your AI Readiness Score: <span id="score-display" class="text-[#D4A017] text-4xl ml-2">0/10</span></h3>
+      <p id="result-message" class="text-slate-300 font-medium text-lg mt-4 relative z-10">
+        Check the boxes above to calculate your organization's readiness for AI.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10 no-print">
+        <a href="https://www.eareasetech.com/contact-us.html" target="_blank" class="bg-[#D4A017] hover:bg-amber-600 text-white font-semibold py-3 px-8 rounded-full transition shadow-lg transform hover:-translate-y-1">
+          Book a Discovery Call
+        </a>
+        <button onclick="window.print()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold py-3 px-8 rounded-full transition">
+          Save as PDF
+        </button>
+      </div>
+    </div>
+    
+    <footer class="mt-12 text-center text-sm text-slate-500 pb-8">
+      &copy; 2026 EarEase-Tech. All Rights Reserved. Stress-Free IT Consulting & AI Services.
+    </footer>
+  </main>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const scoreDisplay = document.getElementById('score-display');
+    const resultMessage = document.getElementById('result-message');
+
+    function calculateScore() {
+      const score = Array.from(checkboxes).filter(cb => cb.checked).length;
+      scoreDisplay.textContent = `${score}/10`;
+
+      if (score === 0) {
+        resultMessage.textContent = "Check the boxes above to calculate your organization's readiness for AI.";
+      } else if (score >= 1 && score <= 4) {
+        resultMessage.innerHTML = "<span class='text-red-400'>Phase 1: Foundation Building.</span> Your next step is fixing data silos, documenting processes, and defining a clear MVP strategy before touching complex AI. We can help you build this foundation without the stress.";
+      } else if (score >= 5 && score <= 7) {
+        resultMessage.innerHTML = "<span class='text-yellow-400'>Phase 2: Pilot Ready.</span> You have the structural foundation to begin a localized AI sprint. We recommend starting with a low-risk, 6-week Studio Sprint to automate a single painful workflow.";
+      } else {
+        resultMessage.innerHTML = "<span class='text-green-400'>Phase 3: Highly Ready.</span> You are completely primed for AI integration and custom LLM solutions. Let's discuss a Calm Ops Retainer to scale your AI operations securely and sustainably.";
+      }
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', calculateScore));
+  </script>
+</body>
+</html>

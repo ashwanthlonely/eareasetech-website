@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drop Servicing Rate Calculator | EarEase-Tech</title>
+  <meta name="description" content="Calculate your margins and scale your agency with our Drop Servicing Calculator." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+      color: #0F172A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 1.5rem;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .input-wrapper span {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748B;
+      font-weight: 500;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2rem;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.75rem;
+      background: #F8FAFC;
+      transition: all 0.2s;
+      outline: none;
+      font-weight: 500;
+      color: #1E293B;
+    }
+    input[type="number"]:focus {
+      border-color: #D4A017;
+      box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15);
+      background: #FFFFFF;
+    }
+    .result-box {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border-radius: 1.25rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .result-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212,160,23,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    /* Hide the print button when printing */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      .glass-card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; }
+    }
+  </style>
+</head>
+<body class="py-12 px-4 sm:px-6 lg:px-8 w-full">
+  
+  <main class="max-w-3xl mx-auto w-full">
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <div class="inline-flex items-center justify-center space-x-2 mb-4">
+        <div class="w-8 h-8 rounded bg-[#D4A017] flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-800">EarEase<span class="text-[#D4A017]">-Tech</span></span>
+      </div>
+      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-3">Drop Servicing <span class="text-[#D4A017]">Calculator</span></h1>
+      <p class="text-lg text-slate-600">Model your agency pricing. Enter your expected client fee and white-label costs to reveal your actual profit margins instantly.</p>
+    </header>
+
+    <div class="glass-card p-8 md:p-10 grid gap-10 md:grid-cols-2 items-start">
+      
+      <!-- Inputs -->
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Retail Price (What you charge the client)</label>
+          <div class="input-wrapper">
+            <span>$</span>
+            <input type="number" id="retail-price" value="2500" min="0" step="100">
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Monthly retainer or per-project fee.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Fulfillment Cost (What you pay the freelancer/agency)</label>
+          <div class="input-wrapper">
+            <span>$</span>
+            <input type="number" id="fulfillment-cost" value="800" min="0" step="100">
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Cost of white-labeling the service.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Monthly Overhead / Ad Spend</label>
+          <div class="input-wrapper">
+            <span>$</span>
+            <input type="number" id="overhead-cost" value="200" min="0" step="50">
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Client acquisition or software tools.</p>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="result-box p-8 flex flex-col justify-center h-full">
+        <h3 class="text-lg font-medium text-slate-300 mb-6 text-center">Your Projection</h3>
+        
+        <div class="space-y-6">
+          <div class="text-center">
+            <p class="text-sm font-medium text-slate-400 uppercase tracking-wider">Gross Profit (Per Sale)</p>
+            <p id="gross-profit" class="text-3xl font-bold text-white mt-1">$1,700</p>
+          </div>
+          
+          <div class="text-center">
+            <p class="text-sm font-medium text-slate-400 uppercase tracking-wider">Net Profit (After Overhead)</p>
+            <p id="net-profit" class="text-4xl font-extrabold text-[#D4A017] mt-1">$1,500</p>
+          </div>
+
+          <div class="flex justify-between items-center bg-white/5 rounded-lg p-4 mt-4">
+            <div>
+              <p class="text-xs text-slate-400">Profit Margin</p>
+              <p id="profit-margin" class="text-xl font-bold text-green-400">60%</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-slate-400">Annualized (1 Client)</p>
+              <p id="annual-profit" class="text-xl font-bold text-white">$18,000</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CTA & Print -->
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 no-print text-center">
+      <p class="text-sm text-slate-500 max-w-sm mb-4 sm:mb-0 sm:text-left sm:mr-4">Looking for a reliable technical partner to fulfill your client projects? We offer white-label Calm Ops retainers.</p>
+      <a href="https://www.eareasetech.com/service-calm-ops.html" target="_blank" class="bg-[#1E293B] hover:bg-slate-800 text-white font-semibold py-3 px-6 rounded-full transition shadow-md">
+        Partner With Us
+      </a>
+      <button onclick="window.print()" class="bg-white border hover:bg-slate-50 text-slate-700 font-semibold py-3 px-6 rounded-full transition shadow-sm">
+        Save PDF
+      </button>
+    </div>
+
+    <footer class="mt-12 text-center text-sm text-slate-400 pb-8">
+      &copy; 2026 EarEase-Tech. Tools for scaling without burning out.
+    </footer>
+  </main>
+
+  <script>
+    const retailInput = document.getElementById('retail-price');
+    const fulfillmentInput = document.getElementById('fulfillment-cost');
+    const overheadInput = document.getElementById('overhead-cost');
+    
+    function formatCurrency(num) {
+      // Allow negative values to format correctly (e.g. -$500 instead of $-500 or breaking)
+      const isNegative = num < 0;
+      const formatted = Math.abs(num).toLocaleString('en-US');
+      return isNegative ? `-$${formatted}` : `$${formatted}`;
+    }
+
+    function calculate() {
+      const retail = parseFloat(retailInput.value) || 0;
+      const fulfillment = parseFloat(fulfillmentInput.value) || 0;
+      const overhead = parseFloat(overheadInput.value) || 0;
+
+      const grossProfit = retail - fulfillment;
+      const netProfit = grossProfit - overhead;
+      const margin = retail > 0 ? (netProfit / retail) * 100 : 0;
+      const annual = netProfit * 12;
+
+      document.getElementById('gross-profit').textContent = formatCurrency(grossProfit);
+      
+      const netProfitEl = document.getElementById('net-profit');
+      netProfitEl.textContent = formatCurrency(netProfit);
+      if(netProfit < 0) {
+        netProfitEl.classList.replace('text-[#D4A017]', 'text-red-400');
+      } else {
+        netProfitEl.classList.replace('text-red-400', 'text-[#D4A017]');
+      }
+
+      const marginEl = document.getElementById('profit-margin');
+      marginEl.textContent = `${margin.toFixed(1)}%`;
+      if(margin < 20) {
+        marginEl.classList.replace('text-green-400', 'text-yellow-400');
+      } else if (margin < 0) {
+        marginEl.classList.replace('text-yellow-400', 'text-red-400');
+        marginEl.classList.replace('text-green-400', 'text-red-400');
+      } else {
+        marginEl.className = 'text-xl font-bold text-green-400';
+      }
+
+      const annualEl = document.getElementById('annual-profit');
+      annualEl.textContent = formatCurrency(annual);
+      if(annual < 0) annualEl.classList.add('text-red-400');
+      else annualEl.classList.remove('text-red-400');
+    }
+
+    [retailInput, fulfillmentInput, overheadInput].forEach(input => {
+      input.addEventListener('input', calculate);
+    });
+
+    // Run once on load
+    calculate();
+  </script>
+</body>
+</html>
