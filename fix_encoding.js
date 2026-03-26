@@ -2,14 +2,14 @@ const fs = require('fs');
 const path = require('path');
 
 const replacements = {
-  'â‚¹': '₹',
-  'Â·': '·',
+  '₹': '₹',
+  '·': '·',
   'â€”': '—',
-  'ðŸ§ ': '🧠',
-  'ðŸ“Š': '📊',
-  'ðŸ“±': '📱',
-  'âš¡': '⚡',
-  'ðŸ“¦': '📦',
+  '🧠': '🧠',
+  '📊': '📊',
+  '📱': '📱',
+  '⚡': '⚡',
+  '📦': '📦',
   'â• ': '═',
   'â”€': '─',
   'â€™': '’',
@@ -17,7 +17,7 @@ const replacements = {
   'â€ ': '”'
 };
 
-const dir = 'c:\\\\Users\\\\ashwa\\\\OneDrive\\\\Desktop\\\\VS Code\\\\eareasetech-website';
+const dir = process.cwd();
 const files = fs.readdirSync(dir).filter(f => f.endsWith('.html') || f.endsWith('.md'));
 
 let modifiedCount = 0;

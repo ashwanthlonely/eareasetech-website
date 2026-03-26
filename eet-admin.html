@@ -142,16 +142,16 @@
       </div>
     </div>
 
-    <!-- â”€â”€ DASHBOARD â”€â”€ -->
+    <!-- ── DASHBOARD ── -->
     <div id="panel-dashboard" class="panel active">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="stat-card"><p class="label">Total Enrollments</p><p class="value" id="s-total">-</p></div>
         <div class="stat-card"><p class="label">This Month</p><p class="value" id="s-month">-</p><p class="sub" id="s-month-label"></p></div>
-        <div class="stat-card"><p class="label">Revenue Estimate</p><p class="value" id="s-revenue">-</p><p class="sub">+ GST Â· based on fees</p></div>
+        <div class="stat-card"><p class="label">Revenue Estimate</p><p class="value" id="s-revenue">-</p><p class="sub">+ GST · based on fees</p></div>
         <div class="stat-card"><p class="label">New (Uncontacted)</p><p class="value" id="s-new">-</p></div>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div class="stat-card"><p class="label mb-3">Enrollments â€” Last 30 Days</p><canvas id="chart-timeline" height="200"></canvas></div>
+        <div class="stat-card"><p class="label mb-3">Enrollments — Last 30 Days</p><canvas id="chart-timeline" height="200"></canvas></div>
         <div class="stat-card"><p class="label mb-3">By Course</p><canvas id="chart-course" height="200"></canvas></div>
       </div>
       <div class="stat-card">
@@ -165,7 +165,7 @@
       </div>
     </div>
 
-    <!-- â”€â”€ ENROLLMENTS â”€â”€ -->
+    <!-- ── ENROLLMENTS ── -->
     <div id="panel-enrollments" class="panel">
       <div class="filter-bar">
         <input type="text" id="search-input" placeholder="Search by name or email..." style="flex:1;min-width:200px;" oninput="filterEnrollments()"/>
@@ -184,7 +184,7 @@
       <p class="text-center text-gray-400 text-sm mt-4" id="enroll-count"></p>
     </div>
 
-    <!-- â”€â”€ COURSES â”€â”€ -->
+    <!-- ── COURSES ── -->
     <div id="panel-courses" class="panel">
       <div class="flex justify-between items-center mb-6">
         <p class="text-gray-500 text-sm">Manage courses shown on the enrollment page</p>
@@ -193,7 +193,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="courses-grid"></div>
     </div>
 
-    <!-- â”€â”€ CRM â”€â”€ -->
+    <!-- ── CRM ── -->
     <div id="panel-crm" class="panel">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <p class="text-gray-500 text-sm">Lead pipeline, owners, stages, and follow-ups powered by the CRM module.</p>
@@ -243,13 +243,13 @@
     <label>Course Name</label>
     <input type="text" id="cm-name" placeholder="e.g. Data Science"/>
     <label>Icon (emoji)</label>
-    <input type="text" id="cm-icon" placeholder="e.g. ðŸ§ " maxlength="4"/>
+    <input type="text" id="cm-icon" placeholder="e.g. 🧠" maxlength="4"/>
     <label>Description</label>
     <textarea id="cm-desc" rows="3" placeholder="Short description..."></textarea>
     <div class="grid grid-cols-3 gap-3 mt-2">
-      <div><label>45-Day Price (â‚¹)</label><input type="number" id="cm-p45"/></div>
-      <div><label>3-Month Price (â‚¹)</label><input type="number" id="cm-p3m"/></div>
-      <div><label>6-Month Price (â‚¹)</label><input type="number" id="cm-p6m"/></div>
+      <div><label>45-Day Price (₹)</label><input type="number" id="cm-p45"/></div>
+      <div><label>3-Month Price (₹)</label><input type="number" id="cm-p3m"/></div>
+      <div><label>6-Month Price (₹)</label><input type="number" id="cm-p6m"/></div>
     </div>
     <label>Display Order</label>
     <input type="number" id="cm-order" value="1" min="1"/>
@@ -290,7 +290,7 @@
     <select id="em-course" style="width:100%;padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;margin-top:6px;margin-bottom:6px;"></select>
     <label>Duration</label>
     <input type="text" id="em-duration"/>
-    <label>Fee (â‚¹)</label>
+    <label>Fee (₹)</label>
     <input type="number" id="em-fee"/>
     <label>Organization</label>
     <input type="text" id="em-organization"/>
@@ -362,7 +362,7 @@
 </script>
 
 <script>
-// â”€â”€â”€ AUTH â”€â”€â”€
+// ─── AUTH ───
 async function doLogin(){
   const btn=document.getElementById('login-btn'),err=document.getElementById('login-error');
   const email=document.getElementById('login-email').value.trim();
@@ -374,7 +374,7 @@ async function doLogin(){
 }
 function doLogout(){window._signOut(window._auth);}
 
-// â”€â”€â”€ DATA â”€â”€â”€
+// ─── DATA ───
 let allEnrollments=[], allCourses=[], crmUsers=[];
 
 async function ensureCrmAdminAccess(user){
@@ -410,10 +410,10 @@ async function loadDashboard(){
   // If no courses exist, seed them
   if(allCourses.length===0){
     const seeds=[
-      {name:'Data Science',icon:'ðŸ§ ',description:'Master Python, ML, deep learning, and AI with real-world capstone projects.',prices:{'45 Days':35000,'3 Months':65000,'6 Months':100000},active:true,order:1},
-      {name:'Data Analytics',icon:'ðŸ“Š',description:'SQL, Tableau, Power BI, Excel, and Python for data-driven decisions.',prices:{'45 Days':30000,'3 Months':45000,'6 Months':80000},active:true,order:2},
-      {name:'Digital Marketing',icon:'ðŸ“±',description:'SEO, SEM, social media, content strategy, and performance marketing.',prices:{'45 Days':30000,'3 Months':42000,'6 Months':75000},active:true,order:3},
-      {name:'MERN Stack',icon:'âš¡',description:'MongoDB, Express, React, Node.js â€” full-stack web apps from scratch.',prices:{'45 Days':30000,'3 Months':42000,'6 Months':75000},active:true,order:4}
+      {name:'Data Science',icon:'🧠',description:'Master Python, ML, deep learning, and AI with real-world capstone projects.',prices:{'45 Days':35000,'3 Months':65000,'6 Months':100000},active:true,order:1},
+      {name:'Data Analytics',icon:'📊',description:'SQL, Tableau, Power BI, Excel, and Python for data-driven decisions.',prices:{'45 Days':30000,'3 Months':45000,'6 Months':80000},active:true,order:2},
+      {name:'Digital Marketing',icon:'📱',description:'SEO, SEM, social media, content strategy, and performance marketing.',prices:{'45 Days':30000,'3 Months':42000,'6 Months':75000},active:true,order:3},
+      {name:'MERN Stack',icon:'⚡',description:'MongoDB, Express, React, Node.js — full-stack web apps from scratch.',prices:{'45 Days':30000,'3 Months':42000,'6 Months':75000},active:true,order:4}
     ];
     for(const s of seeds){
       const ref=await window._addDoc(window._collection(window._db,'courses'),s);
@@ -542,7 +542,7 @@ async function syncMyCrmAccess(){
   }
 }
 
-// â”€â”€â”€ DASHBOARD â”€â”€â”€
+// ─── DASHBOARD ───
 let chartTimeline, chartCourse;
 function renderDashboard(){
   const now=new Date(), thisMonth=now.getMonth(), thisYear=now.getFullYear();
@@ -568,7 +568,7 @@ function renderDashboard(){
   document.getElementById('s-total').textContent=total;
   document.getElementById('s-month').textContent=month;
   document.getElementById('s-month-label').textContent=now.toLocaleString('en-IN',{month:'long',year:'numeric'});
-  document.getElementById('s-revenue').textContent='â‚¹'+revenue.toLocaleString('en-IN');
+  document.getElementById('s-revenue').textContent='₹'+revenue.toLocaleString('en-IN');
   document.getElementById('s-new').textContent=newCount;
 
   // Timeline chart
@@ -596,18 +596,18 @@ function renderDashboard(){
   tbody.innerHTML='';
   allEnrollments.slice(0,10).forEach(e=>{
     const dt=e.submittedAt?.toDate?.();
-    const dateStr=dt?dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}):'â€”';
+    const dateStr=dt?dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}):'—';
     const st=e.status||'new';
     tbody.innerHTML+=`<tr>
       <td class="font-medium">${esc(e.name)}</td><td>${esc(e.course)}</td><td>${e.duration}</td>
-      <td>â‚¹${(e.fee||0).toLocaleString('en-IN')}</td><td>${dateStr}</td>
+      <td>₹${(e.fee||0).toLocaleString('en-IN')}</td><td>${dateStr}</td>
       <td><span class="badge badge-${st}">${st}</span></td>
     </tr>`;
   });
   if(allEnrollments.length===0) tbody.innerHTML='<tr><td colspan="6" class="text-center text-gray-400 py-8">No enrollments yet</td></tr>';
 }
 
-// â”€â”€â”€ ENROLLMENTS â”€â”€â”€
+// ─── ENROLLMENTS ───
 function renderEnrollments(){
   filterEnrollments();
 }
@@ -625,12 +625,12 @@ function filterEnrollments(){
   tbody.innerHTML='';
   filtered.forEach(e=>{
     const dt=e.submittedAt?.toDate?.();
-    const dateStr=dt?dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'â€”';
+    const dateStr=dt?dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
     const st=e.status||'new';
     tbody.innerHTML+=`<tr>
       <td class="font-medium">${esc(e.name)}</td><td>${esc(e.email)}</td><td>${esc(e.phone)}</td>
-      <td>${esc(e.course)}</td><td>${e.duration}</td><td>â‚¹${(e.fee||0).toLocaleString('en-IN')}</td>
-      <td>${esc(e.organization||'â€”')}</td><td>${dateStr}</td>
+      <td>${esc(e.course)}</td><td>${e.duration}</td><td>₹${(e.fee||0).toLocaleString('en-IN')}</td>
+      <td>${esc(e.organization||'—')}</td><td>${dateStr}</td>
       <td><span class="badge badge-${st}" style="cursor:pointer" onclick="openStatusModal('${e.id}','${st}')">${st}</span></td>
       <td style="white-space:nowrap;">
         <button onclick="openEditEnrollment('${e.id}')" style="padding:6px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;margin-right:6px;cursor:pointer;font-size:13px;">Edit</button>
@@ -650,7 +650,7 @@ function populateFilters(){
   }});
 }
 
-// â”€â”€â”€ STATUS UPDATE â”€â”€â”€
+// ─── STATUS UPDATE ───
 function openStatusModal(id,current){
   document.getElementById('sm-id').value=id;
   document.getElementById('sm-status').value=current;
@@ -665,7 +665,7 @@ async function updateStatus(){
   renderDashboard();renderEnrollments();
 }
 
-// â”€â”€â”€ CSV EXPORT â”€â”€â”€
+// ─── CSV EXPORT ───
 function exportCSV(){
   const rows=[['Name','Email','Phone','Course','Duration','Fee','Organization','Qualification','Date','Status']];
   allEnrollments.forEach(e=>{
@@ -678,21 +678,21 @@ function exportCSV(){
   a.download='enrollments_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
-// â”€â”€â”€ COURSES â”€â”€â”€
+// ─── COURSES ───
 function renderCourses(){
   const grid=document.getElementById('courses-grid');
   grid.innerHTML='';
   allCourses.forEach(c=>{
-    const p45 = c.prices?.['45 Days'] ? `â‚¹${c.prices['45 Days'].toLocaleString('en-IN')}` : 'â€”';
-    const p3m = c.prices?.['3 Months'] ? `â‚¹${c.prices['3 Months'].toLocaleString('en-IN')}` : 'â€”';
-    const p6m = c.prices?.['6 Months'] ? `â‚¹${c.prices['6 Months'].toLocaleString('en-IN')}` : 'â€”';
+    const p45 = c.prices?.['45 Days'] ? `₹${c.prices['45 Days'].toLocaleString('en-IN')}` : '—';
+    const p3m = c.prices?.['3 Months'] ? `₹${c.prices['3 Months'].toLocaleString('en-IN')}` : '—';
+    const p6m = c.prices?.['6 Months'] ? `₹${c.prices['6 Months'].toLocaleString('en-IN')}` : '—';
 
     grid.innerHTML+=`
     <div class="course-mgmt-card">
       ${!c.active?'<span class="inactive-tag">Inactive</span>':''}
       <div class="flex items-center gap-3 mb-3">
-        <span class="text-3xl">${c.icon||'ðŸ“¦'}</span>
-        <div><h3 class="font-bold text-lg">${esc(c.name)}</h3><p class="text-xs text-gray-400">${c.active!==false?'Active':'Inactive'} Â· Order: ${c.order||'â€”'}</p></div>
+        <span class="text-3xl">${c.icon||'📦'}</span>
+        <div><h3 class="font-bold text-lg">${esc(c.name)}</h3><p class="text-xs text-gray-400">${c.active!==false?'Active':'Inactive'} · Order: ${c.order||'—'}</p></div>
       </div>
       <p class="text-sm text-gray-500 mb-4">${esc(c.description||'')}</p>
       <div class="grid grid-cols-3 gap-2 mb-4">
@@ -773,7 +773,7 @@ async function deleteCourse(id){
   renderCourses();
 }
 
-// â”€â”€â”€ ENROLLMENT EDIT / DELETE â”€â”€â”€
+// ─── ENROLLMENT EDIT / DELETE ───
 function openEditEnrollment(id){
   const e=allEnrollments.find(x=>x.id===id); if(!e) return alert('Enrollment not found');
   document.getElementById('em-id').value=e.id||'';
@@ -823,7 +823,7 @@ async function deleteEnrollment(id){
   }catch(err){console.error('Delete failed',err);alert('Delete failed');}
 }
 
-// â”€â”€â”€ NAV â”€â”€â”€
+// ─── NAV ───
 function showPanel(name,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
@@ -848,3 +848,5 @@ window.addCrmUser=addCrmUser;window.toggleCrmUser=toggleCrmUser;window.syncMyCrm
 </html>
 
 
+
+<!-- encoding bump -->
