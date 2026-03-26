@@ -101,7 +101,7 @@
               <th class="px-4 py-3">Name</th>
               <th class="px-4 py-3">Company</th>
               <th class="px-4 py-3">Contact</th>
-              <th class="px-4 py-3">Source</th>
+              <th class="px-4 py-3">Service / Source</th>
               <th class="px-4 py-3">Owner</th>
               <th class="px-4 py-3">Value</th>
               <th class="px-4 py-3">Stage</th>
@@ -135,6 +135,17 @@
         <div><label class="text-sm text-slate-600">Company</label><input id="company" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
         <div><label class="text-sm text-slate-600">Email</label><input id="email" type="email" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
         <div><label class="text-sm text-slate-600">Phone</label><input id="phone" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
+        <div class="md:col-span-2">
+          <label class="text-sm text-slate-600">Service Category</label>
+          <select id="serviceCategory" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg">
+            <option value="IT & Product Studio">IT & Product Studio</option>
+            <option value="IT Staffing & Talent">IT Staffing & Talent</option>
+            <option value="Freelancing & Drop Services">Freelancing & Drop Services</option>
+            <option value="Career & Mentorship">Career & Mentorship</option>
+            <option value="Wellness & Listening Studio">Wellness & Listening Studio</option>
+            <option value="Internships & Training">Internships & Training</option>
+          </select>
+        </div>
         <div><label class="text-sm text-slate-600">Source</label><input id="source" placeholder="Website / LinkedIn / Referral" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
         <div><label class="text-sm text-slate-600">Owner</label><input id="owner" placeholder="Sales Owner" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
         <div><label class="text-sm text-slate-600">Value (INR)</label><input id="value" type="number" min="0" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg" /></div>
@@ -170,7 +181,7 @@
       lost: "stage-lost"
     };
 
-    let leads = [];
+    var leads = [];
 
     const el = {
       modal: document.getElementById("leadModal"),
@@ -198,29 +209,8 @@
       kpiValue: document.getElementById("kpiValue")
     };
 
-    function seedIfEmpty() {
-      if (leads.length) return;
-      leads = [
-        { id: crypto.randomUUID(), name: "Rahul Mehta", company: "AstraFin", email: "rahul@astrafin.in", phone: "+91 90000 11111", source: "Website", owner: "Ashwanth", value: 180000, stage: "proposal", followUp: "2026-03-29", notes: "Interested in SEO + paid ads retainer.", createdAt: new Date().toISOString() },
-        { id: crypto.randomUUID(), name: "Nisha Reddy", company: "SkillLane", email: "nisha@skilllane.com", phone: "+91 90000 22222", source: "LinkedIn", owner: "Harika", value: 95000, stage: "contacted", followUp: "2026-03-28", notes: "Needs social media strategy and content pipeline.", createdAt: new Date().toISOString() },
-        { id: crypto.randomUUID(), name: "Arjun S", company: "NorthStar Labs", email: "arjun@northstarlabs.ai", phone: "+91 90000 33333", source: "Referral", owner: "Vamshi", value: 250000, stage: "new", followUp: "2026-03-30", notes: "Exploring IT + growth partnership.", createdAt: new Date().toISOString() }
-      ];
-    }
-
-    function save() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
-    }
-
-    function load() {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        leads = Array.isArray(parsed) ? parsed : [];
-      } catch {
-        leads = [];
-      }
-      seedIfEmpty();
-      save();
-    }
+    function save() {}
+    function load() {}
 
     function inr(n) {
       return `₹${Number(n || 0).toLocaleString("en-IN")}`;
@@ -270,7 +260,7 @@
           <td class="px-4 py-3 font-medium">${l.name || "-"}</td>
           <td class="px-4 py-3">${l.company || "-"}</td>
           <td class="px-4 py-3">${l.email || "-"}<br><span class="text-xs text-slate-500">${l.phone || ""}</span></td>
-          <td class="px-4 py-3">${l.source || "-"}</td>
+          <td class="px-4 py-3">${l.serviceCategory || "-"}<br><span class="text-xs text-slate-500">${l.source || ""}</span></td>
           <td class="px-4 py-3">${l.owner || "-"}</td>
           <td class="px-4 py-3">${inr(l.value)}</td>
           <td class="px-4 py-3"><span class="chip ${STAGE_CLASS[l.stage]}">${l.stage}</span></td>
@@ -313,7 +303,7 @@
       });
     }
 
-    function render() {
+    window.render = function render() {
       updateFilters();
       const list = filteredLeads();
       renderKPIs(list);
@@ -337,11 +327,12 @@
 
     function readForm() {
       return {
-        id: document.getElementById("leadId").value || crypto.randomUUID(),
+        id: document.getElementById("leadId").value || "",
         name: document.getElementById("name").value.trim(),
         company: document.getElementById("company").value.trim(),
         email: document.getElementById("email").value.trim(),
         phone: document.getElementById("phone").value.trim(),
+        serviceCategory: document.getElementById("serviceCategory").value,
         source: document.getElementById("source").value.trim(),
         owner: document.getElementById("owner").value.trim(),
         value: Number(document.getElementById("value").value || 0),
@@ -359,6 +350,7 @@
       document.getElementById("company").value = l.company || "";
       document.getElementById("email").value = l.email || "";
       document.getElementById("phone").value = l.phone || "";
+      if(l.serviceCategory) document.getElementById("serviceCategory").value = l.serviceCategory;
       document.getElementById("source").value = l.source || "";
       document.getElementById("owner").value = l.owner || "";
       document.getElementById("value").value = l.value || 0;
@@ -368,20 +360,7 @@
       openModal(true);
     };
 
-    window.deleteLead = function deleteLead(id) {
-      if (!confirm("Delete this lead?")) return;
-      leads = leads.filter((l) => l.id !== id);
-      save();
-      render();
-    };
-
-    window.changeStage = function changeStage(id, stage) {
-      const lead = leads.find((l) => l.id === id);
-      if (!lead) return;
-      lead.stage = stage;
-      save();
-      render();
-    };
+    // Handled in module script now
 
     function exportJSON() {
       const blob = new Blob([JSON.stringify(leads, null, 2)], { type: "application/json" });
@@ -425,34 +404,17 @@
       node.addEventListener("change", render);
     });
 
-    el.form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const lead = readForm();
-      const idx = leads.findIndex((l) => l.id === lead.id);
-      if (idx >= 0) {
-        leads[idx] = { ...leads[idx], ...lead };
-      } else {
-        lead.createdAt = new Date().toISOString();
-        leads.unshift(lead);
-      }
-      save();
-      closeModal();
-      render();
-    });
-
-    let crmBooted = false;
+    // Form submission is handled in module script now
+    
     window.startCRM = function startCRM() {
-      if (crmBooted) return;
-      crmBooted = true;
-      load();
-      render();
+      // Handled entirely by module script snapshot listener
     };
   </script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, getDocs, query, limit, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, query, limit, setDoc, serverTimestamp, onSnapshot, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
     const config = {
       apiKey: "AIzaSyC93dMM_xNhb4_9xlhbgpQ5GWUId2I0_QY",
@@ -494,10 +456,8 @@
       loginWrap.classList.remove("hidden");
     }
 
-    async function isAllowed(user) {
-      // Allow any authenticated user to log in to the CRM
-      return true;
-    }
+    let currentAllowedServices = [];
+    let currentUserRole = "staff";
 
     onAuthStateChanged(auth, async (user) => {
       try {
@@ -505,18 +465,103 @@
           showLogin();
           return;
         }
-        const allowed = await isAllowed(user);
-        if (!allowed) {
-          await signOut(auth);
-          showError("You are not allowed to access CRM. Contact admin.");
-          showLogin();
-          return;
+        const email = (user.email || "").toLowerCase();
+        try {
+          const snap = await getDoc(doc(db, "crmUsers", email));
+          if (snap.exists()) {
+            const data = snap.data();
+            if (data.active === false) {
+              await signOut(auth);
+              showError("Access disabled.");
+              showLogin();
+              return;
+            }
+            currentUserRole = data.role || "staff";
+            currentAllowedServices = data.allowedServices || ["All"];
+          } else {
+            currentUserRole = "staff";
+            currentAllowedServices = ["All"];
+          }
+        } catch(e) {
+          console.warn("Could not read crmUsers rules, fallback to full access", e);
+          currentAllowedServices = ["All"];
+          currentUserRole = "staff";
         }
-        showCRM(user.email || "");
+        showCRM(email);
+        startFirestoreSync();
       } catch (err) {
         console.error("CRM auth check failed", err);
         showError("Access validation failed. Please try again.");
         showLogin();
+      }
+    });
+
+    function startFirestoreSync() {
+      if (window.crmBooted) return;
+      window.crmBooted = true;
+      
+      onSnapshot(collection(db, "crmLeads"), (snapshot) => {
+        const fireLeads = [];
+        snapshot.forEach(docSnap => {
+          fireLeads.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        
+        if (!currentAllowedServices.includes("All") && currentUserRole !== "admin") {
+          leads = fireLeads.filter(l => currentAllowedServices.includes(l.serviceCategory));
+        } else {
+          leads = fireLeads;
+        }
+        
+        leads.sort((a,b) => {
+          const ta = a.createdAt?.toDate?.() || new Date(a.createdAt || 0);
+          const tb = b.createdAt?.toDate?.() || new Date(b.createdAt || 0);
+          return tb - ta;
+        });
+        
+        if(window.render) window.render();
+      });
+    }
+
+    window.deleteLead = async function(id) {
+      if(!confirm("Delete this lead?")) return;
+      await deleteDoc(doc(db, "crmLeads", id));
+    };
+
+    window.changeStage = async function(id, stage) {
+      await updateDoc(doc(db, "crmLeads", id), { stage });
+    };
+
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const lead = window.readForm();
+      const isNew = !lead.id;
+      
+      const btn = document.querySelector("#leadForm button[type=submit]");
+      btn.disabled = true; btn.textContent = "Saving...";
+      
+      const leadData = { ...lead };
+      delete leadData.id;
+      
+      Object.keys(leadData).forEach(k => typeof leadData[k] === "undefined" && delete leadData[k]);
+
+      try {
+        if (isNew) {
+          leadData.createdAt = serverTimestamp();
+          await addDoc(collection(db, "crmLeads"), leadData);
+        } else {
+          leadData.updatedAt = serverTimestamp();
+          await updateDoc(doc(db, "crmLeads", lead.id), leadData);
+        }
+        document.getElementById("leadModal").classList.add("hidden");
+        document.getElementById("leadModal").classList.remove("flex");
+        document.getElementById("leadForm").reset();
+        document.getElementById("leadId").value = "";
+        document.getElementById("stage").value = "new";
+      } catch (err) {
+        console.error("Lead save failed", err);
+        alert("Failed to save lead.");
+      } finally {
+        btn.disabled = false; btn.textContent = "Save Lead";
       }
     });
 
