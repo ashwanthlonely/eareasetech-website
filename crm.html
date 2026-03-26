@@ -452,7 +452,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, query, limit, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
     const config = {
       apiKey: "AIzaSyC93dMM_xNhb4_9xlhbgpQ5GWUId2I0_QY",
@@ -498,7 +498,23 @@
       const email = (user.email || "").toLowerCase();
       if (!email) return false;
       const snap = await getDoc(doc(db, "crmUsers", email));
-      if (!snap.exists()) return false;
+      if (!snap.exists()) {
+        // Bootstrap: if crmUsers has no documents yet, first authenticated user becomes CRM admin.
+        const q = query(collection(db, "crmUsers"), limit(1));
+        const existing = await getDocs(q);
+        if (existing.empty) {
+          await setDoc(doc(db, "crmUsers", email), {
+            email,
+            uid: user.uid || "",
+            role: "admin",
+            active: true,
+            createdAt: serverTimestamp(),
+            createdBy: email
+          }, { merge: true });
+          return true;
+        }
+        return false;
+      }
       const data = snap.data() || {};
       return data.active !== false;
     }

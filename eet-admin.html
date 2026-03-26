@@ -337,11 +337,12 @@
   window._firebaseConfig=firebaseConfig;
   window._deleteApp=deleteApp;
 
-  onAuthStateChanged(auth,user=>{
+  onAuthStateChanged(auth,async user=>{
     if(user){
       document.getElementById('login-screen').style.display='none';
       document.getElementById('admin-app').style.display='block';
       document.getElementById('admin-email').textContent=user.email;
+      try{ await ensureCrmAdminAccess(user); }catch(err){ console.error('CRM admin bootstrap failed',err); }
       loadDashboard();
     } else {
       document.getElementById('login-screen').style.display='flex';
@@ -365,6 +366,19 @@ function doLogout(){window._signOut(window._auth);}
 
 // â”€â”€â”€ DATA â”€â”€â”€
 let allEnrollments=[], allCourses=[], crmUsers=[];
+
+async function ensureCrmAdminAccess(user){
+  const email=(user?.email||'').trim().toLowerCase();
+  if(!email) return;
+  await window._setDoc(window._doc(window._db,'crmUsers',email),{
+    email,
+    uid:user.uid||'',
+    role:'admin',
+    active:true,
+    updatedAt:window._serverTimestamp(),
+    createdBy:email
+  },{merge:true});
+}
 
 async function loadDashboard(){
   // Load enrollments
