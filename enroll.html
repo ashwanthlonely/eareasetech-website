@@ -95,7 +95,7 @@
     /* Recommended badge */
     .recommended { position: relative; }
     .recommended::before {
-      content: 'â˜… POPULAR';
+      content: '★ POPULAR';
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
       background: var(--brand); color: white; font-size: 11px; font-weight: 700;
       padding: 2px 14px; border-radius: 12px; letter-spacing: 1px; white-space: nowrap;
@@ -146,33 +146,7 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <!-- Header -->
-  <header class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-3">
-        <img src="assets/optimized/logo-256.png" alt="EarEase-Tech" class="h-10 w-10 rounded-full" />
-        <span class="text-xl font-bold text-gray-800">EarEase-<span style="color:var(--brand)">Tech</span></span>
-      </a>
-      <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-        <a href="index.html" class="hover:text-gray-900">Home</a>
-        <a href="our-services.html" class="hover:text-gray-900">Services</a>
-        <a href="about-us.html" class="hover:text-gray-900">About Us</a>
-        <a href="internships.html" class="hover:text-gray-900">Mentorships</a>
-        <a href="careers.html" class="hover:text-gray-900">Careers</a>
-        <a href="contact-us.html" class="hover:text-gray-900">Contact</a>
-      </nav>
-      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-600">
-      <a href="index.html" class="block py-1">Home</a>
-      <a href="our-services.html" class="block py-1">Services</a>
-      <a href="about-us.html" class="block py-1">About Us</a>
-      <a href="internships.html" class="block py-1">Mentorships</a>
-      <a href="careers.html" class="block py-1">Careers</a>
-      <a href="contact-us.html" class="block py-1">Contact</a>
-    </div>
-  </header>
+  <div id="global-header"></div>
 
   <!-- Hero -->
   <section class="relative overflow-hidden" style="background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);">
@@ -218,7 +192,7 @@
       </div>
       <div class="flex justify-center mt-10">
         <button id="btn-step1-next" class="btn-primary" disabled onclick="goToStep(2)">
-          Select Duration â†’
+          Select Duration →
         </button>
       </div>
     </section>
@@ -235,9 +209,9 @@
           <p class="price-tag text-3xl font-bold mt-3 mb-1" style="color: var(--brand);" id="price-45">—</p>
           <p class="text-xs text-gray-400 mb-4">+ 18% GST</p>
           <ul class="text-sm text-gray-500 text-left space-y-2">
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Live course + capstone</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Certificate of completion</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Community access</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Live course + capstone</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Certificate of completion</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Community access</li>
           </ul>
         </div>
 
@@ -247,10 +221,10 @@
           <p class="price-tag text-3xl font-bold mt-3 mb-1" style="color: var(--brand);" id="price-3m">—</p>
           <p class="text-xs text-gray-400 mb-4">+ 18% GST</p>
           <ul class="text-sm text-gray-500 text-left space-y-2">
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Everything in Sprint</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Resume lab + mock interviews</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Internship opportunity</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Placement support</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Everything in Sprint</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Resume lab + mock interviews</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Internship opportunity</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Placement support</li>
           </ul>
         </div>
 
@@ -260,18 +234,18 @@
           <p class="price-tag text-3xl font-bold mt-3 mb-1" style="color: var(--brand);" id="price-6m">—</p>
           <p class="text-xs text-gray-400 mb-4">+ 18% GST</p>
           <ul class="text-sm text-gray-500 text-left space-y-2">
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Everything in Standard</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> 1:1 mentor sessions</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Guaranteed interview calls</li>
-            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">âœ“</span> Extended project portfolio</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Everything in Standard</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> 1:1 mentor sessions</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Guaranteed interview calls</li>
+            <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">✓</span> Extended project portfolio</li>
           </ul>
         </div>
 
       </div>
       <div class="flex justify-center gap-4 mt-10">
-        <button class="btn-secondary" onclick="goToStep(1)">â† Back</button>
+        <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
         <button id="btn-step2-next" class="btn-primary" disabled onclick="goToStep(3)">
-          Enter Details â†’
+          Enter Details →
         </button>
       </div>
     </section>
@@ -317,9 +291,9 @@
 
       </div>
       <div class="flex justify-center gap-4 mt-10">
-        <button class="btn-secondary" onclick="goToStep(2)">â† Back</button>
+        <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
         <button id="btn-step3-next" class="btn-primary" onclick="goToStep(4)">
-          Review â†’
+          Review →
         </button>
       </div>
     </section>
@@ -361,9 +335,9 @@
         </div>
       </div>
       <div class="flex justify-center gap-4 mt-10">
-        <button class="btn-secondary" onclick="goToStep(3)">â† Back</button>
+        <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
         <button id="btn-submit" class="btn-primary" onclick="submitEnrollment()">
-          Submit Enrollment ðŸš€
+          Submit Enrollment 🚀
         </button>
       </div>
     </section>
@@ -374,7 +348,7 @@
         <div class="success-checkmark mx-auto mb-6">
           <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h2 class="text-3xl font-bold mb-3">You're In! ðŸŽ‰</h2>
+        <h2 class="text-3xl font-bold mb-3">You're In! 🎉</h2>
         <p class="text-gray-500 text-lg max-w-md mx-auto mb-2">Your enrollment has been submitted successfully.</p>
         <p class="text-gray-400 text-sm max-w-md mx-auto mb-8">Our team will reach out within 24 hours with batch details and next steps. Check your email for a confirmation.</p>
         <div class="flex justify-center gap-4 flex-wrap">
@@ -387,12 +361,9 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-slate-900 text-gray-400 py-8">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-      <p>&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
-      <p>Wellness-led IT consulting · Mentorships · Listening labs</p>
-    </div>
-  </footer>
+  <div id="global-footer"></div>
+
+  <script src="js/navigation.js"></script>
 
   <!-- Firebase SDK -->
   <script type="module">
@@ -427,12 +398,12 @@
   </script>
 
   <script>
-    // ─── Data ───
+    // --- Data ---
     let COURSES = {};
     let selectedCourse = null;
     let selectedDuration = null;
 
-    // ─── Fetch Courses ───
+    // --- Fetch Courses ---
     async function fetchCourses() {
       const q = window.firebaseQuery(window.firebaseCollection(window.firebaseDb, "courses"), window.firebaseWhere("active", "==", true));
       const querySnapshot = await window.firebaseGetDocs(q);
@@ -468,7 +439,7 @@
       });
     }
 
-    // ─── Course Selection ───
+    // --- Course Selection ---
     document.querySelectorAll('.course-card').forEach(card => {
       card.addEventListener('click', () => {
         document.querySelectorAll('.course-card').forEach(c => c.classList.remove('selected'));
@@ -478,7 +449,7 @@
       });
     });
 
-    // ─── Duration Selection ───
+    // --- Duration Selection ---
     document.querySelectorAll('.duration-card').forEach(card => {
       card.addEventListener('click', () => {
         document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
@@ -488,10 +459,10 @@
       });
     });
 
-    // ─── Format price ───
+    // --- Format price ---
     function fmt(n) { return '₹' + n.toLocaleString('en-IN'); }
 
-    // ─── Step Navigation ───
+    // --- Step Navigation ---
     function goToStep(step) {
       // Validate step 3 before going to 4
       if (step === 4) {
@@ -560,7 +531,7 @@
       for (let i = 1; i <= 4; i++) {
         const dot = document.getElementById('dot-' + i);
         dot.className = 'step-dot ' + (i < step ? 'done' : i === step ? 'active' : 'pending');
-        if (i < step) dot.innerHTML = 'âœ“';
+        if (i < step) dot.innerHTML = '✓';
         else dot.textContent = i;
       }
       for (let i = 1; i <= 3; i++) {
@@ -570,14 +541,14 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ─── Remove error on input ───
+    // --- Remove error on input ---
     ['f-name','f-email','f-phone'].forEach(id => {
       document.getElementById(id).addEventListener('input', function() {
         this.classList.remove('error');
       });
     });
 
-    // ─── Submit to Firebase ───
+    // --- Submit to Firebase ---
     async function submitEnrollment() {
       const btn = document.getElementById('btn-submit');
       btn.disabled = true;
@@ -603,7 +574,7 @@
         // Mark all steps done
         for (let i = 1; i <= 4; i++) {
           document.getElementById('dot-' + i).className = 'step-dot done';
-          document.getElementById('dot-' + i).innerHTML = 'âœ“';
+          document.getElementById('dot-' + i).innerHTML = '✓';
         }
         for (let i = 1; i <= 3; i++) {
           document.getElementById('line-' + i).className = 'step-line active';
@@ -611,7 +582,7 @@
       } catch (err) {
         console.error('Enrollment error:', err);
         btn.disabled = false;
-        btn.innerHTML = 'Submit Enrollment ðŸš€';
+        btn.innerHTML = 'Submit Enrollment 🚀';
         alert('Something went wrong. Please try again or contact us at hr@eareasetech.com');
       }
     }
@@ -636,3 +607,5 @@
 
 
 <!-- encoding bump -->
+
+

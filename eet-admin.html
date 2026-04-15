@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -89,7 +89,7 @@
 </head>
 <body>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LOGIN SCREEN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ==================== LOGIN SCREEN ==================== -->
 <div id="login-screen">
   <div class="login-box">
     <div class="text-center mb-6">
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN APP â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ===================== ADMIN APP ====================== -->
 <div id="admin-app">
   <!-- Sidebar -->
   <nav class="sidebar">
@@ -142,7 +142,7 @@
       </div>
     </div>
 
-    <!-- ── DASHBOARD ── -->
+    <!-- -- DASHBOARD -- -->
     <div id="panel-dashboard" class="panel active">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="stat-card"><p class="label">Total Enrollments</p><p class="value" id="s-total">-</p></div>
@@ -165,7 +165,7 @@
       </div>
     </div>
 
-    <!-- ── ENROLLMENTS ── -->
+    <!-- -- ENROLLMENTS -- -->
     <div id="panel-enrollments" class="panel">
       <div class="filter-bar">
         <input type="text" id="search-input" placeholder="Search by name or email..." style="flex:1;min-width:200px;" oninput="filterEnrollments()"/>
@@ -184,7 +184,7 @@
       <p class="text-center text-gray-400 text-sm mt-4" id="enroll-count"></p>
     </div>
 
-    <!-- ── COURSES ── -->
+    <!-- -- COURSES -- -->
     <div id="panel-courses" class="panel">
       <div class="flex justify-between items-center mb-6">
         <p class="text-gray-500 text-sm">Manage courses shown on the enrollment page</p>
@@ -193,7 +193,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="courses-grid"></div>
     </div>
 
-    <!-- ── CRM ── -->
+    <!-- -- CRM -- -->
     <div id="panel-crm" class="panel">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <p class="text-gray-500 text-sm">Lead pipeline, owners, stages, and follow-ups powered by the CRM module.</p>
@@ -235,7 +235,7 @@
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â• Course Modal â•â•â•â•â•â•â• -->
+<!-- ======== Course Modal ======== -->
 <div class="modal-overlay" id="course-modal">
   <div class="modal">
     <h3 id="modal-title">Add Course</h3>
@@ -260,7 +260,7 @@
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â• Status Modal â•â•â•â•â•â•â• -->
+<!-- ======== Status Modal ======== -->
 <div class="modal-overlay" id="status-modal">
   <div class="modal" style="max-width:360px;">
     <h3>Update Status</h3>
@@ -275,7 +275,7 @@
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â• Enrollment Edit Modal â•â•â•â•â•â•â• -->
+<!-- ==== Enrollment Edit Modal ==== -->
 <div class="modal-overlay" id="enroll-modal">
   <div class="modal" style="max-width:560px;">
     <h3>Edit Enrollment</h3>
@@ -310,7 +310,7 @@
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â• Firebase â•â•â•â•â•â•â• -->
+<!-- ========== Firebase ========== -->
 <script type="module">
   import{initializeApp,deleteApp}from"https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
   import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,createUserWithEmailAndPassword}from"https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
@@ -362,7 +362,7 @@
 </script>
 
 <script>
-// ─── AUTH ───
+// --- AUTH ---
 async function doLogin(){
   const btn=document.getElementById('login-btn'),err=document.getElementById('login-error');
   const email=document.getElementById('login-email').value.trim();
@@ -374,7 +374,7 @@ async function doLogin(){
 }
 function doLogout(){window._signOut(window._auth);}
 
-// ─── DATA ───
+// --- DATA ---
 let allEnrollments=[], allCourses=[], crmUsers=[];
 
 async function ensureCrmAdminAccess(user){
@@ -542,7 +542,7 @@ async function syncMyCrmAccess(){
   }
 }
 
-// ─── DASHBOARD ───
+// --- DASHBOARD ---
 let chartTimeline, chartCourse;
 function renderDashboard(){
   const now=new Date(), thisMonth=now.getMonth(), thisYear=now.getFullYear();
@@ -607,7 +607,7 @@ function renderDashboard(){
   if(allEnrollments.length===0) tbody.innerHTML='<tr><td colspan="6" class="text-center text-gray-400 py-8">No enrollments yet</td></tr>';
 }
 
-// ─── ENROLLMENTS ───
+// --- ENROLLMENTS ---
 function renderEnrollments(){
   filterEnrollments();
 }
@@ -650,7 +650,7 @@ function populateFilters(){
   }});
 }
 
-// ─── STATUS UPDATE ───
+// --- STATUS UPDATE ---
 function openStatusModal(id,current){
   document.getElementById('sm-id').value=id;
   document.getElementById('sm-status').value=current;
@@ -665,7 +665,7 @@ async function updateStatus(){
   renderDashboard();renderEnrollments();
 }
 
-// ─── CSV EXPORT ───
+// --- CSV EXPORT ---
 function exportCSV(){
   const rows=[['Name','Email','Phone','Course','Duration','Fee','Organization','Qualification','Date','Status']];
   allEnrollments.forEach(e=>{
@@ -678,7 +678,7 @@ function exportCSV(){
   a.download='enrollments_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
-// ─── COURSES ───
+// --- COURSES ---
 function renderCourses(){
   const grid=document.getElementById('courses-grid');
   grid.innerHTML='';
@@ -773,7 +773,7 @@ async function deleteCourse(id){
   renderCourses();
 }
 
-// ─── ENROLLMENT EDIT / DELETE ───
+// --- ENROLLMENT EDIT / DELETE ---
 function openEditEnrollment(id){
   const e=allEnrollments.find(x=>x.id===id); if(!e) return alert('Enrollment not found');
   document.getElementById('em-id').value=e.id||'';
@@ -823,7 +823,7 @@ async function deleteEnrollment(id){
   }catch(err){console.error('Delete failed',err);alert('Delete failed');}
 }
 
-// ─── NAV ───
+// --- NAV ---
 function showPanel(name,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
@@ -850,3 +850,4 @@ window.addCrmUser=addCrmUser;window.toggleCrmUser=toggleCrmUser;window.syncMyCrm
 
 
 <!-- encoding bump -->
+

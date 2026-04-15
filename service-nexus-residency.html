@@ -28,39 +28,7 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <header class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-3">
-        <img src="assets/optimized/logo-256.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
-        <p class="text-xl font-semibold tracking-tight">EarEase<span class="text-[#D4A017]">-Tech</span></p>
-      </a>
-      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
-        <a href="index.html" class="hover:text-[#D4A017] transition">Home</a>
-        <a href="our-services.html" class="text-[#D4A017]">Services</a>
-        <a href="resources.html" class="hover:text-[#D4A017] text-[#D4A017]">Resources</a>
-        <a href="about-us.html" class="hover:text-[#D4A017] transition">About Us</a>
-        <a href="contact-us.html#booking" class="hover:text-[#D4A017] transition">Book a Session</a>
-        <a href="internships.html" class="hover:text-[#D4A017] transition">Mentorships</a>
-        <a href="careers.html" class="hover:text-[#D4A017] transition">Careers</a>
-        <a href="contact-us.html" class="hover:text-[#D4A017] transition">Contact</a>
-      </nav>
-      <button id="menu-toggle" class="md:hidden text-[#D4A017] focus:outline-none">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
-      <a href="index.html" class="block hover:text-[#D4A017]">Home</a>
-      <a href="our-services.html" class="block text-[#D4A017]">Services</a>
-      <a href="resources.html" class="block hover:text-[#D4A017]">Resources</a>
-      <a href="about-us.html" class="block hover:text-[#D4A017]">About Us</a>
-      <a href="contact-us.html#booking" class="block hover:text-[#D4A017]">Book a Session</a>
-      <a href="internships.html" class="block hover:text-[#D4A017]">Mentorships</a>
-      <a href="careers.html" class="block hover:text-[#D4A017]">Careers</a>
-      <a href="contact-us.html" class="block hover:text-[#D4A017]">Contact</a>
-    </div>
-  </header>
+  <div id="global-header"></div>
 
   <main>
     <section class="py-20 px-4 max-w-5xl mx-auto">
@@ -100,17 +68,8 @@
     </section>
   </main>
 
-  <footer class="bg-[#1b1f2a] text-white/80 py-6 mt-12">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>
-      <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>
-    </div>
-  </footer>
+  <div id="global-footer"></div>
 
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
-  </script>
+  <script src="js/navigation.js"></script>
 </body>
 </html>
