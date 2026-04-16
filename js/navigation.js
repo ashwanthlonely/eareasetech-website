@@ -165,7 +165,15 @@
     const style = document.createElement('style');
     style.id = 'global-nav-animations';
     style.textContent = ''
-      + '.site-header {'
+      + 'img, video {'
+      + '  -webkit-user-drag: none;'
+      + '  -khtml-user-drag: none;'
+      + '  -moz-user-drag: none;'
+      + '  -o-user-drag: none;'
+      + '  user-drag: none;'
+      + '  user-select: none;'
+      + '}'
+      + '\n.site-header {'
       + '  background: rgba(255, 255, 255, 0.82);'
       + '  backdrop-filter: blur(18px) saturate(160%);'
       + '  border-bottom: 1px solid rgba(255,255,255,0.55);'
@@ -255,10 +263,26 @@
       + '}';
     document.head.appendChild(style);
   }
+  
+  /**
+   * Prevents right-click and dragging on all images and videos.
+   */
+  function initMediaSecurity() {
+    const preventAction = function (e) {
+      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO' || e.target.closest('img') || e.target.closest('video')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', preventAction, false);
+    document.addEventListener('dragstart', preventAction, false);
+  }
 
   // ─── RUN ─────────────────────────────────────────────────────────
   injectStyles();
   buildHeader();
   buildFooter();
   initAnimations();
+  initMediaSecurity();
 })();
