@@ -42,6 +42,7 @@
   const navLinks = [
     { label: 'Home',            href: prefix + 'index.html' },
     { label: 'Services',        href: prefix + 'our-services.html' },
+    { label: 'Case Studies',    href: prefix + 'case-studies.html' },
     { label: 'Resources',       href: prefix + 'resources.html' },
     { label: 'About Us',        href: prefix + 'about-us.html' },
     { label: 'Mentorships',     href: prefix + 'internships.html' },
