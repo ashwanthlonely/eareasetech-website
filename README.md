@@ -40,7 +40,6 @@ eareasetech-website/
 |-- contact-us.html
 |-- careers.html
 |-- internships.html
-|-- curriculum.html
 |-- enroll.html
 |-- flashsale.html
 |-- eet-admin.html
@@ -78,7 +77,7 @@ Implemented site-wide SEO baseline and fixes:
   - `ItemList` / `Course`
   - `WebPage`
 - `robots.txt` updated to disallow admin paths
-- `sitemap.xml` updated (includes `curriculum.html`)
+- `sitemap.xml` updated
 - Stale flash sale copy updated for current crawl context
 - Internal keyword backlinks added on key pages for:
   - AI Development Services

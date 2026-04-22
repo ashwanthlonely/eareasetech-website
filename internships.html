@@ -73,6 +73,24 @@
     .modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(15,15,15,0.6); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
     .modal-panel { max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; border-radius: 32px; padding: 2.5rem; background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,255,255,0.85)); border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 40px 80px rgba(0,0,0,0.25); position: relative; }
     .close-btn { position: absolute; top: 1.2rem; right: 1.4rem; font-size: 1.5rem; cursor: pointer; color: #4b5563; }
+    /* Ensure popup tier-table headers are always readable */
+    #modalContent table thead th,
+    #modalContent table tr:first-child th {
+      background-color: #1f5ea8 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      border-color: #cbd5e1 !important;
+    }
+    #modalContent table td {
+      color: #1f2937 !important;
+      border-color: #d1d5db !important;
+    }
+    #modalContent .mustard-bg {
+      background-color: #1f5ea8 !important;
+    }
+    #modalContent .text-white {
+      color: #ffffff !important;
+    }
   </style>
 </head>
 <body class="bg-[#f6f4ef] text-gray-900 antialiased">
@@ -273,7 +291,7 @@ const courses = [
         title: "Data Science Program",
         image: "assets/data-science.jpg",
         curriculum: [
-          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training (45 Days)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training</h3>`,
           `<p><strong>Week 1: Python Foundations for Data Science</strong></p>`,
           `<ul class="list-disc pl-5"><li>Day 1-2: Python Basics - Variables, Data Types, I/O, Operators</li><li>Day 3: Control Structures - if, for, while</li><li>Day 4: Functions, Lambda Functions, Modules</li><li>Day 5: Lists, Tuples, Sets, Dictionaries</li><li>Day 6: File Handling, Exception Handling</li><li>Day 7: Mini Project - Data Cleaning with Python</li></ul>`,
           `<p><strong>Week 2: Libraries for Data Science</strong></p>`,
@@ -286,15 +304,17 @@ const courses = [
           `<ul class="list-disc pl-5"><li>Day 29: Model Evaluation - Accuracy, Precision, Recall, F1</li><li>Day 30: Cross-Validation, Overfitting vs Underfitting</li><li>Day 31: Clustering - K-Means, Hierarchical</li><li>Day 32: Dimensionality Reduction - PCA</li><li>Day 33: Feature Engineering & Selection</li><li>Day 34-35: Project - Customer Segmentation</li></ul>`,
           `<p><strong>Week 6: Real-World Applications</strong></p>`,
           `<ul class="list-disc pl-5"><li>Day 36: Time Series Forecasting - Basics, ARIMA</li><li>Day 37: NLP Basics - Text Cleaning, Tokenization</li><li>Day 38: Sentiment Analysis with NLP</li><li>Day 39: Model Deployment - Flask, Streamlit</li><li>Day 40: Introduction to Git and GitHub</li><li>Day 41: Resume, LinkedIn Optimization, Project Showcase</li><li>Day 42-45: Capstone Project - End-to-End DS Solution</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills (1 Month)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Market-Standard Upgrades (2026)</h3>`,
+          `<ul class="list-disc pl-5"><li>Generative AI Foundations: Transformers, LLM lifecycle, prompt engineering patterns</li><li>RAG Systems: chunking, embeddings, vector databases, retrieval evaluation</li><li>LLM App Building: LangChain or LlamaIndex pipelines, function calling, guardrails</li><li>Vibe Coding for Data Science: AI-assisted coding with Copilot or Cursor for rapid prototyping</li><li>MLOps and LLMOps: experiment tracking, model registry, monitoring and drift checks</li><li>Agentic AI workflows with tool use and human-in-the-loop review</li><li>Cloud deployment using Docker + FastAPI + Streamlit on AWS, GCP, or Azure</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills</h3>`,
           `<p><strong>Capstone Projects:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Credit Risk Classification (Logistic Regression)</li><li>E-commerce Recommendation Engine</li><li>Employee Attrition Prediction (Classification & EDA)</li></ul>`,
           `<p><strong>Soft Skills Training:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Business Case Storytelling</li><li>Resume, GitHub, and LinkedIn Optimization</li><li>Interview Prep: Case Rounds + ML Concept Questions</li><li>Freelancing Basics for ML/AI Projects (Upwork & Fiverr)</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (3 Months)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (Included in 6-Month Program)</h3>`,
           `<ul class="list-disc pl-5"><li>Internship on Real-time ML/AI Use-Cases with EarEase Tools or Partner Firms</li><li>End-to-End Projects: Problem Understanding → Deployment</li><li>Collaboration using Git, Notion/Jira, Agile Tasks</li><li>Prepare Executive Reports: Model Explanation + Business Value</li><li>Final Internship Report: Codebase + Notebooks + Deployment Links</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live 45-day course + capstone project</td><td class="border p-2">45 days</td><td class="border p-2">Freshers, early learners</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month Capstone projects + Soft Skills + resume, GitHub, LinkedIn guidance, Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Final-year students, job switchers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + freelancing setup + global interview prep + lifetime access to future webinars/events + 100% Placement Assistance + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td></tr></tbody></table>`,
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live core course + capstone project</td><td class="border p-2">Freshers, early learners</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + Capstone projects + Soft Skills + resume, GitHub, LinkedIn guidance, Placement Assistance</td><td class="border p-2">Final-year students, job switchers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + real-time project experience + freelancing setup + global interview prep + lifetime access to future webinars/events + 100% Placement Assistance + Client calls</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td></tr></tbody></table>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Portfolio website hosting: ₹2,500, free with advanced and above subscriptions</li><li>Freelancing Gig Templates & Setup: ₹5,000, free with advanced and above subscriptions</li><li>Guaranteed Job Interview Calls: ₹10,000, free with advanced and above subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
@@ -304,21 +324,23 @@ const courses = [
         title: "MERN Stack Development",
         image: "assets/mern-stack.jpg",
         curriculum: [
-          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training (45 Days)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training</h3>`,
           `<p><strong>Frontend Development (HTML, CSS, JavaScript, React)</strong></p>`,
           `<ul class="list-disc pl-5"><li>HTML5, CSS3, Responsive Design (Bootstrap, Flexbox, Grid)</li><li>JavaScript (ES6+), DOM, Fetch API, Promises, Async/Await</li><li>React.js (Components, Props, State, Lifecycle, Hooks, Routing)</li></ul>`,
           `<p><strong>Backend Development (Node.js, Express.js, MongoDB)</strong></p>`,
           `<ul class="list-disc pl-5"><li>Node.js Basics, Express.js APIs, Middleware, RESTful Architecture</li><li>MongoDB CRUD Operations, Mongoose ODM</li><li>Authentication (JWT, Bcrypt), API Security</li><li>Connecting Frontend & Backend - Full MERN Stack Integration</li><li>Deployment (Render/Vercel + MongoDB Atlas)</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Market-Standard Upgrades (2026)</h3>`,
+          `<ul class="list-disc pl-5"><li>TypeScript-first MERN architecture with validation and scalable folder patterns</li><li>Next.js + React Server Components for production-grade apps</li><li>AI feature integration using OpenAI APIs for chat, summarization, and search</li><li>Vibe coding workflow for faster feature shipping with quality review checklists</li><li>Testing stack: unit, integration, and E2E with CI checks</li><li>Production engineering: caching, queues, observability, and performance profiling</li></ul>`,
           `<p>Daily Assignments + Mini Projects Included</p>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills (1 Month)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills</h3>`,
           `<p><strong>Capstone Projects:</strong></p>`,
           `<ul class="list-disc pl-5"><li>E-commerce App</li><li>Job Portal</li><li>Social Media Platform (Mini Version)</li></ul>`,
           `<p><strong>Soft Skills Training:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Communication & Team Collaboration</li><li>Resume Building & GitHub Portfolio</li><li>LinkedIn Profile Optimization</li><li>Mock Interviews (Technical + HR)</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (3 Months)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (Included in 6-Month Program)</h3>`,
           `<ul class="list-disc pl-5"><li>Real-time MERN Projects with Industry Mentors</li><li>Code Review Practices, Version Control with Git/GitHub</li><li>Weekly Stand-ups, Sprint Planning & Demo Days</li><li>Exposure to DevOps tools (CI/CD basics), and Deployment Pipelines</li><li>Documentation & Agile Workflow Training</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + 1 capstone project + internship + basic placement support</td><td class="border p-2">45 days</td><td class="border p-2">Freshers, early learners</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month capstone projects + Soft Skills + freelancing guidance + GitHub + resume review + Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Final-year students, job switchers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time Project Experience + Upwork/Internshala portal setup + full-stack freelancing mentoring + 1:1 mock sessions + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td></tr></tbody></table>`,
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + 1 capstone project + internship + basic placement support</td><td class="border p-2">Freshers, early learners</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + capstone projects + Soft Skills + freelancing guidance + GitHub + resume review + Placement Assistance</td><td class="border p-2">Final-year students, job switchers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + real-time Project Experience + Upwork/Internshala portal setup + full-stack freelancing mentoring + 1:1 mock sessions + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">Serious Job-seekers, Working professionals, career changers</td></tr></tbody></table>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Portfolio website hosting: ₹2,500, free with advanced and above subscriptions</li><li>Freelancing Gig Templates & Setup: ₹5,000, free with advanced and above subscriptions</li><li>Guaranteed Job Interview Calls: ₹10,000, free with advanced and above subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
@@ -328,7 +350,7 @@ const courses = [
         title: "Data Analytics Program",
         image: "assets/data-analytics.jpg",
         curriculum: [
-          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training (45 Days)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training</h3>`,
           `<p><strong>Module 1: Excel for Analysts</strong></p>`,
           `<ul class="list-disc pl-5"><li>Data Cleaning, Pivot Tables, VLOOKUP/XLOOKUP</li><li>Dashboards with Charts & Conditional Formatting</li><li>Case Study: Sales & HR Data Analysis</li></ul>`,
           `<p><strong>Module 2: SQL for Data Analytics</strong></p>`,
@@ -339,16 +361,18 @@ const courses = [
           `<ul class="list-disc pl-5"><li>Data Modeling, DAX Basics (for Power BI)</li><li>KPI Dashboards, Filters, Slicers, Storytelling</li><li>Case Study: Marketing, Finance & Operations Dashboards</li></ul>`,
           `<p><strong>Module 5: Statistics & Decision Making</strong></p>`,
           `<ul class="list-disc pl-5"><li>Descriptive & Inferential Stats</li><li>Correlation, Hypothesis Testing</li><li>A/B Testing, Business Forecasting</li></ul>`,
+          `<p><strong>Module 6: Modern Analytics Stack (Market Standard)</strong></p>`,
+          `<ul class="list-disc pl-5"><li>Analytics engineering basics: model design, metrics layer, and data contracts</li><li>Data warehouse fundamentals with BigQuery or Snowflake style workflows</li><li>GenAI for Analysts: SQL copilots, automated insight summaries, and narrative reporting</li><li>BI modernization: governed dashboards and stakeholder self-service setup</li></ul>`,
           `<p>Mini-Projects every 10 days with peer review</p>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills (1 Month)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills</h3>`,
           `<p><strong>Capstone Projects:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Market Basket Analysis</li><li>Customer Retention Dashboard</li><li>Business Problem Solving using SQL + Power BI</li></ul>`,
           `<p><strong>Soft Skills Training:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Report Presentation & Storytelling</li><li>Resume & LinkedIn Review</li><li>Interview Prep: Analytical Case Questions</li><li>Freelancing on Upwork (Analytics Gigs)</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (3 Months)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (Included in 6-Month Program)</h3>`,
           `<ul class="list-disc pl-5"><li>Real-time analytics projects from internal tools or client firms</li><li>Work with cross-functional teams (Product, Sales, Finance)</li><li>Use Jira/Notion for documentation, sprint-based tasks</li><li>Prepare executive summary reports, performance tracking</li><li>Submit final internship report with dashboard + queries + insights</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone + 1-month soft skills & client demo project</td><td class="border p-2">45 days</td><td class="border p-2">Tier 2/3 college graduates</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">Full course + 1-month internship Capstone projects + Soft Skills + resume + GitHub repo + portfolio dashboard + Placement Assistance</td><td class="border p-2">3 months</td><td class="border p-2">Freshers & career changers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + freelancing coaching + mock interviews + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">6 months</td><td class="border p-2">Serious Job-seekers, professionals</td></tr></tbody></table>`,
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone + soft skills & client demo project</td><td class="border p-2">Tier 2/3 college graduates</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">Full course + internship Capstone projects + Soft Skills + resume + GitHub repo + portfolio dashboard + Placement Assistance</td><td class="border p-2">Freshers & career changers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + real-time project experience + freelancing coaching + mock interviews + lifetime access to future webinars/events + 100% job guarantee support + Client calls</td><td class="border p-2">Serious Job-seekers, professionals</td></tr></tbody></table>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Career Accelerator Pack (mock interviews + job referrals): ₹5,000, Free with Advanced and above Subscriptions</li><li>Personal Portfolio Website (hosted): ₹2,500, Free with Advanced and above Subscriptions</li><li>Power BI/Tableau Advanced Mastery Module: ₹5,000, Free with Advanced and above Subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
@@ -358,7 +382,7 @@ const courses = [
         title: "Digital Marketing Mastery",
         image: "assets/digital-marketing.jpg",
         curriculum: [
-          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training (45 Days)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mustard-text">Phase 1: Core Training</h3>`,
           `<p><strong>Module 1: Digital Marketing Fundamentals</strong></p>`,
           `<ul class="list-disc pl-5"><li>Marketing vs Digital Marketing</li><li>Customer Journey & Sales Funnel</li><li>Key Metrics (CPC, CTR, ROI, etc.)</li></ul>`,
           `<p><strong>Module 2: Website Planning & SEO</strong></p>`,
@@ -371,15 +395,17 @@ const courses = [
           `<ul class="list-disc pl-5"><li>Mailchimp, Sendinblue, WhatsApp Campaigns</li><li>Copywriting & Visual Content Creation</li><li>Blog Strategy, Content Calendar</li></ul>`,
           `<p><strong>Module 6: Analytics & Tools</strong></p>`,
           `<ul class="list-disc pl-5"><li>Google Analytics 4 (GA4), Tag Manager, Hotjar</li><li>UTM Parameters, Data Studio Reporting</li><li>CRM Overview - HubSpot/Zoho</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills (1 Month)</h3>`,
+          `<p><strong>Module 7: AI Marketing & Automation (Market Standard)</strong></p>`,
+          `<ul class="list-disc pl-5"><li>GenAI content operations: ad copy variants, hooks, scripts, and creative testing loops</li><li>Performance creative systems for short-form video and UGC</li><li>Marketing automation using HubSpot or Zoho journeys and lead scoring</li><li>Measurement upgrades: server-side tracking basics and attribution hygiene</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 2: Capstone Projects + Soft Skills</h3>`,
           `<p><strong>Capstone Projects:</strong></p>`,
           `<ul class="list-disc pl-5"><li>End-to-End Ad Campaign with ROI</li><li>SEO Audit + Ranking Improvement</li><li>Social Media Calendar + Performance Tracking</li></ul>`,
           `<p><strong>Soft Skills Training:</strong></p>`,
           `<ul class="list-disc pl-5"><li>Pitching to Clients</li><li>Report Presentation & Storytelling</li><li>Resume, LinkedIn Optimization</li><li>Freelancing Strategy (Upwork, Fiverr, LinkedIn)</li></ul>`,
-          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (3 Months)</h3>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Phase 3: Internship (Included in 6-Month Program)</h3>`,
           `<ul class="list-disc pl-5"><li>Work on Real Client Projects (SMM, SEO, Ads)</li><li>Participate in Weekly Client Reviews</li><li>Practice: Monthly Campaign Planning, Strategy Docs</li><li>Cross-collaboration with Content, Design & Analytics Teams</li><li>Final Internship Portfolio with Metrics + Testimonial</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone project + client simulation + LinkedIn support</td><td class="border p-2">45 days</td><td class="border p-2">College students, Graduates, freelancers</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + 1-month internship Capstone projects + Soft Skills + freelancing coaching + real client leads</td><td class="border p-2">3 months</td><td class="border p-2">Serious job seekers, part-time freelancers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + 3 months real-time project experience + full portfolio setup + agency starter pack + personalized mentorship + lifetime access to future webinars/events</td><td class="border p-2">6 months</td><td class="border p-2">All above, Career switchers, aspiring agency owners</td></tr></tbody></table>`,
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Standard</td><td class="border p-2">Live classes + capstone project + client simulation + LinkedIn support</td><td class="border p-2">College students, Graduates, freelancers</td></tr><tr><td class="border p-2">Advanced</td><td class="border p-2">All above + internship Capstone projects + Soft Skills + freelancing coaching + real client leads</td><td class="border p-2">Serious job seekers, part-time freelancers</td></tr><tr><td class="border p-2">Premium</td><td class="border p-2">All above + real-time project experience + full portfolio setup + agency starter pack + personalized mentorship + lifetime access to future webinars/events</td><td class="border p-2">All above, Career switchers, aspiring agency owners</td></tr></tbody></table>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-Ons</h3>`,
           `<ul class="list-disc pl-5"><li>Personal Brand & Reels Strategy: ₹5,000, Free with Advanced and above Subscriptions</li><li>LinkedIn + Insta Ad Setup Templates: ₹3,000, Free with Advanced and above Subscriptions</li><li>Access to Premium Tools (Canva Pro, Ahrefs Trial, etc.): ₹4,000, Free with Advanced and above Subscriptions</li></ul>`,
           `<p><strong>Note:</strong> Batch Size is fixed to 15 candidates for individual attention for advanced and Premium Subscriptions</p>`
@@ -399,8 +425,10 @@ const courses = [
           `<ul class="list-disc pl-5"><li><strong>Technical/IT Recruitment (Optional Track):</strong> Overview of tech stacks and roles (Frontend, Backend, DevOps, etc.), Reading and understanding tech resumes</li><li><strong>Non-IT/Generalist Hiring:</strong> Roles in sales, marketing, support, Sourcing and evaluating generalist profiles</li><li><strong>Campus Recruitment Process:</strong> End-to-end process: PPT, assessments, interviews, Handling bulk hiring and coordination</li><li><strong>Recruitment Compliance & Documentation:</strong> Offer letter & onboarding process, Statutory compliance, background checks</li><li><strong>Practical:</strong> Simulated Recruitment Cycle, Run a complete recruitment cycle for a given JD, Use of ATS, sourcing, screening, interviewing, and final offer</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Week 5-6: Capstone Project & Soft Skills</h3>`,
           `<ul class="list-disc pl-5"><li><strong>Negotiation & Offer Rollout:</strong> Salary benchmarking techniques, Handling counteroffers & notice period buyout</li><li><strong>Client Interaction & Recruitment as a Service (RaaS):</strong> Gathering requirements from clients, Creating SLAs and reporting structures</li><li><strong>Soft Skills for Recruiters:</strong> Communication & rapport building, Time management & conflict resolution</li><li><strong>Capstone Project:</strong> End-to-end recruitment case study, Use of AI tools, ATS, dashboards, and real-world JDs</li><li><strong>Final Assessment & Feedback:</strong> Written test & mock interview session, Personalized career guidance, Certification of completion</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Market-Standard Upgrades (2026)</h3>`,
+          `<ul class="list-disc pl-5"><li>AI recruiting operations with JD generation, screening prompts, and interview rubric standardization</li><li>Modern sourcing workflows using talent intelligence and profile mapping</li><li>Bias control and DEI checks in AI-assisted hiring pipelines</li><li>People analytics dashboards with funnel diagnostics and SLA tracking</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">ATS Tools, Sourcing, Screening, Interviewing, Compliance, Capstone</td><td class="border p-2">3 months</td><td class="border p-2">Freshers, HR aspirants</td></tr></tbody></table>`
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">ATS Tools, Sourcing, Screening, Interviewing, Compliance, Capstone</td><td class="border p-2">Freshers, HR aspirants</td></tr></tbody></table>`
         ]
       },
       {
@@ -419,10 +447,12 @@ const courses = [
           `<ul class="list-disc pl-5"><li><strong>Financial Reporting Standards:</strong> MIS Reports, Board Reports, Monthly/quarterly closing reports</li><li><strong>Power BI / Google Data Studio for Finance:</strong> Creating dashboards from Excel data, Visualizing KPIs: Revenue, Expenses, Margins</li><li><strong>ERP & Accounting Software:</strong> Intro to QuickBooks, Tally Prime, Zoho Books</li><li><strong>Practical:</strong> Build a finance dashboard + basic report using Power BI or Google Sheets</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Week 6: Capstone Project & Career Readiness</h3>`,
           `<ul class="list-disc pl-5"><li><strong>Capstone Project:</strong> End-to-end financial case: Budgeting, investment decision, variance analysis, and dashboard reporting (Team or individual submission)</li><li><strong>Resume Building for Finance Roles:</strong> Keywords, achievements, tools to highlight</li><li><strong>Mock Interviews & Role Plays:</strong> Common finance internship questions, Situational questions & practical case-based discussions</li><li><strong>Final Evaluation & Certification:</strong> Project presentation, Performance review & feedback</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Market-Standard Focus (2026)</h3>`,
+          `<ul class="list-disc pl-5"><li>Finance automation with Python + spreadsheets for reconciliation and reporting</li><li>FP&A maturity: driver-based forecasting and scenario planning</li><li>GenAI in finance with controlled prompts for commentary and management notes</li><li>FinOps and SaaS cost governance basics for tech organizations</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Add-ons (Optional Workshops)</h3>`,
           `<ul class="list-disc pl-5"><li>Basics of Stock Market Investing</li><li>Cryptocurrency & FinTech Overview</li><li>Startup Financial Modeling</li><li>Fundamentals of Business Valuation</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">Tally, Budgeting, Tax, FP&A, Power BI, Capstone & Reporting</td><td class="border p-2">3 months</td><td class="border p-2">Freshers, finance aspirants</td></tr></tbody></table>`
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">Tally, Budgeting, Tax, FP&A, Power BI, Capstone & Reporting</td><td class="border p-2">Freshers, finance aspirants</td></tr></tbody></table>`
         ]
       },
       {
@@ -441,23 +471,101 @@ const courses = [
           `<ul class="list-disc pl-5"><li><strong>CRM Training:</strong> Zoho CRM / HubSpot CRM, Deal tracking, lead scoring</li><li><strong>Customer Relationship Management:</strong> Post-sales support, Objection handling & trust-building</li><li><strong>AI in Sales & Marketing:</strong> Using ChatGPT for scripts, replies, email drafts, Automation tools (Zapier, Chatbots)</li><li><strong>Practical:</strong> Create a CRM pipeline, Use AI tools for prospect emails and follow-ups</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Week 6: Capstone & Career Preparation</h3>`,
           `<ul class="list-disc pl-5"><li><strong>Capstone Project:</strong> Plan a full marketing campaign and sales strategy for a sample product, Include landing page, ad copy, CRM setup, and analytics</li><li><strong>Resume & LinkedIn Optimization:</strong> Showcasing tools, results & impact</li><li><strong>Mock Interviews & Roleplays:</strong> Situational and behavioral questions, Sales pitch simulation</li><li><strong>Final Evaluation:</strong> Project presentation, Feedback and certification</li></ul>`,
+          `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Market-Standard Focus (2026)</h3>`,
+          `<ul class="list-disc pl-5"><li>RevOps alignment across marketing, sales, and customer success</li><li>AI-assisted outbound personalization with quality and compliance checks</li><li>Pipeline analytics: stage conversion benchmarks, velocity, and forecast accuracy</li><li>Product-led growth and lifecycle campaigns for SaaS-style funnels</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Optional Add-ons (for Advanced Interns)</h3>`,
           `<ul class="list-disc pl-5"><li>B2B vs. B2C Strategy Deep Dive</li><li>SaaS Product Marketing</li><li>Performance Marketing Tools (Google Tag Manager, UTM, GTM)</li><li>Affiliate & Influencer Marketing</li></ul>`,
           `<h3 class="text-lg font-semibold mb-2 mt-4 mustard-text">Program Tiers</h3>`,
-          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Duration</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">Funnels, CRM, Email, SEO, Analytics, Sales Process, Live Campaign</td><td class="border p-2">3 months</td><td class="border p-2">Freshers, marketing aspirants</td></tr></tbody></table>`
+          `<table class="w-full border-collapse"><thead><tr class="mustard-bg text-white"><th class="border p-2">Tier</th><th class="border p-2">Features</th><th class="border p-2">Target Group</th></tr></thead><tbody><tr><td class="border p-2">Foundation</td><td class="border p-2">Funnels, CRM, Email, SEO, Analytics, Sales Process, Live Campaign</td><td class="border p-2">Freshers, marketing aspirants</td></tr></tbody></table>`
         ]
       }
     ];
 
     const courseSummaries = {
-      "Data Science Program": "Full-stack DS & ML immersion with capstones and embedded internships.",
-      "MERN Stack Development": "Modern web engineering bootcamp with live project deployments.",
-      "Data Analytics Program": "Analytics playbooks, BI tooling, and stakeholder storytelling.",
-      "Digital Marketing Mastery": "Performance marketing lab with portfolio-ready campaigns.",
-      "HR Recruiter Program": "People ops toolkit with ATS mastery and interview architecture.",
-      "Finance Internship Program": "Corporate finance fundamentals blended with automation drills.",
-      "Sales & Marketing Internship": "Hybrid sales studio focused on funnels, demos, and CRM rigor."
+      "Data Science Program": "6-month career acceleration path for Data Analyst, Junior Data Scientist, and GenAI Analyst roles.",
+      "MERN Stack Development": "Job-ready full-stack track focused on portfolio shipping, interview readiness, and client delivery.",
+      "Data Analytics Program": "Business analytics pathway designed for reporting, BI, and decision support roles.",
+      "Digital Marketing Mastery": "Performance-driven marketing program built around campaign ROI and client-ready execution.",
+      "HR Recruiter Program": "Recruiter execution program with sourcing, ATS, interview operations, and hiring analytics.",
+      "Finance Internship Program": "Finance operations and FP&A pathway with dashboards, reporting, and automation outcomes.",
+      "Sales & Marketing Internship": "Revenue-focused track for lead generation, conversion systems, and CRM pipeline execution."
     };
+
+    const salesPlaybook = {
+      "Data Science Program": {
+        fit: ["Final-year students, graduates, and working professionals transitioning to AI roles", "Learners targeting Data Analyst, Junior Data Scientist, and GenAI Analyst positions"],
+        outcomes: ["End-to-end portfolio with ML + GenAI + deployment projects", "Role-ready interview preparation with case walkthroughs", "GitHub + resume + LinkedIn positioning aligned to hiring signals"],
+        proof: ["Capstone with business problem framing and measurable KPIs", "Live internship artifact pack: notebooks, APIs, dashboards, and presentation deck"],
+        offer: ["Placement assistance + mock interview loops + recruiter visibility support", "Bonus support: freelancing profile setup and client communication templates"],
+        cta: "Book your counseling call and lock your assessment slot for the current cohort."
+      },
+      "MERN Stack Development": {
+        fit: ["Aspiring full-stack developers and career switchers", "Students who need practical project depth, not just theory"],
+        outcomes: ["Production-style MERN projects with deployment links", "System design basics + API, auth, and debugging interview prep", "Freelance and internship readiness through client simulation"],
+        proof: ["Portfolio pack with 3-5 deployable applications", "Code review notes and sprint delivery history for interview storytelling"],
+        offer: ["Mentor-led code reviews and career alignment sessions", "Placement support plus real-client style sprint experience"],
+        cta: "Reserve your seat and get your personalized MERN roadmap on the first call."
+      },
+      "Data Analytics Program": {
+        fit: ["Graduates and working professionals entering analytics and BI roles", "Candidates aiming for analyst positions in product, ops, and finance teams"],
+        outcomes: ["SQL + BI + dashboard storytelling portfolio", "Stakeholder-ready reporting and business recommendation skills", "Interview prep for analyst case rounds and dashboard discussions"],
+        proof: ["Executive dashboard projects with KPI narratives", "SQL case repository and insight communication templates"],
+        offer: ["Placement assistance with analyst-focused resume and profile optimization", "Mentor review cycles for dashboards and business presentations"],
+        cta: "Start with a profile audit call to map your fastest path into analytics roles."
+      },
+      "Digital Marketing Mastery": {
+        fit: ["Freelancers, founders, and job seekers entering growth marketing", "Learners who want measurable campaign outcomes"],
+        outcomes: ["Campaign execution across SEO, paid ads, content, and retention", "Performance reporting with clear ROI storytelling", "Client-ready strategy docs and growth playbooks"],
+        proof: ["Campaign portfolio with ad creatives, dashboards, and optimization logs", "Channel-wise performance case studies for interviews and clients"],
+        offer: ["Mentor-led campaign reviews and positioning support", "Placement and freelance readiness with offer-building templates"],
+        cta: "Schedule your strategy call and get your first 90-day growth action plan."
+      },
+      "HR Recruiter Program": {
+        fit: ["HR aspirants and early-career recruiters", "Operations professionals moving into talent acquisition"],
+        outcomes: ["Full-cycle recruiting execution from JD to offer closure", "ATS workflows, sourcing logic, and interview coordination mastery", "Data-backed hiring dashboard and recruiter communication toolkit"],
+        proof: ["Recruitment simulation project with funnel metrics", "ATS artifacts, outreach templates, and interview scripts"],
+        offer: ["Mentor feedback on sourcing and screening quality", "Career support for recruiter interviews and hiring operations roles"],
+        cta: "Apply for the next HR recruiter cohort and get your sourcing assessment slot."
+      },
+      "Finance Internship Program": {
+        fit: ["Commerce graduates, MBA aspirants, and finance career switchers", "Learners targeting analyst, finance ops, and FP&A support roles"],
+        outcomes: ["Hands-on finance reporting, budgeting, and variance analysis capability", "Automation-ready workflows using spreadsheets, BI, and AI assistance", "Interview confidence for finance internship and analyst discussions"],
+        proof: ["Finance dashboard + capstone submission pack", "Scenario-based planning models and reporting templates"],
+        offer: ["Mentor-led project review and profile positioning", "Placement support for internship and entry-level finance opportunities"],
+        cta: "Book a finance pathway consultation to align your target role and timeline."
+      },
+      "Sales & Marketing Internship": {
+        fit: ["Graduates and career starters entering growth, SDR, and inside sales roles", "Learners wanting practical CRM and conversion skills"],
+        outcomes: ["Lead generation, outreach, pipeline management, and conversion playbooks", "Sales pitch practice with objection handling frameworks", "Campaign-to-CRM execution clarity for revenue teams"],
+        proof: ["Go-to-market capstone with funnel and pipeline metrics", "Outreach scripts, CRM workflows, and campaign performance snapshots"],
+        offer: ["Mentor review on pitch quality and funnel execution", "Career support for sales, growth, and business development roles"],
+        cta: "Get your sales-readiness audit and secure your seat in the upcoming batch."
+      }
+    };
+
+    function buildSalesPlaybookHtml(title) {
+      const data = salesPlaybook[title];
+      if (!data) return '';
+
+      const makeList = (items) => `<ul class="list-disc pl-5 space-y-1">${items.map((x) => `<li>${x}</li>`).join('')}</ul>`;
+
+      return `
+        <section class="mt-8 rounded-2xl border border-yellow-200 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 p-6">
+          <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Nexus Outcome Playbook</p>
+          <h3 class="mt-2 text-xl font-semibold text-gray-900">How this program converts learning into placement outcomes</h3>
+          <div class="mt-4 grid gap-4 md:grid-cols-2 text-sm text-gray-700">
+            <div class="rounded-xl bg-white/80 border border-yellow-100 p-4"><p class="font-semibold text-gray-900 mb-2">Best fit for</p>${makeList(data.fit)}</div>
+            <div class="rounded-xl bg-white/80 border border-yellow-100 p-4"><p class="font-semibold text-gray-900 mb-2">Career outcomes</p>${makeList(data.outcomes)}</div>
+            <div class="rounded-xl bg-white/80 border border-yellow-100 p-4"><p class="font-semibold text-gray-900 mb-2">Proof assets you build</p>${makeList(data.proof)}</div>
+            <div class="rounded-xl bg-white/80 border border-yellow-100 p-4"><p class="font-semibold text-gray-900 mb-2">Offer stack</p>${makeList(data.offer)}</div>
+          </div>
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-yellow-300 bg-white p-4">
+            <p class="text-sm text-gray-700"><strong class="text-gray-900">Enrollment action:</strong> ${data.cta}</p>
+            <a href="enroll.html" class="inline-flex items-center px-5 py-2.5 rounded-full bg-[#D4A017] text-white text-sm font-semibold hover:bg-[#b78a12] transition">Start application</a>
+          </div>
+        </section>
+      `;
+    }
 
     function renderCourses() {
       const container = document.getElementById('courseCards');
@@ -475,7 +583,7 @@ const courses = [
           <div class="space-y-4">
             <h3 class="text-2xl font-semibold text-gray-900">${course.title}</h3>
             <p class="text-sm text-gray-600">${description}</p>
-            <button class="inline-flex items-center px-5 py-2.5 rounded-full bg-[#D4A017] text-white text-sm font-semibold hover:bg-[#b78a12] transition">View curriculum</button>
+            <button class="inline-flex items-center px-5 py-2.5 rounded-full bg-[#D4A017] text-white text-sm font-semibold hover:bg-[#b78a12] transition">View curriculum & outcomes</button>
           </div>
         `;
         card.querySelector('button').addEventListener('click', () => openModal(index));
@@ -488,7 +596,7 @@ const courses = [
       const course = courses[index];
       const modal = document.getElementById('modal');
       document.getElementById('modalTitle').textContent = course.title;
-      document.getElementById('modalContent').innerHTML = course.curriculum.join('');
+      document.getElementById('modalContent').innerHTML = course.curriculum.join('') + buildSalesPlaybookHtml(course.title);
       modal.style.display = 'flex';
       document.body.classList.add('overflow-hidden');
     }
