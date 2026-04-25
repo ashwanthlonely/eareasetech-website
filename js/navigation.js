@@ -45,7 +45,7 @@
     { label: 'Case Studies',    href: prefix + 'case-studies.html' },
     { label: 'Resources',       href: prefix + 'resources.html' },
     { label: 'About Us',        href: prefix + 'about-us.html' },
-    { label: 'Mentorships',     href: prefix + 'internships.html' },
+    { label: 'Nexus',     href: prefix + 'internships.html' },
     { label: 'Careers',         href: prefix + 'careers.html' },
     { label: 'Contact',         href: prefix + 'contact-us.html' },
   ];
@@ -136,7 +136,7 @@
       + '<footer class="bg-[#1b1f2a] text-white/80 py-6">'
       + '\n  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">'
       + '\n    <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>'
-      + '\n    <p class="text-sm">Wellness-led IT consulting &bull; Mentorships &bull; Listening labs</p>'
+      + '\n    <p class="text-sm">Wellness-led IT consulting &bull; AI Research and Incubation Lab &bull; Listening labs</p>'
       + '\n  </div>'
       + '\n</footer>';
   }
