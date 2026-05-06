@@ -40,14 +40,14 @@
 
   // ─── NAV LINKS ───────────────────────────────────────────────────
   const navLinks = [
-    { label: 'Home',            href: prefix + 'index.html' },
-    { label: 'Services',        href: prefix + 'our-services.html' },
-    { label: 'Case Studies',    href: prefix + 'case-studies.html' },
-    { label: 'Resources',       href: prefix + 'resources.html' },
-    { label: 'About Us',        href: prefix + 'about-us.html' },
-    { label: 'Nexus',     href: prefix + 'internships.html' },
-    { label: 'Careers',         href: prefix + 'careers.html' },
-    { label: 'Contact',         href: prefix + 'contact-us.html' },
+    { label: 'Home', href: prefix + 'index.html' },
+    { label: 'Services', href: prefix + 'our-services.html' },
+    { label: 'Case Studies', href: prefix + 'case-studies.html' },
+    { label: 'Resources', href: prefix + 'resources.html' },
+    { label: 'About Us', href: prefix + 'about-us.html' },
+    { label: 'Nexus', href: prefix + 'internships.html' },
+    { label: 'Careers', href: prefix + 'careers.html' },
+    { label: 'Contact', href: prefix + 'contact-us.html' },
   ];
 
   // ─── BUILD HEADER ────────────────────────────────────────────────
@@ -263,7 +263,7 @@
       + '}';
     document.head.appendChild(style);
   }
-  
+
   /**
    * Prevents right-click and dragging on all images and videos.
    */
