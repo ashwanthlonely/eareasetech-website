@@ -40,59 +40,112 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- JSON-LD Structured Data: Organization (GEO & Entity Search) -->
+  <!-- JSON-LD Structured Data: Organization (GEO, Opening Hours, Social Profiles, Products) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://www.eareasetech.com/#organization",
-    "name": "EarEase-Tech",
-    "url": "https://www.eareasetech.com/",
-    "logo": "https://www.eareasetech.com/assets/logo.png",
-    "email": "mailto:hr@eareasetech.com",
-    "telephone": "+91 78936 91717",
-    "description": "EarEase-Tech is a premier provider of Enterprise AI/ML Solutions, Digital Marketing, Data Engineering, Custom Web/Mobile Software, IT Staffing Contracts, and Corporate Mental Wellness Programs.",
-    "sameAs": ["https://www.linkedin.com/company/earease-tech/"],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli",
-      "addressLocality": "Bengaluru",
-      "addressRegion": "Karnataka",
-      "postalCode": "560008",
-      "addressCountry": "IN"
-    }
-  }
-  </script>
-
-  <!-- JSON-LD Structured Data: FAQPage (AEO / Answer Engine Optimization) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "What core services does EarEase-Tech specialize in?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "EarEase-Tech specializes in Enterprise AI/ML Solutions, Autonomous AI Automations, Digital Marketing & SEO, Data Analytics & Data Management, Web & Mobile App Development, SaaS Products & Cloud DevOps, IT Staffing & B2B Contracts, and Corporate & B2C Mental Wellness Programs."
+        "@type": "Organization",
+        "@id": "https://www.eareasetech.com/#organization",
+        "name": "EarEase-Tech",
+        "url": "https://www.eareasetech.com/",
+        "logo": "https://www.eareasetech.com/assets/logo.png",
+        "email": "mailto:hr@eareasetech.com",
+        "telephone": "+91 78936 91717",
+        "description": "EarEase-Tech is a premier provider of Enterprise AI/ML Solutions, Digital Marketing, Data Engineering, Custom Web/Mobile Software, IT Staffing Contracts, and Corporate Mental Wellness Programs.",
+        "sameAs": [
+          "https://www.linkedin.com/company/earease-tech/",
+          "https://twitter.com/EarEaseTech",
+          "https://github.com/eareasetech",
+          "https://www.youtube.com/@EarEaseTech",
+          "https://www.instagram.com/eareasetech/"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli",
+          "addressLocality": "Bengaluru",
+          "addressRegion": "Karnataka",
+          "postalCode": "560008",
+          "addressCountry": "IN"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday"],
+            "opens": "09:00",
+            "closes": "14:00"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.eareasetech.com/"
+          }
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "Enterprise AI & Software Engineering Sprint",
+        "description": "Turnkey custom AI/ML model fine-tuning, web/mobile app engineering sprint, and staffing pod deployment.",
+        "brand": {
+          "@type": "Brand",
+          "name": "EarEase-Tech"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "49999",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.eareasetech.com/contact-us.html"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "84",
+          "bestRating": "5"
         }
       },
       {
-        "@type": "Question",
-        "name": "How quickly can EarEase-Tech deploy IT Staffing and dedicated engineering talent?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "EarEase-Tech deploys pre-vetted senior software engineers, AI specialists, full-stack developers, and DevOps architects into client teams within 48 hours."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What do Corporate Mental Wellness Programs include?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Corporate Mental Wellness Programs include workplace burnout prevention suites, executive stress resilience coaching, confidential 1-on-1 listening pods, digital wellness tools, and HR impact analytics."
-        }
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What core services does EarEase-Tech specialize in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EarEase-Tech specializes in Enterprise AI/ML Solutions, Autonomous AI Automations, Digital Marketing & SEO, Data Analytics & Data Management, Web & Mobile App Development, SaaS Products & Cloud DevOps, IT Staffing & B2B Contracts, and Corporate & B2C Mental Wellness Programs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are EarEase-Tech's business opening hours?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EarEase-Tech operates Monday through Friday from 9:00 AM to 6:00 PM IST, and Saturday from 9:00 AM to 2:00 PM IST, with 24/7 SLA coverage for enterprise contract clients."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly can EarEase-Tech deploy IT Staffing talent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EarEase-Tech deploys pre-vetted senior software engineers, AI specialists, full-stack developers, and DevOps architects into client teams within 48 hours."
+            }
+          }
+        ]
       }
     ]
   }
@@ -644,16 +697,16 @@
         </div>
 
         <div class="surface p-6 rounded-2xl">
-          <h3 class="font-bold text-slate-900 text-base mb-2">How fast can EarEase-Tech deploy IT Staffing talent?</h3>
+          <h3 class="font-bold text-slate-900 text-base mb-2">What are EarEase-Tech's business opening hours?</h3>
           <p class="text-slate-600 text-xs leading-relaxed">
-            We deploy pre-vetted senior software engineers, AI researchers, full-stack developers, and DevOps architects into client teams within 48 hours under flexible B2B contract models.
+            EarEase-Tech operates Monday through Friday from 9:00 AM to 6:00 PM IST, and Saturday from 9:00 AM to 2:00 PM IST, with 24/7 SLA coverage for enterprise contract clients.
           </p>
         </div>
 
         <div class="surface p-6 rounded-2xl">
-          <h3 class="font-bold text-slate-900 text-base mb-2">What do Corporate Mental Wellness Programs include?</h3>
+          <h3 class="font-bold text-slate-900 text-base mb-2">How fast can EarEase-Tech deploy IT Staffing talent?</h3>
           <p class="text-slate-600 text-xs leading-relaxed">
-            Our mental wellness programs include workplace burnout prevention suites, executive stress resilience coaching, confidential 1-on-1 listening pods, digital wellbeing apps, and HR impact analytics.
+            We deploy pre-vetted senior software engineers, AI researchers, full-stack developers, and DevOps architects into client teams within 48 hours under flexible B2B contract models.
           </p>
         </div>
       </div>

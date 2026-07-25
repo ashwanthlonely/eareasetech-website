@@ -1,6 +1,6 @@
 /**
  * EarEase-Tech Global Header & Footer Navigation
- * Features desktop hover dropdown for Services and full mobile menu drawer.
+ * Includes Social Media Links, Opening Hours, and Services Hover Dropdown
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -185,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </header>
     `;
 
-    // Toggle Mobile Drawer
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileDrawer = document.getElementById('mobile-drawer');
     if (mobileBtn && mobileDrawer) {
@@ -195,14 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Global Footer
+  // Render Global Footer with Social Profiles & Opening Hours
   if (footerContainer) {
     footerContainer.innerHTML = `
       <footer class="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 text-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
             
-            <!-- Col 1: Brand Info -->
+            <!-- Col 1: Brand Info & Social Media Profiles -->
             <div class="lg:col-span-2 space-y-4">
               <div class="flex items-center gap-3">
                 <img src="assets/logo.png" alt="EarEase-Tech Logo" class="h-8 w-auto object-contain" />
@@ -211,8 +210,17 @@ document.addEventListener('DOMContentLoaded', () => {
               <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
                 Pioneering Enterprise AI/ML Solutions, Digital Marketing, Web & Mobile Software Sprints, B2B IT Staffing Contracts, and Corporate Mental Wellness Programs.
               </p>
-              <div class="text-[11px] text-slate-400">
-                📍 Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India
+              <div class="text-[11px] text-slate-400 space-y-1">
+                <div>📍 <strong>HQ Address:</strong> Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India</div>
+                <div>🕒 <strong>Opening Hours:</strong> Mon - Fri: 09:00 AM - 06:00 PM IST | Sat: 09:00 AM - 02:00 PM IST</div>
+              </div>
+
+              <!-- Social Media Links -->
+              <div class="pt-2 flex items-center gap-3">
+                <a href="https://www.linkedin.com/company/earease-tech/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">LinkedIn</a>
+                <a href="https://twitter.com/EarEaseTech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">Twitter / X</a>
+                <a href="https://github.com/eareasetech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">GitHub</a>
+                <a href="https://www.youtube.com/@EarEaseTech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">YouTube</a>
               </div>
             </div>
 
