@@ -1,6 +1,6 @@
 /**
  * EarEase-Tech Global Header & Footer Navigation
- * Configured with Official Business Hours (Mon - Fri: 10:00 - 19:00 IST | Sat - Sun: Closed)
+ * Includes Hyperlinked Social Media Logos (LinkedIn, YouTube, Instagram), Services Hover Dropdown, and Clean Footer
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Global Footer with Official Opening Hours (Mon - Fri: 10:00 - 19:00 IST | Sat - Sun: Closed)
+  // Render Global Footer with Address, Direct Social Media Logos (Hours kept exclusively on Contact Us)
   if (footerContainer) {
     footerContainer.innerHTML = `
       <footer class="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 text-xs">
@@ -215,9 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
               <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
                 Pioneering Enterprise AI/ML Solutions, Digital Marketing, Web & Mobile Software Sprints, B2B IT Staffing Contracts, and Corporate Mental Wellness Programs.
               </p>
-              <div class="text-[11px] text-slate-400 space-y-1">
-                <div>📍 <strong>HQ Address:</strong> Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India</div>
-                <div>🕒 <strong>Business Hours:</strong> Mon - Fri: 10:00 AM - 07:00 PM IST | Sat - Sun: Closed</div>
+              <div class="text-[11px] text-slate-400">
+                📍 <strong>HQ Address:</strong> Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India
               </div>
 
               <!-- Hyperlinked Social Media Logos -->
