@@ -1,22 +1,11 @@
 /**
  * Global Navigation & Footer for EarEase-Tech
- * Injects a consistent header and footer across all pages.
- * 
- * Usage: Add these placeholders in your HTML:
- *   <div id="global-header"></div>   (where the header should appear)
- *   <div id="global-footer"></div>   (where the footer should appear)
- * 
- * Then include this script at the end of <body>:
- *   <script src="js/navigation.js"></script>
- * 
- * For pages in subdirectories use:
- *   <script src="../js/navigation.js"></script>
+ * Clean, Optimized Header with Professional SVG Icons & Responsive Drawer
  */
 
 (function () {
   'use strict';
 
-  // Detect if we are in a subdirectory (e.g. lead-magnets/)
   const depth = (function () {
     const scripts = document.querySelectorAll('script[src*="navigation.js"]');
     for (const s of scripts) {
@@ -28,8 +17,6 @@
   })();
 
   const prefix = depth === 0 ? '' : '../'.repeat(depth);
-
-  // Determine the current page for active-link highlighting
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
   function isActive(href) {
@@ -38,251 +25,206 @@
     return hrefPage === current;
   }
 
-  // ─── NAV LINKS ───────────────────────────────────────────────────
-  const navLinks = [
-    { label: 'Home', href: prefix + 'index.html' },
-    { label: 'Services', href: prefix + 'our-services.html' },
-    { label: 'Case Studies', href: prefix + 'case-studies.html' },
-    { label: 'Resources', href: prefix + 'resources.html' },
-    { label: 'About Us', href: prefix + 'about-us.html' },
-    { label: 'Nexus', href: prefix + 'internships.html' },
-    { label: 'Careers', href: prefix + 'careers.html' },
-    { label: 'Contact', href: prefix + 'contact-us.html' },
+  // Professional SVG Icons
+  const svgIcons = {
+    ai: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2"></path></svg>`,
+    automation: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`,
+    marketing: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path></svg>`,
+    data: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>`,
+    web: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>`,
+    saas: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>`,
+    staffing: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>`,
+    wellness: `<svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>`
+  };
+
+  const servicesList = [
+    { label: 'AI & ML Solutions', href: prefix + 'service-ai-automation.html', svg: svgIcons.ai },
+    { label: 'AI Workflow Automations', href: prefix + 'service-ai-automation.html#automation', svg: svgIcons.automation },
+    { label: 'Digital Marketing & SEO', href: prefix + 'service-digital-marketing.html', svg: svgIcons.marketing },
+    { label: 'Data Analytics & Management', href: prefix + 'our-services.html#data', svg: svgIcons.data },
+    { label: 'Web & Mobile App Dev', href: prefix + 'service-studio-sprint.html', svg: svgIcons.web },
+    { label: 'SaaS Products & Cloud DevOps', href: prefix + 'our-services.html#saas', svg: svgIcons.saas },
+    { label: 'IT Staffing & Contracts', href: prefix + 'service-it-staffing.html', svg: svgIcons.staffing },
+    { label: 'Corporate Mental Wellness', href: prefix + 'service-mental-wellness.html', svg: svgIcons.wellness }
   ];
 
-  // ─── BUILD HEADER ────────────────────────────────────────────────
   function buildHeader() {
     const container = document.getElementById('global-header');
     if (!container) return;
 
-    // Desktop nav links
-    const desktopLinks = navLinks.map(function (link) {
-      const active = isActive(link.href);
-      return '<a href="' + link.href + '" class="nav-link' + (active ? ' active' : '') + '">' + link.label + '</a>';
-    }).join('\n            ');
+    const servicesDropdownHTML = servicesList.map(s => `
+      <a href="${s.href}" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:text-[#D4A017] hover:bg-amber-50/70 rounded-xl transition-all font-medium">
+        <span class="p-1 rounded-lg bg-amber-100/60 border border-amber-200/50">${s.svg}</span>
+        <span>${s.label}</span>
+      </a>
+    `).join('');
 
-    // Mobile nav links
-    const mobileLinks = navLinks.map(function (link) {
-      const active = isActive(link.href);
-      return '<a href="' + link.href + '" class="block' + (active ? ' text-[#D4A017]' : ' hover:text-[#D4A017]') + '">' + link.label + '</a>';
-    }).join('\n        ');
+    const headerHTML = `
+<header class="site-header sticky top-0 z-50 transition-all duration-300">
+  <div class="nav-shell max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
+    
+    <!-- Brand Logo -->
+    <a href="${prefix}index.html" class="flex items-center space-x-3 group shrink-0">
+      <img src="${prefix}assets/logo.png" onerror="this.onerror=null; this.src='${prefix}assets/optimized/logo-256.png'" alt="EarEase-Tech Logo" class="w-9 h-9 sm:w-10 sm:h-10 object-contain transition-transform group-hover:scale-105" />
+      <span class="brand-mark text-xl font-bold tracking-tight text-slate-900">EarEase<span class="text-[#D4A017]">-Tech</span></span>
+    </a>
 
-    const headerHTML = ''
-      + '<header class="site-header sticky top-0 z-50 nav-enter">'
-      + '\n  <div class="nav-shell max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">'
-      + '\n    <a href="' + prefix + 'index.html" class="flex items-center space-x-3">'
-      + '\n      <img src="' + prefix + 'assets/optimized/logo-256.png" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />'
-      + '\n      <p class="brand-mark text-xl font-bold text-slate-900">EarEase<span class="text-[#D4A017]">-Tech</span></p>'
-      + '\n    </a>'
-      + '\n    <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">'
-      + '\n            ' + desktopLinks
-      + '\n    </nav>'
-      + '\n    <div class="md:hidden">'
-      + '\n      <button id="menu-toggle" class="text-[#D4A017]" aria-label="Toggle navigation">'
-      + '\n        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">'
-      + '\n          <path d="M4 6h16M4 12h16M4 18h16"></path>'
-      + '\n        </svg>'
-      + '\n      </button>'
-      + '\n    </div>'
-      + '\n  </div>'
-      + '\n  <div id="mobile-menu" class="mobile-menu-panel md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-slate-800">'
-      + '\n        ' + mobileLinks
-      + '\n  </div>'
-      + '\n</header>';
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+      <a href="${prefix}index.html" class="nav-link ${isActive('index.html') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">Home</a>
+      
+      <!-- Services Dropdown -->
+      <div class="relative group">
+        <a href="${prefix}our-services.html" class="nav-link flex items-center gap-1 py-2 ${isActive('our-services.html') || currentPage.startsWith('service-') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">
+          <span>Services</span>
+          <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+        </a>
+        <div class="absolute left-0 top-full pt-2 hidden group-hover:block w-72 z-50">
+          <div class="bg-white/95 backdrop-blur-lg border border-amber-100 p-2 rounded-2xl shadow-2xl space-y-0.5">
+            ${servicesDropdownHTML}
+          </div>
+        </div>
+      </div>
+
+      <a href="${prefix}case-studies.html" class="nav-link ${isActive('case-studies.html') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">Case Studies</a>
+      <a href="${prefix}about-us.html" class="nav-link ${isActive('about-us.html') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">About Us</a>
+      <a href="${prefix}careers.html" class="nav-link ${isActive('careers.html') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">Careers</a>
+      <a href="${prefix}contact-us.html" class="nav-link ${isActive('contact-us.html') ? 'active font-bold text-[#D4A017]' : 'hover:text-[#D4A017]'}">Contact</a>
+    </nav>
+
+    <!-- Header CTA Button -->
+    <div class="hidden md:flex items-center">
+      <a href="${prefix}contact-us.html" class="px-5 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:shadow-lg hover:scale-105">
+        Get Proposal &rarr;
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button id="menu-toggle" class="p-2 text-slate-900 hover:text-[#D4A017] focus:outline-none" aria-label="Toggle navigation">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 py-4 bg-white/95 backdrop-blur-md border-b border-amber-100 shadow-xl space-y-2 text-sm">
+    <a href="${prefix}index.html" class="block py-1.5 font-semibold text-slate-800 hover:text-[#D4A017]">Home</a>
+    
+    <div class="py-1">
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Services</div>
+      <div class="pl-2 space-y-2 border-l-2 border-amber-200">
+        ${servicesList.map(s => `
+          <a href="${s.href}" class="flex items-center gap-2 text-xs font-medium text-slate-700 hover:text-[#D4A017]">
+            ${s.svg}
+            <span>${s.label}</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+
+    <a href="${prefix}case-studies.html" class="block py-1.5 font-semibold text-slate-800 hover:text-[#D4A017]">Case Studies</a>
+    <a href="${prefix}about-us.html" class="block py-1.5 font-semibold text-slate-800 hover:text-[#D4A017]">About Us</a>
+    <a href="${prefix}careers.html" class="block py-1.5 font-semibold text-slate-800 hover:text-[#D4A017]">Careers</a>
+    <a href="${prefix}contact-us.html" class="block py-1.5 font-semibold text-slate-800 hover:text-[#D4A017]">Contact Us</a>
+
+    <div class="pt-3 border-t border-slate-100">
+      <a href="${prefix}contact-us.html" class="block w-full text-center px-4 py-2.5 bg-[#D4A017] text-slate-950 font-bold text-xs rounded-xl shadow-md">
+        Get Proposal &rarr;
+      </a>
+    </div>
+  </div>
+</header>`;
 
     container.innerHTML = headerHTML;
 
-    // Mobile menu toggle
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
-    const header = container.querySelector('.site-header');
-    const mobileLinksInMenu = container.querySelectorAll('#mobile-menu a');
-
-    requestAnimationFrame(function () {
-      if (header) header.classList.add('nav-ready');
-    });
-
-    function updateHeaderOnScroll() {
-      if (!header) return;
-      if (window.scrollY > 24) {
-        header.classList.add('is-scrolled');
-      } else {
-        header.classList.remove('is-scrolled');
-      }
-    }
-
-    updateHeaderOnScroll();
-    window.addEventListener('scroll', updateHeaderOnScroll, { passive: true });
-
     if (toggle && menu) {
       toggle.addEventListener('click', function () {
-        menu.classList.toggle('is-open');
+        menu.classList.toggle('hidden');
       });
     }
-
-    mobileLinksInMenu.forEach(function (link) {
-      link.addEventListener('click', function () {
-        menu.classList.remove('is-open');
-      });
-    });
   }
 
-  // ─── BUILD FOOTER ────────────────────────────────────────────────
   function buildFooter() {
     const container = document.getElementById('global-footer');
     if (!container) return;
 
-    container.innerHTML = ''
-      + '<footer class="bg-[#1b1f2a] text-white/80 py-6">'
-      + '\n  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">'
-      + '\n    <p class="text-sm">&copy; 2025 EarEase-Tech Private Limited. All rights reserved.</p>'
-      + '\n    <p class="text-sm">Wellness-led IT consulting &bull; AI Research and Incubation Lab &bull; Listening labs</p>'
-      + '\n  </div>'
-      + '\n</footer>';
+    const footerHTML = `
+<footer class="bg-slate-950 text-white pt-16 pb-12 border-t border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+      
+      <div class="lg:col-span-2 space-y-4">
+        <a href="${prefix}index.html" class="flex items-center space-x-3">
+          <img src="${prefix}assets/logo.png" onerror="this.onerror=null; this.src='${prefix}assets/optimized/logo-256.png'" alt="EarEase-Tech Logo" class="w-10 h-10 object-contain" />
+          <span class="text-2xl font-bold text-white">EarEase<span class="text-[#D4A017]">-Tech</span></span>
+        </a>
+        <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
+          Engineering Autonomous AI, Digital Marketing, Cloud SaaS Products, B2B IT Staffing, and Human-Centric Mental Wellness Solutions.
+        </p>
+        <div class="flex items-center space-x-4 pt-2">
+          <a href="https://www.linkedin.com/company/earease-tech/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-900 hover:bg-[#D4A017] hover:text-slate-950 border border-slate-800 flex items-center justify-center transition-all">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-wider text-amber-400 mb-4">Core Verticals</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li><a href="${prefix}service-ai-automation.html" class="hover:text-white transition-colors">AI & ML Solutions</a></li>
+          <li><a href="${prefix}service-ai-automation.html#automation" class="hover:text-white transition-colors">AI Automations</a></li>
+          <li><a href="${prefix}service-digital-marketing.html" class="hover:text-white transition-colors">Digital Marketing & SEO</a></li>
+          <li><a href="${prefix}our-services.html#data" class="hover:text-white transition-colors">Data Analytics</a></li>
+          <li><a href="${prefix}service-studio-sprint.html" class="hover:text-white transition-colors">Web & App Dev</a></li>
+          <li><a href="${prefix}our-services.html#saas" class="hover:text-white transition-colors">SaaS & Cloud DevOps</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-wider text-amber-400 mb-4">Solutions & Staffing</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li><a href="${prefix}service-it-staffing.html" class="hover:text-white transition-colors">B2B IT Staffing</a></li>
+          <li><a href="${prefix}service-it-staffing.html#contracts" class="hover:text-white transition-colors">Dedicated Tech Pods</a></li>
+          <li><a href="${prefix}service-mental-wellness.html" class="hover:text-white transition-colors">Corporate Mental Wellness</a></li>
+          <li><a href="${prefix}service-mental-wellness.html#b2c" class="hover:text-white transition-colors">Individual Wellbeing</a></li>
+          <li><a href="${prefix}case-studies.html" class="hover:text-white transition-colors">Enterprise Case Studies</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-bold uppercase tracking-wider text-amber-400 mb-4">Company</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li><a href="${prefix}about-us.html" class="hover:text-white transition-colors">About EarEase-Tech</a></li>
+          <li><a href="${prefix}careers.html" class="hover:text-white transition-colors">Careers & Hiring</a></li>
+          <li><a href="${prefix}resources.html" class="hover:text-white transition-colors">Resources & Playbooks</a></li>
+          <li><a href="${prefix}contact-us.html" class="hover:text-white transition-colors">Contact Us</a></li>
+          <li><a href="${prefix}crm.html" class="hover:text-white transition-colors">Client Lead Portal</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+      <p>&copy; ${new Date().getFullYear()} EarEase-Tech. All rights reserved. Built for enterprise & human well-being.</p>
+      <div class="flex space-x-6">
+        <a href="${prefix}contact-us.html" class="hover:text-slate-400">Privacy Policy</a>
+        <a href="${prefix}contact-us.html" class="hover:text-slate-400">Terms of Service</a>
+        <a href="${prefix}sitemap.xml" class="hover:text-slate-400">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>`;
+
+    container.innerHTML = footerHTML;
   }
 
-  // ─── INIT SCROLL ANIMATIONS ──────────────────────────────────────
-  function initAnimations() {
-    if (typeof IntersectionObserver === 'undefined') return;
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('[data-animate]').forEach(function (el) {
-      observer.observe(el);
-    });
-  }
-
-  // ─── INJECT GLOBAL HEADER/FOOTER STYLES ──────────────────────────
-  function injectStyles() {
-    if (document.getElementById('global-nav-animations')) return;
-
-    const style = document.createElement('style');
-    style.id = 'global-nav-animations';
-    style.textContent = ''
-      + 'img, video {'
-      + '  -webkit-user-drag: none;'
-      + '  -khtml-user-drag: none;'
-      + '  -moz-user-drag: none;'
-      + '  -o-user-drag: none;'
-      + '  user-drag: none;'
-      + '  user-select: none;'
-      + '}'
-      + '\n.site-header {'
-      + '  background: rgba(255, 255, 255, 0.82);'
-      + '  backdrop-filter: blur(18px) saturate(160%);'
-      + '  border-bottom: 1px solid rgba(255,255,255,0.55);'
-      + '  box-shadow: 0 10px 34px rgba(15,23,42,0.07);'
-      + '  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;'
-      + '}'
-      + '\n.site-header::after {'
-      + '  content: "";'
-      + '  position: absolute;'
-      + '  inset: auto 0 0 0;'
-      + '  height: 1px;'
-      + '  background: linear-gradient(90deg, rgba(212,160,23,0), rgba(212,160,23,0.95), rgba(212,160,23,0));'
-      + '  opacity: 0;'
-      + '  transition: opacity 0.35s ease;'
-      + '}'
-      + '\n.site-header.nav-enter {'
-      + '  opacity: 0;'
-      + '  transform: translateY(-12px);'
-      + '}'
-      + '\n.site-header.nav-ready {'
-      + '  opacity: 1;'
-      + '  transform: translateY(0);'
-      + '  transition: opacity 0.45s ease, transform 0.45s ease, background 0.35s ease, box-shadow 0.35s ease;'
-      + '}'
-      + '\n.site-header.is-scrolled {'
-      + '  background: rgba(255, 255, 255, 0.94);'
-      + '  box-shadow: 0 14px 38px rgba(15,23,42,0.14);'
-      + '}'
-      + '\n.site-header.is-scrolled::after {'
-      + '  opacity: 1;'
-      + '}'
-      + '\n.nav-shell {'
-      + '  transition: padding 0.3s ease;'
-      + '}'
-      + '\n.site-header.is-scrolled .nav-shell {'
-      + '  padding-top: 0.7rem;'
-      + '  padding-bottom: 0.7rem;'
-      + '}'
-      + '\n.brand-mark {'
-      + '  letter-spacing: 0.02em;'
-      + '  transition: transform 0.3s ease, text-shadow 0.3s ease;'
-      + '}'
-      + '\n.site-header:hover .brand-mark {'
-      + '  transform: translateY(-1px);'
-      + '  text-shadow: 0 8px 22px rgba(212, 160, 23, 0.2);'
-      + '}'
-      + '\n.nav-link {'
-      + '  position: relative;'
-      + '  color: #0f172a;'
-      + '  transition: color 0.25s ease, transform 0.25s ease, text-shadow 0.25s ease;'
-      + '}'
-      + '\n.nav-link::after {'
-      + '  content: "";'
-      + '  position: absolute;'
-      + '  left: 0;'
-      + '  right: 0;'
-      + '  bottom: -0.35rem;'
-      + '  height: 2px;'
-      + '  transform: scaleX(0);'
-      + '  transform-origin: center;'
-      + '  transition: transform 0.3s ease;'
-      + '  background: linear-gradient(90deg, #d4a017 0%, #f8c14d 60%, #d4a017 100%);'
-      + '}'
-      + '\n.nav-link:hover,'
-      + '\n.nav-link.active {'
-      + '  color: #d4a017;'
-      + '  transform: translateY(-1px);'
-      + '  text-shadow: 0 8px 18px rgba(212,160,23,0.2);'
-      + '}'
-      + '\n.nav-link:hover::after,'
-      + '\n.nav-link.active::after {'
-      + '  transform: scaleX(1);'
-      + '}'
-      + '\n.mobile-menu-panel {'
-      + '  max-height: 0;'
-      + '  opacity: 0;'
-      + '  overflow: hidden;'
-      + '  transform: translateY(-8px);'
-      + '  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.35s ease;'
-      + '  pointer-events: none;'
-      + '}'
-      + '\n.mobile-menu-panel.is-open {'
-      + '  max-height: 320px;'
-      + '  opacity: 1;'
-      + '  transform: translateY(0);'
-      + '  pointer-events: auto;'
-      + '}';
-    document.head.appendChild(style);
-  }
-
-  /**
-   * Prevents right-click and dragging on all images and videos.
-   */
-  function initMediaSecurity() {
-    const preventAction = function (e) {
-      if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO' || e.target.closest('img') || e.target.closest('video')) {
-        e.preventDefault();
-        return false;
-      }
-    };
-
-    document.addEventListener('contextmenu', preventAction, false);
-    document.addEventListener('dragstart', preventAction, false);
-  }
-
-  // ─── RUN ─────────────────────────────────────────────────────────
-  injectStyles();
-  buildHeader();
-  buildFooter();
-  initAnimations();
-  initMediaSecurity();
+  document.addEventListener('DOMContentLoaded', function () {
+    buildHeader();
+    buildFooter();
+  });
 })();
