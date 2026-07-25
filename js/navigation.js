@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Global Footer with Social Profiles & Opening Hours
+  // Render Global Footer with Official Social Profiles (LinkedIn, YouTube, Instagram)
   if (footerContainer) {
     footerContainer.innerHTML = `
       <footer class="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 text-xs">
@@ -218,9 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
               <!-- Social Media Links -->
               <div class="pt-2 flex items-center gap-3">
                 <a href="https://www.linkedin.com/company/earease-tech/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">LinkedIn</a>
-                <a href="https://twitter.com/EarEaseTech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">Twitter / X</a>
-                <a href="https://github.com/eareasetech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">GitHub</a>
                 <a href="https://www.youtube.com/@EarEaseTech" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">YouTube</a>
+                <a href="https://www.instagram.com/eareasetech/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-800 hover:bg-amber-600 hover:text-slate-950 text-white rounded-lg transition-all text-xs font-semibold">Instagram</a>
               </div>
             </div>
 
