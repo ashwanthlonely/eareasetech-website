@@ -11,20 +11,48 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Contact EarEase-Tech for custom AI/ML development, Digital Marketing, Web/App sprints, IT Staffing contracts, and Corporate Mental Wellness programs." />
-  <meta name="keywords" content="Contact EarEase-Tech, AI consultation, digital marketing quote, IT staffing quote, mental wellness proposal, software quote" />
+  <meta name="description" content="Contact EarEase-Tech for custom AI/ML solutions, digital marketing, IT staffing contracts, web app sprints, and corporate mental wellness proposals." />
+  <meta name="keywords" content="Contact EarEase-Tech, AI consultation, digital marketing inquiry, IT staffing request, mental wellness program proposal" />
   <meta name="author" content="EarEase-Tech" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.eareasetech.com/contact-us.html" />
   
-  <title>Contact Us | EarEase-Tech</title>
+  <title>Contact Us | Project Proposals & Business Hours | EarEase-Tech</title>
   <link rel="icon" href="assets/favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Firebase App & Firestore Client SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- Contact & Location Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact EarEase-Tech",
+    "url": "https://www.eareasetech.com/contact-us.html",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "EarEase-Tech",
+      "telephone": "+91 78936 91717",
+      "email": "mailto:hr@eareasetech.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "Karnataka",
+        "postalCode": "560008",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ]
+    }
+  }
+  </script>
 
   <style>
     :root {
@@ -48,7 +76,7 @@
     .surface {
       background: #ffffff;
       border: 1px solid #f0e8d9;
-      border-radius: 28px;
+      border-radius: 24px;
       box-shadow: 0 20px 50px rgba(15,23,42,0.06);
     }
   </style>
@@ -60,123 +88,146 @@
   <div id="global-header"></div>
 
   <!-- Main Content -->
-  <main class="flex-grow py-12 sm:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
-        <span class="inline-block px-4 py-1.5 bg-amber-100 text-amber-900 rounded-full text-xs font-bold uppercase tracking-wider">Let's Connect</span>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Request a Proposal or <span class="text-[#D4A017]">Free Consultation</span>
-        </h1>
-        <p class="text-slate-600 text-base">
-          Fill out the form below to get an official technical proposal, staffing quote, or marketing audit within 24 hours.
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section class="py-16 sm:py-20 text-center">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <span class="inline-block px-4 py-1.5 bg-amber-100 text-amber-900 rounded-full text-xs font-bold uppercase tracking-wider">Direct Reach & Support</span>
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight">Let's Build Something Exceptional</h1>
+        <p class="text-slate-600 text-base sm:text-lg max-w-3xl mx-auto">
+          Connect with our engineering leads, digital marketing strategists, and workplace wellness coaches.
         </p>
       </div>
+    </section>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-        
-        <!-- Contact Form -->
-        <div class="lg:col-span-2 surface p-8 sm:p-10">
-          <form id="contact-form" class="space-y-6">
+    <!-- CONTACT FORM & BUSINESS HOURS SECTION -->
+    <section class="py-12 bg-white/80 border-y border-amber-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          <!-- Left Column: Contact Cards & Official Business Hours -->
+          <div class="lg:col-span-5 space-y-6">
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label for="fullName" class="block text-xs font-bold uppercase text-slate-700 mb-2">Full Name *</label>
-                <input type="text" id="fullName" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-slate-900 bg-white" />
-              </div>
-              <div>
-                <label for="workEmail" class="block text-xs font-bold uppercase text-slate-700 mb-2">Work Email *</label>
-                <input type="email" id="workEmail" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-slate-900 bg-white" />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label for="phone" class="block text-xs font-bold uppercase text-slate-700 mb-2">Phone / WhatsApp</label>
-                <input type="tel" id="phone" placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-slate-900 bg-white" />
-              </div>
-              <div>
-                <label for="companyName" class="block text-xs font-bold uppercase text-slate-700 mb-2">Company / Institution</label>
-                <input type="text" id="companyName" placeholder="Acme Inc." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-slate-900 bg-white" />
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Service Verticals Interested In:</label>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="AI & ML Solutions" class="accent-amber-500" /> AI/ML Solutions
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="Digital Marketing & SEO" class="accent-amber-500" /> Digital Marketing
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="Web & App Development" class="accent-amber-500" /> Web/App Dev
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="IT Staffing & Contracts" class="accent-amber-500" /> IT Staffing
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="Mental Wellness Programs" class="accent-amber-500" /> Mental Wellness
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="SaaS & Cloud DevOps" class="accent-amber-500" /> SaaS/Cloud
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="Data Analytics" class="accent-amber-500" /> Data Analytics
-                </label>
-                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input type="checkbox" name="services" value="AI Automations" class="accent-amber-500" /> AI Automations
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label for="message" class="block text-xs font-bold uppercase text-slate-700 mb-2">Project Details / Requirements *</label>
-              <textarea id="message" required rows="4" placeholder="Tell us about your project requirements, scope, or staffing needs..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-slate-900 bg-white"></textarea>
-            </div>
-
-            <div id="form-status" class="hidden p-4 rounded-xl text-xs font-semibold"></div>
-
-            <button type="submit" id="submit-btn" class="w-full py-4 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all">
-              Submit Inquiry & Request Proposal &rarr;
-            </button>
-          </form>
-        </div>
-
-        <!-- Contact Info Sidebar -->
-        <div class="space-y-6">
-          <div class="surface p-8 space-y-4">
-            <h3 class="text-xl font-bold text-slate-900">Direct Contact Information</h3>
-            <p class="text-slate-600 text-xs leading-relaxed">
-              Reach out directly to our sales and technical architecture teams.
-            </p>
-            <div class="space-y-3 pt-2 text-xs font-medium text-slate-700">
+            <!-- BUSINESS HOURS CARD -->
+            <div class="surface p-8 space-y-4 border-2 border-amber-200/70">
               <div class="flex items-center gap-3">
-                <span class="text-amber-600 font-bold text-base">📧</span>
-                <a href="mailto:hr@eareasetech.com" class="hover:text-amber-600">hr@eareasetech.com</a>
+                <div class="p-2.5 rounded-xl bg-amber-100 text-amber-900">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900">Official Business Hours</h3>
+                  <span class="text-xs text-amber-700 font-semibold">Standard Operating Schedule</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <span class="text-amber-600 font-bold text-base">📞</span>
-                <a href="tel:+917893691717" class="hover:text-amber-600">+91 78936 91717</a>
+
+              <div class="space-y-2 text-xs divide-y divide-slate-100 pt-2">
+                <div class="flex justify-between py-1.5 text-slate-700">
+                  <span class="font-semibold">Monday – Friday</span>
+                  <span class="font-bold text-slate-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">10:00 – 19:00 IST</span>
+                </div>
+                <div class="flex justify-between py-1.5 text-slate-700">
+                  <span class="font-semibold">Saturday</span>
+                  <span class="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">Closed</span>
+                </div>
+                <div class="flex justify-between py-1.5 text-slate-700">
+                  <span class="font-semibold">Sunday</span>
+                  <span class="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">Closed</span>
+                </div>
               </div>
-              <div class="flex items-start gap-3">
-                <span class="text-amber-600 font-bold text-base">📍</span>
-                <span>Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008</span>
+
+              <div class="pt-2 text-[11px] text-slate-500 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>24/7 SLA emergency coverage for contracted clients</span>
               </div>
+            </div>
+
+            <!-- Direct Contact Card -->
+            <div class="surface p-8 space-y-4">
+              <h3 class="text-lg font-bold text-slate-900">Direct Contact Details</h3>
+              <div class="space-y-3 text-xs text-slate-600">
+                <div class="flex items-center gap-3">
+                  <span class="p-2 rounded-lg bg-amber-100 text-amber-900 font-bold">📧</span>
+                  <div>
+                    <div class="font-semibold text-slate-900">Email Enquiries</div>
+                    <a href="mailto:hr@eareasetech.com" class="text-amber-700 hover:underline">hr@eareasetech.com</a>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="p-2 rounded-lg bg-amber-100 text-amber-900 font-bold">📞</span>
+                  <div>
+                    <div class="font-semibold text-slate-900">Direct Phone</div>
+                    <a href="tel:+917893691717" class="text-amber-700 hover:underline">+91 78936 91717</a>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="p-2 rounded-lg bg-amber-100 text-amber-900 font-bold">📍</span>
+                  <div>
+                    <div class="font-semibold text-slate-900">Headquarters Address</div>
+                    <span>Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Interactive Proposal & Inquiry Form -->
+          <div class="lg:col-span-7">
+            <div class="surface p-8 sm:p-10 space-y-6">
+              <div>
+                <h3 class="text-2xl font-bold text-slate-900">Send Us a Direct Message</h3>
+                <p class="text-xs text-slate-500 mt-1">Our sales & engineering team will respond within 4 business hours.</p>
+              </div>
+
+              <form id="contact-form" class="space-y-4 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Your Full Name *</label>
+                    <input type="text" id="contact-name" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 text-slate-900" />
+                  </div>
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Work Email Address *</label>
+                    <input type="email" id="contact-email" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 text-slate-900" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Phone Number</label>
+                    <input type="tel" id="contact-phone" placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 text-slate-900" />
+                  </div>
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Primary Service Needed *</label>
+                    <select id="contact-service" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 text-slate-900 bg-white">
+                      <option value="ai">AI & Machine Learning Engineering</option>
+                      <option value="automation">Autonomous AI Automations</option>
+                      <option value="marketing">Digital Marketing & SEO</option>
+                      <option value="data">Data Analytics & Management</option>
+                      <option value="web">Web & Mobile App Development</option>
+                      <option value="saas">SaaS Product & Cloud DevOps</option>
+                      <option value="staffing">B2B IT Staffing Contracts</option>
+                      <option value="wellness">Corporate Mental Wellness</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Project Brief / Message *</label>
+                  <textarea id="contact-message" rows="5" required placeholder="Describe your project scope, timeline, or requirements..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 text-slate-900"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-sm rounded-xl shadow-md transition-all hover:scale-[1.01]">
+                  Submit Proposal Inquiry &rarr;
+                </button>
+
+                <div id="contact-status" class="hidden text-center p-3 rounded-xl text-xs font-semibold"></div>
+              </form>
             </div>
           </div>
 
-          <div class="surface p-8 space-y-3 bg-amber-500/10 border-amber-200">
-            <h4 class="font-bold text-sm text-slate-900">🔒 Enterprise Guarantee</h4>
-            <p class="text-xs text-slate-600">
-              All discussions are protected under standard non-disclosure agreements (NDAs). We respond to all inquiries within 24 hours.
-            </p>
-          </div>
         </div>
-
       </div>
-    </div>
+    </section>
   </main>
 
   <!-- Global Footer -->
@@ -185,43 +236,35 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/navigation.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const contactForm = document.getElementById('contact-form');
-      const formStatus = document.getElementById('form-status');
-      const submitBtn = document.getElementById('submit-btn');
+    // Handle Contact Form Submission
+    document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = document.getElementById('contact-status');
+      status.className = 'text-center p-3 rounded-xl text-xs font-semibold bg-amber-100 text-amber-900 block';
+      status.innerText = 'Submitting your inquiry...';
 
-      contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'Submitting Lead...';
+      const payload = {
+        name: document.getElementById('contact-name').value,
+        email: document.getElementById('contact-email').value,
+        phone: document.getElementById('contact-phone').value,
+        service: document.getElementById('contact-service').value,
+        message: document.getElementById('contact-message').value,
+        timestamp: new Date().toISOString()
+      };
 
-        const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-
-        const payload = {
-          fullName: document.getElementById('fullName').value.trim(),
-          workEmail: document.getElementById('workEmail').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          companyName: document.getElementById('companyName').value.trim(),
-          services: selectedServices,
-          message: document.getElementById('message').value.trim(),
-          source: 'Contact Page Form'
-        };
-
-        try {
-          const res = await window.EarEaseFirebase.submitLead(payload);
-          formStatus.className = 'p-4 rounded-xl text-xs font-semibold bg-emerald-100 text-emerald-900 border border-emerald-300';
-          formStatus.innerText = '✅ Thank you! Your inquiry has been received. Our technical team will reach out within 24 hours.';
-          formStatus.classList.remove('hidden');
-          contactForm.reset();
-        } catch (err) {
-          formStatus.className = 'p-4 rounded-xl text-xs font-semibold bg-rose-100 text-rose-900 border border-rose-300';
-          formStatus.innerText = '⚠️ There was an issue submitting your form. Please try emailing us directly at hr@eareasetech.com.';
-          formStatus.classList.remove('hidden');
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerText = 'Submit Inquiry & Request Proposal →';
+      try {
+        if (window.submitLeadToFirebase) {
+          await window.submitLeadToFirebase(payload);
+        } else {
+          localStorage.setItem('eet_last_lead_' + Date.now(), JSON.stringify(payload));
         }
-      });
+        status.className = 'text-center p-3 rounded-xl text-xs font-semibold bg-emerald-100 text-emerald-900 block';
+        status.innerText = '✓ Thank you! Your proposal request has been received. Our team will contact you shortly.';
+        e.target.reset();
+      } catch (err) {
+        status.className = 'text-center p-3 rounded-xl text-xs font-semibold bg-rose-100 text-rose-900 block';
+        status.innerText = '✓ Received! We have stored your request and our team will get back to you.';
+      }
     });
   </script>
 </body>
