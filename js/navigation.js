@@ -1,6 +1,6 @@
 /**
  * EarEase-Tech Global Header & Footer Navigation
- * Includes Hyperlinked Social Media Logos (LinkedIn, YouTube, Instagram), Opening Hours, and Services Hover Dropdown
+ * Configured with Official Business Hours (Mon - Fri: 10:00 - 19:00 IST | Sat - Sun: Closed)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Global Footer with Hyperlinked Brand Logos (LinkedIn, YouTube, Instagram)
+  // Render Global Footer with Official Opening Hours (Mon - Fri: 10:00 - 19:00 IST | Sat - Sun: Closed)
   if (footerContainer) {
     footerContainer.innerHTML = `
       <footer class="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 text-xs">
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </p>
               <div class="text-[11px] text-slate-400 space-y-1">
                 <div>📍 <strong>HQ Address:</strong> Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008, India</div>
-                <div>🕒 <strong>Opening Hours:</strong> Mon - Fri: 09:00 AM - 06:00 PM IST | Sat: 09:00 AM - 02:00 PM IST</div>
+                <div>🕒 <strong>Business Hours:</strong> Mon - Fri: 10:00 AM - 07:00 PM IST | Sat - Sun: Closed</div>
               </div>
 
               <!-- Hyperlinked Social Media Logos -->
