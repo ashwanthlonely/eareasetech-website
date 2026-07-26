@@ -3,99 +3,819 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>360° Enterprise CRM & Operations Hub | EarEase-Tech</title>
   <meta name="robots" content="noindex, nofollow" />
-  <title>EarEase-Tech | Internal Client Lead CRM</title>
   <link rel="icon" href="assets/favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Firebase App & Firestore Client SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <style>
+    :root {
+      --brand: #d4a017;
+      --ink: #0f172a;
+      --paper: #fffaf2;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .crm-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+    }
+    .crm-card:hover {
+      border-color: #d4a017;
+    }
+    .kanban-col {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      min-height: 500px;
+    }
+    .badge-hot { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-warm { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-cold { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-8">
-  
-  <div class="max-w-7xl mx-auto space-y-6">
-    
-    <!-- Top Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 p-6 rounded-2xl border border-slate-800">
-      <div>
-        <span class="inline-block px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold rounded-full mb-1">Internal Portal</span>
-        <h1 class="text-2xl font-bold text-white">EarEase-Tech Client Lead Portal</h1>
-        <p class="text-xs text-slate-400 mt-1">Live inquiries across AI/ML, Robotics Labs, Digital Marketing, Software, Staffing & Mental Wellness.</p>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Top Header Navigation -->
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="EarEase-Tech Logo" class="h-9 w-auto object-contain" />
+        <div>
+          <h1 class="text-lg font-bold text-white leading-none">EarEase-Tech <span class="text-[#D4A017]">360° CRM</span></h1>
+          <span class="text-[10px] text-slate-400 font-medium">Sales, Marketing, HR, Engineering & Executive Hub</span>
+        </div>
       </div>
-      <button id="refresh-btn" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all">
-        🔄 Refresh Live Leads
+
+      <!-- Controls: Currency & Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Currency Selector -->
+        <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 text-xs">
+          <span class="text-slate-400 font-semibold">Currency:</span>
+          <select id="crm-currency" class="bg-slate-900 text-amber-400 font-bold border border-slate-700 rounded-lg px-2 py-1 outline-none cursor-pointer">
+            <option value="USD">USD ($)</option>
+            <option value="INR">INR (₹)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="AED">AED (AED)</option>
+            <option value="CAD">CAD (CA$)</option>
+            <option value="AUD">AUD (A$)</option>
+            <option value="SGD">SGD (S$)</option>
+          </select>
+        </div>
+
+        <button id="btn-export-csv" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-all flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Export CSV</span>
+        </button>
+
+        <button id="btn-add-manual" class="px-4 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all">
+          + Add New Lead
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main CRM Body -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+    
+    <!-- EXECUTIVE KPI STAT CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Inquiries</span>
+          <div id="stat-total-leads" class="text-3xl font-extrabold text-white mt-1">0</div>
+          <span class="text-[11px] text-emerald-400 font-medium">⚡ Real-Time Website Feed</span>
+        </div>
+        <div class="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 text-amber-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Pipeline Value</span>
+          <div id="stat-pipeline-value" class="text-3xl font-extrabold text-amber-400 mt-1">$0</div>
+          <span class="text-[11px] text-slate-400 font-medium">Weighted Forecast</span>
+        </div>
+        <div class="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Proposal Win Rate</span>
+          <div id="stat-win-rate" class="text-3xl font-extrabold text-white mt-1">75%</div>
+          <span class="text-[11px] text-emerald-400 font-medium">↑ 12% vs last month</span>
+        </div>
+        <div class="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Hot Deals Needed Today</span>
+          <div id="stat-hot-deals" class="text-3xl font-extrabold text-rose-400 mt-1">0</div>
+          <span class="text-[11px] text-rose-400 font-medium">⚡ Requires Sales Action</span>
+        </div>
+        <div class="p-3 bg-rose-500/10 rounded-2xl border border-rose-500/20 text-rose-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PRIMARY TAB NAVIGATION BAR -->
+    <div class="border-b border-slate-800 flex flex-wrap gap-2 text-xs font-semibold">
+      <button class="crm-tab active px-5 py-3 border-b-2 border-amber-400 text-amber-400 bg-slate-800/60 rounded-t-xl transition-all" data-tab="inquiries">
+        📥 Website Inquiries & Contact Queue
+      </button>
+      <button class="crm-tab px-5 py-3 text-slate-400 hover:text-white rounded-t-xl transition-all" data-tab="pipeline">
+        💼 Sales Pipeline (Kanban)
+      </button>
+      <button class="crm-tab px-5 py-3 text-slate-400 hover:text-white rounded-t-xl transition-all" data-tab="marketing">
+        📈 Marketing Attribution
+      </button>
+      <button class="crm-tab px-5 py-3 text-slate-400 hover:text-white rounded-t-xl transition-all" data-tab="engineering">
+        🛠️ Engineering & Sprint Pods
+      </button>
+      <button class="crm-tab px-5 py-3 text-slate-400 hover:text-white rounded-t-xl transition-all" data-tab="staffing">
+        👥 HR & Staffing Pods
+      </button>
+      <button class="crm-tab px-5 py-3 text-slate-400 hover:text-white rounded-t-xl transition-all" data-tab="wellness">
+        🌿 Corporate Mental Wellness
       </button>
     </div>
 
-    <!-- Lead Table -->
-    <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
-      <div class="p-4 border-b border-slate-800 flex justify-between items-center text-xs font-semibold text-slate-400">
-        <span id="lead-count">Loading leads...</span>
-        <span class="text-amber-400 font-normal">Source: Firebase Firestore / LocalStorage</span>
+    <!-- TAB 1: WEBSITE INQUIRIES & SALES CONTACT HUB -->
+    <section id="tab-inquiries" class="tab-content space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white">Website Client Inquiries Queue</h2>
+          <p class="text-xs text-slate-400">Incoming contact form submissions and scope estimates. Contact clients immediately using 1-click actions.</p>
+        </div>
+        
+        <!-- Search & Category Filters -->
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <input type="text" id="inquiry-search" placeholder="Search client name, email, or service..." class="px-4 py-2 bg-slate-800 border border-slate-700 text-white rounded-xl text-xs outline-none focus:border-amber-400 w-full sm:w-64" />
+          <select id="inquiry-filter-service" class="px-3 py-2 bg-slate-800 border border-slate-700 text-amber-400 rounded-xl text-xs outline-none cursor-pointer">
+            <option value="all">All Services</option>
+            <option value="ai">AI & ML Engineering</option>
+            <option value="automation">AI Automations</option>
+            <option value="marketing">Digital Marketing</option>
+            <option value="data">Data Analytics</option>
+            <option value="web">Web/App Sprints</option>
+            <option value="staffing">IT Staffing</option>
+            <option value="wellness">Mental Wellness</option>
+          </select>
+        </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-slate-950/60 text-slate-400 border-b border-slate-800 uppercase tracking-wider">
-              <th class="p-4">Date</th>
-              <th class="p-4">Client Name</th>
-              <th class="p-4">Work Email / Phone</th>
-              <th class="p-4">Company</th>
-              <th class="p-4">Interested Verticals</th>
-              <th class="p-4">Details / Message</th>
+      <!-- Inquiries Table -->
+      <div class="crm-card overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+            <tr>
+              <th class="p-4">Client Contact</th>
+              <th class="p-4">Requested Service</th>
+              <th class="p-4">Scope Estimate</th>
+              <th class="p-4">Priority & Stage</th>
+              <th class="p-4">Source Channel</th>
+              <th class="p-4">Submission Date</th>
+              <th class="p-4 text-right">Sales Actions</th>
             </tr>
           </thead>
-          <tbody id="leads-body" class="divide-y divide-slate-800 text-slate-200">
-            <tr>
-              <td colspan="6" class="p-8 text-center text-slate-500">Loading leads...</td>
-            </tr>
+          <tbody id="inquiries-tbody" class="divide-y divide-slate-800">
+            <!-- Rendered dynamically -->
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
 
+    <!-- TAB 2: SALES PIPELINE KANBAN BOARD -->
+    <section id="tab-pipeline" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-xl font-bold text-white">Sales Deal Stages (Kanban)</h2>
+          <p class="text-xs text-slate-400">Track deal movement from New Inquiry to Contract Signed & Active Project.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        
+        <!-- Col: New Lead -->
+        <div class="kanban-col p-4 space-y-3">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-xs font-bold text-white">1. New Lead</span>
+            <span id="count-new" class="px-2 py-0.5 bg-slate-800 text-amber-400 rounded-full text-[10px] font-bold">0</span>
+          </div>
+          <div id="col-new" class="space-y-3"></div>
+        </div>
+
+        <!-- Col: In Discussion -->
+        <div class="kanban-col p-4 space-y-3">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-xs font-bold text-white">2. In Discussion</span>
+            <span id="count-discussion" class="px-2 py-0.5 bg-slate-800 text-blue-400 rounded-full text-[10px] font-bold">0</span>
+          </div>
+          <div id="col-discussion" class="space-y-3"></div>
+        </div>
+
+        <!-- Col: Proposal Sent -->
+        <div class="kanban-col p-4 space-y-3">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-xs font-bold text-white">3. Proposal Sent</span>
+            <span id="count-proposal" class="px-2 py-0.5 bg-slate-800 text-purple-400 rounded-full text-[10px] font-bold">0</span>
+          </div>
+          <div id="col-proposal" class="space-y-3"></div>
+        </div>
+
+        <!-- Col: Contract Signed -->
+        <div class="kanban-col p-4 space-y-3">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-xs font-bold text-white">4. Contract Signed</span>
+            <span id="count-signed" class="px-2 py-0.5 bg-slate-800 text-emerald-400 rounded-full text-[10px] font-bold">0</span>
+          </div>
+          <div id="col-signed" class="space-y-3"></div>
+        </div>
+
+        <!-- Col: Active Project -->
+        <div class="kanban-col p-4 space-y-3">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-xs font-bold text-white">5. Active Delivery</span>
+            <span id="count-active" class="px-2 py-0.5 bg-slate-800 text-amber-400 rounded-full text-[10px] font-bold">0</span>
+          </div>
+          <div id="col-active" class="space-y-3"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: MARKETING ATTRIBUTION -->
+    <section id="tab-marketing" class="tab-content hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">Marketing Lead Attribution Analytics</h2>
+        <p class="text-xs text-slate-400">Tracking conversion performance by traffic source and campaign channel.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="crm-card p-6 space-y-3">
+          <h3 class="font-bold text-white text-sm">Top Acquisition Channels</h3>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex justify-between"><span>🔍 Google Search / Organic SEO</span><strong class="text-amber-400">42%</strong></div>
+            <div class="flex justify-between"><span>⚡ Direct Estimator Calculator</span><strong class="text-amber-400">28%</strong></div>
+            <div class="flex justify-between"><span>💼 LinkedIn B2B PPC Ads</span><strong class="text-amber-400">18%</strong></div>
+            <div class="flex justify-between"><span>🤝 Client Referrals</span><strong class="text-amber-400">12%</strong></div>
+          </div>
+        </div>
+
+        <div class="crm-card p-6 space-y-3">
+          <h3 class="font-bold text-white text-sm">Demand by Service Category</h3>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex justify-between"><span>🧠 AI & Machine Learning</span><strong class="text-emerald-400">38%</strong></div>
+            <div class="flex justify-between"><span>💻 Web & Mobile App Sprints</span><strong class="text-emerald-400">24%</strong></div>
+            <div class="flex justify-between"><span>👥 B2B IT Staffing Pods</span><strong class="text-emerald-400">20%</strong></div>
+            <div class="flex justify-between"><span>🌿 Corporate Mental Wellness</span><strong class="text-emerald-400">18%</strong></div>
+          </div>
+        </div>
+
+        <div class="crm-card p-6 space-y-3">
+          <h3 class="font-bold text-white text-sm">Campaign ROAS Summary</h3>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex justify-between"><span>LinkedIn B2B Campaign</span><strong class="text-amber-400">4.2x ROAS</strong></div>
+            <div class="flex justify-between"><span>Google Ads Search Campaign</span><strong class="text-amber-400">3.8x ROAS</strong></div>
+            <div class="flex justify-between"><span>Technical SEO Engine</span><strong class="text-emerald-400">High Organic ROI</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: ENGINEERING & SPRINT PODS -->
+    <section id="tab-engineering" class="tab-content hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">Active Product Sprint & Engineering Operations</h2>
+        <p class="text-xs text-slate-400">Monitoring active 2-4 week product sprints, tech stacks, and SLA commitments.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="crm-card p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-[10px] font-bold uppercase">Multi-Tenant SaaS Sprint</span>
+            <span class="text-xs font-bold text-emerald-400">Sprint Week 2 of 4</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">FinTech Cloud MVP Platform</h3>
+          <p class="text-xs text-slate-400">Client: FinTech Cloud (San Jose, CA) • Tech Lead: Alex Rivera</p>
+          <div class="flex flex-wrap gap-2 text-[10px] font-semibold text-slate-300">
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">Next.js 14</span>
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">PyTorch</span>
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">Stripe API</span>
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="crm-card p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-[10px] font-bold uppercase">Autonomous Agent Pod</span>
+            <span class="text-xs font-bold text-emerald-400">Deployed & Testing</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Logistics Document OCR Pipeline</h3>
+          <p class="text-xs text-slate-400">Client: Gulf Freight (Dubai, UAE) • Tech Lead: Marcus Sterling</p>
+          <div class="flex flex-wrap gap-2 text-[10px] font-semibold text-slate-300">
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">LangGraph</span>
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">n8n</span>
+            <span class="px-2.5 py-1 bg-slate-800 rounded-md border border-slate-700">OpenCV</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: HR & STAFFING PODS -->
+    <section id="tab-staffing" class="tab-content hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">HR & IT Staffing Pod Operations</h2>
+        <p class="text-xs text-slate-400">Pre-vetted developer candidate matching and 48-hour pod onboarding status.</p>
+      </div>
+
+      <div class="crm-card p-6 space-y-4">
+        <h3 class="font-bold text-white text-sm">48-Hour Developer Placement Bench</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 space-y-1">
+            <div class="font-bold text-white">Senior AI / PyTorch Engineer</div>
+            <div class="text-slate-400 text-[11px]">8+ YOE • Available Immediately</div>
+            <span class="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px] font-bold">Ready in 24h</span>
+          </div>
+          <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 space-y-1">
+            <div class="font-bold text-white">Senior Full-Stack Next.js Dev</div>
+            <div class="text-slate-400 text-[11px]">6+ YOE • React Native & Node.js</div>
+            <span class="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px] font-bold">Ready in 48h</span>
+          </div>
+          <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 space-y-1">
+            <div class="font-bold text-white">Cloud DevOps & Kubernetes Architect</div>
+            <div class="text-slate-400 text-[11px]">7+ YOE • AWS, GCP & Terraform</div>
+            <span class="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px] font-bold">Ready in 24h</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: CORPORATE MENTAL WELLNESS -->
+    <section id="tab-wellness" class="tab-content hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">Corporate Mental Wellness Programs</h2>
+        <p class="text-xs text-slate-400">Workplace burnout reduction tracking, listening pod schedules, and executive resilience labs.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="crm-card p-6 space-y-3">
+          <h3 class="font-bold text-white text-sm">Active Enterprise Programs</h3>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-white">TechCorp India (1,500 Employees)</div>
+                <div class="text-[11px] text-slate-400">Listening Pods & Burnout Prevention</div>
+              </div>
+              <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold rounded">-45% Burnout</span>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-white">DataLabs Singapore (45 CXOs)</div>
+                <div class="text-[11px] text-slate-400">Executive Resilience Intensive</div>
+              </div>
+              <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 font-bold rounded">98% Satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="crm-card p-6 space-y-3">
+          <h3 class="font-bold text-white text-sm">Wellness Impact Summary</h3>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex justify-between"><span>Total Listening Hours Conducted</span><strong class="text-amber-400">10,450+ Hours</strong></div>
+            <div class="flex justify-between"><span>Average Burnout Score Drop</span><strong class="text-emerald-400">-42.5%</strong></div>
+            <div class="flex justify-between"><span>Employee Retention Lift</span><strong class="text-emerald-400">+32% Average</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: EDIT LEAD & ADD CALL NOTES -->
+  <div id="modal-edit-lead" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="crm-card max-w-lg w-full p-6 space-y-4 border-amber-500/50">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+        <h3 id="modal-edit-title" class="font-bold text-white text-base">Edit Client Lead & Deal Notes</h3>
+        <button id="modal-edit-close" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+
+      <form id="form-edit-lead" class="space-y-3 text-xs">
+        <input type="hidden" id="edit-lead-id" />
+        
+        <div>
+          <label class="block font-semibold text-slate-400 mb-1">Client Name</label>
+          <input type="text" id="edit-lead-name" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" readonly />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Deal Stage</label>
+            <select id="edit-lead-stage" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-amber-400 rounded-xl outline-none">
+              <option value="New Lead">1. New Lead</option>
+              <option value="In Discussion">2. In Discussion</option>
+              <option value="Proposal Sent">3. Proposal Sent</option>
+              <option value="Contract Signed">4. Contract Signed</option>
+              <option value="Active Project">5. Active Delivery</option>
+              <option value="Closed Lost">6. Closed / Lost</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Priority</label>
+            <select id="edit-lead-priority" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-amber-400 rounded-xl outline-none">
+              <option value="Hot">Hot 🔴 (Urgent)</option>
+              <option value="Warm">Warm 🟡</option>
+              <option value="Cold">Cold 🔵</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-400 mb-1">Assigned Sales Representative</label>
+          <input type="text" id="edit-lead-assigned" placeholder="e.g. Alex Rivers (Sales Lead)" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-400 mb-1">Add Call Log / Internal Note</label>
+          <textarea id="edit-lead-new-note" rows="3" placeholder="Log details from call or email discussion..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-3">
+          <button type="button" id="btn-cancel-edit" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-md">Save Lead Updates</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: ADD MANUAL LEAD -->
+  <div id="modal-add-lead" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="crm-card max-w-lg w-full p-6 space-y-4 border-amber-500/50">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+        <h3 class="font-bold text-white text-base">Add New Enterprise Lead</h3>
+        <button id="modal-add-close" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+
+      <form id="form-add-lead" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-400 mb-1">Client Full Name *</label>
+          <input type="text" id="add-lead-name" required placeholder="John Smith" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Work Email *</label>
+            <input type="email" id="add-lead-email" required placeholder="john@enterprise.com" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Phone Number</label>
+            <input type="tel" id="add-lead-phone" placeholder="+1 555-0199" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Service Required</label>
+            <select id="add-lead-service" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-amber-400 rounded-xl outline-none">
+              <option value="AI & ML Engineering">AI & ML Engineering</option>
+              <option value="AI Workflow Automations">AI Workflow Automations</option>
+              <option value="Digital Marketing & SEO">Digital Marketing & SEO</option>
+              <option value="Data Analytics & ETL">Data Analytics & ETL</option>
+              <option value="Web & Mobile App Sprints">Web & Mobile App Sprints</option>
+              <option value="SaaS Products & Cloud">SaaS Products & Cloud</option>
+              <option value="B2B IT Staffing Contracts">B2B IT Staffing Contracts</option>
+              <option value="Corporate Mental Wellness">Corporate Mental Wellness</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-400 mb-1">Estimate Amount</label>
+            <input type="text" id="add-lead-estimate" placeholder="$25,000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-400 mb-1">Project Message / Requirements</label>
+          <textarea id="add-lead-message" rows="3" placeholder="Enter scope brief or client requirements..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-3">
+          <button type="button" id="btn-cancel-add" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-md">Add Lead to CRM</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="js/firebase-config.js"></script>
   <script>
-    async function loadLeads() {
-      const tbody = document.getElementById('leads-body');
-      const countEl = document.getElementById('lead-count');
+    // 360 CRM INTERACTIVE ENGINE
+    document.addEventListener('DOMContentLoaded', async () => {
+      let currentLeads = [];
+      let activeCurrency = 'USD';
 
-      try {
-        const leads = await window.EarEaseFirebase.getLeads();
-        countEl.innerText = `Total Qualified Leads Captured: ${leads.length}`;
+      const currencySymbols = {
+        USD: '$', INR: '₹', EUR: '€', GBP: '£', AED: 'AED ', CAD: 'CA$', AUD: 'A$', SGD: 'S$'
+      };
+      const exchangeRates = {
+        USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.78, AED: 3.67, CAD: 1.36, AUD: 1.52, SGD: 1.34
+      };
 
-        if (!leads || leads.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">No leads captured yet. Submit a test form on the contact page or lead estimator!</td></tr>`;
+      // Tab Switcher
+      document.querySelectorAll('.crm-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.crm-tab').forEach(t => {
+            t.classList.remove('active', 'border-b-2', 'border-amber-400', 'text-amber-400', 'bg-slate-800/60');
+            t.classList.add('text-slate-400');
+          });
+          tab.classList.add('active', 'border-b-2', 'border-amber-400', 'text-amber-400', 'bg-slate-800/60');
+          
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+          const target = tab.getAttribute('data-tab');
+          document.getElementById('tab-' + target)?.classList.remove('hidden');
+        });
+      });
+
+      // Currency Switcher Listener
+      document.getElementById('crm-currency')?.addEventListener('change', (e) => {
+        activeCurrency = e.target.value;
+        renderAllViews();
+      });
+
+      // Load & Render Leads
+      async function loadLeads() {
+        if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
+          currentLeads = await window.EarEaseFirebase.getLeads();
+        } else {
+          currentLeads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+        }
+        renderAllViews();
+      }
+
+      function renderAllViews() {
+        renderKPIs();
+        renderInquiriesTable();
+        renderKanban();
+      }
+
+      function parseNumericEstimate(estStr) {
+        if (!estStr) return 15000; // default estimate
+        const clean = estStr.toString().replace(/[^0-9.]/g, '');
+        const num = parseFloat(clean);
+        return isNaN(num) ? 15000 : num;
+      }
+
+      function formatVal(amountUSD) {
+        const rate = exchangeRates[activeCurrency] || 1;
+        const symbol = currencySymbols[activeCurrency] || '$';
+        const converted = Math.round(amountUSD * rate);
+        return symbol + converted.toLocaleString();
+      }
+
+      function renderKPIs() {
+        document.getElementById('stat-total-leads').innerText = currentLeads.length;
+
+        let totalPipelineUSD = 0;
+        let hotCount = 0;
+
+        currentLeads.forEach(l => {
+          totalPipelineUSD += parseNumericEstimate(l.estimateAmount);
+          if (l.priority === 'Hot') hotCount++;
+        });
+
+        document.getElementById('stat-pipeline-value').innerText = formatVal(totalPipelineUSD);
+        document.getElementById('stat-hot-deals').innerText = hotCount;
+      }
+
+      function renderInquiriesTable() {
+        const tbody = document.getElementById('inquiries-tbody');
+        if (!tbody) return;
+
+        const searchVal = document.getElementById('inquiry-search')?.value.toLowerCase() || '';
+        const serviceFilter = document.getElementById('inquiry-filter-service')?.value || 'all';
+
+        const filtered = currentLeads.filter(l => {
+          const matchSearch = (l.name || '').toLowerCase().includes(searchVal) ||
+                              (l.email || '').toLowerCase().includes(searchVal) ||
+                              (l.service || '').toLowerCase().includes(searchVal);
+          const matchService = serviceFilter === 'all' || (l.service || '').toLowerCase().includes(serviceFilter);
+          return matchSearch && matchService;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No client inquiries match search filters.</td></tr>`;
           return;
         }
 
-        tbody.innerHTML = leads.map(l => `
-          <tr class="hover:bg-slate-800/50 transition-colors">
-            <td class="p-4 whitespace-nowrap text-slate-400">${new Date(l.createdAt || Date.now()).toLocaleDateString()} ${new Date(l.createdAt || Date.now()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</td>
-            <td class="p-4 font-bold text-white">${l.fullName || l.name || 'Anonymous'}</td>
-            <td class="p-4 text-amber-400">${l.workEmail || l.email || 'N/A'}<br><span class="text-slate-400 font-normal">${l.phone || ''}</span></td>
-            <td class="p-4 font-medium">${l.companyName || l.company || 'N/A'}</td>
-            <td class="p-4">
-              <div class="flex flex-wrap gap-1">
-                ${(Array.isArray(l.services) ? l.services : [l.services || 'General Services']).map(s => `<span class="px-2 py-0.5 bg-amber-500/10 text-amber-300 border border-amber-500/20 rounded text-[10px]">${s}</span>`).join('')}
-              </div>
-            </td>
-            <td class="p-4 max-w-xs truncate text-slate-300" title="${l.message || ''}">${l.message || 'No additional notes provided.'}</td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = filtered.map(l => {
+          const numEst = parseNumericEstimate(l.estimateAmount);
+          const formattedEst = formatVal(numEst);
+          const priorityClass = l.priority === 'Hot' ? 'badge-hot' : l.priority === 'Warm' ? 'badge-warm' : 'badge-cold';
 
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-rose-400">Error loading leads: ${err.message}</td></tr>`;
+          return `
+            <tr class="hover:bg-slate-800/50 transition-colors">
+              <td class="p-4">
+                <div class="font-bold text-white">${l.name || 'Anonymous Inquiry'}</div>
+                <div class="text-slate-400 text-[11px]">${l.email || 'No email'} ${l.phone ? '• ' + l.phone : ''}</div>
+              </td>
+              <td class="p-4 font-medium text-amber-300">${l.service || 'General Inquiry'}</td>
+              <td class="p-4 font-bold text-white">${formattedEst}</td>
+              <td class="p-4">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${priorityClass}">${l.priority || 'Warm'}</span>
+                <div class="text-slate-400 text-[10px] mt-1">${l.stage || 'New Lead'}</div>
+              </td>
+              <td class="p-4 text-slate-400">${l.source || 'Website Form'}</td>
+              <td class="p-4 text-slate-400">${l.createdAt ? new Date(l.createdAt).toLocaleDateString() : 'Today'}</td>
+              <td class="p-4 text-right space-x-1">
+                ${l.email ? `<a href="mailto:${l.email}?subject=EarEase-Tech%20Project%20Proposal" title="Send Email" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg font-bold border border-slate-700 inline-block">📧 Email</a>` : ''}
+                ${l.phone ? `<a href="tel:${l.phone}" title="Call Client" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg font-bold border border-slate-700 inline-block">📞 Call</a>` : ''}
+                <button onclick="openEditModal('${l.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold inline-block">Edit</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
       }
-    }
 
-    document.getElementById('refresh-btn').addEventListener('click', loadLeads);
-    document.addEventListener('DOMContentLoaded', loadLeads);
+      function renderKanban() {
+        const cols = {
+          'New Lead': document.getElementById('col-new'),
+          'In Discussion': document.getElementById('col-discussion'),
+          'Proposal Sent': document.getElementById('col-proposal'),
+          'Contract Signed': document.getElementById('col-signed'),
+          'Active Project': document.getElementById('col-active')
+        };
+        const counts = {
+          'New Lead': document.getElementById('count-new'),
+          'In Discussion': document.getElementById('count-discussion'),
+          'Proposal Sent': document.getElementById('count-proposal'),
+          'Contract Signed': document.getElementById('count-signed'),
+          'Active Project': document.getElementById('count-active')
+        };
+
+        Object.keys(cols).forEach(key => {
+          if (cols[key]) cols[key].innerHTML = '';
+          if (counts[key]) counts[key].innerText = '0';
+        });
+
+        const colCounts = { 'New Lead': 0, 'In Discussion': 0, 'Proposal Sent': 0, 'Contract Signed': 0, 'Active Project': 0 };
+
+        currentLeads.forEach(l => {
+          const stageKey = l.stage || 'New Lead';
+          const targetCol = cols[stageKey] || cols['New Lead'];
+          colCounts[stageKey] = (colCounts[stageKey] || 0) + 1;
+
+          const numEst = parseNumericEstimate(l.estimateAmount);
+          const formattedEst = formatVal(numEst);
+
+          const card = document.createElement('div');
+          card.className = 'crm-card p-4 space-y-2 text-xs border-slate-800 hover:border-amber-500 cursor-pointer';
+          card.onclick = () => openEditModal(l.id);
+          card.innerHTML = `
+            <div class="flex justify-between items-start">
+              <span class="font-bold text-white">${l.name}</span>
+              <span class="px-2 py-0.5 rounded text-[9px] font-bold ${l.priority==='Hot'?'badge-hot':l.priority==='Warm'?'badge-warm':'badge-cold'}">${l.priority||'Warm'}</span>
+            </div>
+            <div class="text-[11px] text-amber-400 font-semibold">${l.service}</div>
+            <div class="text-white font-extrabold text-sm">${formattedEst}</div>
+            <div class="text-[10px] text-slate-400 flex justify-between border-t border-slate-800 pt-2 mt-2">
+              <span>👤 ${l.assignedTo || 'Unassigned'}</span>
+              <span>${l.createdAt ? new Date(l.createdAt).toLocaleDateString() : 'Today'}</span>
+            </div>
+          `;
+
+          if (targetCol) targetCol.appendChild(card);
+        });
+
+        Object.keys(counts).forEach(key => {
+          if (counts[key]) counts[key].innerText = colCounts[key] || '0';
+        });
+      }
+
+      // Open Edit Modal
+      window.openEditModal = function(id) {
+        const lead = currentLeads.find(l => l.id === id);
+        if (!lead) return;
+
+        document.getElementById('edit-lead-id').value = lead.id;
+        document.getElementById('edit-lead-name').value = lead.name;
+        document.getElementById('edit-lead-stage').value = lead.stage || 'New Lead';
+        document.getElementById('edit-lead-priority').value = lead.priority || 'Warm';
+        document.getElementById('edit-lead-assigned').value = lead.assignedTo || '';
+        document.getElementById('edit-lead-new-note').value = '';
+
+        document.getElementById('modal-edit-lead').classList.remove('hidden');
+      };
+
+      // Modal Closers
+      document.getElementById('modal-edit-close')?.addEventListener('click', () => {
+        document.getElementById('modal-edit-lead').classList.add('hidden');
+      });
+      document.getElementById('btn-cancel-edit')?.addEventListener('click', () => {
+        document.getElementById('modal-edit-lead').classList.add('hidden');
+      });
+
+      // Submit Edit Lead Form
+      document.getElementById('form-edit-lead')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('edit-lead-id').value;
+        const stage = document.getElementById('edit-lead-stage').value;
+        const priority = document.getElementById('edit-lead-priority').value;
+        const assignedTo = document.getElementById('edit-lead-assigned').value;
+        const newNoteText = document.getElementById('edit-lead-new-note').value;
+
+        const updates = { stage, priority, assignedTo };
+
+        if (newNoteText.trim()) {
+          const lead = currentLeads.find(l => l.id === id);
+          const notes = lead.notes || [];
+          notes.unshift({ text: newNoteText.trim(), date: new Date().toLocaleDateString() });
+          updates.notes = notes;
+        }
+
+        if (window.EarEaseFirebase && window.EarEaseFirebase.updateLead) {
+          await window.EarEaseFirebase.updateLead(id, updates);
+        }
+
+        document.getElementById('modal-edit-lead').classList.add('hidden');
+        await loadLeads();
+      });
+
+      // Manual Add Lead Modal Trigger
+      document.getElementById('btn-add-manual')?.addEventListener('click', () => {
+        document.getElementById('modal-add-lead').classList.remove('hidden');
+      });
+      document.getElementById('modal-add-close')?.addEventListener('click', () => {
+        document.getElementById('modal-add-lead').classList.add('hidden');
+      });
+      document.getElementById('btn-cancel-add')?.addEventListener('click', () => {
+        document.getElementById('modal-add-lead').classList.add('hidden');
+      });
+
+      // Submit Manual Lead Form
+      document.getElementById('form-add-lead')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newLead = {
+          name: document.getElementById('add-lead-name').value,
+          email: document.getElementById('add-lead-email').value,
+          phone: document.getElementById('add-lead-phone').value,
+          service: document.getElementById('add-lead-service').value,
+          estimateAmount: document.getElementById('add-lead-estimate').value,
+          message: document.getElementById('add-lead-message').value,
+          source: 'Manual Internal Entry'
+        };
+
+        if (window.submitLeadToFirebase) {
+          await window.submitLeadToFirebase(newLead);
+        }
+        document.getElementById('modal-add-lead').classList.add('hidden');
+        e.target.reset();
+        await loadLeads();
+      });
+
+      // Search & Filter Input Listeners
+      document.getElementById('inquiry-search')?.addEventListener('input', renderInquiriesTable);
+      document.getElementById('inquiry-filter-service')?.addEventListener('change', renderInquiriesTable);
+
+      // Export CSV Listener
+      document.getElementById('btn-export-csv')?.addEventListener('click', () => {
+        if (currentLeads.length === 0) return alert('No leads to export.');
+        
+        let csvContent = "data:text/csv;charset=utf-8,ID,Name,Email,Phone,Service,Estimate,Priority,Stage,AssignedTo,Source,Date\n";
+        currentLeads.forEach(l => {
+          csvContent += `"${l.id}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.estimateAmount}","${l.priority}","${l.stage}","${l.assignedTo}","${l.source}","${l.createdAt}"\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `EarEase_Tech_CRM_Leads_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      // Initial Load
+      await loadLeads();
+    });
   </script>
 </body>
 </html>
