@@ -1,6 +1,7 @@
 /**
  * EarEase-Tech Service-Specific Interactive Scope & Cost Calculator
  * Multi-Currency Support (INR, USD, EUR, GBP, AED, CAD, AUD, SGD)
+ * Dispatches scope estimates directly to hr@eareasetech.com
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -234,15 +235,38 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 class="font-bold text-lg text-amber-400">Request fixed proposal for selected modules</h4>
-            <p class="text-xs text-slate-300 mt-1">Get an official scope document in ${selectedCurrency} with 100% SLA guarantee within 24 hours.</p>
+            <p class="text-xs text-slate-300 mt-1">Get an official scope document in ${selectedCurrency} sent to hr@eareasetech.com & your inbox.</p>
           </div>
-          <a href="contact-us.html?est=${formattedPrice}&currency=${selectedCurrency}&options=${selectedOptions.join(',')}" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-lg hover:shadow-amber-500/25 shrink-0">
+          <a id="calc-submit-btn" href="contact-us.html?est=${formattedPrice}&currency=${selectedCurrency}&options=${selectedOptions.join(',')}" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-lg hover:shadow-amber-500/25 shrink-0">
             Request Proposal in ${selectedCurrency} &rarr;
           </a>
         </div>
 
       </div>
     `;
+
+    const calcSubmitBtn = calculatorContainer.querySelector('#calc-submit-btn');
+    if (calcSubmitBtn) {
+      calcSubmitBtn.addEventListener('click', () => {
+        const optionNames = selectedOptions.map(id => {
+          const item = activeConfig.options.find(o => o.id === id);
+          return item ? item.name : id;
+        });
+
+        const leadPayload = {
+          service: activeConfig.title,
+          estimateAmount: formattedPrice,
+          currency: selectedCurrency,
+          selectedOptions: optionNames,
+          source: window.location.href,
+          message: `Scope calculation request for ${optionNames.join(', ')}. Est: ${formattedPrice} ${selectedCurrency}.`
+        };
+
+        if (window.submitLeadToFirebase) {
+          window.submitLeadToFirebase(leadPayload);
+        }
+      });
+    }
 
     const currSelect = calculatorContainer.querySelector('#calc-currency-select');
     if (currSelect) {

@@ -1,5 +1,6 @@
 /**
- * EarEase-Tech Firebase Integration & Lead Submission Helper
+ * EarEase-Tech Firebase Integration & Lead Dispatch Helper
+ * Automatically dispatches incoming client inquiries and scope estimates to hr@eareasetech.com
  * Supports Firebase Firestore with fallback to LocalStorage for offline/zero-config setups.
  */
 
@@ -31,7 +32,47 @@ if (typeof firebase !== 'undefined' && firebase.initializeApp) {
 }
 
 /**
+ * Dispatches lead payload via HTTP POST to hr@eareasetech.com
+ * @param {Object} payload 
+ */
+async function dispatchEmailAlert(payload) {
+  try {
+    const formData = new FormData();
+    formData.append('_subject', `NEW CLIENT ENQUIRY: ${payload.name || payload.service || 'Website Lead'}`);
+    formData.append('_replyto', payload.email || 'hr@eareasetech.com');
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+    
+    formData.append('Client Name', payload.name || 'Not Provided');
+    formData.append('Client Email', payload.email || 'Not Provided');
+    formData.append('Client Phone', payload.phone || 'Not Provided');
+    formData.append('Service Category', payload.service || 'General Inquiry');
+    if (payload.estimateAmount) {
+      formData.append('Scope Estimate', `${payload.currency || 'USD'} ${payload.estimateAmount}`);
+    }
+    if (payload.selectedOptions) {
+      formData.append('Selected Options', Array.isArray(payload.selectedOptions) ? payload.selectedOptions.join(', ') : payload.selectedOptions);
+    }
+    formData.append('Project Brief / Message', payload.message || 'No additional message provided.');
+    formData.append('Source Page', payload.source || window.location.href);
+    formData.append('Submission Time', payload.createdAt || new Date().toLocaleString());
+
+    await fetch('https://formsubmit.co/ajax/hr@eareasetech.com', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    console.log("EarEase-Tech: Email dispatch sent to hr@eareasetech.com");
+  } catch (err) {
+    console.warn("EarEase-Tech: Email dispatch API notice", err);
+  }
+}
+
+/**
  * Submits a lead payload (Contact form, Project Estimator, Inquiry)
+ * Stores in Firestore/LocalStorage AND dispatches email to hr@eareasetech.com
  * @param {Object} leadData 
  * @returns {Promise<Object>}
  */
@@ -40,24 +81,28 @@ async function submitLeadToFirebase(leadData) {
     ...leadData,
     createdAt: new Date().toISOString(),
     status: 'New',
-    source: leadData.source || 'Website Form'
+    source: leadData.source || window.location.href
   };
 
+  // 1. Save locally for instant backup & CRM
+  saveLocalLead(payload);
+
+  // 2. Dispatch email to hr@eareasetech.com
+  dispatchEmailAlert(payload);
+
+  // 3. Save to Firebase Firestore if connected
   if (isFirebaseInitialized && db) {
     try {
       const docRef = await db.collection('leads').add(payload);
       console.log("Lead stored in Firebase Firestore with ID:", docRef.id);
-      saveLocalLead(payload); // Also keep local copy
       return { success: true, id: docRef.id, mode: 'firebase' };
     } catch (err) {
-      console.error("Firestore submit error, saving locally:", err);
-      saveLocalLead(payload);
-      return { success: true, mode: 'local', warning: 'Saved locally' };
+      console.error("Firestore submit error:", err);
+      return { success: true, mode: 'local' };
     }
-  } else {
-    saveLocalLead(payload);
-    return { success: true, mode: 'local' };
   }
+
+  return { success: true, mode: 'local' };
 }
 
 /**
@@ -91,6 +136,7 @@ async function fetchAllLeads() {
 }
 
 // Make globally accessible
+window.submitLeadToFirebase = submitLeadToFirebase;
 window.EarEaseFirebase = {
   submitLead: submitLeadToFirebase,
   getLeads: fetchAllLeads
