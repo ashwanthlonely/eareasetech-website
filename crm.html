@@ -125,7 +125,7 @@
         </button>
 
         <button id="btn-clear-leads" class="px-3.5 py-2 bg-rose-950/80 hover:bg-rose-900 text-rose-300 font-bold text-xs rounded-xl border border-rose-800 transition-all">
-          Clear Lead Data
+          Clear All Leads
         </button>
 
         <button id="btn-add-manual" class="px-4 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all">
@@ -249,7 +249,7 @@
               <th class="p-4">Priority & Stage</th>
               <th class="p-4">Source Channel</th>
               <th class="p-4">Submission Date</th>
-              <th class="p-4 text-right">Sales Actions</th>
+              <th class="p-4 text-right">Admin Actions</th>
             </tr>
           </thead>
           <tbody id="inquiries-tbody" class="divide-y divide-slate-800">
@@ -466,7 +466,7 @@
 
   </main>
 
-  <!-- MODAL 1: EDIT LEAD & VIEW DIRECT MESSAGE -->
+  <!-- MODAL 1: EDIT LEAD & VIEW DIRECT MESSAGE & DELETE -->
   <div id="modal-edit-lead" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="crm-card max-w-lg w-full p-6 space-y-4 border-amber-500/50">
       <div class="flex justify-between items-center pb-3 border-b border-slate-800">
@@ -522,9 +522,16 @@
           <textarea id="edit-lead-new-note" rows="2" placeholder="Log details from call or email discussion..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none"></textarea>
         </div>
 
-        <div class="pt-2 flex justify-end gap-3">
-          <button type="button" id="btn-cancel-edit" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-md">Save Lead Updates</button>
+        <div class="pt-2 flex justify-between items-center gap-3">
+          <!-- Admin Delete Button in Modal -->
+          <button type="button" id="btn-delete-lead-modal" class="px-4 py-2 bg-rose-950/80 hover:bg-rose-900 text-rose-300 font-bold rounded-xl border border-rose-800 transition-all flex items-center gap-1.5">
+            <span>🗑️ Delete Lead</span>
+          </button>
+          
+          <div class="flex gap-2">
+            <button type="button" id="btn-cancel-edit" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl">Cancel</button>
+            <button type="submit" class="px-5 py-2 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-md">Save Lead Updates</button>
+          </div>
         </div>
       </form>
     </div>
@@ -758,9 +765,10 @@
               <td class="p-4 text-slate-400">${l.source || 'Website Form'}</td>
               <td class="p-4 text-slate-400">${l.createdAt ? new Date(l.createdAt).toLocaleDateString() : 'Today'}</td>
               <td class="p-4 text-right space-x-1">
-                ${l.email ? `<a href="mailto:${l.email}?subject=EarEase-Tech%20Project%20Proposal" title="Send Email" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg font-bold border border-slate-700 inline-block">📧 Email</a>` : ''}
-                ${l.phone ? `<a href="tel:${l.phone}" title="Call Client" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg font-bold border border-slate-700 inline-block">📞 Call</a>` : ''}
-                <button onclick="openEditModal('${l.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold inline-block">View Details</button>
+                ${l.email ? `<a href="mailto:${l.email}?subject=EarEase-Tech%20Project%20Proposal" title="Send Email" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg font-bold border border-slate-700 inline-block">📧 Email</a>` : ''}
+                ${l.phone ? `<a href="tel:${l.phone}" title="Call Client" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg font-bold border border-slate-700 inline-block">📞 Call</a>` : ''}
+                <button onclick="openEditModal('${l.id}')" class="px-2 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold inline-block">Edit</button>
+                <button onclick="confirmDeleteLead('${l.id}')" title="Delete Lead" class="px-2 py-1 bg-rose-950/80 hover:bg-rose-900 text-rose-300 rounded-lg font-bold border border-rose-800 inline-block">🗑️ Delete</button>
               </td>
             </tr>
           `;
@@ -822,6 +830,29 @@
           if (counts[key]) counts[key].innerText = colCounts[key] || '0';
         });
       }
+
+      // Admin Delete Lead Function
+      window.confirmDeleteLead = async function(id) {
+        const lead = currentLeads.find(l => l.id === id);
+        const name = lead ? lead.name : 'this lead';
+        if (confirm(`Are you sure you want to permanently delete "${name}" from the CRM?`)) {
+          if (window.EarEaseFirebase && window.EarEaseFirebase.deleteLead) {
+            await window.EarEaseFirebase.deleteLead(id);
+          } else if (window.deleteSingleLead) {
+            await window.deleteSingleLead(id);
+          }
+          await loadLeads();
+        }
+      };
+
+      // Modal Delete Trigger
+      document.getElementById('btn-delete-lead-modal')?.addEventListener('click', async () => {
+        const id = document.getElementById('edit-lead-id').value;
+        if (id) {
+          document.getElementById('modal-edit-lead').classList.add('hidden');
+          await window.confirmDeleteLead(id);
+        }
+      });
 
       // Clear / Reset Lead Data Button
       document.getElementById('btn-clear-leads')?.addEventListener('click', () => {

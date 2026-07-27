@@ -2,7 +2,7 @@
  * EarEase-Tech Firebase Integration & 360 CRM Data Dispatch Helper
  * Real Leads Only — Zero Dummy Data.
  * Supports Firebase Firestore with fallback to LocalStorage for offline/zero-config setups.
- * Features full Lead CRUD: Create, Read, Update Status, Add Call Notes, Delete, Clear All.
+ * Features full Lead CRUD: Create, Read, Update Status, Add Call Notes, Delete Lead, Clear All.
  */
 
 const firebaseConfig = {
@@ -183,6 +183,29 @@ async function updateLeadDetails(leadId, updates) {
 }
 
 /**
+ * Deletes a single lead by ID (Admin Action)
+ */
+async function deleteSingleLead(leadId) {
+  try {
+    let leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+    leads = leads.filter(l => l.id !== leadId);
+    localStorage.setItem('eet_leads', JSON.stringify(leads));
+
+    if (isFirebaseInitialized && db) {
+      try {
+        await db.collection('leads').doc(leadId).delete();
+      } catch (e) {
+        console.warn("Firestore lead delete notice", e);
+      }
+    }
+    return { success: true };
+  } catch (err) {
+    console.error("Delete lead error:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
  * Clears all local storage leads
  */
 function clearAllLocalLeads() {
@@ -193,10 +216,12 @@ function clearAllLocalLeads() {
 // Make globally accessible
 window.submitLeadToFirebase = submitLeadToFirebase;
 window.updateLeadDetails = updateLeadDetails;
+window.deleteSingleLead = deleteSingleLead;
 window.clearAllLocalLeads = clearAllLocalLeads;
 window.EarEaseFirebase = {
   submitLead: submitLeadToFirebase,
   getLeads: fetchAllLeads,
   updateLead: updateLeadDetails,
+  deleteLead: deleteSingleLead,
   clearLeads: clearAllLocalLeads
 };
