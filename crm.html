@@ -243,7 +243,7 @@
         <table class="w-full text-left text-xs text-slate-300">
           <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
             <tr>
-              <th class="p-4">Client Contact</th>
+              <th class="p-4">Client Contact & Message</th>
               <th class="p-4">Requested Service</th>
               <th class="p-4">Scope Estimate</th>
               <th class="p-4">Priority & Stage</th>
@@ -466,11 +466,11 @@
 
   </main>
 
-  <!-- MODAL 1: EDIT LEAD & ADD CALL NOTES -->
+  <!-- MODAL 1: EDIT LEAD & VIEW DIRECT MESSAGE -->
   <div id="modal-edit-lead" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="crm-card max-w-lg w-full p-6 space-y-4 border-amber-500/50">
       <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-        <h3 id="modal-edit-title" class="font-bold text-white text-base">Edit Client Lead & Deal Notes</h3>
+        <h3 id="modal-edit-title" class="font-bold text-white text-base">Client Lead Details & Direct Message</h3>
         <button id="modal-edit-close" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
       </div>
 
@@ -479,7 +479,15 @@
         
         <div>
           <label class="block font-semibold text-slate-400 mb-1">Client Name</label>
-          <input type="text" id="edit-lead-name" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" readonly />
+          <input type="text" id="edit-lead-name" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none font-bold" readonly />
+        </div>
+
+        <!-- Full Direct Message Display Box -->
+        <div>
+          <label class="block font-semibold text-amber-400 mb-1">💬 Direct Message Received from Client Form</label>
+          <div id="edit-lead-message-box" class="w-full p-3 bg-slate-900/90 border border-amber-500/30 rounded-xl text-slate-200 text-xs leading-relaxed italic max-h-36 overflow-y-auto">
+            No direct message text provided.
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -511,7 +519,7 @@
 
         <div>
           <label class="block font-semibold text-slate-400 mb-1">Add Call Log / Internal Note</label>
-          <textarea id="edit-lead-new-note" rows="3" placeholder="Log details from call or email discussion..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none"></textarea>
+          <textarea id="edit-lead-new-note" rows="2" placeholder="Log details from call or email discussion..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none"></textarea>
         </div>
 
         <div class="pt-2 flex justify-end gap-3">
@@ -704,6 +712,7 @@
         const filtered = currentLeads.filter(l => {
           const matchSearch = (l.name || '').toLowerCase().includes(searchVal) ||
                               (l.email || '').toLowerCase().includes(searchVal) ||
+                              (l.message || '').toLowerCase().includes(searchVal) ||
                               (l.service || '').toLowerCase().includes(searchVal);
           const matchService = serviceFilter === 'all' || (l.service || '').toLowerCase().includes(serviceFilter);
           return matchSearch && matchService;
@@ -729,9 +738,10 @@
 
           return `
             <tr class="hover:bg-slate-800/50 transition-colors">
-              <td class="p-4">
+              <td class="p-4 space-y-1">
                 <div class="font-bold text-white">${l.name || 'Anonymous Inquiry'}</div>
                 <div class="text-slate-400 text-[11px]">${l.email || 'No email'} ${l.phone ? '• ' + l.phone : ''}</div>
+                ${l.message ? `<div class="text-slate-200 text-[11px] mt-1 bg-slate-900/80 p-2 rounded-lg border border-amber-500/20 italic">💬 "${l.message}"</div>` : ''}
               </td>
               <td class="p-4 font-medium text-amber-300">${l.service || 'General Inquiry'}</td>
               <td class="p-4 font-bold text-white">${formattedEst}</td>
@@ -744,7 +754,7 @@
               <td class="p-4 text-right space-x-1">
                 ${l.email ? `<a href="mailto:${l.email}?subject=EarEase-Tech%20Project%20Proposal" title="Send Email" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg font-bold border border-slate-700 inline-block">📧 Email</a>` : ''}
                 ${l.phone ? `<a href="tel:${l.phone}" title="Call Client" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg font-bold border border-slate-700 inline-block">📞 Call</a>` : ''}
-                <button onclick="openEditModal('${l.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold inline-block">Edit</button>
+                <button onclick="openEditModal('${l.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold inline-block">View Details</button>
               </td>
             </tr>
           `;
@@ -791,6 +801,7 @@
               <span class="px-2 py-0.5 rounded text-[9px] font-bold ${l.priority==='Hot'?'badge-hot':l.priority==='Warm'?'badge-warm':'badge-cold'}">${l.priority||'Warm'}</span>
             </div>
             <div class="text-[11px] text-amber-400 font-semibold">${l.service}</div>
+            ${l.message ? `<div class="text-slate-300 text-[10px] truncate italic">💬 "${l.message}"</div>` : ''}
             <div class="text-white font-extrabold text-sm">${formattedEst}</div>
             <div class="text-[10px] text-slate-400 flex justify-between border-t border-slate-800 pt-2 mt-2">
               <span>👤 ${l.assignedTo || 'Unassigned'}</span>
@@ -823,6 +834,7 @@
 
         document.getElementById('edit-lead-id').value = lead.id;
         document.getElementById('edit-lead-name').value = lead.name;
+        document.getElementById('edit-lead-message-box').innerText = lead.message || 'No direct message text provided.';
         document.getElementById('edit-lead-stage').value = lead.stage || 'New Lead';
         document.getElementById('edit-lead-priority').value = lead.priority || 'Warm';
         document.getElementById('edit-lead-assigned').value = lead.assignedTo || '';
@@ -905,9 +917,9 @@
       document.getElementById('btn-export-csv')?.addEventListener('click', () => {
         if (currentLeads.length === 0) return alert('No leads to export.');
         
-        let csvContent = "data:text/csv;charset=utf-8,ID,Name,Email,Phone,Service,Estimate,Priority,Stage,AssignedTo,Source,Date\n";
+        let csvContent = "data:text/csv;charset=utf-8,ID,Name,Email,Phone,Service,Estimate,Priority,Stage,AssignedTo,Source,Message,Date\n";
         currentLeads.forEach(l => {
-          csvContent += `"${l.id}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.estimateAmount}","${l.priority}","${l.stage}","${l.assignedTo}","${l.source}","${l.createdAt}"\n`;
+          csvContent += `"${l.id}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.estimateAmount}","${l.priority}","${l.stage}","${l.assignedTo}","${l.source}","${(l.message||'').replace(/"/g, '""')}","${l.createdAt}"\n`;
         });
 
         const encodedUri = encodeURI(csvContent);
