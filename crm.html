@@ -664,6 +664,12 @@
       });
 
       // Load & Render Leads
+      function renderAllViews() {
+        renderKPIs();
+        renderInquiriesTable();
+        renderKanban();
+      }
+
       async function loadLeads() {
         if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
           currentLeads = await window.EarEaseFirebase.getLeads();
