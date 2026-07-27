@@ -37,7 +37,7 @@
   <meta name="twitter:image" content="https://www.eareasetech.com/assets/logo.png" />
 
   <link rel="icon" href="assets/favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- JSON-LD Structured Data: Organization (GEO, Opening Hours, Social Profiles, Products) -->
@@ -143,15 +143,25 @@
   }
   </script>
 
-  <!-- Aesthetic CSS System -->
+  <!-- EarEase-Tech Design System (Color & Typography Guide) -->
   <style>
     :root {
-      --brand: #d4a017;
-      --ink: #0f172a;
-      --muted: #6c6456;
-      --paper: #fffaf2;
-      --blush: #fff2d7;
-      --cloud: #edf5ff;
+      --primary-navy: #0B1D35;
+      --primary-gold: #D89B1F;
+      --soft-cream: #FFF6E6;
+      --light-blue: #E6F0FF;
+      --slate-gray: #64748B;
+      --light-gray: #F1F5F9;
+
+      --brand: #D89B1F;
+      --ink: #0B1D35;
+      --muted: #64748B;
+      --paper: #FFF6E6;
+      --blush: #FFE2B5;
+      --cloud: #E6F0FF;
+
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
     *, *::before, *::after {
       box-sizing: border-box;
@@ -542,97 +552,97 @@
       <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         
         <!-- 1. AI/ML -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v6l4 2"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">AI & ML Solutions</h3>
-            <p class="text-slate-600 text-xs mt-2">Custom LLM fine-tuning, RAG knowledge stores, computer vision, and predictive analytics.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Custom LLM fine-tuning, RAG knowledge stores, computer vision, and predictive analytics.</p>
           </div>
           <a href="service-ai-automation.html" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">AI Deep Dive & Scale &rarr;</a>
         </article>
 
         <!-- 2. AI Automations -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">AI Automations</h3>
-            <p class="text-slate-600 text-xs mt-2">Autonomous multi-agent workflows, RPA pipelines, and n8n/Zapier enterprise integrations.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Autonomous multi-agent workflows, RPA pipelines, and n8n/Zapier enterprise integrations.</p>
           </div>
           <a href="service-ai-automation.html#automation" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">Automations & Scale &rarr;</a>
         </article>
 
         <!-- 3. Digital Marketing -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">Digital Marketing & SEO</h3>
-            <p class="text-slate-600 text-xs mt-2">Technical SEO audits, Google/Meta/LinkedIn paid performance ads, content marketing, and CRO.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Technical SEO audits, Google/Meta/LinkedIn paid performance ads, content marketing, and CRO.</p>
           </div>
           <a href="service-digital-marketing.html" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">Growth Marketing & Scale &rarr;</a>
         </article>
 
         <!-- 4. Data Analytics -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">Data Analytics & ETL</h3>
-            <p class="text-slate-600 text-xs mt-2">Data pipeline engineering, Snowflake/BigQuery warehousing, and real-time BI dashboards.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Data pipeline engineering, Snowflake/BigQuery warehousing, and real-time BI dashboards.</p>
           </div>
           <a href="our-services.html#data" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">Data Services & Scale &rarr;</a>
         </article>
 
         <!-- 5. Web & Mobile App Dev -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">Web & Mobile App Dev</h3>
-            <p class="text-slate-600 text-xs mt-2">Next.js web apps and native/cross-platform iOS & Android mobile apps engineered for speed.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Next.js web apps and native/cross-platform iOS & Android mobile apps engineered for speed.</p>
           </div>
           <a href="service-studio-sprint.html" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">App Sprints & Scale &rarr;</a>
         </article>
 
         <!-- 6. SaaS Products & Cloud -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">SaaS Products & DevOps</h3>
-            <p class="text-slate-600 text-xs mt-2">Multi-tenant SaaS building, microservices, AWS/Azure/GCP DevOps, and CI/CD pipelines.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Multi-tenant SaaS building, microservices, AWS/Azure/GCP DevOps, and CI/CD pipelines.</p>
           </div>
           <a href="our-services.html#saas" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">SaaS DevOps & Scale &rarr;</a>
         </article>
 
         <!-- 7. IT Staffing Contracts -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">IT Staffing & Contracts</h3>
-            <p class="text-slate-600 text-xs mt-2">Staff augmentation, dedicated engineering pods, contract-to-hire in under 48 hours.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Staff augmentation, dedicated engineering pods, contract-to-hire in under 48 hours.</p>
           </div>
           <a href="service-it-staffing.html" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">IT Staffing & Scale &rarr;</a>
         </article>
 
         <!-- 8. Mental Wellness Programs -->
-        <article class="surface p-8 space-y-4 flex flex-col justify-between">
+        <article class="surface p-8 space-y-4 flex flex-col justify-between h-full">
           <div>
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-slate-900">Mental Wellness Programs</h3>
-            <p class="text-slate-600 text-xs mt-2">Workplace burnout prevention suites, executive stress resilience labs, and confidential listening pods.</p>
+            <p class="text-slate-600 text-xs mt-2 leading-relaxed">Workplace burnout prevention suites, executive stress resilience labs, and confidential listening pods.</p>
           </div>
           <a href="service-mental-wellness.html" class="text-xs font-bold text-[#D4A017] hover:text-[#b78a12] inline-flex items-center gap-1 pt-3 border-t border-slate-100">Mental Wellness & Scale &rarr;</a>
         </article>

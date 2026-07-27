@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <img src="assets/logo.png" alt="EarEase-Tech Logo" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
               <div class="flex flex-col">
                 <span class="font-bold text-lg leading-none tracking-tight text-slate-900">EarEase-Tech</span>
-                <span class="text-[10px] text-amber-800 font-semibold tracking-wider uppercase">AI • Software • Marketing • Wellness</span>
+                <span class="text-[11px] text-[#D89B1F] font-medium tracking-wide lowercase italic">we ease your stress</span>
               </div>
             </a>
 

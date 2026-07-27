@@ -1,7 +1,25 @@
-/* General Styles */
+/* EarEase-Tech Design System - Color & Typography Guide Tokens */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Color Palette Suggestions */
+  --primary-navy: #0B1D35;
+  --primary-gold: #D89B1F;
+  --soft-cream: #FFF6E6;
+  --light-blue: #E6F0FF;
+  --slate-gray: #64748B;
+  --light-gray: #F1F5F9;
+
+  /* Typography Scale */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* Base Body Styles */
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #F9FAFB;
+  font-family: var(--font-body);
+  color: var(--slate-gray);
+  background-color: var(--soft-cream);
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -9,178 +27,154 @@ body {
   flex-direction: column;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+/* Headings Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--primary-navy);
+  margin: 0 0 1rem 0;
 }
 
-/* Navbar */
-.navbar {
-  background: linear-gradient(90deg, #000000, #333333);
-  color: white;
-  padding: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+h1 {
+  font-size: 3.5rem; /* 56px */
+  line-height: 1.2;
+  font-weight: 700;
 }
 
-.navbar a {
-  color: white;
-  text-decoration: none;
+h2 {
+  font-size: 2.5rem; /* 40px */
+  line-height: 1.3;
   font-weight: 600;
-  transition: all 0.3s ease;
 }
 
-.navbar a:hover {
-  color: #FFC107;
-  transform: scale(1.05);
+h3 {
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.3;
+  font-weight: 600;
 }
 
-.logo img {
-  transition: all 0.3s ease;
+h4 {
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.4;
+  font-weight: 500;
 }
 
-.logo:hover img {
-  transform: scale(1.1);
+/* Body Typography & Card Content Justification */
+p, li, span, label {
+  font-family: var(--font-body);
 }
 
-/* Hero Section */
-.hero {
-  position: relative;
-  height: 700px;
-  background: url('https://via.placeholder.com/1920x600') no-repeat center/cover;
+.body-lead {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.6;
+}
+
+p {
+  font-size: 1rem; /* 16px */
+  line-height: 1.6;
+  color: var(--slate-gray);
+}
+
+.text-small {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.4;
+}
+
+/* Card Content Justification & Alignment Engine */
+.surface,
+.surface-soft,
+.surface-muted,
+.card,
+.card-info,
+article {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  text-align: left;
+}
+
+.surface p,
+.surface-soft p,
+.card p,
+.card-info p {
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Button Component Styles */
+.btn-primary {
+  background-color: var(--primary-gold);
+  color: #0B1D35;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  color: white;
-  overflow: hidden;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  box-shadow: 0 4px 14px rgba(216, 155, 31, 0.25);
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+.btn-primary:hover {
+  background-color: #c48b17;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216, 155, 31, 0.4);
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  animation: pulse 2s infinite;
-}
-
-.hero p {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-}
-
-.hero .btn {
-  background: #000;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  text-decoration: none;
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--primary-navy);
+  font-family: var(--font-heading);
   font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.hero .btn:hover {
-  background: #333;
-  box-shadow: 0 0 20px #FFC107;
-  transform: scale(1.1);
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Sections */
-.section {
-  padding: 5rem 0;
-  animation: fadeIn 1s ease-in;
-}
-
-.section h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 2rem;
-}
-
-.card {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
-}
-
-.card h3 {
-  color: #FFC107;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-/* Call to Action */
-.cta {
-  text-align: center;
-}
-
-.cta .btn {
-  background: #FFC107;
-  color: #000;
-  padding: 1rem 2rem;
-  border-radius: 50px;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--light-gray);
+  transition: all 0.2s ease-in-out;
 }
 
-.cta .btn:hover {
-  background: #FFCA28;
-  box-shadow: 0 0 20px #FFC107;
-  transform: scale(1.1);
+.btn-secondary:hover {
+  background-color: var(--light-gray);
+  color: var(--primary-navy);
+  transform: translateY(-2px);
 }
 
-/* Footer */
-.footer {
-  background: #000;
-  color: white;
-  padding: 2rem 0;
-  width: 100%;
-  margin-top: auto;
+/* Section Containers & Backgrounds */
+.bg-soft-cream {
+  background-color: var(--soft-cream);
 }
 
-.footer a {
-  color: white;
-  text-decoration: none;
-  transition: all 0.3s ease;
+.bg-light-blue {
+  background-color: var(--light-blue);
 }
 
-.footer a:hover {
-  color: #FFC107;
+.bg-primary-navy {
+  background-color: var(--primary-navy);
+  color: #ffffff;
 }
 
-.social-icons i {
-  margin: 0 0.5rem;
+.bg-primary-navy h1,
+.bg-primary-navy h2,
+.bg-primary-navy h3,
+.bg-primary-navy h4 {
+  color: #ffffff;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.card-info {
+  background-color: var(--light-blue);
+  border: 1px solid #d0e2ff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.25s ease;
+}
+
+.card-info:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(11, 29, 53, 0.08);
 }
