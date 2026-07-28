@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarEase Nexus | Admissions Sales & Seat Tracking Dashboard</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --brand: #d4a017;
+      --ink: #0f172a;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #081224;
+      color: #f8fafc;
+    }
+    .crm-card {
+      background: #111e38;
+      border: 1px solid #1e2e4e;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+    }
+    .crm-card:hover {
+      border-color: #d4a017;
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- AUTHENTICATION OVERLAY GATE -->
+  <div id="auth-gate-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="crm-card max-w-md w-full p-8 space-y-6 text-center border-amber-500/40 shadow-2xl">
+      
+      <div class="flex flex-col items-center gap-3">
+        <img src="assets/logo.png" alt="EarEase Logo" class="h-12 w-auto object-contain" />
+        <div>
+          <h2 class="text-2xl font-extrabold text-white">EarEase <span class="text-[#D4A017]">Nexus</span> Admissions</h2>
+          <p class="text-xs text-slate-400 mt-1">Authorized Sales & Mentorship Advisors Hub</p>
+        </div>
+      </div>
+
+      <form id="nexus-login-form" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Access Passcode</label>
+          <input type="password" id="nexus-passcode" required placeholder="Enter passcode..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:border-amber-400" />
+        </div>
+
+        <div id="nexus-login-error" class="hidden text-xs text-rose-400 font-semibold text-center bg-rose-950/50 p-2.5 rounded-xl border border-rose-800">
+          ⚠️ Incorrect Passcode. Please try again.
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all hover:scale-[1.01]">
+          Unlock Admissions Sales Dashboard &rarr;
+        </button>
+      </form>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-800 pt-4">
+        🔒 50 Seats/Month Rollover Engine Active
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="bg-[#0b172d] border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
+      
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="EarEase Logo" class="h-9 w-auto object-contain" />
+        <div>
+          <h1 class="text-lg font-bold text-white leading-none">EarEase <span class="text-[#D4A017]">Nexus</span> Admissions Hub</h1>
+          <span class="text-[10px] text-amber-400 font-semibold">AI & ML 30-Day Bootcamp & Mentorship Sales Tracking</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="nexus.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700 transition-all flex items-center gap-1.5">
+          <span>🌐 View Live Nexus Portal</span>
+        </a>
+
+        <button id="btn-export-csv" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+          📥 Export Admissions CSV
+        </button>
+
+        <button id="btn-lock-nexus" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+          🔒 Lock Dashboard
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Body -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+    
+    <!-- RAZORPAY INTEGRATION & SEAT CAP BANNER -->
+    <div class="crm-card p-6 bg-gradient-to-r from-slate-900 via-[#111e38] to-slate-900 border-amber-500/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-bold uppercase">Active Razorpay Gateway</span>
+          <span class="text-xs text-amber-400 font-bold">Limit: 50 Seats / Month</span>
+        </div>
+        <h2 class="text-xl font-bold text-white">30-Day AI & Machine Learning Bootcamp Admissions Engine</h2>
+        <p class="text-xs text-slate-400">Payment Gateway Link: <a href="https://razorpay.me/@eareasetechprivatelimited" target="_blank" class="text-amber-400 hover:underline font-mono">https://razorpay.me/@eareasetechprivatelimited</a></p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <div class="text-xs text-slate-400">Fixed Bootcamp Fee</div>
+          <div class="text-2xl font-extrabold text-amber-400">₹15,338.82 <span class="text-[10px] text-slate-400">(Incl. GST)</span></div>
+        </div>
+        <a href="https://razorpay.me/@eareasetechprivatelimited" target="_blank" class="px-5 py-3 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all hover:scale-105">
+          💳 Open Razorpay Link &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- SALES & ADMISSIONS STAT CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Sales Revenue</span>
+          <div id="stat-revenue" class="text-3xl font-extrabold text-amber-400 mt-1">₹0</div>
+          <span class="text-[11px] text-emerald-400 font-medium">⚡ Paid Admissions Total</span>
+        </div>
+        <div class="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 text-amber-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Month Seats</span>
+          <div id="stat-active-seats" class="text-3xl font-extrabold text-white mt-1">0 / 50</div>
+          <span id="stat-seats-remaining" class="text-[11px] text-emerald-400 font-medium">50 Seats Available</span>
+        </div>
+        <div class="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Next Month Rollover</span>
+          <div id="stat-rollover" class="text-3xl font-extrabold text-purple-400 mt-1">0</div>
+          <span class="text-[11px] text-slate-400 font-medium">Exceeding 50 Seat Limit</span>
+        </div>
+        <div class="p-3 bg-purple-500/10 rounded-2xl border border-purple-500/20 text-purple-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+      </div>
+
+      <div class="crm-card p-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Conversion Rate</span>
+          <div id="stat-conversion" class="text-3xl font-extrabold text-emerald-400 mt-1">100%</div>
+          <span class="text-[11px] text-emerald-400 font-medium">Admissions Target</span>
+        </div>
+        <div class="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEAT ALLOCATION PROGRESS BAR -->
+    <div class="crm-card p-6 space-y-3">
+      <div class="flex justify-between items-center text-xs">
+        <span class="font-bold text-white">Active Cohort Seat Cap Tracker (50 Max / Month)</span>
+        <span id="seat-progress-text" class="text-amber-400 font-bold">0 / 50 Seats Claimed</span>
+      </div>
+      <div class="w-full h-4 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+        <div id="seat-progress-bar" class="h-full bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-500" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- ADMIN MANAGEMENT TOOLS SUITE (Create Courses, Change Fees, Create Coupons) -->
+    <div class="space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="text-xl font-bold text-white">EarEase Nexus Operations Suite</h2>
+          <p class="text-xs text-slate-400">Course Catalog Management, Dynamic Fee Editor, and Discount Coupon Engine.</p>
+        </div>
+        <span class="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full text-xs font-bold">⚡ Admin Control Hub</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- TOOL 1: CHANGE PROGRAM FEES -->
+        <div class="crm-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">💰</span>
+              <h3 class="text-sm font-bold text-white">Change Program Fees</h3>
+            </div>
+            <span class="text-[10px] text-amber-400 font-mono">18% GST Auto</span>
+          </div>
+
+          <form id="form-manage-fees" class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Select Mentorship Tier</label>
+              <select id="fee-tier-select" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 cursor-pointer">
+                <option value="30-Day">30-Day Express Bootcamp / AI Tools</option>
+                <option value="3-Month">3-Month AI & ML Industry Mentorship</option>
+                <option value="6-Month">6-Month Data Science Mentorship</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Base Fee Amount (INR ₹)</label>
+              <input type="number" id="fee-base-amount" placeholder="e.g. 13000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-mono" required />
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-[11px] space-y-1">
+              <div class="flex justify-between text-slate-400">
+                <span>GST (18%):</span>
+                <span id="preview-fee-gst" class="font-mono text-slate-300">₹2,338.82</span>
+              </div>
+              <div class="flex justify-between font-bold text-amber-400 pt-1 border-t border-slate-800">
+                <span>Total Fee Payable:</span>
+                <span id="preview-fee-total" class="font-mono">₹15,338.82</span>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow">
+              Save Updated Fee Structure
+            </button>
+          </form>
+        </div>
+
+        <!-- TOOL 2: CREATE & MANAGE COURSES -->
+        <div class="crm-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎓</span>
+              <h3 class="text-sm font-bold text-white">Create & Edit Courses</h3>
+            </div>
+            <span class="text-[10px] text-emerald-400 font-mono">Catalog Sync</span>
+          </div>
+
+          <form id="form-manage-courses" class="space-y-2.5 text-xs">
+            <input type="hidden" id="course-id" value="" />
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Course Title</label>
+              <input type="text" id="course-title" placeholder="e.g. Generative AI & Autonomous LLM Agents" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Mentorship Tier</label>
+                <select id="course-duration" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none">
+                  <option value="30-Day">30-Day Express</option>
+                  <option value="3-Month">3-Month Mentorship</option>
+                  <option value="6-Month">6-Month Internship</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Status Badge</label>
+                <select id="course-badge" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-emerald-400 outline-none">
+                  <option value="🟢 LIVE ADMISSIONS OPEN">🟢 Live Admissions</option>
+                  <option value="🔴 SOLD OUT">🔴 Sold Out</option>
+                  <option value="⏳ WAITLIST OPEN">⏳ Waitlist Open</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Course Scope / Description</label>
+              <input type="text" id="course-description" placeholder="Brief curriculum scope..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" required />
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow">
+              Publish / Update Course
+            </button>
+          </form>
+
+          <div id="course-list-preview" class="max-h-28 overflow-y-auto space-y-1.5 pt-1 text-[11px] custom-scrollbar border-t border-slate-800">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- TOOL 3: CREATE & MANAGE DISCOUNT COUPONS -->
+        <div class="crm-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎟️</span>
+              <h3 class="text-sm font-bold text-white">Create Discount Coupons</h3>
+            </div>
+            <span class="text-[10px] text-purple-400 font-mono">Promo Code Engine</span>
+          </div>
+
+          <form id="form-manage-coupons" class="space-y-2.5 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Coupon Code</label>
+                <input type="text" id="coupon-code" placeholder="e.g. EAREASE10" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-amber-400 font-mono font-bold uppercase outline-none focus:border-purple-400" required />
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Discount Type</label>
+                <select id="coupon-type" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none">
+                  <option value="percent">Percentage (%)</option>
+                  <option value="flat">Flat Amount (₹)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Discount Value</label>
+              <input type="number" id="coupon-value" placeholder="e.g. 10 for 10% or 5000 for ₹5,000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono outline-none focus:border-purple-400" required />
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow">
+              Save Discount Promo Code
+            </button>
+          </form>
+
+          <div id="coupon-list-preview" class="max-h-28 overflow-y-auto space-y-1.5 pt-1 text-[11px] custom-scrollbar border-t border-slate-800">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ADMISSIONS MANAGEMENT TABLE -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white">EarEase Nexus Admissions Queue</h2>
+          <p class="text-xs text-slate-400">Real-time enrollment applications, payment status, and seat cohort allocations.</p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <input type="text" id="nexus-search" placeholder="Search applicant name, email, or program..." class="px-4 py-2 bg-slate-800 border border-slate-700 text-white rounded-xl text-xs outline-none focus:border-amber-400 w-64" />
+          <select id="nexus-filter-cohort" class="px-3 py-2 bg-slate-800 border border-slate-700 text-amber-400 rounded-xl text-xs outline-none cursor-pointer">
+            <option value="all">All Cohorts</option>
+            <option value="active">Active Month Cohort (Seats 1-50)</option>
+            <option value="rollover">Next Month Rollover Waitlist</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="crm-card overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+            <tr>
+              <th class="p-4">Applicant & Contact</th>
+              <th class="p-4">Selected Program Track</th>
+              <th class="p-4">Assigned Cohort Batch</th>
+              <th class="p-4">Seat #</th>
+              <th class="p-4">Fee / Estimate</th>
+              <th class="p-4">Payment Status</th>
+              <th class="p-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="nexus-tbody" class="divide-y divide-slate-800">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/firebase-config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const authModal = document.getElementById('auth-gate-modal');
+      const loginForm = document.getElementById('nexus-login-form');
+      const passcode = document.getElementById('nexus-passcode');
+      const errorMsg = document.getElementById('nexus-login-error');
+      const btnLock = document.getElementById('btn-lock-nexus');
+
+      const validPasscodes = ['EarEase2026!', 'EarEaseAdmin', 'EarEaseSales', 'admin', 'sales'];
+
+      function checkAuth() {
+        if (localStorage.getItem('eet_nexus_admin_session') === 'authenticated') {
+          authModal.classList.add('hidden');
+          loadNexusData();
+        } else {
+          authModal.classList.remove('hidden');
+        }
+      }
+
+      loginForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (validPasscodes.includes(passcode.value.trim())) {
+          localStorage.setItem('eet_nexus_admin_session', 'authenticated');
+          authModal.classList.add('hidden');
+          loadNexusData();
+        } else {
+          errorMsg.classList.remove('hidden');
+        }
+      });
+
+      btnLock?.addEventListener('click', () => {
+        localStorage.removeItem('eet_nexus_admin_session');
+        authModal.classList.remove('hidden');
+      });
+
+      checkAuth();
+
+      let allLeads = [];
+
+      async function loadNexusData() {
+        if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
+          allLeads = await window.EarEaseFirebase.getLeads();
+        } else {
+          allLeads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+        }
+        renderNexusDashboard();
+      }
+
+      function renderNexusDashboard() {
+        const seatStatus = window.getNexusSeatStatus ? window.getNexusSeatStatus() : { activeSeatsCount: 0, rolloverSeatsCount: 0, remainingSeats: 50 };
+        
+        // Filter Nexus Leads
+        const nexusLeads = allLeads.filter(l => l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day') || (l.source || '').includes('nexus'));
+
+        // Calculate Revenue
+        let totalRevenue = 0;
+        nexusLeads.forEach(l => {
+          if ((l.paymentStatus || '').toLowerCase().includes('paid') || l.stage === 'Contract Signed') {
+            const num = parseFloat((l.estimateAmount || '0').replace(/[^0-9.]/g, ''));
+            totalRevenue += isNaN(num) ? 15338.82 : num;
+          }
+        });
+
+        document.getElementById('stat-revenue').innerText = `₹${totalRevenue.toLocaleString()}`;
+        document.getElementById('stat-active-seats').innerText = `${seatStatus.activeSeatsCount} / 50`;
+        document.getElementById('stat-seats-remaining').innerText = `${seatStatus.remainingSeats} Seats Available`;
+        document.getElementById('stat-rollover').innerText = seatStatus.rolloverSeatsCount;
+
+        // Progress bar
+        const pct = Math.min(100, Math.round((seatStatus.activeSeatsCount / 50) * 100));
+        document.getElementById('seat-progress-bar').style.width = `${pct}%`;
+        document.getElementById('seat-progress-text').innerText = `${seatStatus.activeSeatsCount} / 50 Seats Claimed (${pct}%)`;
+
+        // Render Table
+        const tbody = document.getElementById('nexus-tbody');
+        const searchVal = document.getElementById('nexus-search')?.value.toLowerCase() || '';
+        const cohortFilter = document.getElementById('nexus-filter-cohort')?.value || 'all';
+
+        const filtered = nexusLeads.filter(l => {
+          const matchSearch = (l.name || '').toLowerCase().includes(searchVal) ||
+                              (l.email || '').toLowerCase().includes(searchVal) ||
+                              (l.service || '').toLowerCase().includes(searchVal) ||
+                              (l.candidateId || '').toLowerCase().includes(searchVal);
+          const matchCohort = cohortFilter === 'all' || 
+                             (cohortFilter === 'active' && !(l.cohort || '').includes('Rollover')) ||
+                             (cohortFilter === 'rollover' && (l.cohort || '').includes('Rollover'));
+          return matchSearch && matchCohort;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" class="p-12 text-center text-slate-400 space-y-2">
+                <div class="text-4xl mb-2">🎓</div>
+                <div class="font-bold text-white text-sm">No Admissions Found</div>
+                <div class="text-xs text-slate-500">Applications submitted on nexus.html will appear here in real time.</div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        const nowMs = Date.now();
+
+        tbody.innerHTML = filtered.map(l => {
+          const isRollover = (l.cohort || '').includes('Rollover') || (l.cohort || '').includes('Next');
+          const cohortBadge = isRollover ? 
+            `<span class="px-2.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full text-[10px] font-bold border border-purple-500/40">⏳ Next Month Rollover</span>` :
+            `<span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-bold border border-emerald-500/40">⚡ Active Cohort</span>`;
+
+          // Auto-acceptance EOD Rule check (24 hours or next working day EOD)
+          const leadMs = new Date(l.createdAt || Date.now()).getTime();
+          const ageHours = (nowMs - leadMs) / (1000 * 60 * 60);
+
+          let acceptanceStatus = l.acceptanceStatus || 'Pending Review';
+          if (acceptanceStatus === 'Pending Review' && ageHours >= 24) {
+            acceptanceStatus = 'Auto-Accepted (System EOD Rule)';
+          }
+
+          const isPaid = (l.paymentStatus || '').toLowerCase().includes('paid');
+          const isRefunded = (l.paymentStatus || '').toLowerCase().includes('refund');
+
+          let payBadge = `<span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/30">💳 Awaiting Payment</span>`;
+          if (isPaid) {
+            payBadge = `<div class="space-y-1">
+              <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid (Seat Confirmed)</span>
+              ${l.transactionId ? `<div class="text-[10px] font-mono text-emerald-300">Tx ID: ${l.transactionId}</div>` : ''}
+            </div>`;
+          } else if (isRefunded) {
+            payBadge = `<div class="space-y-1">
+              <span class="px-2.5 py-0.5 bg-rose-500/20 text-rose-300 rounded-full text-[10px] font-bold border border-rose-500/40">↩ 100% Full Refunded</span>
+              ${l.refundId ? `<div class="text-[10px] font-mono text-rose-400">Ref: ${l.refundId}</div>` : ''}
+            </div>`;
+          }
+
+          let acceptBadge = `<span class="px-2 py-0.5 bg-slate-800 text-slate-400 rounded text-[10px]">⏳ Pending Review</span>`;
+          if (acceptanceStatus.includes('Accepted')) {
+            acceptBadge = `<span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-bold border border-emerald-500/30">🟢 ${acceptanceStatus}</span>`;
+          } else if (acceptanceStatus.includes('Declined')) {
+            acceptBadge = `<span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded text-[10px] font-bold border border-rose-500/30">🔴 ${acceptanceStatus}</span>`;
+          }
+
+          const displayFee = (l.estimateAmount || '').startsWith('₹') ? l.estimateAmount : `₹${l.estimateAmount || '15,338.82'}`;
+
+          return `
+            <tr class="hover:bg-slate-800/50 transition-colors">
+              <td class="p-4 space-y-1 min-w-[220px]">
+                <div class="font-bold text-white text-sm">${l.name}</div>
+                <div class="text-amber-400 font-mono text-[10px] font-extrabold">${l.candidateId || 'EET-NEX-REG'}</div>
+                <div class="text-slate-400 text-[11px]">${l.email} • ${l.phone}</div>
+                <div class="text-slate-400 text-[10px]">📍 ${l.city || 'N/A'}, ${l.state || 'N/A'} • ${l.govtId || 'Govt ID'}</div>
+                ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Referrer: ${l.referral}</div>` : ''}
+              </td>
+              <td class="p-4 font-semibold text-amber-300 min-w-[180px]">${l.service}</td>
+              <td class="p-4 min-w-[170px]">${cohortBadge}<div class="text-[10px] text-slate-400 mt-1">${l.cohort || 'Active Batch'}</div></td>
+              <td class="p-4 font-bold text-white">${l.seatNumber ? '#' + l.seatNumber : 'Queue'}</td>
+              <td class="p-4 font-bold text-white min-w-[110px]">${displayFee}</td>
+              <td class="p-4 min-w-[200px] space-y-1.5">
+                ${payBadge}
+                <div>${acceptBadge}</div>
+              </td>
+              <td class="p-4 text-right min-w-[210px]">
+                <div class="flex flex-col gap-1.5 justify-end items-end">
+                  <div class="flex items-center gap-1">
+                    <button onclick="acceptCandidate('${l.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-[10px] rounded transition-all shadow">✓ Accept Candidate</button>
+                    <button onclick="declineAndRefundCandidate('${l.id}')" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] rounded transition-all shadow">✕ Decline & Refund</button>
+                  </div>
+                  <div class="flex items-center gap-1 pt-0.5">
+                    <button onclick="markPaymentPaid('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded text-[9px] border border-slate-700">Mark Paid</button>
+                    <button onclick="confirmDeleteLead('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded text-[9px] border border-slate-700">Delete</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      window.acceptCandidate = async function(id) {
+        const lead = allLeads.find(l => l.id === id);
+        if (!lead) return alert('Lead record not found.');
+
+        if (confirm(`Confirm acceptance for ${lead.name} (${lead.candidateId})? Seat will be locked and confirmed.`)) {
+          await window.updateLeadDetails(id, { 
+            acceptanceStatus: 'Accepted by Admin',
+            seatConfirmed: true,
+            stage: 'Enrolled Candidate'
+          });
+          await loadNexusData();
+        }
+      };
+
+      window.declineAndRefundCandidate = async function(id) {
+        const lead = allLeads.find(l => l.id === id);
+        if (!lead) return alert('Lead record not found.');
+
+        const isPaid = (lead.paymentStatus || '').toLowerCase().includes('paid');
+        const confirmMsg = isPaid 
+          ? `⚠️ CONFIRM DECLINE & REFUND:\n\nCandidate ${lead.name} (${lead.candidateId}) has paid ${lead.estimateAmount}.\n\nDeclining will initiate a 100% FULL REFUND via Razorpay and send a refund receipt to ${lead.email}.\n\nProceed with 100% refund?`
+          : `Decline candidate ${lead.name} (${lead.candidateId})?`;
+
+        if (confirm(confirmMsg)) {
+          const refundId = 'rfd_EET_' + Math.floor(100000 + Math.random() * 900000);
+          const updates = {
+            acceptanceStatus: 'Declined by Admin',
+            paymentStatus: isPaid ? 'Refunded (100% Full Refund)' : 'Application Declined',
+            refundId: isPaid ? refundId : null,
+            seatConfirmed: false,
+            stage: 'Declined & Refunded'
+          };
+
+          await window.updateLeadDetails(id, updates);
+
+          if (isPaid && window.dispatchRefundEmailAlert) {
+            await window.dispatchRefundEmailAlert({
+              ...lead,
+              ...updates,
+              refundId: refundId
+            });
+          }
+
+          alert(`✓ Candidate ${lead.name} marked as Declined. ${isPaid ? `100% Refund ID generated: ${refundId}` : ''}`);
+          await loadNexusData();
+        }
+      };
+
+      window.triggerRazorpayForLead = function(id) {
+        const lead = allLeads.find(l => l.id === id);
+        if (!lead) return alert('Lead record not found.');
+        window.open('https://razorpay.me/@eareasetechprivatelimited', '_blank');
+      };
+
+      window.markPaymentPaid = async function(id) {
+        if (confirm('Mark this admission as Paid via Razorpay?')) {
+          await window.updateLeadDetails(id, { paymentStatus: 'Paid via Razorpay', stage: 'Contract Signed' });
+          await loadNexusData();
+        }
+      };
+
+      window.confirmDeleteLead = async function(id) {
+        if (confirm('Delete this admission record?')) {
+          await window.deleteSingleLead(id);
+          await loadNexusData();
+        }
+      };
+
+      // Fee Editor logic
+      function syncFeeEditorPreview() {
+        const tier = document.getElementById('fee-tier-select')?.value || '30-Day';
+        const baseInput = document.getElementById('fee-base-amount');
+        const fees = window.getSavedProgramFees ? window.getSavedProgramFees() : {};
+        const currentTierFee = fees[tier] || {};
+
+        if (baseInput && (!baseInput.value || document.activeElement !== baseInput)) {
+          baseInput.value = currentTierFee.baseFee || 13000;
+        }
+
+        const baseVal = parseFloat(baseInput?.value || 0);
+        const gstVal = Math.round(((baseVal * 18) / 100) * 100) / 100;
+        const totalVal = Math.round((baseVal + gstVal) * 100) / 100;
+
+        document.getElementById('preview-fee-gst').innerText = `₹${gstVal.toLocaleString('en-IN')}`;
+        document.getElementById('preview-fee-total').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
+      }
+
+      document.getElementById('fee-tier-select')?.addEventListener('change', () => {
+        const baseInput = document.getElementById('fee-base-amount');
+        if (baseInput) baseInput.value = '';
+        syncFeeEditorPreview();
+      });
+      document.getElementById('fee-base-amount')?.addEventListener('input', syncFeeEditorPreview);
+
+      document.getElementById('form-manage-fees')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const tier = document.getElementById('fee-tier-select').value;
+        const baseVal = document.getElementById('fee-base-amount').value;
+        if (window.saveProgramFee) {
+          const res = window.saveProgramFee(tier, baseVal);
+          if (res.success) {
+            alert(`✓ Updated ${tier} fee structure: Base ₹${res.fees.baseFee.toLocaleString()} + GST = Total ${res.fees.formattedTotal}`);
+            renderNexusDashboard();
+          }
+        }
+      });
+
+      // Course Manager logic
+      function renderCoursePreviewList() {
+        const previewEl = document.getElementById('course-list-preview');
+        if (!previewEl) return;
+        const courses = window.getSavedCourses ? window.getSavedCourses() : [];
+
+        if (courses.length === 0) {
+          previewEl.innerHTML = '<div class="text-slate-500 text-center py-2">No courses configured</div>';
+          return;
+        }
+
+        previewEl.innerHTML = courses.map(c => `
+          <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center border border-slate-800">
+            <div class="space-y-0.5 max-w-[180px]">
+              <div class="font-bold text-white truncate">${c.title}</div>
+              <div class="text-[9px] text-emerald-400 font-mono">${c.badge} • ${c.duration}</div>
+            </div>
+            <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('form-manage-courses')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('course-title').value;
+        const duration = document.getElementById('course-duration').value;
+        const badge = document.getElementById('course-badge').value;
+        const desc = document.getElementById('course-description').value;
+        const courseId = document.getElementById('course-id').value;
+
+        if (window.saveCourse) {
+          window.saveCourse({
+            id: courseId || undefined,
+            title: title,
+            duration: duration,
+            badge: badge,
+            description: desc,
+            isLive: !badge.includes('SOLD OUT')
+          });
+          alert(`✓ Course '${title}' saved successfully!`);
+          document.getElementById('form-manage-courses').reset();
+          renderCoursePreviewList();
+        }
+      });
+
+      window.deleteCourseById = function(id) {
+        if (confirm('Delete this course from catalog?')) {
+          if (window.deleteCourse) window.deleteCourse(id);
+          renderCoursePreviewList();
+        }
+      };
+
+      // Coupon Manager logic
+      function renderCouponPreviewList() {
+        const previewEl = document.getElementById('coupon-list-preview');
+        if (!previewEl) return;
+        const coupons = window.getSavedCoupons ? window.getSavedCoupons() : [];
+
+        if (coupons.length === 0) {
+          previewEl.innerHTML = '<div class="text-slate-500 text-center py-2">No coupons configured</div>';
+          return;
+        }
+
+        previewEl.innerHTML = coupons.map(cp => `
+          <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center border border-slate-800">
+            <div>
+              <span class="font-mono font-bold text-amber-400 text-xs">${cp.code}</span>
+              <span class="text-[10px] text-slate-400 ml-1 font-mono">(${cp.type === 'percent' ? cp.discount + '%' : '₹' + cp.discount} Off)</span>
+            </div>
+            <button onclick="deleteCouponByCode('${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('form-manage-coupons')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = document.getElementById('coupon-code').value;
+        const type = document.getElementById('coupon-type').value;
+        const val = parseFloat(document.getElementById('coupon-value').value);
+
+        if (window.saveCoupon) {
+          const res = window.saveCoupon({
+            code: code,
+            type: type,
+            discount: val,
+            active: true
+          });
+          if (res.success) {
+            alert(`✓ Discount promo code '${code.toUpperCase()}' saved!`);
+            document.getElementById('form-manage-coupons').reset();
+            renderCouponPreviewList();
+          }
+        }
+      });
+
+      window.deleteCouponByCode = function(code) {
+        if (confirm(`Delete coupon promo code '${code}'?`)) {
+          if (window.deleteCoupon) window.deleteCoupon(code);
+          renderCouponPreviewList();
+        }
+      };
+
+      // Initial sync calls
+      syncFeeEditorPreview();
+      renderCoursePreviewList();
+      renderCouponPreviewList();
+
+      document.getElementById('nexus-search')?.addEventListener('input', renderNexusDashboard);
+      document.getElementById('nexus-filter-cohort')?.addEventListener('change', renderNexusDashboard);
+
+      document.getElementById('btn-export-csv')?.addEventListener('click', () => {
+        const nexusLeads = allLeads.filter(l => l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day'));
+        if (nexusLeads.length === 0) return alert('No Nexus admissions to export.');
+        
+        let csvContent = "data:text/csv;charset=utf-8,ID,Name,Email,Phone,Program,Cohort,SeatNo,Amount,PaymentStatus,Date\n";
+        nexusLeads.forEach(l => {
+          csvContent += `"${l.id}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.cohort}","${l.seatNumber||''}","${l.estimateAmount||'15339'}","${l.paymentStatus}","${l.createdAt}"\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `EarEase_Nexus_Admissions_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    });
+  </script>
+</body>
+</html>
