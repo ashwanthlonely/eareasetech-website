@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /nexus.html
+Disallow: /nexus-admin.html
 Disallow: /crm.html
 Disallow: /eet-admin.html
 
