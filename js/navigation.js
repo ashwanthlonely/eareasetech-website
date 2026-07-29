@@ -144,21 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Careers
               </a>
 
-              <!-- EarEase Nexus Portal Link -->
-              <a href="nexus.html" class="nav-link text-amber-600 hover:text-amber-700 font-bold inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-xl border border-amber-200">
-                <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-5 w-auto object-contain" />
-                <span>EarEase Nexus</span>
-              </a>
-
             </nav>
 
             <!-- Right Header CTA -->
             <div class="hidden lg:flex items-center gap-3">
-              <a href="nexus.html" class="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all hover:scale-105 inline-flex items-center gap-2 border border-amber-300">
-                <img src="assets/E2n-logo.png" alt="EarEase Nexus Logo" class="h-5 w-auto object-contain" />
-                <span>EarEase Nexus AI 🚀</span>
-              </a>
-              <a href="contact-us.html" class="px-4 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
+              <a href="contact-us.html" class="px-5 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
                 Contact Sales &rarr;
               </a>
             </div>
@@ -177,11 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <div id="mobile-drawer" class="hidden md:hidden bg-white border-b border-amber-100 px-4 py-6 space-y-4 shadow-xl">
           <a href="index.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Home</a>
 
-          <a href="nexus.html" class="flex items-center gap-2 text-sm font-bold text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
-            <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-6 w-auto object-contain" />
-            <span>EarEase Nexus AI Mentorship Portal 🚀</span>
-          </a>
-          
           <div class="space-y-2 py-2 border-b border-slate-100">
             <span class="block text-xs font-bold uppercase tracking-wider text-amber-800">Our Services</span>
             <a href="service-ai-automation.html" class="block text-xs text-slate-700 hover:text-amber-800 py-1">AI & ML Solutions</a>
@@ -198,12 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <a href="about-us.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">About Us</a>
           <a href="careers.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Careers</a>
 
-          <div class="grid grid-cols-2 gap-2 mt-4">
-            <a href="nexus.html" class="flex items-center justify-center gap-1.5 py-3 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md text-center">
-              <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-5 w-auto object-contain" />
-              <span>Nexus AI 🎓</span>
-            </a>
-            <a href="contact-us.html" class="block text-center w-full py-3 bg-slate-900 text-amber-400 font-bold text-xs rounded-xl shadow-md">
+          <div class="mt-4">
+            <a href="contact-us.html" class="block text-center w-full py-3 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md">
               Contact Sales &rarr;
             </a>
           </div>
@@ -295,8 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="space-y-3">
               <h4 class="text-white font-bold text-xs uppercase tracking-wider">Direct Reach</h4>
               <div class="space-y-2 text-slate-400">
-                <div>📧 <a href="mailto:hr@eareasetech.com" class="hover:text-amber-400">hr@eareasetech.com</a></div>
-                <div>📞 <a href="tel:+917893691717" class="hover:text-amber-400">+91 78936 91717</a></div>
+                <div>📧 <a href="mailto:hr@eareasetech.com" class="hover:text-amber-400 whitespace-nowrap">hr@eareasetech.com</a></div>
+                <div>📞 <span class="whitespace-nowrap"><a href="tel:+917893691717" class="hover:text-amber-400">+91 78936 91717</a></span></div>
                 <div class="pt-2 text-[11px] text-emerald-400 font-semibold">🔒 100% IP NDA Protected</div>
               </div>
             </div>
@@ -314,5 +295,29 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </footer>
     `;
+  }
+
+  // Render Floating Bottom-Right Venture Widget (EarEase Nexus AI Labs)
+  if (currentPage !== 'nexus.html' && !document.getElementById('floating-nexus-btn')) {
+    const floatingContainer = document.createElement('div');
+    floatingContainer.innerHTML = `
+      <a href="nexus.html" id="floating-nexus-btn" title="Explore EarEase Nexus — AI Mentorship & Research Venture" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-slate-900/95 hover:bg-slate-950 text-white rounded-full border-2 border-amber-400/80 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 group">
+        <div class="relative shrink-0 flex items-center justify-center">
+          <img src="assets/E2n-logo.png" alt="EarEase Nexus Badge" class="h-8 w-auto object-contain transition-transform group-hover:rotate-12" />
+          <span class="absolute -top-1 -right-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+        </div>
+        <div class="flex flex-col text-left pr-1">
+          <div class="flex items-center gap-1.5">
+            <span class="font-black text-xs text-white tracking-wide">EarEase <span class="text-amber-400">Nexus</span></span>
+            <span class="text-[9px] uppercase font-extrabold px-1.5 py-0.5 bg-amber-500/20 text-amber-300 rounded border border-amber-400/40">Venture</span>
+          </div>
+          <span class="text-[10px] text-slate-300 font-medium">AI Labs & Live Mentorship 🚀</span>
+        </div>
+      </a>
+    `;
+    document.body.appendChild(floatingContainer.firstElementChild);
   }
 });

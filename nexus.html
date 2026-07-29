@@ -745,14 +745,10 @@
           </p>
 
           <!-- Metrics Bar -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 text-center">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-center max-w-3xl mx-auto">
             <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-1">
               <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">1,240+</div>
               <div class="text-[11px] text-slate-400 font-medium">Placed Alumni Nationwide</div>
-            </div>
-            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-1">
-              <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">15 Reviews</div>
-              <div class="text-[11px] text-slate-400 font-medium">Per Live Course Vertical</div>
             </div>
             <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-1">
               <div class="text-2xl sm:text-3xl font-extrabold text-purple-400">₹14.8 LPA</div>
@@ -771,16 +767,16 @@
             All 60 Candidate Reviews
           </button>
           <button onclick="filterReviews('3M-AIML')" class="review-tab-btn px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-xs border border-slate-800 transition-all" data-course="3M-AIML">
-            🧠 AI & ML 3M Mentorship (15)
+            🧠 AI & ML 3M Mentorship
           </button>
           <button onclick="filterReviews('30D-AIML')" class="review-tab-btn px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-xs border border-slate-800 transition-all" data-course="30D-AIML">
-            ⚡ AI & ML 30D Express (15)
+            ⚡ AI & ML 30D Express
           </button>
           <button onclick="filterReviews('30D-TOOLS')" class="review-tab-btn px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-xs border border-slate-800 transition-all" data-course="30D-TOOLS">
-            🛠️ AI Tools Professionals (15)
+            🛠️ AI Tools Professionals
           </button>
           <button onclick="filterReviews('6M-DS')" class="review-tab-btn px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-xs border border-slate-800 transition-all" data-course="6M-DS">
-            📊 Data Science 6M Internship (15)
+            📊 Data Science 6M Internship
           </button>
         </div>
 
@@ -796,177 +792,45 @@
             <p class="text-[11px] text-slate-500">Over 1,200+ EarEase Nexus graduates actively working across leading technology employers worldwide</p>
           </div>
 
-          <div class="overflow-hidden relative w-full bg-slate-900/60 py-6 rounded-2xl border border-slate-800/80">
-            <div class="animate-marquee items-center gap-8 whitespace-nowrap">
-              <!-- Set 1: Vector SVG Brand Badges -->
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 23 23"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">Microsoft</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">Google</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0 text-[#FF9900]" fill="currentColor" viewBox="0 0 24 24"><path d="M13.6 15.6c-2.3 1.7-5.6 2.5-8.5.8-2.6-1.5-3.9-4.2-3.4-7.1C2.3 6.1 5.3 3.8 8.6 4c3.4.2 6.2 2.7 6.4 6.1v.2h-2.3c-.2-2.1-1.9-3.7-4-3.7-2.2 0-4 1.8-4 4 0 2.2 1.8 4 4 4 1.4 0 2.6-.7 3.3-1.8l1.6 1.8zm3.8 1.4c2.5-1 5.1-2.9 6.6-5.4l-1.8-1c-1.2 2-3.3 3.6-5.4 4.4l.6 2z"/><path d="M18.8 18.5c2.7-.9 5.3-2.6 7-5.1l-1.6-1.2c-1.4 2.1-3.6 3.6-5.9 4.4l.5 1.9z"/></svg>
-                <span class="font-bold text-[#FF9900] text-xs tracking-tight">amazon</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24"><path fill="#A100FF" d="M.46 21.54h8.31L23.54 2.46h-8.31L.46 21.54z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">accenture</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <span class="font-extrabold text-white text-xs tracking-tight">Deloitte<span class="text-[#86BC25] font-black text-sm">.</span></span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FC8019"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-4h2v4zm0-6h-2V8.5h2v2z"/></svg>
-                <span class="font-bold text-[#FC8019] text-xs tracking-widest uppercase">SWIGGY</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#CB202D"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <span class="font-extrabold text-[#E53935] text-xs tracking-tight italic">zomato</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#3395FF"><path d="M22.43 2.73L9.2 13.9 1.57 7.7l12.4-5h8.46zm-9.33 13.5l2.76 5.07L22.43 2.73 13.1 16.23z"/></svg>
-                <span class="font-extrabold text-[#3395FF] text-xs tracking-tight">Razorpay</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FFE11B"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
-                <span class="font-bold text-[#FFE11B] text-xs tracking-tight">Flipkart</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#A3C615"><circle cx="12" cy="12" r="10"/></svg>
-                <span class="font-black text-[#A3C615] text-xs tracking-widest">OLA</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#5F259F"><rect x="2" y="2" width="20" height="20" rx="5"/><path fill="#FFF" d="M8 7h4a3 3 0 0 1 0 6H8V7zm2 4h2a1 1 0 0 0 0-2h-2v2zm-2 3h2v4H8v-4z"/></svg>
-                <span class="font-bold text-[#A855F7] text-xs tracking-tight">PhonePe</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#00529C"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L19 8v8l-7 3.5L5 16V8l7-3.2z"/></svg>
-                <span class="font-black text-[#38BDF8] text-xs tracking-wider">TCS</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#007CC3"><path d="M4 4h4v16H4V4zm6 0h4v16h-4V4zm6 0h4v16h-4V4z"/></svg>
-                <span class="font-extrabold text-[#007CC3] text-xs tracking-tight">Infosys</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <div class="flex gap-0.5"><span class="w-2 h-2 rounded-full bg-[#00A651]"></span><span class="w-2 h-2 rounded-full bg-[#ED1C24]"></span><span class="w-2 h-2 rounded-full bg-[#0095DA]"></span><span class="w-2 h-2 rounded-full bg-[#FFD400]"></span></div>
-                <span class="font-bold text-white text-xs tracking-tight">wipro</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#0070AD"><path d="M12 2L4 9l3 12h10l3-12-8-7zm0 3.5L17 10h-4v8h-2v-8H7l5-4.5z"/></svg>
-                <span class="font-bold text-[#0070AD] text-xs tracking-tight">Capgemini</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FF6C37"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                <span class="font-extrabold text-[#FF6C37] text-xs tracking-widest">POSTMAN</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#02BF8E"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
-                <span class="font-bold text-[#02BF8E] text-xs tracking-tight">freshworks</span>
-              </div>
+          <div class="overflow-hidden relative w-full bg-white py-7 rounded-2xl border border-amber-400/40 shadow-xl">
+            <div class="animate-marquee items-center gap-12 whitespace-nowrap px-4">
+              <!-- Set 1: Standalone SVG Brand Logos -->
+              <img src="assets/logos/microsoft.svg" alt="Microsoft Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/google.svg" alt="Google Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/amazon.svg" alt="Amazon Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/accenture.svg" alt="Accenture Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/deloitte.svg" alt="Deloitte Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/swiggy.svg" alt="Swiggy Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/zomato.svg" alt="Zomato Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/razorpay.svg" alt="Razorpay Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/flipkart.svg" alt="Flipkart Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/ola.svg" alt="Ola Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/phonepe.svg" alt="PhonePe Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/tcs.svg" alt="TCS Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/infosys.svg" alt="Infosys Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/wipro.svg" alt="Wipro Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/capgemini.svg" alt="Capgemini Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/postman.svg" alt="Postman Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/freshworks.svg" alt="Freshworks Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
 
               <!-- Duplicate Set for Seamless Infinite Loop -->
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 23 23"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">Microsoft</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">Google</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0 text-[#FF9900]" fill="currentColor" viewBox="0 0 24 24"><path d="M13.6 15.6c-2.3 1.7-5.6 2.5-8.5.8-2.6-1.5-3.9-4.2-3.4-7.1C2.3 6.1 5.3 3.8 8.6 4c3.4.2 6.2 2.7 6.4 6.1v.2h-2.3c-.2-2.1-1.9-3.7-4-3.7-2.2 0-4 1.8-4 4 0 2.2 1.8 4 4 4 1.4 0 2.6-.7 3.3-1.8l1.6 1.8zm3.8 1.4c2.5-1 5.1-2.9 6.6-5.4l-1.8-1c-1.2 2-3.3 3.6-5.4 4.4l.6 2z"/><path d="M18.8 18.5c2.7-.9 5.3-2.6 7-5.1l-1.6-1.2c-1.4 2.1-3.6 3.6-5.9 4.4l.5 1.9z"/></svg>
-                <span class="font-bold text-[#FF9900] text-xs tracking-tight">amazon</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24"><path fill="#A100FF" d="M.46 21.54h8.31L23.54 2.46h-8.31L.46 21.54z"/></svg>
-                <span class="font-bold text-white text-xs tracking-tight">accenture</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <span class="font-extrabold text-white text-xs tracking-tight">Deloitte<span class="text-[#86BC25] font-black text-sm">.</span></span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FC8019"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-4h2v4zm0-6h-2V8.5h2v2z"/></svg>
-                <span class="font-bold text-[#FC8019] text-xs tracking-widest uppercase">SWIGGY</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#CB202D"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <span class="font-extrabold text-[#E53935] text-xs tracking-tight italic">zomato</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#3395FF"><path d="M22.43 2.73L9.2 13.9 1.57 7.7l12.4-5h8.46zm-9.33 13.5l2.76 5.07L22.43 2.73 13.1 16.23z"/></svg>
-                <span class="font-extrabold text-[#3395FF] text-xs tracking-tight">Razorpay</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FFE11B"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
-                <span class="font-bold text-[#FFE11B] text-xs tracking-tight">Flipkart</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#A3C615"><circle cx="12" cy="12" r="10"/></svg>
-                <span class="font-black text-[#A3C615] text-xs tracking-widest">OLA</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#5F259F"><rect x="2" y="2" width="20" height="20" rx="5"/><path fill="#FFF" d="M8 7h4a3 3 0 0 1 0 6H8V7zm2 4h2a1 1 0 0 0 0-2h-2v2zm-2 3h2v4H8v-4z"/></svg>
-                <span class="font-bold text-[#A855F7] text-xs tracking-tight">PhonePe</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#00529C"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L19 8v8l-7 3.5L5 16V8l7-3.2z"/></svg>
-                <span class="font-black text-[#38BDF8] text-xs tracking-wider">TCS</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#007CC3"><path d="M4 4h4v16H4V4zm6 0h4v16h-4V4zm6 0h4v16h-4V4z"/></svg>
-                <span class="font-extrabold text-[#007CC3] text-xs tracking-tight">Infosys</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <div class="flex gap-0.5"><span class="w-2 h-2 rounded-full bg-[#00A651]"></span><span class="w-2 h-2 rounded-full bg-[#ED1C24]"></span><span class="w-2 h-2 rounded-full bg-[#0095DA]"></span><span class="w-2 h-2 rounded-full bg-[#FFD400]"></span></div>
-                <span class="font-bold text-white text-xs tracking-tight">wipro</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#0070AD"><path d="M12 2L4 9l3 12h10l3-12-8-7zm0 3.5L17 10h-4v8h-2v-8H7l5-4.5z"/></svg>
-                <span class="font-bold text-[#0070AD] text-xs tracking-tight">Capgemini</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#FF6C37"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                <span class="font-extrabold text-[#FF6C37] text-xs tracking-widest">POSTMAN</span>
-              </div>
-
-              <div class="flex items-center gap-2.5 px-5 py-2.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#02BF8E"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
-                <span class="font-bold text-[#02BF8E] text-xs tracking-tight">freshworks</span>
-              </div>
+              <img src="assets/logos/microsoft.svg" alt="Microsoft Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/google.svg" alt="Google Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/amazon.svg" alt="Amazon Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/accenture.svg" alt="Accenture Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/deloitte.svg" alt="Deloitte Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/swiggy.svg" alt="Swiggy Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/zomato.svg" alt="Zomato Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/razorpay.svg" alt="Razorpay Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/flipkart.svg" alt="Flipkart Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/ola.svg" alt="Ola Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/phonepe.svg" alt="PhonePe Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/tcs.svg" alt="TCS Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/infosys.svg" alt="Infosys Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/wipro.svg" alt="Wipro Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/capgemini.svg" alt="Capgemini Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/postman.svg" alt="Postman Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
+              <img src="assets/logos/freshworks.svg" alt="Freshworks Logo" class="h-8 md:h-10 w-auto object-contain shrink-0 filter drop-shadow-sm transition-transform hover:scale-105" />
             </div>
           </div>
         </div>
@@ -1024,8 +888,8 @@
         <div class="space-y-3">
           <h4 class="text-white font-bold text-xs uppercase tracking-wider">Admissions Desk</h4>
           <div class="space-y-2 text-slate-400 text-xs">
-            <div>✉️ <strong>Admissions Email:</strong> <a href="mailto:hr@eareasetech.com" class="text-amber-400 hover:underline">hr@eareasetech.com</a></div>
-            <div>📞 <strong>Admissions Phone:</strong> <a href="tel:+917893691717" class="text-amber-400 hover:underline">+91 78936 91717</a></div>
+            <div>✉️ <strong>Admissions Email:</strong> <a href="mailto:hr@eareasetech.com" class="text-amber-400 hover:underline whitespace-nowrap">hr@eareasetech.com</a></div>
+            <div>📞 <strong>Admissions Phone:</strong> <span class="whitespace-nowrap"><a href="tel:+917893691717" class="text-amber-400 hover:underline">+91 78936 91717</a></span></div>
             <button onclick="openEnrollModal('Admissions Advisory', 'Immediate Callback')" class="mt-2 px-4 py-2 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-xl text-xs w-full">
               Request Advisory Call
             </button>

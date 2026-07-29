@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 24" fill="none">
+  <circle cx="12" cy="12" r="10" fill="#FF6C37"/>
+  <path d="M12 6.5v11M7.5 12h9" stroke="#FFF" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="28" y="18" fill="#FF6C37" font-family="Arial, sans-serif" font-weight="900" font-size="15" letter-spacing="1">POSTMAN</text>
+</svg>
