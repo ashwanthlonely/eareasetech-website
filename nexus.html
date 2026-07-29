@@ -437,13 +437,13 @@
               <li class="flex items-center gap-2">✓ <span>10+ Hands-On Real-World Projects</span></li>
               <li class="flex items-center gap-2">✓ <span>Complete Source Code & Datasets</span></li>
               <li class="flex items-center gap-2">✓ <span>Resume Review & Mock Interviews</span></li>
-              <li class="flex items-center gap-2">✓ <span>Direct Razorpay Online Admission Payment</span></li>
+              <li class="flex items-center gap-2">✓ <span>Instant Online Admission & Seat Reservation</span></li>
             </ul>
           </div>
 
           <div class="pt-6 space-y-2">
             <button onclick="openEnrollModal('30-Day AI & Machine Learning Bootcamp', '₹15,338.82')" class="w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all">
-              💳 Enroll & Pay ₹15,338.82 via Razorpay &rarr;
+              Reserve Seat & Apply Now &rarr;
             </button>
           </div>
         </div>
@@ -1040,7 +1040,7 @@
       <div class="flex-shrink-0 bg-slate-50 border-t border-slate-100 p-4 flex justify-end gap-3 z-10">
         <button type="button" id="btn-cancel-enroll" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs transition-colors">Cancel</button>
         <button type="submit" form="form-nexus-enroll" class="px-5 py-2 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-md text-xs transition-all flex items-center gap-1.5">
-          <span>Submit Application & Proceed to Pay &rarr;</span>
+          <span>Submit Application & Confirm Seat &rarr;</span>
         </button>
       </div>
     </div>
@@ -1401,7 +1401,7 @@
         };
 
         enrollStatus.className = 'text-xs text-center font-bold p-3 rounded-xl bg-amber-100 text-amber-900 border border-amber-300';
-        enrollStatus.innerText = 'Registering seat & launching Razorpay payment window...';
+        enrollStatus.innerText = 'Registering seat & initializing admission checkout...';
         enrollStatus.classList.remove('hidden');
 
         let res = null;
