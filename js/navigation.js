@@ -144,11 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 Careers
               </a>
 
+              <!-- EarEase Nexus Portal Link -->
+              <a href="nexus.html" class="nav-link text-amber-600 hover:text-amber-700 font-bold inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-xl border border-amber-200">
+                <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-5 w-auto object-contain" />
+                <span>EarEase Nexus</span>
+              </a>
+
             </nav>
 
             <!-- Right Header CTA -->
-            <div class="hidden lg:flex items-center gap-4">
-              <a href="contact-us.html" class="px-5 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
+            <div class="hidden lg:flex items-center gap-3">
+              <a href="nexus.html" class="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all hover:scale-105 inline-flex items-center gap-2 border border-amber-300">
+                <img src="assets/E2n-logo.png" alt="EarEase Nexus Logo" class="h-5 w-auto object-contain" />
+                <span>EarEase Nexus AI 🚀</span>
+              </a>
+              <a href="contact-us.html" class="px-4 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
                 Contact Sales &rarr;
               </a>
             </div>
@@ -166,6 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Mobile Drawer -->
         <div id="mobile-drawer" class="hidden md:hidden bg-white border-b border-amber-100 px-4 py-6 space-y-4 shadow-xl">
           <a href="index.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Home</a>
+
+          <a href="nexus.html" class="flex items-center gap-2 text-sm font-bold text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+            <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-6 w-auto object-contain" />
+            <span>EarEase Nexus AI Mentorship Portal 🚀</span>
+          </a>
           
           <div class="space-y-2 py-2 border-b border-slate-100">
             <span class="block text-xs font-bold uppercase tracking-wider text-amber-800">Our Services</span>
@@ -183,9 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <a href="about-us.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">About Us</a>
           <a href="careers.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Careers</a>
 
-          <a href="contact-us.html" class="block text-center w-full py-3 bg-[#D4A017] text-slate-950 font-bold text-xs rounded-xl shadow-md mt-4">
-            Contact Sales &rarr;
-          </a>
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <a href="nexus.html" class="flex items-center justify-center gap-1.5 py-3 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md text-center">
+              <img src="assets/E2n-logo.png" alt="EarEase Nexus" class="h-5 w-auto object-contain" />
+              <span>Nexus AI 🎓</span>
+            </a>
+            <a href="contact-us.html" class="block text-center w-full py-3 bg-slate-900 text-amber-400 font-bold text-xs rounded-xl shadow-md">
+              Contact Sales &rarr;
+            </a>
+          </div>
         </div>
       </header>
     `;
