@@ -894,9 +894,11 @@
       };
 
       // Coupon Manager logic
-      function renderCouponPreviewList() {
+      async function renderCouponPreviewList() {
         const previewEl = document.getElementById('coupon-list-preview');
         if (!previewEl) return;
+        if (window.syncFirestoreCouponsToLocal) await window.syncFirestoreCouponsToLocal();
+        if (window.syncAllCloudData) await window.syncAllCloudData();
         const coupons = window.getSavedCoupons ? window.getSavedCoupons() : [];
 
         if (coupons.length === 0) {
@@ -946,7 +948,7 @@
           if (res.success) {
             showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active & synced to cloud!`, 'success');
             document.getElementById('form-manage-coupons').reset();
-            renderCouponPreviewList();
+            await renderCouponPreviewList();
           }
         }
       });
@@ -955,7 +957,7 @@
         if (confirm(`Delete coupon promo code '${code}'?`)) {
           if (window.deleteCoupon) await window.deleteCoupon(code);
           showAdminToast(`Promo code '${code}' deleted.`, 'info');
-          renderCouponPreviewList();
+          await renderCouponPreviewList();
         }
       };
 
