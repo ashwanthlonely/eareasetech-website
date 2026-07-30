@@ -111,50 +111,45 @@ function objectToFirestoreFields(obj) {
 }
 
 async function syncFirestoreCouponsToLocal() {
+  const currentSaved = JSON.parse(localStorage.getItem('eet_coupons') || '[]');
+  const mergedMap = new Map();
+
+  // 1. Load defaults
+  defaultCoupons.forEach(c => { if (c && c.code) mergedMap.set(c.code.toUpperCase(), c); });
+  // 2. Load existing local coupons (never wipe local additions!)
+  currentSaved.forEach(c => { if (c && c.code) mergedMap.set(c.code.toUpperCase(), c); });
+
   if (isFirebaseInitialized && db) {
     try {
       const snap = await db.collection('coupons').get();
       if (snap && !snap.empty) {
-        const fsCoupons = [];
         snap.forEach(doc => {
           const data = doc.data();
-          if (data && data.code) fsCoupons.push({ ...data, id: doc.id });
+          if (data && data.code) {
+            mergedMap.set(data.code.toUpperCase(), { ...data, id: doc.id });
+          }
         });
-        if (fsCoupons.length > 0) {
-          const merged = [...defaultCoupons];
-          fsCoupons.forEach(cc => {
-            const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
-            if (idx >= 0) merged[idx] = cc;
-            else merged.push(cc);
-          });
-          localStorage.setItem('eet_coupons', JSON.stringify(merged));
-          return;
-        }
       }
     } catch (e) {
       console.warn("Firestore SDK coupon fetch notice:", e);
     }
+  } else {
+    try {
+      const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.documents && Array.isArray(data.documents)) {
+          const fsCoupons = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.code);
+          fsCoupons.forEach(cc => mergedMap.set(cc.code.toUpperCase(), cc));
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore coupons pull notice:", e);
+    }
   }
 
-  try {
-    const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
-    if (!res.ok) return;
-    const data = await res.json();
-    if (data && data.documents && Array.isArray(data.documents)) {
-      const fsCoupons = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.code);
-      if (fsCoupons.length > 0) {
-        const merged = [...defaultCoupons];
-        fsCoupons.forEach(cc => {
-          const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
-          if (idx >= 0) merged[idx] = cc;
-          else merged.push(cc);
-        });
-        localStorage.setItem('eet_coupons', JSON.stringify(merged));
-      }
-    }
-  } catch (e) {
-    console.warn("Firestore coupons pull notice:", e);
-  }
+  const finalMerged = Array.from(mergedMap.values());
+  localStorage.setItem('eet_coupons', JSON.stringify(finalMerged));
 }
 
 async function syncAllCloudData(force = false) {
@@ -437,7 +432,7 @@ async function applyCouponCode(couponCode, programOrTierName) {
   await syncAllCloudData(true);
 
   let coupons = getSavedCoupons();
-  let coupon = coupons.find(c => c.code === code && c.active !== false);
+  let coupon = coupons.find(c => (c.code || '').trim().toUpperCase() === code && c.active !== false);
 
   if (!coupon) {
     return { success: false, message: 'Invalid or expired coupon code.' };
