@@ -43,6 +43,9 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
 
+  <!-- SLEEK TOAST NOTIFICATION CONTAINER -->
+  <div id="admin-toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
   <!-- AUTHENTICATION OVERLAY GATE -->
   <div id="auth-gate-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
     <div class="crm-card max-w-md w-full p-8 space-y-6 text-center border-amber-500/40 shadow-2xl">
@@ -361,12 +364,24 @@
         <table class="w-full text-left text-xs text-slate-300">
           <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
             <tr>
-              <th class="p-4">Applicant & Contact</th>
-              <th class="p-4">Selected Program Track</th>
-              <th class="p-4">Assigned Cohort Batch</th>
-              <th class="p-4">Seat #</th>
-              <th class="p-4">Fee / Estimate</th>
-              <th class="p-4">Payment Status</th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
+                Applicant & Contact <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
+              </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
+                Selected Program Track <span id="sort-icon-service" class="text-[9px] opacity-60">↕</span>
+              </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
+                Assigned Cohort Batch <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
+              </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('seatNumber')">
+                Seat # <span id="sort-icon-seatNumber" class="text-[9px] opacity-60">↕</span>
+              </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
+                Fee / Estimate <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
+              </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
+                Payment Status <span id="sort-icon-paymentStatus" class="text-[9px] opacity-60">↕</span>
+              </th>
               <th class="p-4 text-right">Actions</th>
             </tr>
           </thead>
@@ -381,6 +396,58 @@
 
   <script src="js/firebase-config.js"></script>
   <script>
+    // Senior Engineering Admin Toast Engine
+    function showAdminToast(msg, type = 'success') {
+      const container = document.getElementById('admin-toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50 shadow-emerald-950/50',
+        error: 'bg-rose-950/90 text-rose-300 border-rose-500/50 shadow-rose-950/50',
+        warning: 'bg-amber-950/90 text-amber-300 border-amber-500/50 shadow-amber-950/50',
+        info: 'bg-slate-900/90 text-slate-200 border-slate-700 shadow-slate-950/50'
+      };
+      const icons = { success: '✓', error: '✕', warning: '⚠️', info: 'ℹ️' };
+
+      toast.className = `px-4 py-3 rounded-xl border backdrop-blur-md shadow-2xl text-xs font-semibold flex items-center gap-2.5 transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto max-w-sm ${colors[type] || colors.info}`;
+      toast.innerHTML = `<span class="text-sm font-bold">${icons[type] || 'ℹ️'}</span> <span>${msg}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    let currentSort = { col: 'createdAt', dir: 'desc' };
+    let revealedGovtIds = new Set();
+
+    window.toggleGovtIdMask = function(leadId) {
+      if (revealedGovtIds.has(leadId)) {
+        revealedGovtIds.delete(leadId);
+        showAdminToast('Govt ID details masked.', 'info');
+      } else {
+        revealedGovtIds.add(leadId);
+        showAdminToast('Govt ID details revealed.', 'warning');
+      }
+      if (window.renderNexusDashboard) window.renderNexusDashboard();
+    };
+
+    window.sortNexusTable = function(colKey) {
+      if (currentSort.col === colKey) {
+        currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.col = colKey;
+        currentSort.dir = 'asc';
+      }
+      showAdminToast(`Sorted table by ${colKey} (${currentSort.dir.toUpperCase()})`, 'info');
+      if (window.renderNexusDashboard) window.renderNexusDashboard();
+    };
+
     document.addEventListener('DOMContentLoaded', async () => {
       let allLeads = [];
 
@@ -401,13 +468,37 @@
         }
       }
 
+      // Rate Limiter Security Guard
+      let loginFailures = parseInt(sessionStorage.getItem('nexus_login_failures') || '0');
+      let lockUntil = parseInt(sessionStorage.getItem('nexus_lock_until') || '0');
+
       loginForm?.addEventListener('submit', (e) => {
         e.preventDefault();
+        const now = Date.now();
+        if (now < lockUntil) {
+          const remSec = Math.ceil((lockUntil - now) / 1000);
+          errorMsg.innerText = `⚠️ Rate limited. Cooldown active for ${remSec}s due to multiple attempts.`;
+          errorMsg.classList.remove('hidden');
+          return;
+        }
+
         if (validPasscodes.includes(passcode.value.trim())) {
+          sessionStorage.removeItem('nexus_login_failures');
+          sessionStorage.removeItem('nexus_lock_until');
           localStorage.setItem('eet_nexus_admin_session', 'authenticated');
           authModal.classList.add('hidden');
+          showAdminToast('🔐 Authenticated! Welcome to EarEase Nexus Hub.', 'success');
           loadNexusData();
         } else {
+          loginFailures++;
+          sessionStorage.setItem('nexus_login_failures', loginFailures);
+          if (loginFailures >= 5) {
+            const cooldown = Date.now() + 30000;
+            sessionStorage.setItem('nexus_lock_until', cooldown);
+            errorMsg.innerText = '⚠️ Security lockout triggered! Please wait 30 seconds.';
+          } else {
+            errorMsg.innerText = `⚠️ Incorrect Passcode (${5 - loginFailures} attempt(s) remaining).`;
+          }
           errorMsg.classList.remove('hidden');
         }
       });
@@ -415,6 +506,7 @@
       btnLock?.addEventListener('click', () => {
         localStorage.removeItem('eet_nexus_admin_session');
         authModal.classList.remove('hidden');
+        showAdminToast('🔒 Dashboard locked successfully.', 'info');
       });
 
       checkAuth();
@@ -428,7 +520,7 @@
         renderNexusDashboard();
       }
 
-      function renderNexusDashboard() {
+      window.renderNexusDashboard = function() {
         const seatStatus = window.getNexusSeatStatus ? window.getNexusSeatStatus() : { activeSeatsCount: 0, rolloverSeatsCount: 0, remainingSeats: 50 };
         
         // Filter Nexus Leads
@@ -453,20 +545,56 @@
         document.getElementById('seat-progress-bar').style.width = `${pct}%`;
         document.getElementById('seat-progress-text').innerText = `${seatStatus.activeSeatsCount} / 50 Seats Claimed (${pct}%)`;
 
+        // Update Sort Icons in Header
+        ['name', 'service', 'cohort', 'seatNumber', 'estimateAmount', 'paymentStatus'].forEach(col => {
+          const iconEl = document.getElementById(`sort-icon-${col}`);
+          if (iconEl) {
+            if (currentSort.col === col) {
+              iconEl.innerText = currentSort.dir === 'asc' ? '▲' : '▼';
+              iconEl.className = 'text-[9px] text-amber-400 font-bold';
+            } else {
+              iconEl.innerText = '↕';
+              iconEl.className = 'text-[9px] opacity-60';
+            }
+          }
+        });
+
         // Render Table
         const tbody = document.getElementById('nexus-tbody');
         const searchVal = document.getElementById('nexus-search')?.value.toLowerCase() || '';
         const cohortFilter = document.getElementById('nexus-filter-cohort')?.value || 'all';
 
-        const filtered = nexusLeads.filter(l => {
+        let filtered = nexusLeads.filter(l => {
           const matchSearch = (l.name || '').toLowerCase().includes(searchVal) ||
                               (l.email || '').toLowerCase().includes(searchVal) ||
                               (l.service || '').toLowerCase().includes(searchVal) ||
-                              (l.candidateId || '').toLowerCase().includes(searchVal);
+                              (l.candidateId || '').toLowerCase().includes(searchVal) ||
+                              (l.appliedCouponCode || '').toLowerCase().includes(searchVal) ||
+                              (l.transactionId || '').toLowerCase().includes(searchVal);
           const matchCohort = cohortFilter === 'all' || 
                              (cohortFilter === 'active' && !(l.cohort || '').includes('Rollover')) ||
                              (cohortFilter === 'rollover' && (l.cohort || '').includes('Rollover'));
           return matchSearch && matchCohort;
+        });
+
+        // Apply Dynamic Sorting
+        filtered.sort((a, b) => {
+          let valA = a[currentSort.col] || '';
+          let valB = b[currentSort.col] || '';
+          if (currentSort.col === 'estimateAmount') {
+            valA = parseFloat((valA + '').replace(/[^0-9.]/g, '')) || 0;
+            valB = parseFloat((valB + '').replace(/[^0-9.]/g, '')) || 0;
+          } else if (currentSort.col === 'seatNumber') {
+            valA = parseInt(valA) || 999;
+            valB = parseInt(valB) || 999;
+          } else {
+            valA = (valA + '').toLowerCase();
+            valB = (valB + '').toLowerCase();
+          }
+
+          if (valA < valB) return currentSort.dir === 'asc' ? -1 : 1;
+          if (valA > valB) return currentSort.dir === 'asc' ? 1 : -1;
+          return 0;
         });
 
         if (filtered.length === 0) {
@@ -525,15 +653,30 @@
           const displayFee = (l.estimateAmount || '').startsWith('₹') ? l.estimateAmount : `₹${l.estimateAmount || '15,338.82'}`;
           const txId = l.transactionId || l.razorpayPaymentId || '';
 
+          // Govt ID Masking Helper
+          const isRevealed = revealedGovtIds.has(l.id);
+          let rawGovtId = l.govtId || 'Aadhaar / Govt ID';
+          let displayGovtId = rawGovtId;
+          if (!isRevealed && rawGovtId.includes(':')) {
+            const parts = rawGovtId.split(':');
+            const val = parts[1].trim();
+            const maskedVal = val.length > 4 ? ('•'.repeat(Math.max(4, val.length - 4)) + val.slice(-4)) : '••••';
+            displayGovtId = `${parts[0]}: ${maskedVal}`;
+          }
+
           return `
             <tr class="hover:bg-slate-800/50 transition-colors">
               <td class="p-4 space-y-1 min-w-[220px]">
                 <div class="font-bold text-white text-sm">${l.name}</div>
                 <div class="text-amber-400 font-mono text-[10px] font-extrabold">${l.candidateId || 'EET-NEX-REG'}</div>
                 <div class="text-slate-400 text-[11px]">${l.email} • ${l.phone}</div>
-                <div class="text-slate-400 text-[10px]">📍 ${l.city || 'N/A'}, ${l.state || 'N/A'} • ${l.govtId || 'Govt ID'}</div>
+                <div class="text-slate-400 text-[10px]">
+                  📍 ${l.city || 'N/A'}, ${l.state || 'N/A'} • 
+                  <span>${displayGovtId}</span>
+                  <button onclick="toggleGovtIdMask('${l.id}')" class="text-[9px] text-amber-400 font-bold hover:underline ml-1">${isRevealed ? '🔒 Mask' : '👁️ Reveal'}</button>
+                </div>
                 ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Referrer: ${l.referral}</div>` : ''}
-                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-purple-300 font-mono text-[10px] font-bold">🎟️ Coupon: ${l.appliedCouponCode} ${l.discountAmount && l.discountAmount !== '₹0' ? `(Saved ${l.discountAmount})` : ''}</div>` : ''}
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-purple-300 font-mono text-[10px] font-bold flex items-center gap-1">🎟️ Coupon: ${l.appliedCouponCode} ${l.discountAmount && l.discountAmount !== '₹0' ? `(Saved ${l.discountAmount})` : ''} <button onclick="copyCouponCode('${l.appliedCouponCode}')" class="text-[8px] px-1 py-0.2 bg-purple-950 text-purple-200 border border-purple-800 rounded hover:bg-purple-900">📋 Copy</button></div>` : ''}
               </td>
               <td class="p-4 font-semibold text-amber-300 min-w-[180px]">${l.service}</td>
               <td class="p-4 min-w-[170px]">${cohortBadge}<div class="text-[10px] text-slate-400 mt-1">${l.cohort || 'Active Batch'}</div></td>
@@ -564,11 +707,11 @@
             </tr>
           `;
         }).join('');
-      }
+      };
 
       window.acceptCandidate = async function(id) {
         const lead = allLeads.find(l => l.id === id);
-        if (!lead) return alert('Lead record not found.');
+        if (!lead) return showAdminToast('Lead record not found.', 'error');
 
         if (confirm(`Confirm acceptance for ${lead.name} (${lead.candidateId})? Seat will be locked and confirmed.`)) {
           await window.updateLeadDetails(id, { 
@@ -576,13 +719,14 @@
             seatConfirmed: true,
             stage: 'Enrolled Candidate'
           });
+          showAdminToast(`✓ Candidate ${lead.name} accepted! Seat locked & confirmed.`, 'success');
           await loadNexusData();
         }
       };
 
       window.declineAndRefundCandidate = async function(id) {
         const lead = allLeads.find(l => l.id === id);
-        if (!lead) return alert('Lead record not found.');
+        if (!lead) return showAdminToast('Lead record not found.', 'error');
 
         const isPaid = (lead.paymentStatus || '').toLowerCase().includes('paid');
         const confirmMsg = isPaid 
@@ -609,20 +753,15 @@
             });
           }
 
-          alert(`✓ Candidate ${lead.name} marked as Declined. ${isPaid ? `100% Refund ID generated: ${refundId}` : ''}`);
+          showAdminToast(`✓ Candidate ${lead.name} marked as Declined. ${isPaid ? `Refund Ref: ${refundId}` : ''}`, 'warning');
           await loadNexusData();
         }
-      };
-
-      window.triggerRazorpayForLead = function(id) {
-        const lead = allLeads.find(l => l.id === id);
-        if (!lead) return alert('Lead record not found.');
-        window.open('https://razorpay.me/@eareasetechprivatelimited', '_blank');
       };
 
       window.markPaymentPaid = async function(id) {
         if (confirm('Mark this admission as Paid via Razorpay?')) {
           await window.updateLeadDetails(id, { paymentStatus: 'Paid via Razorpay', stage: 'Contract Signed' });
+          showAdminToast('✓ Admission marked as Paid via Razorpay.', 'success');
           await loadNexusData();
         }
       };
@@ -630,6 +769,7 @@
       window.confirmDeleteLead = async function(id) {
         if (confirm('Delete this admission record?')) {
           await window.deleteSingleLead(id);
+          showAdminToast('Record deleted.', 'info');
           await loadNexusData();
         }
       };
@@ -667,7 +807,7 @@
         if (window.saveProgramFee) {
           const res = window.saveProgramFee(tier, baseVal);
           if (res.success) {
-            alert(`✓ Updated ${tier} fee structure: Base ₹${res.fees.baseFee.toLocaleString()} + GST = Total ${res.fees.formattedTotal}`);
+            showAdminToast(`✓ Updated ${tier} fee structure: Total ${res.fees.formattedTotal}`, 'success');
             renderNexusDashboard();
           }
         }
@@ -690,10 +830,30 @@
               <div class="font-bold text-white truncate">${c.title}</div>
               <div class="text-[9px] text-emerald-400 font-mono">${c.badge} • ${c.duration}</div>
             </div>
-            <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+            <div class="flex items-center gap-1">
+              <button onclick="editCourseById('${c.id}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">✏️ Edit</button>
+              <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+            </div>
           </div>
         `).join('');
       }
+
+      window.editCourseById = function(id) {
+        const courses = window.getSavedCourses ? window.getSavedCourses() : [];
+        const course = courses.find(c => c.id === id);
+        if (!course) return;
+
+        document.getElementById('course-id').value = course.id;
+        document.getElementById('course-title').value = course.title;
+        document.getElementById('course-duration').value = course.duration;
+        document.getElementById('course-badge').value = course.badge;
+        document.getElementById('course-description').value = course.description || '';
+
+        const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
+        if (submitBtn) submitBtn.innerText = '✨ Update Course Details';
+
+        showAdminToast(`Editing course '${course.title}'. Modify fields above and submit to save.`, 'info');
+      };
 
       document.getElementById('form-manage-courses')?.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -712,8 +872,11 @@
             description: desc,
             isLive: !badge.includes('SOLD OUT')
           });
-          alert(`✓ Course '${title}' saved successfully!`);
+          showAdminToast(`✓ Course '${title}' saved successfully!`, 'success');
           document.getElementById('form-manage-courses').reset();
+          document.getElementById('course-id').value = '';
+          const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
+          if (submitBtn) submitBtn.innerText = '➕ Add Course Track';
           renderCoursePreviewList();
         }
       });
@@ -721,6 +884,7 @@
       window.deleteCourseById = function(id) {
         if (confirm('Delete this course from catalog?')) {
           if (window.deleteCourse) window.deleteCourse(id);
+          showAdminToast('Course deleted from catalog.', 'info');
           renderCoursePreviewList();
         }
       };
@@ -742,10 +906,25 @@
               <span class="font-mono font-bold text-amber-400 text-xs">${cp.code}</span>
               <span class="text-[10px] text-slate-400 ml-1 font-mono">(${cp.type === 'percent' ? cp.discount + '%' : '₹' + cp.discount} Off)</span>
             </div>
-            <button onclick="deleteCouponByCode('${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+            <div class="flex items-center gap-1">
+              <button onclick="copyCouponCode('${cp.code}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">📋 Copy</button>
+              <button onclick="deleteCouponByCode('${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+            </div>
           </div>
         `).join('');
       }
+
+      window.copyCouponCode = function(code) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(code).then(() => {
+            showAdminToast(`✓ Promo code '${code}' copied to clipboard!`, 'success');
+          }).catch(() => {
+            showAdminToast(`Promo code: ${code}`, 'info');
+          });
+        } else {
+          showAdminToast(`Promo code: ${code}`, 'info');
+        }
+      };
 
       document.getElementById('form-manage-coupons')?.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -761,7 +940,7 @@
             active: true
           });
           if (res.success) {
-            alert(`✓ Discount promo code '${code.toUpperCase()}' saved!`);
+            showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active!`, 'success');
             document.getElementById('form-manage-coupons').reset();
             renderCouponPreviewList();
           }
@@ -771,6 +950,7 @@
       window.deleteCouponByCode = function(code) {
         if (confirm(`Delete coupon promo code '${code}'?`)) {
           if (window.deleteCoupon) window.deleteCoupon(code);
+          showAdminToast(`Promo code '${code}' deleted.`, 'info');
           renderCouponPreviewList();
         }
       };
@@ -780,12 +960,12 @@
       renderCoursePreviewList();
       renderCouponPreviewList();
 
-      document.getElementById('nexus-search')?.addEventListener('input', renderNexusDashboard);
-      document.getElementById('nexus-filter-cohort')?.addEventListener('change', renderNexusDashboard);
+      document.getElementById('nexus-search')?.addEventListener('input', window.renderNexusDashboard);
+      document.getElementById('nexus-filter-cohort')?.addEventListener('change', window.renderNexusDashboard);
 
       document.getElementById('btn-export-csv')?.addEventListener('click', () => {
         const nexusLeads = allLeads.filter(l => l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day'));
-        if (nexusLeads.length === 0) return alert('No Nexus admissions to export.');
+        if (nexusLeads.length === 0) return showAdminToast('No Nexus admissions to export.', 'warning');
         
         let csvContent = "data:text/csv;charset=utf-8,ID,CandidateID,Name,Email,Phone,Program,Cohort,SeatNo,Amount,CouponCode,DiscountSaved,PaymentStatus,RazorpayTxID,Date\n";
         nexusLeads.forEach(l => {
@@ -800,6 +980,7 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        showAdminToast('📥 Admissions CSV exported successfully!', 'success');
       });
     });
   </script>
