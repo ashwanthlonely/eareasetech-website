@@ -13,6 +13,21 @@ const firebaseConfig = {
   appId: "1:928159030663:web:7856e79b9b56f8f533f8da"
 };
 
+let isFirebaseInitialized = false;
+let db = null;
+
+try {
+  if (typeof firebase !== 'undefined') {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    db = firebase.firestore();
+    isFirebaseInitialized = true;
+  }
+} catch (e) {
+  console.warn("Firebase SDK Init Notice:", e);
+}
+
 const razorpayNexusConfig = {
   // Official Razorpay Merchant Payment Handle for EAREASE TECH PRIVATE LIMITED
   basePaymentLink: "https://razorpay.me/@eareasetechprivatelimited",
@@ -96,6 +111,31 @@ function objectToFirestoreFields(obj) {
 }
 
 async function syncFirestoreCouponsToLocal() {
+  if (isFirebaseInitialized && db) {
+    try {
+      const snap = await db.collection('coupons').get();
+      if (snap && !snap.empty) {
+        const fsCoupons = [];
+        snap.forEach(doc => {
+          const data = doc.data();
+          if (data && data.code) fsCoupons.push({ ...data, id: doc.id });
+        });
+        if (fsCoupons.length > 0) {
+          const merged = [...defaultCoupons];
+          fsCoupons.forEach(cc => {
+            const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
+            if (idx >= 0) merged[idx] = cc;
+            else merged.push(cc);
+          });
+          localStorage.setItem('eet_coupons', JSON.stringify(merged));
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore SDK coupon fetch notice:", e);
+    }
+  }
+
   try {
     const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
     if (!res.ok) return;
@@ -391,15 +431,13 @@ async function deleteCoupon(couponIdOrCode) {
 
 async function applyCouponCode(couponCode, programOrTierName) {
   const code = (couponCode || '').trim().toUpperCase();
+  
+  // Force fresh bidirectional sync from Firestore and Cloud Relay
+  await syncFirestoreCouponsToLocal();
+  await syncAllCloudData(true);
+
   let coupons = getSavedCoupons();
   let coupon = coupons.find(c => c.code === code && c.active !== false);
-
-  if (!coupon) {
-    // Force fresh fetch from Firestore Cloud to get coupons created on other browsers/admin panels
-    await syncAllCloudData(true);
-    coupons = getSavedCoupons();
-    coupon = coupons.find(c => c.code === code && c.active !== false);
-  }
 
   if (!coupon) {
     return { success: false, message: 'Invalid or expired coupon code.' };
@@ -552,22 +590,6 @@ function executeCheckoutModal(studentDetails, paymentDetails, onPaymentSuccess) 
   } catch (e) {
     console.warn("Razorpay notice, opening merchant handle:", e);
     window.open(razorpayNexusConfig.basePaymentLink, '_blank');
-  }
-}
-
-let db = null;
-let isFirebaseInitialized = false;
-
-if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-  try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    db = firebase.firestore();
-    isFirebaseInitialized = true;
-    console.log("EarEase-Tech: Firebase SDK Initialized");
-  } catch (e) {
-    console.warn("EarEase-Tech: Firebase init fallback mode - using LocalStorage", e);
   }
 }
 
