@@ -1135,13 +1135,35 @@
       }
     }
 
+    let currentAppliedCoupon = null;
+
     function updateModalDynamicPrice() {
       const courseSel = document.getElementById('enroll-course-select')?.value || 'AI & Machine Learning';
       const tierSel = document.getElementById('enroll-tier')?.value || '30-Day Express';
       
-      const paymentDetails = window.getProgramPaymentDetails 
+      let paymentDetails = window.getProgramPaymentDetails 
         ? window.getProgramPaymentDetails(tierSel) 
         : { formattedTotal: '₹15,338.82', breakupText: '₹13,000 Base + ₹2,338.82 GST (18%)' };
+
+      const couponInputVal = document.getElementById('enroll-coupon-code')?.value.trim();
+      if (couponInputVal && window.applyCouponCode) {
+        const couponRes = window.applyCouponCode(couponInputVal, tierSel);
+        if (couponRes.success) {
+          currentAppliedCoupon = couponRes;
+          paymentDetails = {
+            formattedTotal: couponRes.formattedFinalTotal,
+            breakupText: couponRes.breakupText
+          };
+        }
+      } else if (currentAppliedCoupon && currentAppliedCoupon.code) {
+        const couponRes = window.applyCouponCode(currentAppliedCoupon.code, tierSel);
+        if (couponRes.success) {
+          paymentDetails = {
+            formattedTotal: couponRes.formattedFinalTotal,
+            breakupText: couponRes.breakupText
+          };
+        }
+      }
 
       const courseEl = document.getElementById('modal-calc-course-name');
       const badgeEl = document.getElementById('modal-calc-tier-badge');
@@ -1155,6 +1177,15 @@
     }
 
     function openEnrollModal(courseName, tier) {
+      currentAppliedCoupon = null;
+      const couponInput = document.getElementById('enroll-coupon-code');
+      const couponFeedback = document.getElementById('coupon-feedback');
+      if (couponInput) couponInput.value = '';
+      if (couponFeedback) {
+        couponFeedback.innerText = '';
+        couponFeedback.classList.add('hidden');
+      }
+
       document.getElementById('enroll-course-title').value = courseName;
       document.getElementById('modal-program-name').innerText = courseName + ' (' + tier + ')';
       
@@ -1358,6 +1389,45 @@
       const enrollForm = document.getElementById('form-nexus-enroll');
       const enrollStatus = document.getElementById('enroll-status');
 
+      const btnApplyCoupon = document.getElementById('btn-apply-coupon');
+      const couponInput = document.getElementById('enroll-coupon-code');
+      const couponFeedback = document.getElementById('coupon-feedback');
+
+      btnApplyCoupon?.addEventListener('click', () => {
+        const code = (couponInput?.value || '').trim();
+        if (!code) {
+          if (couponFeedback) {
+            couponFeedback.className = 'text-[11px] font-semibold text-rose-600 bg-rose-50 p-2 rounded-lg border border-rose-200';
+            couponFeedback.innerText = '⚠️ Please enter a promo coupon code.';
+            couponFeedback.classList.remove('hidden');
+          }
+          return;
+        }
+
+        const tierSel = document.getElementById('enroll-tier')?.value || '30-Day Express';
+        if (window.applyCouponCode) {
+          const res = window.applyCouponCode(code, tierSel);
+          if (res.success) {
+            currentAppliedCoupon = res;
+            if (couponFeedback) {
+              couponFeedback.className = 'text-[11px] font-semibold text-emerald-700 bg-emerald-50 p-2 rounded-lg border border-emerald-200';
+              couponFeedback.innerText = `✓ Promo code '${res.code}' applied! Saved ${res.formattedDiscount} off your total.`;
+              couponFeedback.classList.remove('hidden');
+            }
+            document.getElementById('modal-calc-total').innerText = res.formattedFinalTotal;
+            document.getElementById('modal-calc-breakup').innerText = res.breakupText;
+          } else {
+            currentAppliedCoupon = null;
+            if (couponFeedback) {
+              couponFeedback.className = 'text-[11px] font-semibold text-rose-600 bg-rose-50 p-2 rounded-lg border border-rose-200';
+              couponFeedback.innerText = `⚠️ ${res.message}`;
+              couponFeedback.classList.remove('hidden');
+            }
+            updateModalDynamicPrice();
+          }
+        }
+      });
+
       enrollClose?.addEventListener('click', () => enrollModal.classList.add('hidden'));
       cancelEnroll?.addEventListener('click', () => enrollModal.classList.add('hidden'));
       brochureClose?.addEventListener('click', () => brochureModal.classList.add('hidden'));
@@ -1378,10 +1448,17 @@
         const background = document.getElementById('enroll-background').value;
         const message = document.getElementById('enroll-message').value;
 
-        const paymentDetails = window.getProgramPaymentDetails ? window.getProgramPaymentDetails(tier || course) : {
+        let paymentDetails = window.getProgramPaymentDetails ? window.getProgramPaymentDetails(tier || course) : {
           formattedTotal: '₹15,338.82',
           breakupText: '₹13,000 Base + ₹2,338.82 GST (18%)'
         };
+
+        if (currentAppliedCoupon) {
+          paymentDetails = {
+            formattedTotal: currentAppliedCoupon.formattedFinalTotal,
+            breakupText: currentAppliedCoupon.breakupText
+          };
+        }
 
         const payload = {
           name: name,
