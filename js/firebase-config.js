@@ -67,7 +67,131 @@ const defaultFeeStructure = {
 /**
  * Dynamic Program Fee Manager
  */
+const FIRESTORE_LEADS_URL = "https://firestore.googleapis.com/v1/projects/eareasetech-leads/databases/(default)/documents/leads";
+
+function objectToFirestoreFields(obj) {
+  const fields = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (val === null || val === undefined) {
+      fields[key] = { nullValue: null };
+    } else if (typeof val === 'boolean') {
+      fields[key] = { booleanValue: val };
+    } else if (typeof val === 'number') {
+      fields[key] = Number.isInteger(val) ? { integerValue: val.toString() } : { doubleValue: val };
+    } else if (typeof val === 'string') {
+      fields[key] = { stringValue: val };
+    } else if (typeof val === 'object') {
+      fields[key] = { stringValue: JSON.stringify(val) };
+    }
+  }
+  return { fields };
+}
+
+function firestoreDocToObject(doc) {
+  if (!doc || !doc.fields) return null;
+  const obj = {};
+  const docId = doc.name ? doc.name.split('/').pop() : '';
+  obj.id = docId;
+
+  for (const [key, field] of Object.entries(doc.fields)) {
+    if (field.stringValue !== undefined) {
+      const str = field.stringValue;
+      if ((str.startsWith('{') && str.endsWith('}')) || (str.startsWith('[') && str.endsWith(']'))) {
+        try { obj[key] = JSON.parse(str); continue; } catch(e){}
+      }
+      obj[key] = str;
+    } else if (field.integerValue !== undefined) {
+      obj[key] = parseInt(field.integerValue);
+    } else if (field.doubleValue !== undefined) {
+      obj[key] = parseFloat(field.doubleValue);
+    } else if (field.booleanValue !== undefined) {
+      obj[key] = field.booleanValue;
+    } else if (field.nullValue !== undefined) {
+      obj[key] = null;
+    }
+  }
+  return obj;
+}
+
+let isCloudSynced = false;
+
+async function syncAllCloudData() {
+  try {
+    const res = await fetch(FIRESTORE_LEADS_URL);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data || !data.documents) return;
+
+    const cloudCoupons = [];
+    const cloudCourses = [];
+    const cloudFees = {};
+    const cloudLeads = [];
+
+    data.documents.forEach(doc => {
+      const item = firestoreDocToObject(doc);
+      if (!item) return;
+
+      if (item.docType === 'coupon' && item.code) {
+        if (item.active !== false) cloudCoupons.push(item);
+      } else if (item.docType === 'course' && item.title) {
+        cloudCourses.push(item);
+      } else if (item.docType === 'program_fee' && item.tierKey) {
+        cloudFees[item.tierKey] = item;
+      } else if (item.docType === 'lead' || item.candidateId || item.service) {
+        cloudLeads.push(item);
+      }
+    });
+
+    if (cloudCoupons.length > 0) {
+      // Merge with default coupons
+      const merged = [...defaultCoupons];
+      cloudCoupons.forEach(cc => {
+        const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
+        if (idx >= 0) merged[idx] = cc;
+        else merged.push(cc);
+      });
+      localStorage.setItem('eet_coupons', JSON.stringify(merged));
+    }
+
+    if (cloudCourses.length > 0) {
+      const mergedCourses = [...defaultCourses];
+      cloudCourses.forEach(cc => {
+        const idx = mergedCourses.findIndex(m => m.id === cc.id);
+        if (idx >= 0) mergedCourses[idx] = cc;
+        else mergedCourses.push(cc);
+      });
+      localStorage.setItem('eet_courses', JSON.stringify(mergedCourses));
+    }
+
+    if (Object.keys(cloudFees).length > 0) {
+      const mergedFees = { ...defaultFeeStructure, ...cloudFees };
+      localStorage.setItem('eet_program_fees', JSON.stringify(mergedFees));
+    }
+
+    if (cloudLeads.length > 0) {
+      const localLeads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+      cloudLeads.forEach(cl => {
+        const idx = localLeads.findIndex(ll => ll.id === cl.id || (cl.candidateId && ll.candidateId === cl.candidateId));
+        if (idx >= 0) {
+          localLeads[idx] = { ...localLeads[idx], ...cl };
+        } else {
+          localLeads.push(cl);
+        }
+      });
+      localStorage.setItem('eet_leads', JSON.stringify(localLeads));
+    }
+
+    isCloudSynced = true;
+  } catch (e) {
+    console.warn("EarEase-Tech Cloud Sync notice:", e);
+  }
+}
+
+// Initial Sync Call
+syncAllCloudData();
+
 function getSavedProgramFees() {
+  syncAllCloudData();
   const saved = localStorage.getItem('eet_program_fees');
   if (saved) {
     try { return { ...defaultFeeStructure, ...JSON.parse(saved) }; } catch(e){}
@@ -84,8 +208,10 @@ function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
   const paise = Math.round(total * 100);
 
   const customFees = getSavedProgramFees();
-  customFees[tierKey] = {
-    ...(customFees[tierKey] || defaultFeeStructure[tierKey] || {}),
+  const feePayload = {
+    docType: 'program_fee',
+    tierKey: tierKey,
+    tierName: (customFees[tierKey] || defaultFeeStructure[tierKey] || {}).tierName || tierKey,
     baseFee: base,
     gst: gst,
     totalFee: total,
@@ -93,22 +219,25 @@ function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
     formattedTotal: `₹${total.toLocaleString('en-IN')}`,
     breakupText: `₹${base.toLocaleString('en-IN')} Base + ₹${gst.toLocaleString('en-IN')} GST (${gstPercent}%)`
   };
+  customFees[tierKey] = feePayload;
 
   localStorage.setItem('eet_program_fees', JSON.stringify(customFees));
+
+  // Sync to Firestore Cloud REST API
+  try {
+    const body = objectToFirestoreFields(feePayload);
+    fetch(FIRESTORE_LEADS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch(e){}
+
   return { success: true, fees: customFees[tierKey] };
 }
 
-/**
- * Dynamic Course Management Engine
- */
-const defaultCourses = [
-  { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.' },
-  { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.' },
-  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.' },
-  { id: 'course_ds_6m', title: 'Data Science & Advanced Analytics (6M)', duration: '6-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 25000, description: 'Data cleaning, EDA, SQL databases, statistical modeling, machine learning algorithms, and guaranteed enterprise internship.' }
-];
-
 function getSavedCourses() {
+  syncAllCloudData();
   const saved = localStorage.getItem('eet_courses');
   if (saved) {
     try { return JSON.parse(saved); } catch(e){}
@@ -118,6 +247,8 @@ function getSavedCourses() {
 
 function saveCourse(courseData) {
   const courses = getSavedCourses();
+  courseData.docType = 'course';
+
   if (courseData.id) {
     const idx = courses.findIndex(c => c.id === courseData.id);
     if (idx >= 0) courses[idx] = { ...courses[idx], ...courseData };
@@ -126,7 +257,19 @@ function saveCourse(courseData) {
     courseData.id = 'course_' + Date.now();
     courses.push(courseData);
   }
+
   localStorage.setItem('eet_courses', JSON.stringify(courses));
+
+  // Sync to Firestore Cloud REST API
+  try {
+    const body = objectToFirestoreFields(courseData);
+    fetch(FIRESTORE_LEADS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch(e){}
+
   return courses;
 }
 
@@ -137,16 +280,8 @@ function deleteCourse(courseId) {
   return courses;
 }
 
-/**
- * Dynamic Coupon Management Engine
- */
-const defaultCoupons = [
-  { id: 'cpn_10', code: 'EAREASE10', type: 'percent', discount: 10, description: '10% Off Instant Discount', active: true },
-  { id: 'cpn_5k', code: 'EARLY5000', type: 'flat', discount: 5000, description: 'Flat ₹5,000 Off Early Bird', active: true },
-  { id: 'cpn_20', code: 'NEXUS20', type: 'percent', discount: 20, description: '20% Off Special Promo', active: true }
-];
-
 function getSavedCoupons() {
+  syncAllCloudData();
   const saved = localStorage.getItem('eet_coupons');
   if (saved) {
     try { return JSON.parse(saved); } catch(e){}
@@ -159,6 +294,9 @@ function saveCoupon(couponData) {
   couponData.code = (couponData.code || '').trim().toUpperCase();
   if (!couponData.code) return { success: false, error: 'Coupon code is required' };
 
+  couponData.docType = 'coupon';
+  couponData.active = true;
+
   if (couponData.id) {
     const idx = coupons.findIndex(c => c.id === couponData.id || c.code === couponData.code);
     if (idx >= 0) coupons[idx] = { ...coupons[idx], ...couponData };
@@ -167,7 +305,19 @@ function saveCoupon(couponData) {
     couponData.id = 'cpn_' + Date.now();
     coupons.push(couponData);
   }
+
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
+
+  // Sync to Firestore Cloud REST API
+  try {
+    const body = objectToFirestoreFields(couponData);
+    fetch(FIRESTORE_LEADS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch(e){}
+
   return { success: true, coupons: coupons };
 }
 
@@ -464,6 +614,7 @@ async function submitLeadToFirebase(leadData) {
   const candidateId = leadData.candidateId || 'EET-NEX-' + Math.floor(100000 + Math.random() * 900000);
 
   const payload = {
+    docType: 'lead',
     id: leadData.id || 'lead_' + Date.now(),
     candidateId: candidateId,
     name: leadData.name || 'Website Candidate',
@@ -498,6 +649,18 @@ async function submitLeadToFirebase(leadData) {
 
   saveLocalLead(payload);
   dispatchEmailAlert(payload);
+
+  // Sync candidate lead directly to Firestore Cloud REST API
+  try {
+    const body = objectToFirestoreFields(payload);
+    fetch(FIRESTORE_LEADS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.warn("Firestore REST lead save notice:", e);
+  }
 
   if (isFirebaseInitialized && db) {
     try {
@@ -556,26 +719,14 @@ function saveLocalLead(payload) {
 }
 
 async function fetchAllLeads() {
-  let leads = [];
-  if (isFirebaseInitialized && db) {
-    try {
-      const snapshot = await db.collection('leads').orderBy('createdAt', 'desc').get();
-      snapshot.forEach(doc => leads.push({ id: doc.id, ...doc.data() }));
-    } catch (err) {
-      console.warn("Could not fetch Firestore leads, returning local leads", err);
-    }
-  }
-
-  if (leads.length === 0) {
-    leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
-  }
-
+  await syncAllCloudData();
+  let leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
   return leads;
 }
 
 async function updateLeadDetails(leadId, updates) {
   const leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
-  const index = leads.findIndex(l => l.id === leadId);
+  const index = leads.findIndex(l => l.id === leadId || l.candidateId === leadId);
   if (index >= 0) {
     leads[index] = {
       ...leads[index],
@@ -583,6 +734,18 @@ async function updateLeadDetails(leadId, updates) {
       updatedAt: new Date().toISOString()
     };
     localStorage.setItem('eet_leads', JSON.stringify(leads));
+
+    // Sync lead update directly to Firestore Cloud REST API
+    try {
+      const body = objectToFirestoreFields({ ...leads[index], docType: 'lead' });
+      fetch(FIRESTORE_LEADS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (e) {
+      console.warn("Firestore REST lead update notice:", e);
+    }
 
     if (isFirebaseInitialized && db) {
       try {
