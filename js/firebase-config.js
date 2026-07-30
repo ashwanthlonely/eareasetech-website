@@ -71,8 +71,56 @@ let GLOBAL_CLOUD_BLOB_URL = "https://jsonblob.com/api/jsonBlob/019fb34e-32ae-71f
 
 let isCloudSynced = false;
 
+const FIRESTORE_COUPONS_URL = "https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw";
+
+function firestoreFieldsToObject(fields) {
+  if (!fields) return {};
+  const obj = {};
+  for (const [key, val] of Object.entries(fields)) {
+    if (val.stringValue !== undefined) obj[key] = val.stringValue;
+    else if (val.integerValue !== undefined) obj[key] = parseInt(val.integerValue, 10);
+    else if (val.doubleValue !== undefined) obj[key] = parseFloat(val.doubleValue);
+    else if (val.booleanValue !== undefined) obj[key] = val.booleanValue;
+  }
+  return obj;
+}
+
+function objectToFirestoreFields(obj) {
+  const fields = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (typeof val === 'boolean') fields[key] = { booleanValue: val };
+    else if (typeof val === 'number') fields[key] = Number.isInteger(val) ? { integerValue: val.toString() } : { doubleValue: val };
+    else if (typeof val === 'string') fields[key] = { stringValue: val };
+  }
+  return { fields };
+}
+
+async function syncFirestoreCouponsToLocal() {
+  try {
+    const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && data.documents && Array.isArray(data.documents)) {
+      const fsCoupons = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.code);
+      if (fsCoupons.length > 0) {
+        const merged = [...defaultCoupons];
+        fsCoupons.forEach(cc => {
+          const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
+          if (idx >= 0) merged[idx] = cc;
+          else merged.push(cc);
+        });
+        localStorage.setItem('eet_coupons', JSON.stringify(merged));
+      }
+    }
+  } catch (e) {
+    console.warn("Firestore coupons pull notice:", e);
+  }
+}
+
 async function syncAllCloudData(force = false) {
   try {
+    await syncFirestoreCouponsToLocal();
+
     const url = force ? `${GLOBAL_CLOUD_BLOB_URL}?t=${Date.now()}` : GLOBAL_CLOUD_BLOB_URL;
     const res = await fetch(url);
     if (!res.ok) {
@@ -289,6 +337,20 @@ async function saveCoupon(couponData) {
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
   await pushCloudBlobState();
 
+  // Direct REST API save to Firestore database eareasetech-tech
+  try {
+    const docId = couponData.id || couponData.code;
+    const patchUrl = `https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons/${docId}?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw`;
+    const body = objectToFirestoreFields(couponData);
+    fetch(patchUrl, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.warn("Firestore coupon REST save notice:", e);
+  }
+
   if (isFirebaseInitialized && db) {
     try {
       await db.collection('coupons').doc(couponData.id || couponData.code).set(couponData);
@@ -307,6 +369,14 @@ async function deleteCoupon(couponIdOrCode) {
   coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== code);
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
   await pushCloudBlobState();
+
+  // Direct REST API delete from Firestore database eareasetech-tech
+  try {
+    const delUrl = `https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons/${code || couponIdOrCode}?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw`;
+    fetch(delUrl, { method: 'DELETE' });
+  } catch (e) {
+    console.warn("Firestore coupon REST delete notice:", e);
+  }
 
   if (isFirebaseInitialized && db) {
     try {
