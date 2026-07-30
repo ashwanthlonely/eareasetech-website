@@ -916,7 +916,7 @@
             </div>
             <div class="flex items-center gap-1.5">
               <button onclick="copyCouponCode('${cp.code}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">📋 Copy</button>
-              <button onclick="deleteCouponByCode('${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+              <button onclick="deleteCouponByCode('${cp.id || cp.code}', '${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
             </div>
           </div>
         `).join('');
@@ -955,10 +955,11 @@
         }
       });
 
-      window.deleteCouponByCode = async function(code) {
-        if (confirm(`Delete coupon promo code '${code}'?`)) {
-          if (window.deleteCoupon) await window.deleteCoupon(code);
-          showAdminToast(`Promo code '${code}' deleted.`, 'info');
+      window.deleteCouponByCode = async function(idOrCode, codeStr) {
+        const displayCode = codeStr || idOrCode;
+        if (confirm(`Delete coupon promo code '${displayCode}'?`)) {
+          if (window.deleteCoupon) await window.deleteCoupon(idOrCode);
+          showAdminToast(`Promo code '${displayCode}' deleted from cloud database.`, 'info');
           await renderCouponPreviewList();
         }
       };

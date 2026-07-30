@@ -459,26 +459,37 @@ async function saveCoupon(couponData) {
 
 async function deleteCoupon(couponIdOrCode) {
   let coupons = getSavedCoupons();
-  const code = (couponIdOrCode || '').trim().toUpperCase();
+  const inputClean = (couponIdOrCode || '').trim().toUpperCase();
 
-  coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== code);
+  const targetCoupon = coupons.find(c => c.id === couponIdOrCode || (c.code || '').trim().toUpperCase() === inputClean);
+
+  const docIdToDelete = targetCoupon ? targetCoupon.id : couponIdOrCode;
+  const codeToDelete = targetCoupon ? (targetCoupon.code || '').trim().toUpperCase() : inputClean;
+
+  coupons = coupons.filter(c => c.id !== docIdToDelete && (c.code || '').trim().toUpperCase() !== codeToDelete);
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
   await pushCloudBlobState();
 
-  // Direct REST API delete from Firestore database eareasetech-tech
-  try {
-    const delUrl = `https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons/${code || couponIdOrCode}?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw`;
-    fetch(delUrl, { method: 'DELETE' });
-  } catch (e) {
-    console.warn("Firestore coupon REST delete notice:", e);
-  }
-
   if (isFirebaseInitialized && db) {
     try {
-      await db.collection('coupons').doc(code || couponIdOrCode).delete();
+      if (docIdToDelete) await db.collection('coupons').doc(docIdToDelete).delete();
+      if (codeToDelete && codeToDelete !== docIdToDelete) await db.collection('coupons').doc(codeToDelete).delete();
     } catch (e) {
-      console.warn("Firestore coupon delete notice:", e);
+      console.warn("Firestore SDK coupon delete notice:", e);
     }
+  }
+
+  try {
+    if (docIdToDelete) {
+      const delUrl = `https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons/${docIdToDelete}?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw`;
+      await fetch(delUrl, { method: 'DELETE' });
+    }
+    if (codeToDelete && codeToDelete !== docIdToDelete) {
+      const delUrlCode = `https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons/${codeToDelete}?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw`;
+      await fetch(delUrlCode, { method: 'DELETE' });
+    }
+  } catch (e) {
+    console.warn("Firestore REST coupon delete notice:", e);
   }
 
   return coupons;
