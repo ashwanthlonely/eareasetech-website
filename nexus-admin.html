@@ -360,6 +360,7 @@
             <option value="active">Active Month Cohort (Seats 1-50)</option>
             <option value="rollover">Next Month Rollover Waitlist</option>
           </select>
+          <button id="btn-open-offline-modal" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-lg hover:shadow-emerald-950/50 cursor-pointer">➕ Manual Offline Enrollment</button>
         </div>
       </div>
 
@@ -991,7 +992,163 @@
         document.body.removeChild(link);
         showAdminToast('📥 Admissions CSV exported successfully!', 'success');
       });
+
+      // Manual Offline Enrollment Modal Logic
+      const offlineModal = document.getElementById('modal-offline-enrollment');
+      const btnOpenOffline = document.getElementById('btn-open-offline-modal');
+      const btnCloseOffline = document.getElementById('btn-close-offline-modal');
+      const btnCancelOffline = document.getElementById('btn-cancel-offline-modal');
+      const formOffline = document.getElementById('form-offline-enrollment');
+
+      btnOpenOffline?.addEventListener('click', () => offlineModal.classList.remove('hidden'));
+      btnCloseOffline?.addEventListener('click', () => offlineModal.classList.add('hidden'));
+      btnCancelOffline?.addEventListener('click', () => offlineModal.classList.add('hidden'));
+
+      formOffline?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('offline-name').value;
+        const email = document.getElementById('offline-email').value;
+        const phone = document.getElementById('offline-phone').value;
+        const idType = document.getElementById('offline-id-type').value;
+        const idNum = document.getElementById('offline-id-num').value;
+        const city = document.getElementById('offline-city').value;
+        const state = document.getElementById('offline-state').value;
+        const program = document.getElementById('offline-program').value;
+        const mode = document.getElementById('offline-payment-mode').value;
+        const rawAmount = document.getElementById('offline-amount').value;
+        const txRef = document.getElementById('offline-tx-ref').value || `OFFLINE-${Date.now()}`;
+        const notes = document.getElementById('offline-notes').value || 'Manual Offline Enrollment';
+
+        const candidateId = 'EET-OFFLINE-' + Math.floor(100000 + Math.random() * 900000);
+        const formattedAmount = rawAmount.startsWith('₹') ? rawAmount : `₹${parseFloat(rawAmount.replace(/[^0-9.]/g, '') || 0).toLocaleString('en-IN')}`;
+
+        const payload = {
+          name: name,
+          email: email,
+          phone: phone,
+          govtId: `${idType}: ${idNum}`,
+          city: city,
+          state: state,
+          service: `EarEase Nexus - ${program}`,
+          estimateAmount: formattedAmount,
+          paymentStatus: `✓ Paid via ${mode}`,
+          transactionId: txRef,
+          referral: notes,
+          candidateId: candidateId,
+          stage: 'Contract Signed',
+          acceptanceStatus: 'Accepted by Admin',
+          seatConfirmed: true,
+          isNexus: true,
+          isOffline: true,
+          createdAt: new Date().toISOString()
+        };
+
+        if (window.submitLeadToFirebase) {
+          await window.submitLeadToFirebase(payload);
+        }
+        showAdminToast(`✓ Offline Candidate ${name} (${candidateId}) registered & saved to Firestore Database!`, 'success');
+        formOffline.reset();
+        offlineModal.classList.add('hidden');
+        await loadNexusData();
+      });
     });
   </script>
+
+  <!-- MANUAL OFFLINE ENROLLMENT MODAL -->
+  <div id="modal-offline-enrollment" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-xl rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">➕</span>
+          <div>
+            <h3 class="text-base font-bold text-white">Manual Offline Candidate Enrollment</h3>
+            <p class="text-[11px] text-slate-400">Register candidates who joined offline via Cash, Bank Transfer, Cheque, or Offline UPI</p>
+          </div>
+        </div>
+        <button id="btn-close-offline-modal" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <form id="form-offline-enrollment" class="space-y-3 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Candidate Full Name *</label>
+            <input type="text" id="offline-name" placeholder="e.g. Rahul Sharma" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none focus:border-amber-400" required />
+          </div>
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Email Address *</label>
+            <input type="email" id="offline-email" placeholder="rahul@example.com" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none focus:border-amber-400" required />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Phone / WhatsApp *</label>
+            <input type="tel" id="offline-phone" placeholder="+91 98765 43210" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none focus:border-amber-400" required />
+          </div>
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Govt ID Type & Number *</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <select id="offline-id-type" class="px-2 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 outline-none text-[11px]">
+                <option value="Aadhaar Card">Aadhaar</option>
+                <option value="PAN Card">PAN</option>
+                <option value="Passport">Passport</option>
+              </select>
+              <input type="text" id="offline-id-num" placeholder="XXXX-XXXX-1234" class="col-span-2 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none focus:border-amber-400" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">City & State *</label>
+            <div class="grid grid-cols-2 gap-1.5">
+              <input type="text" id="offline-city" placeholder="Bengaluru" class="px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none" required />
+              <input type="text" id="offline-state" placeholder="Karnataka" class="px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none" required />
+            </div>
+          </div>
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Program Track *</label>
+            <select id="offline-program" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-amber-400 font-semibold outline-none">
+              <option value="AI & Machine Learning (3-Month Mentorship)">3-Month Mentorship (₹54,278.82)</option>
+              <option value="AI & Machine Learning (30-Day Express)">30-Day Express Bootcamp (₹15,338.82)</option>
+              <option value="AI Tools for Working Professionals">AI Tools Bootcamp (₹15,338.82)</option>
+              <option value="Data Science & Advanced Analytics (6M)">6-Month Mentorship (₹29,500.00)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Payment Mode *</label>
+            <select id="offline-payment-mode" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white outline-none">
+              <option value="Cash">Cash Handover</option>
+              <option value="Direct Bank Transfer (NEFT/RTGS)">Direct Bank Transfer (NEFT/RTGS)</option>
+              <option value="Offline UPI / QR Code">Offline UPI / QR Scan</option>
+              <option value="Cheque Deposit">Cheque Deposit</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-400 font-semibold mb-1">Total Amount Paid (₹) *</label>
+            <input type="text" id="offline-amount" placeholder="e.g. 54278.82" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-emerald-400 font-bold font-mono outline-none" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-400 font-semibold mb-1">Offline Tx Ref / Receipt Number</label>
+          <input type="text" id="offline-tx-ref" placeholder="e.g. REC-2026-99182 or UTR: 40291029381" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-slate-400 font-semibold mb-1">Referral Source / Notes</label>
+          <input type="text" id="offline-notes" placeholder="Walk-in Candidate / Referred by Alumni" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 outline-none" />
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" id="btn-cancel-offline-modal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl transition-all cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-950/50 cursor-pointer">✓ Submit Offline Enrollment</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
