@@ -100,6 +100,7 @@ let GLOBAL_CLOUD_BLOB_URL = "https://jsonblob.com/api/jsonBlob/019fb34e-32ae-71f
 let isCloudSynced = false;
 
 const FIRESTORE_COUPONS_URL = "https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/coupons?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw";
+const FIRESTORE_COURSES_URL = "https://firestore.googleapis.com/v1/projects/eareasetech-tech/databases/(default)/documents/courses?key=AIzaSyD8efty9voJ5IFO3GRPjcDqjouMLh0oBlw";
 
 function firestoreFieldsToObject(fields) {
   if (!fields) return {};
@@ -163,6 +164,48 @@ async function syncFirestoreCouponsToLocal() {
 
   const finalMerged = Array.from(mergedMap.values());
   localStorage.setItem('eet_coupons', JSON.stringify(finalMerged));
+}
+
+async function syncFirestoreCoursesToLocal() {
+  const currentSaved = JSON.parse(localStorage.getItem('eet_courses') || '[]');
+  const mergedMap = new Map();
+
+  // 1. Load defaults
+  defaultCourses.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
+  // 2. Load existing local courses
+  currentSaved.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
+
+  if (isFirebaseInitialized && db) {
+    try {
+      const snap = await db.collection('courses').get();
+      if (snap && !snap.empty) {
+        snap.forEach(doc => {
+          const data = doc.data();
+          if (data && data.id) {
+            mergedMap.set(data.id, { ...data, id: doc.id });
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Firestore SDK course fetch notice:", e);
+    }
+  } else {
+    try {
+      const res = await fetch(`${FIRESTORE_COURSES_URL}&t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.documents && Array.isArray(data.documents)) {
+          const fsCourses = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.id);
+          fsCourses.forEach(cc => mergedMap.set(cc.id, cc));
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore courses pull notice:", e);
+    }
+  }
+
+  const finalMerged = Array.from(mergedMap.values());
+  localStorage.setItem('eet_courses', JSON.stringify(finalMerged));
 }
 
 async function syncAllCloudData(force = false) {
@@ -874,6 +917,8 @@ window.getSavedCoupons = getSavedCoupons;
 window.saveCoupon = saveCoupon;
 window.deleteCoupon = deleteCoupon;
 window.applyCouponCode = applyCouponCode;
+window.syncFirestoreCouponsToLocal = syncFirestoreCouponsToLocal;
+window.syncFirestoreCoursesToLocal = syncFirestoreCoursesToLocal;
 window.getProgramPaymentDetails = getProgramPaymentDetails;
 window.launchRazorpayCheckout = launchRazorpayCheckout;
 window.submitLeadToFirebase = submitLeadToFirebase;

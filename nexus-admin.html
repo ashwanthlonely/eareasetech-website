@@ -817,9 +817,11 @@
       });
 
       // Course Manager logic
-      function renderCoursePreviewList() {
+      async function renderCoursePreviewList() {
         const previewEl = document.getElementById('course-list-preview');
         if (!previewEl) return;
+        if (window.syncFirestoreCoursesToLocal) await window.syncFirestoreCoursesToLocal();
+        if (window.syncAllCloudData) await window.syncAllCloudData();
         const courses = window.getSavedCourses ? window.getSavedCourses() : [];
 
         if (courses.length === 0) {
@@ -881,7 +883,7 @@
           document.getElementById('course-id').value = '';
           const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
           if (submitBtn) submitBtn.innerText = '➕ Add Course Track';
-          renderCoursePreviewList();
+          await renderCoursePreviewList();
         }
       });
 
@@ -889,7 +891,7 @@
         if (confirm('Delete this course from catalog?')) {
           if (window.deleteCourse) await window.deleteCourse(id);
           showAdminToast('Course deleted from catalog.', 'info');
-          renderCoursePreviewList();
+          await renderCoursePreviewList();
         }
       };
 
