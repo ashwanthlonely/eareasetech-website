@@ -67,87 +67,24 @@ const defaultFeeStructure = {
 /**
  * Dynamic Program Fee Manager
  */
-const FIRESTORE_LEADS_URL = "https://firestore.googleapis.com/v1/projects/eareasetech-leads/databases/(default)/documents/leads";
-
-function objectToFirestoreFields(obj) {
-  const fields = {};
-  for (const [key, val] of Object.entries(obj)) {
-    if (val === null || val === undefined) {
-      fields[key] = { nullValue: null };
-    } else if (typeof val === 'boolean') {
-      fields[key] = { booleanValue: val };
-    } else if (typeof val === 'number') {
-      fields[key] = Number.isInteger(val) ? { integerValue: val.toString() } : { doubleValue: val };
-    } else if (typeof val === 'string') {
-      fields[key] = { stringValue: val };
-    } else if (typeof val === 'object') {
-      fields[key] = { stringValue: JSON.stringify(val) };
-    }
-  }
-  return { fields };
-}
-
-function firestoreDocToObject(doc) {
-  if (!doc || !doc.fields) return null;
-  const obj = {};
-  const docId = doc.name ? doc.name.split('/').pop() : '';
-  obj.id = docId;
-
-  for (const [key, field] of Object.entries(doc.fields)) {
-    if (field.stringValue !== undefined) {
-      const str = field.stringValue;
-      if ((str.startsWith('{') && str.endsWith('}')) || (str.startsWith('[') && str.endsWith(']'))) {
-        try { obj[key] = JSON.parse(str); continue; } catch(e){}
-      }
-      obj[key] = str;
-    } else if (field.integerValue !== undefined) {
-      obj[key] = parseInt(field.integerValue);
-    } else if (field.doubleValue !== undefined) {
-      obj[key] = parseFloat(field.doubleValue);
-    } else if (field.booleanValue !== undefined) {
-      obj[key] = field.booleanValue;
-    } else if (field.nullValue !== undefined) {
-      obj[key] = null;
-    }
-  }
-  return obj;
-}
+let GLOBAL_CLOUD_BLOB_URL = "https://jsonblob.com/api/jsonBlob/019fb34e-32ae-71f6-9d8f-1b2c82af36a3";
 
 let isCloudSynced = false;
 
 async function syncAllCloudData(force = false) {
   try {
-    const baseUrl = `${FIRESTORE_LEADS_URL}?pageSize=1000`;
-    const url = force ? `${baseUrl}&t=${Date.now()}` : baseUrl;
+    const url = force ? `${GLOBAL_CLOUD_BLOB_URL}?t=${Date.now()}` : GLOBAL_CLOUD_BLOB_URL;
     const res = await fetch(url);
-    if (!res.ok) return;
+    if (!res.ok) {
+      if (res.status === 404) await pushCloudBlobState();
+      return;
+    }
     const data = await res.json();
-    if (!data || !data.documents) return;
+    if (!data) return;
 
-    const cloudCoupons = [];
-    const cloudCourses = [];
-    const cloudFees = {};
-    const cloudLeads = [];
-
-    data.documents.forEach(doc => {
-      const item = firestoreDocToObject(doc);
-      if (!item) return;
-
-      if (item.docType === 'coupon' && item.code) {
-        if (item.active !== false) cloudCoupons.push(item);
-      } else if (item.docType === 'course' && item.title) {
-        cloudCourses.push(item);
-      } else if (item.docType === 'program_fee' && item.tierKey) {
-        cloudFees[item.tierKey] = item;
-      } else if (item.docType === 'lead' || item.candidateId || item.service) {
-        cloudLeads.push(item);
-      }
-    });
-
-    if (cloudCoupons.length > 0) {
-      // Merge with default coupons
+    if (data.coupons && Array.isArray(data.coupons) && data.coupons.length > 0) {
       const merged = [...defaultCoupons];
-      cloudCoupons.forEach(cc => {
+      data.coupons.forEach(cc => {
         const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
         if (idx >= 0) merged[idx] = cc;
         else merged.push(cc);
@@ -155,9 +92,9 @@ async function syncAllCloudData(force = false) {
       localStorage.setItem('eet_coupons', JSON.stringify(merged));
     }
 
-    if (cloudCourses.length > 0) {
+    if (data.courses && Array.isArray(data.courses) && data.courses.length > 0) {
       const mergedCourses = [...defaultCourses];
-      cloudCourses.forEach(cc => {
+      data.courses.forEach(cc => {
         const idx = mergedCourses.findIndex(m => m.id === cc.id);
         if (idx >= 0) mergedCourses[idx] = cc;
         else mergedCourses.push(cc);
@@ -165,14 +102,14 @@ async function syncAllCloudData(force = false) {
       localStorage.setItem('eet_courses', JSON.stringify(mergedCourses));
     }
 
-    if (Object.keys(cloudFees).length > 0) {
-      const mergedFees = { ...defaultFeeStructure, ...cloudFees };
+    if (data.fees && typeof data.fees === 'object') {
+      const mergedFees = { ...defaultFeeStructure, ...data.fees };
       localStorage.setItem('eet_program_fees', JSON.stringify(mergedFees));
     }
 
-    if (cloudLeads.length > 0) {
+    if (data.leads && Array.isArray(data.leads) && data.leads.length > 0) {
       const localLeads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
-      cloudLeads.forEach(cl => {
+      data.leads.forEach(cl => {
         const idx = localLeads.findIndex(ll => ll.id === cl.id || (cl.candidateId && ll.candidateId === cl.candidateId));
         if (idx >= 0) {
           localLeads[idx] = { ...localLeads[idx], ...cl };
@@ -186,6 +123,39 @@ async function syncAllCloudData(force = false) {
     isCloudSynced = true;
   } catch (e) {
     console.warn("EarEase-Tech Cloud Sync notice:", e);
+  }
+}
+
+async function pushCloudBlobState() {
+  try {
+    const fullState = {
+      coupons: JSON.parse(localStorage.getItem('eet_coupons') || '[]'),
+      courses: JSON.parse(localStorage.getItem('eet_courses') || '[]'),
+      fees: JSON.parse(localStorage.getItem('eet_program_fees') || '{}'),
+      leads: JSON.parse(localStorage.getItem('eet_leads') || '[]'),
+      updatedAt: new Date().toISOString()
+    };
+
+    const res = await fetch(GLOBAL_CLOUD_BLOB_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fullState)
+    });
+
+    if (res.status === 404) {
+      // Re-create master blob if expired
+      const createRes = await fetch('https://jsonblob.com/api/jsonBlob', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fullState)
+      });
+      const loc = createRes.headers.get('location');
+      if (loc) {
+        GLOBAL_CLOUD_BLOB_URL = loc.startsWith('http') ? loc : 'https://jsonblob.com' + loc;
+      }
+    }
+  } catch (e) {
+    console.warn("Cloud push notice:", e);
   }
 }
 
@@ -224,17 +194,7 @@ async function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
   customFees[tierKey] = feePayload;
 
   localStorage.setItem('eet_program_fees', JSON.stringify(customFees));
-
-  // Await Sync to Firestore Cloud REST API
-  try {
-    const body = objectToFirestoreFields(feePayload);
-    await fetch(FIRESTORE_LEADS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    await syncAllCloudData(true);
-  } catch(e){}
+  await pushCloudBlobState();
 
   return { success: true, fees: customFees[tierKey] };
 }
@@ -262,17 +222,7 @@ async function saveCourse(courseData) {
   }
 
   localStorage.setItem('eet_courses', JSON.stringify(courses));
-
-  // Await Sync to Firestore Cloud REST API
-  try {
-    const body = objectToFirestoreFields(courseData);
-    await fetch(FIRESTORE_LEADS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    await syncAllCloudData(true);
-  } catch(e){}
+  await pushCloudBlobState();
 
   return courses;
 }
@@ -281,6 +231,7 @@ async function deleteCourse(courseId) {
   let courses = getSavedCourses();
   courses = courses.filter(c => c.id !== courseId);
   localStorage.setItem('eet_courses', JSON.stringify(courses));
+  await pushCloudBlobState();
   return courses;
 }
 
@@ -311,19 +262,7 @@ async function saveCoupon(couponData) {
   }
 
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
-
-  // Await Sync to Firestore Cloud REST API
-  try {
-    const body = objectToFirestoreFields(couponData);
-    await fetch(FIRESTORE_LEADS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    await syncAllCloudData(true);
-  } catch(e){
-    console.warn("Firestore Coupon Save notice:", e);
-  }
+  await pushCloudBlobState();
 
   return { success: true, coupons: coupons };
 }
@@ -331,22 +270,10 @@ async function saveCoupon(couponData) {
 async function deleteCoupon(couponIdOrCode) {
   let coupons = getSavedCoupons();
   const code = (couponIdOrCode || '').trim().toUpperCase();
-  const target = coupons.find(c => c.id === couponIdOrCode || c.code === code);
 
   coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== code);
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
-
-  if (target) {
-    try {
-      const body = objectToFirestoreFields({ ...target, docType: 'coupon', active: false });
-      await fetch(FIRESTORE_LEADS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      await syncAllCloudData(true);
-    } catch(e){}
-  }
+  await pushCloudBlobState();
 
   return coupons;
 }
@@ -679,18 +606,7 @@ async function submitLeadToFirebase(leadData) {
 
   saveLocalLead(payload);
   dispatchEmailAlert(payload);
-
-  // Sync candidate lead directly to Firestore Cloud REST API
-  try {
-    const body = objectToFirestoreFields(payload);
-    fetch(FIRESTORE_LEADS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-  } catch (e) {
-    console.warn("Firestore REST lead save notice:", e);
-  }
+  pushCloudBlobState();
 
   if (isFirebaseInitialized && db) {
     try {
@@ -743,6 +659,7 @@ function saveLocalLead(payload) {
       existing.unshift(payload);
     }
     localStorage.setItem('eet_leads', JSON.stringify(existing));
+    pushCloudBlobState();
   } catch (e) {
     console.error("LocalStorage save error:", e);
   }
@@ -764,18 +681,7 @@ async function updateLeadDetails(leadId, updates) {
       updatedAt: new Date().toISOString()
     };
     localStorage.setItem('eet_leads', JSON.stringify(leads));
-
-    // Sync lead update directly to Firestore Cloud REST API
-    try {
-      const body = objectToFirestoreFields({ ...leads[index], docType: 'lead' });
-      fetch(FIRESTORE_LEADS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    } catch (e) {
-      console.warn("Firestore REST lead update notice:", e);
-    }
+    await pushCloudBlobState();
 
     if (isFirebaseInitialized && db) {
       try {
@@ -792,8 +698,9 @@ async function updateLeadDetails(leadId, updates) {
 async function deleteSingleLead(leadId) {
   try {
     let leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
-    leads = leads.filter(l => l.id !== leadId);
+    leads = leads.filter(l => l.id !== leadId && l.candidateId !== leadId);
     localStorage.setItem('eet_leads', JSON.stringify(leads));
+    await pushCloudBlobState();
 
     if (isFirebaseInitialized && db) {
       try {
