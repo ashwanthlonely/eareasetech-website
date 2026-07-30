@@ -125,87 +125,91 @@ function objectToFirestoreFields(obj) {
 }
 
 async function syncFirestoreCouponsToLocal() {
-  const currentSaved = JSON.parse(localStorage.getItem('eet_coupons') || '[]');
-  const mergedMap = new Map();
-
-  // 1. Load defaults
-  defaultCoupons.forEach(c => { if (c && c.code) mergedMap.set(c.code.toUpperCase(), c); });
-  // 2. Load existing local coupons (never wipe local additions!)
-  currentSaved.forEach(c => { if (c && c.code) mergedMap.set(c.code.toUpperCase(), c); });
-
   if (isFirebaseInitialized && db) {
     try {
       const snap = await db.collection('coupons').get();
       if (snap && !snap.empty) {
+        const fsCoupons = [];
         snap.forEach(doc => {
           const data = doc.data();
           if (data && data.code) {
-            mergedMap.set(data.code.toUpperCase(), { ...data, id: doc.id });
+            fsCoupons.push({ ...data, id: doc.id });
           }
         });
+        if (fsCoupons.length > 0) {
+          localStorage.setItem('eet_coupons', JSON.stringify(fsCoupons));
+          return;
+        }
       }
     } catch (e) {
       console.warn("Firestore SDK coupon fetch notice:", e);
     }
-  } else {
-    try {
-      const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.documents && Array.isArray(data.documents)) {
-          const fsCoupons = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.code);
-          fsCoupons.forEach(cc => mergedMap.set(cc.code.toUpperCase(), cc));
-        }
-      }
-    } catch (e) {
-      console.warn("Firestore coupons pull notice:", e);
-    }
   }
 
-  const finalMerged = Array.from(mergedMap.values());
-  localStorage.setItem('eet_coupons', JSON.stringify(finalMerged));
+  try {
+    const res = await fetch(`${FIRESTORE_COUPONS_URL}&t=${Date.now()}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.documents && Array.isArray(data.documents) && data.documents.length > 0) {
+        const fsCoupons = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.code);
+        if (fsCoupons.length > 0) {
+          localStorage.setItem('eet_coupons', JSON.stringify(fsCoupons));
+          return;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Firestore coupons pull notice:", e);
+  }
+
+  const currentSaved = JSON.parse(localStorage.getItem('eet_coupons') || '[]');
+  if (currentSaved.length === 0) {
+    localStorage.setItem('eet_coupons', JSON.stringify(defaultCoupons));
+  }
 }
 
 async function syncFirestoreCoursesToLocal() {
-  const currentSaved = JSON.parse(localStorage.getItem('eet_courses') || '[]');
-  const mergedMap = new Map();
-
-  // 1. Load defaults
-  defaultCourses.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
-  // 2. Load existing local courses
-  currentSaved.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
-
   if (isFirebaseInitialized && db) {
     try {
       const snap = await db.collection('courses').get();
       if (snap && !snap.empty) {
+        const fsCourses = [];
         snap.forEach(doc => {
           const data = doc.data();
           if (data && data.id) {
-            mergedMap.set(data.id, { ...data, id: doc.id });
+            fsCourses.push({ ...data, id: doc.id });
           }
         });
+        if (fsCourses.length > 0) {
+          localStorage.setItem('eet_courses', JSON.stringify(fsCourses));
+          return;
+        }
       }
     } catch (e) {
       console.warn("Firestore SDK course fetch notice:", e);
     }
-  } else {
-    try {
-      const res = await fetch(`${FIRESTORE_COURSES_URL}&t=${Date.now()}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.documents && Array.isArray(data.documents)) {
-          const fsCourses = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.id);
-          fsCourses.forEach(cc => mergedMap.set(cc.id, cc));
-        }
-      }
-    } catch (e) {
-      console.warn("Firestore courses pull notice:", e);
-    }
   }
 
-  const finalMerged = Array.from(mergedMap.values());
-  localStorage.setItem('eet_courses', JSON.stringify(finalMerged));
+  try {
+    const res = await fetch(`${FIRESTORE_COURSES_URL}&t=${Date.now()}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.documents && Array.isArray(data.documents) && data.documents.length > 0) {
+        const fsCourses = data.documents.map(d => firestoreFieldsToObject(d.fields)).filter(c => c && c.id);
+        if (fsCourses.length > 0) {
+          localStorage.setItem('eet_courses', JSON.stringify(fsCourses));
+          return;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Firestore courses pull notice:", e);
+  }
+
+  const currentSaved = JSON.parse(localStorage.getItem('eet_courses') || '[]');
+  if (currentSaved.length === 0) {
+    localStorage.setItem('eet_courses', JSON.stringify(defaultCourses));
+  }
 }
 
 async function syncAllCloudData(force = false) {
