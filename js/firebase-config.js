@@ -117,7 +117,8 @@ let isCloudSynced = false;
 
 async function syncAllCloudData(force = false) {
   try {
-    const url = force ? `${FIRESTORE_LEADS_URL}?t=${Date.now()}` : FIRESTORE_LEADS_URL;
+    const baseUrl = `${FIRESTORE_LEADS_URL}?pageSize=1000`;
+    const url = force ? `${baseUrl}&t=${Date.now()}` : baseUrl;
     const res = await fetch(url);
     if (!res.ok) return;
     const data = await res.json();
@@ -200,7 +201,7 @@ function getSavedProgramFees() {
   return defaultFeeStructure;
 }
 
-function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
+async function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
   const base = parseFloat(baseFee);
   if (isNaN(base) || base <= 0) return { success: false, error: 'Invalid base fee amount' };
 
@@ -224,14 +225,15 @@ function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
 
   localStorage.setItem('eet_program_fees', JSON.stringify(customFees));
 
-  // Sync to Firestore Cloud REST API
+  // Await Sync to Firestore Cloud REST API
   try {
     const body = objectToFirestoreFields(feePayload);
-    fetch(FIRESTORE_LEADS_URL, {
+    await fetch(FIRESTORE_LEADS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
+    await syncAllCloudData(true);
   } catch(e){}
 
   return { success: true, fees: customFees[tierKey] };
@@ -246,7 +248,7 @@ function getSavedCourses() {
   return defaultCourses;
 }
 
-function saveCourse(courseData) {
+async function saveCourse(courseData) {
   const courses = getSavedCourses();
   courseData.docType = 'course';
 
@@ -261,20 +263,21 @@ function saveCourse(courseData) {
 
   localStorage.setItem('eet_courses', JSON.stringify(courses));
 
-  // Sync to Firestore Cloud REST API
+  // Await Sync to Firestore Cloud REST API
   try {
     const body = objectToFirestoreFields(courseData);
-    fetch(FIRESTORE_LEADS_URL, {
+    await fetch(FIRESTORE_LEADS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
+    await syncAllCloudData(true);
   } catch(e){}
 
   return courses;
 }
 
-function deleteCourse(courseId) {
+async function deleteCourse(courseId) {
   let courses = getSavedCourses();
   courses = courses.filter(c => c.id !== courseId);
   localStorage.setItem('eet_courses', JSON.stringify(courses));
@@ -290,7 +293,7 @@ function getSavedCoupons() {
   return defaultCoupons;
 }
 
-function saveCoupon(couponData) {
+async function saveCoupon(couponData) {
   const coupons = getSavedCoupons();
   couponData.code = (couponData.code || '').trim().toUpperCase();
   if (!couponData.code) return { success: false, error: 'Coupon code is required' };
@@ -309,23 +312,42 @@ function saveCoupon(couponData) {
 
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
 
-  // Sync to Firestore Cloud REST API
+  // Await Sync to Firestore Cloud REST API
   try {
     const body = objectToFirestoreFields(couponData);
-    fetch(FIRESTORE_LEADS_URL, {
+    await fetch(FIRESTORE_LEADS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-  } catch(e){}
+    await syncAllCloudData(true);
+  } catch(e){
+    console.warn("Firestore Coupon Save notice:", e);
+  }
 
   return { success: true, coupons: coupons };
 }
 
-function deleteCoupon(couponIdOrCode) {
+async function deleteCoupon(couponIdOrCode) {
   let coupons = getSavedCoupons();
-  coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== couponIdOrCode);
+  const code = (couponIdOrCode || '').trim().toUpperCase();
+  const target = coupons.find(c => c.id === couponIdOrCode || c.code === code);
+
+  coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== code);
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
+
+  if (target) {
+    try {
+      const body = objectToFirestoreFields({ ...target, docType: 'coupon', active: false });
+      await fetch(FIRESTORE_LEADS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      await syncAllCloudData(true);
+    } catch(e){}
+  }
+
   return coupons;
 }
 

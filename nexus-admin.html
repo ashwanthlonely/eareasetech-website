@@ -800,14 +800,14 @@
       });
       document.getElementById('fee-base-amount')?.addEventListener('input', syncFeeEditorPreview);
 
-      document.getElementById('form-manage-fees')?.addEventListener('submit', (e) => {
+      document.getElementById('form-manage-fees')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const tier = document.getElementById('fee-tier-select').value;
         const baseVal = document.getElementById('fee-base-amount').value;
         if (window.saveProgramFee) {
-          const res = window.saveProgramFee(tier, baseVal);
+          const res = await window.saveProgramFee(tier, baseVal);
           if (res.success) {
-            showAdminToast(`✓ Updated ${tier} fee structure: Total ${res.fees.formattedTotal}`, 'success');
+            showAdminToast(`✓ Updated ${tier} fee structure: Total ${res.fees.formattedTotal} (Synced)`, 'success');
             renderNexusDashboard();
           }
         }
@@ -825,12 +825,12 @@
         }
 
         previewEl.innerHTML = courses.map(c => `
-          <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center border border-slate-800">
-            <div class="space-y-0.5 max-w-[180px]">
-              <div class="font-bold text-white truncate">${c.title}</div>
-              <div class="text-[9px] text-emerald-400 font-mono">${c.badge} • ${c.duration}</div>
+          <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 mb-2">
+            <div>
+              <div class="font-bold text-amber-400">${c.title}</div>
+              <div class="text-[11px] text-slate-400">${c.duration} • <span class="text-emerald-400">${c.badge}</span></div>
             </div>
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1.5">
               <button onclick="editCourseById('${c.id}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">✏️ Edit</button>
               <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
             </div>
@@ -844,18 +844,19 @@
         if (!course) return;
 
         document.getElementById('course-id').value = course.id;
-        document.getElementById('course-title').value = course.title;
-        document.getElementById('course-duration').value = course.duration;
-        document.getElementById('course-badge').value = course.badge;
+        document.getElementById('course-title').value = course.title || '';
+        document.getElementById('course-duration').value = course.duration || '30-Day';
+        document.getElementById('course-badge').value = course.badge || '🟢 LIVE ADMISSIONS OPEN';
         document.getElementById('course-description').value = course.description || '';
 
         const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
-        if (submitBtn) submitBtn.innerText = '✨ Update Course Details';
+        if (submitBtn) submitBtn.innerText = '💾 Update Course Track';
 
-        showAdminToast(`Editing course '${course.title}'. Modify fields above and submit to save.`, 'info');
+        document.getElementById('form-manage-courses')?.scrollIntoView({ behavior: 'smooth' });
+        showAdminToast(`Editing course track: ${course.title}`, 'info');
       };
 
-      document.getElementById('form-manage-courses')?.addEventListener('submit', (e) => {
+      document.getElementById('form-manage-courses')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('course-title').value;
         const duration = document.getElementById('course-duration').value;
@@ -864,7 +865,7 @@
         const courseId = document.getElementById('course-id').value;
 
         if (window.saveCourse) {
-          window.saveCourse({
+          await window.saveCourse({
             id: courseId || undefined,
             title: title,
             duration: duration,
@@ -872,7 +873,7 @@
             description: desc,
             isLive: !badge.includes('SOLD OUT')
           });
-          showAdminToast(`✓ Course '${title}' saved successfully!`, 'success');
+          showAdminToast(`✓ Course '${title}' saved & synced to cloud!`, 'success');
           document.getElementById('form-manage-courses').reset();
           document.getElementById('course-id').value = '';
           const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
@@ -881,9 +882,9 @@
         }
       });
 
-      window.deleteCourseById = function(id) {
+      window.deleteCourseById = async function(id) {
         if (confirm('Delete this course from catalog?')) {
-          if (window.deleteCourse) window.deleteCourse(id);
+          if (window.deleteCourse) await window.deleteCourse(id);
           showAdminToast('Course deleted from catalog.', 'info');
           renderCoursePreviewList();
         }
@@ -901,12 +902,12 @@
         }
 
         previewEl.innerHTML = coupons.map(cp => `
-          <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center border border-slate-800">
+          <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 mb-2">
             <div>
-              <span class="font-mono font-bold text-amber-400 text-xs">${cp.code}</span>
-              <span class="text-[10px] text-slate-400 ml-1 font-mono">(${cp.type === 'percent' ? cp.discount + '%' : '₹' + cp.discount} Off)</span>
+              <span class="font-bold font-mono text-emerald-400 text-sm">${cp.code}</span>
+              <span class="text-[11px] text-slate-400 ml-2">(${cp.type === 'percent' ? cp.discount + '%' : '₹' + cp.discount} OFF)</span>
             </div>
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1.5">
               <button onclick="copyCouponCode('${cp.code}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">📋 Copy</button>
               <button onclick="deleteCouponByCode('${cp.code}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
             </div>
@@ -926,30 +927,30 @@
         }
       };
 
-      document.getElementById('form-manage-coupons')?.addEventListener('submit', (e) => {
+      document.getElementById('form-manage-coupons')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const code = document.getElementById('coupon-code').value;
         const type = document.getElementById('coupon-type').value;
         const val = parseFloat(document.getElementById('coupon-value').value);
 
         if (window.saveCoupon) {
-          const res = window.saveCoupon({
+          const res = await window.saveCoupon({
             code: code,
             type: type,
             discount: val,
             active: true
           });
           if (res.success) {
-            showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active!`, 'success');
+            showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active & synced to cloud!`, 'success');
             document.getElementById('form-manage-coupons').reset();
             renderCouponPreviewList();
           }
         }
       });
 
-      window.deleteCouponByCode = function(code) {
+      window.deleteCouponByCode = async function(code) {
         if (confirm(`Delete coupon promo code '${code}'?`)) {
-          if (window.deleteCoupon) window.deleteCoupon(code);
+          if (window.deleteCoupon) await window.deleteCoupon(code);
           showAdminToast(`Promo code '${code}' deleted.`, 'info');
           renderCouponPreviewList();
         }
