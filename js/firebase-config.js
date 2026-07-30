@@ -244,8 +244,30 @@ function getProgramPaymentDetails(programOrTierName) {
 /**
  * Clean Razorpay Checkout Launcher
  */
-function launchRazorpayCheckout(studentDetails, programName, onPaymentSuccess) {
-  const paymentDetails = getProgramPaymentDetails(programName);
+function launchRazorpayCheckout(studentDetails, programNameOrDetails, onPaymentSuccess, customPaymentDetails) {
+  let paymentDetails = null;
+
+  if (customPaymentDetails && (customPaymentDetails.formattedTotal || customPaymentDetails.amountPaise)) {
+    const finalVal = parseFloat((customPaymentDetails.formattedTotal || '0').replace(/[^0-9.]/g, ''));
+    paymentDetails = {
+      tierName: typeof programNameOrDetails === 'string' ? programNameOrDetails : 'EarEase Nexus Program',
+      formattedTotal: customPaymentDetails.formattedTotal,
+      totalFee: finalVal,
+      amountPaise: customPaymentDetails.finalAmountPaise || customPaymentDetails.amountPaise || Math.round(finalVal * 100),
+      breakupText: customPaymentDetails.breakupText || 'Discounted Admission Fee'
+    };
+  } else if (typeof programNameOrDetails === 'object' && programNameOrDetails !== null) {
+    const finalVal = parseFloat((programNameOrDetails.formattedFinalTotal || programNameOrDetails.formattedTotal || '0').replace(/[^0-9.]/g, ''));
+    paymentDetails = {
+      tierName: programNameOrDetails.tierName || 'EarEase Nexus Program',
+      formattedTotal: programNameOrDetails.formattedFinalTotal || programNameOrDetails.formattedTotal,
+      totalFee: finalVal,
+      amountPaise: programNameOrDetails.finalAmountPaise || programNameOrDetails.amountPaise || Math.round(finalVal * 100),
+      breakupText: programNameOrDetails.breakupText || 'Discounted Admission Fee'
+    };
+  } else {
+    paymentDetails = getProgramPaymentDetails(programNameOrDetails);
+  }
 
   const key = razorpayNexusConfig.keyId || '';
   if (!key.startsWith('rzp_live_') && !key.startsWith('rzp_test_')) {
@@ -266,14 +288,24 @@ function launchRazorpayCheckout(studentDetails, programName, onPaymentSuccess) {
 
 function executeCheckoutModal(studentDetails, paymentDetails, onPaymentSuccess) {
   const is1INRTest = razorpayNexusConfig.enable1INRTesting;
-  const chargePaise = is1INRTest ? 100 : paymentDetails.amountPaise;
+  
+  let chargePaise = paymentDetails.finalAmountPaise || paymentDetails.amountPaise;
+  if (!chargePaise && paymentDetails.formattedTotal) {
+    const num = parseFloat(paymentDetails.formattedTotal.replace(/[^0-9.]/g, ''));
+    chargePaise = Math.round((isNaN(num) ? 15338.82 : num) * 100);
+  }
+  if (is1INRTest) {
+    chargePaise = 100;
+  }
 
   const options = {
     key: razorpayNexusConfig.keyId,
-    amount: chargePaise, // Full production amount!
+    amount: chargePaise,
     currency: "INR",
     name: "EarEase Tech Private Limited",
-    description: is1INRTest ? `Live QR Test Admission Fee - ₹1.00 (${paymentDetails.tierName})` : `Admissions Fee - ${paymentDetails.tierName}`,
+    description: is1INRTest 
+      ? `Live QR Test Admission Fee - ₹1.00 (${paymentDetails.tierName || 'Program'})` 
+      : `Admissions Fee - ${paymentDetails.tierName || 'Program'} (${paymentDetails.formattedTotal || ''})`,
     image: "assets/logo.png",
     handler: function (response) {
       console.log("Razorpay Payment Success:", response);
@@ -285,7 +317,9 @@ function executeCheckoutModal(studentDetails, paymentDetails, onPaymentSuccess) 
       contact: studentDetails.phone || ""
     },
     notes: {
-      program: paymentDetails.tierName,
+      program: paymentDetails.tierName || "EarEase Nexus",
+      feeDetails: paymentDetails.breakupText || "Standard Rate",
+      discountedAmount: paymentDetails.formattedTotal || "Standard Rate",
       source: "EarEase Nexus Portal",
       testMode: is1INRTest ? "1 INR Live Testing" : "Production"
     },
