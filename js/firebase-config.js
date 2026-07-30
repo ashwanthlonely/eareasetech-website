@@ -196,6 +196,14 @@ async function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
   localStorage.setItem('eet_program_fees', JSON.stringify(customFees));
   await pushCloudBlobState();
 
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('program_fees').doc(tierKey).set(feePayload);
+    } catch (e) {
+      console.warn("Firestore fee save notice:", e);
+    }
+  }
+
   return { success: true, fees: customFees[tierKey] };
 }
 
@@ -224,6 +232,14 @@ async function saveCourse(courseData) {
   localStorage.setItem('eet_courses', JSON.stringify(courses));
   await pushCloudBlobState();
 
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('courses').doc(courseData.id).set(courseData);
+    } catch (e) {
+      console.warn("Firestore course save notice:", e);
+    }
+  }
+
   return courses;
 }
 
@@ -232,6 +248,15 @@ async function deleteCourse(courseId) {
   courses = courses.filter(c => c.id !== courseId);
   localStorage.setItem('eet_courses', JSON.stringify(courses));
   await pushCloudBlobState();
+
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('courses').doc(courseId).delete();
+    } catch (e) {
+      console.warn("Firestore course delete notice:", e);
+    }
+  }
+
   return courses;
 }
 
@@ -264,6 +289,14 @@ async function saveCoupon(couponData) {
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
   await pushCloudBlobState();
 
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('coupons').doc(couponData.id || couponData.code).set(couponData);
+    } catch (e) {
+      console.warn("Firestore coupon save notice:", e);
+    }
+  }
+
   return { success: true, coupons: coupons };
 }
 
@@ -274,6 +307,14 @@ async function deleteCoupon(couponIdOrCode) {
   coupons = coupons.filter(c => c.id !== couponIdOrCode && c.code !== code);
   localStorage.setItem('eet_coupons', JSON.stringify(coupons));
   await pushCloudBlobState();
+
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('coupons').doc(code || couponIdOrCode).delete();
+    } catch (e) {
+      console.warn("Firestore coupon delete notice:", e);
+    }
+  }
 
   return coupons;
 }
