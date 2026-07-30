@@ -586,9 +586,6 @@ function clearAllLocalLeads() {
 
 // Make globally accessible
 window.razorpayNexusConfig = razorpayNexusConfig;
-window.programFeeStructure = programFeeStructure;
-// Make globally accessible
-window.razorpayNexusConfig = razorpayNexusConfig;
 window.defaultFeeStructure = defaultFeeStructure;
 window.getSavedProgramFees = getSavedProgramFees;
 window.saveProgramFee = saveProgramFee;

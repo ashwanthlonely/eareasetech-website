@@ -382,6 +382,8 @@
   <script src="js/firebase-config.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
+      let allLeads = [];
+
       const authModal = document.getElementById('auth-gate-modal');
       const loginForm = document.getElementById('nexus-login-form');
       const passcode = document.getElementById('nexus-passcode');
@@ -416,8 +418,6 @@
       });
 
       checkAuth();
-
-      let allLeads = [];
 
       async function loadNexusData() {
         if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
