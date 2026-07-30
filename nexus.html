@@ -1137,7 +1137,7 @@
 
     let currentAppliedCoupon = null;
 
-    function updateModalDynamicPrice() {
+    async function updateModalDynamicPrice() {
       const courseSel = document.getElementById('enroll-course-select')?.value || 'AI & Machine Learning';
       const tierSel = document.getElementById('enroll-tier')?.value || '30-Day Express';
       
@@ -1147,7 +1147,7 @@
 
       const couponInputVal = document.getElementById('enroll-coupon-code')?.value.trim();
       if (couponInputVal && window.applyCouponCode) {
-        const couponRes = window.applyCouponCode(couponInputVal, tierSel);
+        const couponRes = await window.applyCouponCode(couponInputVal, tierSel);
         if (couponRes.success) {
           currentAppliedCoupon = couponRes;
           paymentDetails = {
@@ -1156,7 +1156,7 @@
           };
         }
       } else if (currentAppliedCoupon && currentAppliedCoupon.code) {
-        const couponRes = window.applyCouponCode(currentAppliedCoupon.code, tierSel);
+        const couponRes = await window.applyCouponCode(currentAppliedCoupon.code, tierSel);
         if (couponRes.success) {
           paymentDetails = {
             formattedTotal: couponRes.formattedFinalTotal,
@@ -1393,7 +1393,7 @@
       const couponInput = document.getElementById('enroll-coupon-code');
       const couponFeedback = document.getElementById('coupon-feedback');
 
-      btnApplyCoupon?.addEventListener('click', () => {
+      btnApplyCoupon?.addEventListener('click', async () => {
         const code = (couponInput?.value || '').trim();
         if (!code) {
           if (couponFeedback) {
@@ -1406,7 +1406,7 @@
 
         const tierSel = document.getElementById('enroll-tier')?.value || '30-Day Express';
         if (window.applyCouponCode) {
-          const res = window.applyCouponCode(code, tierSel);
+          const res = await window.applyCouponCode(code, tierSel);
           if (res.success) {
             currentAppliedCoupon = res;
             if (couponFeedback) {
@@ -1423,7 +1423,7 @@
               couponFeedback.innerText = `⚠️ ${res.message}`;
               couponFeedback.classList.remove('hidden');
             }
-            updateModalDynamicPrice();
+            await updateModalDynamicPrice();
           }
         }
       });

@@ -115,9 +115,10 @@ function firestoreDocToObject(doc) {
 
 let isCloudSynced = false;
 
-async function syncAllCloudData() {
+async function syncAllCloudData(force = false) {
   try {
-    const res = await fetch(FIRESTORE_LEADS_URL);
+    const url = force ? `${FIRESTORE_LEADS_URL}?t=${Date.now()}` : FIRESTORE_LEADS_URL;
+    const res = await fetch(url);
     if (!res.ok) return;
     const data = await res.json();
     if (!data || !data.documents) return;
@@ -328,10 +329,17 @@ function deleteCoupon(couponIdOrCode) {
   return coupons;
 }
 
-function applyCouponCode(couponCode, programOrTierName) {
+async function applyCouponCode(couponCode, programOrTierName) {
   const code = (couponCode || '').trim().toUpperCase();
-  const coupons = getSavedCoupons();
-  const coupon = coupons.find(c => c.code === code && c.active !== false);
+  let coupons = getSavedCoupons();
+  let coupon = coupons.find(c => c.code === code && c.active !== false);
+
+  if (!coupon) {
+    // Force fresh fetch from Firestore Cloud to get coupons created on other browsers/admin panels
+    await syncAllCloudData(true);
+    coupons = getSavedCoupons();
+    coupon = coupons.find(c => c.code === code && c.active !== false);
+  }
 
   if (!coupon) {
     return { success: false, message: 'Invalid or expired coupon code.' };
