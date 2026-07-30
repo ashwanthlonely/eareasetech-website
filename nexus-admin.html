@@ -523,6 +523,7 @@
           }
 
           const displayFee = (l.estimateAmount || '').startsWith('₹') ? l.estimateAmount : `₹${l.estimateAmount || '15,338.82'}`;
+          const txId = l.transactionId || l.razorpayPaymentId || '';
 
           return `
             <tr class="hover:bg-slate-800/50 transition-colors">
@@ -532,13 +533,20 @@
                 <div class="text-slate-400 text-[11px]">${l.email} • ${l.phone}</div>
                 <div class="text-slate-400 text-[10px]">📍 ${l.city || 'N/A'}, ${l.state || 'N/A'} • ${l.govtId || 'Govt ID'}</div>
                 ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Referrer: ${l.referral}</div>` : ''}
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-purple-300 font-mono text-[10px] font-bold">🎟️ Coupon: ${l.appliedCouponCode} ${l.discountAmount && l.discountAmount !== '₹0' ? `(Saved ${l.discountAmount})` : ''}</div>` : ''}
               </td>
               <td class="p-4 font-semibold text-amber-300 min-w-[180px]">${l.service}</td>
               <td class="p-4 min-w-[170px]">${cohortBadge}<div class="text-[10px] text-slate-400 mt-1">${l.cohort || 'Active Batch'}</div></td>
               <td class="p-4 font-bold text-white">${l.seatNumber ? '#' + l.seatNumber : 'Queue'}</td>
-              <td class="p-4 font-bold text-white min-w-[110px]">${displayFee}</td>
+              <td class="p-4 font-bold text-white min-w-[110px]">
+                ${displayFee}
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-[9px] text-emerald-400 font-semibold">Discounted</div>` : ''}
+              </td>
               <td class="p-4 min-w-[200px] space-y-1.5">
-                ${payBadge}
+                ${isPaid ? `<div class="space-y-1">
+                  <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid (Seat Confirmed)</span>
+                  ${txId ? `<div class="text-[10px] font-mono text-emerald-300">Tx ID: ${txId}</div>` : ''}
+                </div>` : payBadge}
                 <div>${acceptBadge}</div>
               </td>
               <td class="p-4 text-right min-w-[210px]">
@@ -779,9 +787,10 @@
         const nexusLeads = allLeads.filter(l => l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day'));
         if (nexusLeads.length === 0) return alert('No Nexus admissions to export.');
         
-        let csvContent = "data:text/csv;charset=utf-8,ID,Name,Email,Phone,Program,Cohort,SeatNo,Amount,PaymentStatus,Date\n";
+        let csvContent = "data:text/csv;charset=utf-8,ID,CandidateID,Name,Email,Phone,Program,Cohort,SeatNo,Amount,CouponCode,DiscountSaved,PaymentStatus,RazorpayTxID,Date\n";
         nexusLeads.forEach(l => {
-          csvContent += `"${l.id}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.cohort}","${l.seatNumber||''}","${l.estimateAmount||'15339'}","${l.paymentStatus}","${l.createdAt}"\n`;
+          const txId = l.transactionId || l.razorpayPaymentId || '';
+          csvContent += `"${l.id}","${l.candidateId||''}","${l.name}","${l.email}","${l.phone}","${l.service}","${l.cohort}","${l.seatNumber||''}","${l.estimateAmount||'15339'}","${l.appliedCouponCode||'None'}","${l.discountAmount||'₹0'}","${l.paymentStatus}","${txId}","${l.createdAt}"\n`;
         });
 
         const encodedUri = encodeURI(csvContent);

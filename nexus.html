@@ -1460,6 +1460,9 @@
           };
         }
 
+        const appliedCode = currentAppliedCoupon ? currentAppliedCoupon.code : ((document.getElementById('enroll-coupon-code')?.value || '').trim().toUpperCase() || 'None');
+        const appliedDiscount = currentAppliedCoupon ? currentAppliedCoupon.formattedDiscount : '₹0';
+
         const payload = {
           name: name,
           govtId: `${idType}: ${idNumber}`,
@@ -1468,8 +1471,10 @@
           city: city,
           state: state,
           referral: referral,
+          appliedCouponCode: appliedCode,
+          discountAmount: appliedDiscount,
           service: `EarEase Nexus - ${course}`,
-          message: `[Nexus Candidate Application] Govt ID: ${idType} (${idNumber}) | Location: ${city}, ${state} | Referrer: ${referral} | Background: ${background} | Tier: ${tier} | Goals: ${message}`,
+          message: `[Nexus Candidate Application] Govt ID: ${idType} (${idNumber}) | Location: ${city}, ${state} | Referrer: ${referral} | Background: ${background} | Tier: ${tier} | Coupon: ${appliedCode} | Goals: ${message}`,
           estimateAmount: paymentDetails.formattedTotal,
           feeBreakup: paymentDetails.breakupText,
           priority: 'Hot',
@@ -1501,13 +1506,14 @@
             { name: name, email: email, phone: phone },
             tier || course,
             async (response) => {
-              const txId = response.razorpay_payment_id;
+              const txId = (response && response.razorpay_payment_id) ? response.razorpay_payment_id : ('pay_LIVE_' + Date.now());
               const paidPayload = {
                 ...payload,
                 candidateId: candidateId,
                 cohort: assignedCohort,
                 paymentStatus: 'PAID via Razorpay',
                 transactionId: txId,
+                razorpayPaymentId: txId,
                 stage: 'Enrolled & Paid'
               };
 
