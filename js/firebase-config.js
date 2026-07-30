@@ -79,6 +79,19 @@ const defaultFeeStructure = {
   }
 };
 
+const defaultCoupons = [
+  { id: 'cpn_10', code: 'EAREASE10', type: 'percent', discount: 10, description: '10% Off Instant Discount', active: true, docType: 'coupon' },
+  { id: 'cpn_5k', code: 'EARLY5000', type: 'flat', discount: 5000, description: 'Flat ₹5,000 Off Early Bird', active: true, docType: 'coupon' },
+  { id: 'cpn_20', code: 'NEXUS20', type: 'percent', discount: 20, description: '20% Off Special Promo', active: true, docType: 'coupon' }
+];
+
+const defaultCourses = [
+  { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
+  { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
+  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' },
+  { id: 'course_ds_6m', title: 'Data Science & Advanced Analytics (6M)', duration: '6-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 25000, description: 'Data cleaning, EDA, SQL databases, statistical modeling, machine learning algorithms, and guaranteed enterprise internship.', docType: 'course' }
+];
+
 /**
  * Dynamic Program Fee Manager
  */
