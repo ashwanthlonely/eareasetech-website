@@ -5,12 +5,12 @@
  */
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_HERE",
-  authDomain: "eareasetech-leads.firebaseapp.com",
-  projectId: "eareasetech-leads",
-  storageBucket: "eareasetech-leads.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
+  apiKey: "AIzaSyDi6xVxrUqvmrLW1oQZBCRve3lUAy7eCeM",
+  authDomain: "eareasetech-nexus-2026.firebaseapp.com",
+  projectId: "eareasetech-nexus-2026",
+  storageBucket: "eareasetech-nexus-2026.firebasestorage.app",
+  messagingSenderId: "794839505136",
+  appId: "1:794839505136:web:d87e07a2162547b71391ab"
 };
 
 const razorpayNexusConfig = {
