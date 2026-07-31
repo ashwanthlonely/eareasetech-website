@@ -123,7 +123,6 @@ function objectToFirestoreFields(obj) {
   }
   return { fields };
 }
-
 async function syncFirestoreCouponsToLocal() {
   if (isFirebaseInitialized && db) {
     try {
@@ -140,9 +139,16 @@ async function syncFirestoreCouponsToLocal() {
           localStorage.setItem('eet_coupons', JSON.stringify(fsCoupons));
           return;
         }
+      } else {
+        // Seed Firestore coupons collection
+        for (const coupon of defaultCoupons) {
+          await db.collection('coupons').doc(coupon.id).set(coupon);
+        }
+        localStorage.setItem('eet_coupons', JSON.stringify(defaultCoupons));
+        return;
       }
     } catch (e) {
-      console.warn("Firestore SDK coupon fetch notice:", e);
+      console.warn("Firestore SDK coupon fetch/seed notice:", e);
     }
   }
 
@@ -184,9 +190,16 @@ async function syncFirestoreCoursesToLocal() {
           localStorage.setItem('eet_courses', JSON.stringify(fsCourses));
           return;
         }
+      } else {
+        // Seed Firestore courses collection
+        for (const course of defaultCourses) {
+          await db.collection('courses').doc(course.id).set(course);
+        }
+        localStorage.setItem('eet_courses', JSON.stringify(defaultCourses));
+        return;
       }
     } catch (e) {
-      console.warn("Firestore SDK course fetch notice:", e);
+      console.warn("Firestore SDK course fetch/seed notice:", e);
     }
   }
 
@@ -214,7 +227,12 @@ async function syncFirestoreCoursesToLocal() {
 
 async function syncAllCloudData(force = false) {
   try {
-    await syncFirestoreCouponsToLocal();
+    // Prioritize Firestore Sync if online
+    if (isFirebaseInitialized && db) {
+      await syncFirestoreCouponsToLocal();
+      await syncFirestoreCoursesToLocal();
+      return;
+    }
 
     const url = force ? `${GLOBAL_CLOUD_BLOB_URL}?t=${Date.now()}` : GLOBAL_CLOUD_BLOB_URL;
     const res = await fetch(url);

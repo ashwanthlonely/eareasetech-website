@@ -148,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- Right Header CTA -->
             <div class="hidden lg:flex items-center gap-3">
+              <a href="nexus.html" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105 flex items-center gap-1.5">
+                <span>EarEase Nexus 🚀</span>
+              </a>
               <a href="contact-us.html" class="px-5 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
                 Contact Sales &rarr;
               </a>
@@ -183,7 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <a href="about-us.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">About Us</a>
           <a href="careers.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Careers</a>
 
-          <div class="mt-4">
+          <div class="mt-4 space-y-2">
+            <a href="nexus.html" class="block text-center w-full py-3 bg-slate-800 text-amber-400 font-extrabold text-xs rounded-xl border border-slate-700 shadow-md">
+              EarEase Nexus 🚀
+            </a>
             <a href="contact-us.html" class="block text-center w-full py-3 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md">
               Contact Sales &rarr;
             </a>
@@ -295,29 +301,5 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </footer>
     `;
-  }
-
-  // Render Floating Bottom-Right Venture Widget (EarEase Nexus AI Labs)
-  if (currentPage !== 'nexus.html' && !document.getElementById('floating-nexus-btn')) {
-    const floatingContainer = document.createElement('div');
-    floatingContainer.innerHTML = `
-      <a href="nexus.html" id="floating-nexus-btn" title="Explore EarEase Nexus — AI Mentorship & Research Venture" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-slate-900/95 hover:bg-slate-950 text-white rounded-full border-2 border-amber-400/80 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 group">
-        <div class="relative shrink-0 flex items-center justify-center">
-          <img src="assets/E2n-logo.png" alt="EarEase Nexus Badge" class="h-8 w-auto object-contain transition-transform group-hover:rotate-12" />
-          <span class="absolute -top-1 -right-1 flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-          </span>
-        </div>
-        <div class="flex flex-col text-left pr-1">
-          <div class="flex items-center gap-1.5">
-            <span class="font-black text-xs text-white tracking-wide">EarEase <span class="text-amber-400">Nexus</span></span>
-            <span class="text-[9px] uppercase font-extrabold px-1.5 py-0.5 bg-amber-500/20 text-amber-300 rounded border border-amber-400/40">Venture</span>
-          </div>
-          <span class="text-[10px] text-slate-300 font-medium">AI Labs & Live Mentorship 🚀</span>
-        </div>
-      </a>
-    `;
-    document.body.appendChild(floatingContainer.firstElementChild);
   }
 });
