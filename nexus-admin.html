@@ -260,7 +260,6 @@
             </div>
             <span class="text-[10px] text-emerald-400 font-mono">Catalog Sync</span>
           </div>
-
           <form id="form-manage-courses" class="space-y-2.5 text-xs">
             <input type="hidden" id="course-id" value="" />
             <div>
@@ -284,6 +283,40 @@
                   <option value="🔴 SOLD OUT">🔴 Sold Out</option>
                   <option value="⏳ WAITLIST OPEN">⏳ Waitlist Open</option>
                 </select>
+              </div>
+            </div>            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Base Fee (₹)</label>
+                <input type="number" id="course-base-fee" placeholder="e.g. 13000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Brochure Image Path</label>
+                <input type="text" id="course-brochure-path" placeholder="e.g. assets/Courses/p2.png" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Registration Deadline</label>
+                <input type="date" id="course-reg-deadline" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Batch Start Date</label>
+                <input type="date" id="course-batch-start" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
+              </div>
+            </div>
+            <div id="course-fee-calculation" class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-[10px] space-y-0.5 text-slate-400">
+              <div class="flex justify-between">
+                <span>Base Fee:</span>
+                <span id="course-calc-base" class="font-mono">₹0.00</span>
+              </div>
+              <div class="flex justify-between">
+                <span>GST (18%):</span>
+                <span id="course-calc-gst" class="font-mono">₹0.00</span>
+              </div>
+              <div class="flex justify-between font-bold text-emerald-400 pt-0.5 border-t border-slate-800">
+                <span>Total (with GST):</span>
+                <span id="course-calc-total" class="font-mono">₹0.00</span>
               </div>
             </div>
 
@@ -818,6 +851,22 @@
       });
 
       // Course Manager logic
+      function syncCourseFeeCalculation() {
+        const baseInput = document.getElementById('course-base-fee');
+        const baseVal = parseFloat(baseInput?.value || 0);
+        if (isNaN(baseVal) || baseVal <= 0) {
+          document.getElementById('course-calc-base').innerText = '₹0.00';
+          document.getElementById('course-calc-gst').innerText = '₹0.00';
+          document.getElementById('course-calc-total').innerText = '₹0.00';
+          return;
+        }
+        const gstVal = Math.round(((baseVal * 18) / 100) * 100) / 100;
+        const totalVal = Math.round((baseVal + gstVal) * 100) / 100;
+        document.getElementById('course-calc-base').innerText = `₹${baseVal.toLocaleString('en-IN')}`;
+        document.getElementById('course-calc-gst').innerText = `₹${gstVal.toLocaleString('en-IN')}`;
+        document.getElementById('course-calc-total').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
+      }
+      document.getElementById('course-base-fee')?.addEventListener('input', syncCourseFeeCalculation);
       async function renderCoursePreviewList() {
         const previewEl = document.getElementById('course-list-preview');
         if (!previewEl) return;
@@ -830,18 +879,35 @@
           return;
         }
 
-        previewEl.innerHTML = courses.map(c => `
-          <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 mb-2">
-            <div>
-              <div class="font-bold text-amber-400">${c.title}</div>
-              <div class="text-[11px] text-slate-400">${c.duration} • <span class="text-emerald-400">${c.badge}</span></div>
+        previewEl.innerHTML = courses.map(c => {
+          const base = parseFloat(c.baseFee || 0);
+          const gst = Math.round(((base * 18) / 100) * 100) / 100;
+          const total = Math.round((base + gst) * 100) / 100;
+          const hasBrochure = c.brochurePath && c.brochurePath.trim().length > 0;
+          const brochureText = hasBrochure 
+            ? `<span class="text-emerald-400 font-semibold ml-1">✓ Brochure Path Set</span>` 
+            : `<span class="text-amber-500 font-bold ml-1 animate-pulse">⚠️ No Brochure Path!</span>`;
+          return `
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 mb-2">
+              <div>
+                <div class="font-bold text-amber-400">${c.title}</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">
+                  ${c.duration} • <span class="text-emerald-400">${c.badge}</span> • 
+                  <span class="text-white font-mono font-bold">Total: ₹${total.toLocaleString('en-IN')}</span>
+                  ${brochureText}
+                </div>
+                <div class="text-[10px] text-slate-500 mt-0.5">
+                  ⏳ Deadline: <strong class="text-rose-400">${c.regDeadline || 'N/A'}</strong> | 
+                  🚀 Start Date: <strong class="text-sky-400">${c.batchStart || 'N/A'}</strong>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0 ml-2">
+                <button onclick="editCourseById('${c.id}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">✏️ Edit</button>
+                <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
+              </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="editCourseById('${c.id}')" class="text-amber-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-800">✏️ Edit</button>
-              <button onclick="deleteCourseById('${c.id}')" class="text-rose-400 hover:text-rose-300 text-xs px-1.5 py-0.5 rounded bg-rose-950/50 border border-rose-800">✕ Delete</button>
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
       window.editCourseById = function(id) {
@@ -853,11 +919,16 @@
         document.getElementById('course-title').value = course.title || '';
         document.getElementById('course-duration').value = course.duration || '30-Day';
         document.getElementById('course-badge').value = course.badge || '🟢 LIVE ADMISSIONS OPEN';
+        document.getElementById('course-base-fee').value = course.baseFee || '';
+        document.getElementById('course-brochure-path').value = course.brochurePath || '';
+        document.getElementById('course-reg-deadline').value = course.regDeadline || '';
+        document.getElementById('course-batch-start').value = course.batchStart || '';
         document.getElementById('course-description').value = course.description || '';
 
         const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
         if (submitBtn) submitBtn.innerText = '💾 Update Course Track';
 
+        syncCourseFeeCalculation();
         document.getElementById('form-manage-courses')?.scrollIntoView({ behavior: 'smooth' });
         showAdminToast(`Editing course track: ${course.title}`, 'info');
       };
@@ -868,7 +939,16 @@
         const duration = document.getElementById('course-duration').value;
         const badge = document.getElementById('course-badge').value;
         const desc = document.getElementById('course-description').value;
+        const baseFeeVal = document.getElementById('course-base-fee').value;
+        const brochurePathVal = document.getElementById('course-brochure-path').value;
+        const regDeadlineVal = document.getElementById('course-reg-deadline').value;
+        const batchStartVal = document.getElementById('course-batch-start').value;
         const courseId = document.getElementById('course-id').value;
+
+        // Validation / Warning if brochure is not specified
+        if (!brochurePathVal || brochurePathVal.trim().length === 0) {
+          showAdminToast(`⚠️ Please upload or provide the brochure image/pdf path for this course to ensure it displays correctly.`, 'warning');
+        }
 
         if (window.saveCourse) {
           await window.saveCourse({
@@ -877,6 +957,10 @@
             duration: duration,
             badge: badge,
             description: desc,
+            baseFee: parseFloat(baseFeeVal),
+            brochurePath: brochurePathVal,
+            regDeadline: regDeadlineVal,
+            batchStart: batchStartVal,
             isLive: !badge.includes('SOLD OUT')
           });
           showAdminToast(`✓ Course '${title}' saved & synced to cloud!`, 'success');
@@ -884,10 +968,10 @@
           document.getElementById('course-id').value = '';
           const submitBtn = document.querySelector('#form-manage-courses button[type="submit"]');
           if (submitBtn) submitBtn.innerText = '➕ Add Course Track';
+          syncCourseFeeCalculation();
           await renderCoursePreviewList();
         }
       });
-
       window.deleteCourseById = async function(id) {
         if (confirm('Delete this course from catalog?')) {
           if (window.deleteCourse) await window.deleteCourse(id);
@@ -895,7 +979,6 @@
           await renderCoursePreviewList();
         }
       };
-
       // Coupon Manager logic
       async function renderCouponPreviewList() {
         const previewEl = document.getElementById('coupon-list-preview');

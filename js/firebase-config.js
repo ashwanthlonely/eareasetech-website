@@ -84,12 +84,11 @@ const defaultCoupons = [
   { id: 'cpn_5k', code: 'EARLY5000', type: 'flat', discount: 5000, description: 'Flat ₹5,000 Off Early Bird', active: true, docType: 'coupon' },
   { id: 'cpn_20', code: 'NEXUS20', type: 'percent', discount: 20, description: '20% Off Special Promo', active: true, docType: 'coupon' }
 ];
-
 const defaultCourses = [
-  { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
-  { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
-  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' },
-  { id: 'course_ds_6m', title: 'Data Science & Advanced Analytics (6M)', duration: '6-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 25000, description: 'Data cleaning, EDA, SQL databases, statistical modeling, machine learning algorithms, and guaranteed enterprise internship.', docType: 'course' }
+  { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, brochurePath: 'assets/Courses/p8.png', regDeadline: '2026-08-10', batchStart: '2026-08-15', description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
+  { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
+  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' },
+  { id: 'course_ds_6m', title: 'Data Science & Advanced Analytics (6M)', duration: '6-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 25000, brochurePath: 'assets/Courses/p3.png', regDeadline: '2026-08-12', batchStart: '2026-08-18', description: 'Data cleaning, EDA, SQL databases, statistical modeling, machine learning algorithms, and guaranteed enterprise internship.', docType: 'course' }
 ];
 
 /**
@@ -513,7 +512,7 @@ async function deleteCoupon(couponIdOrCode) {
   return coupons;
 }
 
-async function applyCouponCode(couponCode, programOrTierName) {
+async function applyCouponCode(couponCode, programOrTierName, customTotalOverride) {
   const code = (couponCode || '').trim().toUpperCase();
   
   // Force fresh bidirectional sync from Firestore and Cloud Relay
@@ -528,16 +527,25 @@ async function applyCouponCode(couponCode, programOrTierName) {
   }
 
   const baseDetails = getProgramPaymentDetails(programOrTierName);
+  const totalToDiscount = customTotalOverride || baseDetails.totalFee;
   let discountAmount = 0;
 
   if (coupon.type === 'percent') {
-    discountAmount = Math.round((baseDetails.totalFee * coupon.discount) / 100);
+    discountAmount = Math.round((totalToDiscount * coupon.discount) / 100);
   } else {
-    discountAmount = Math.min(coupon.discount, baseDetails.totalFee - 100);
+    discountAmount = Math.min(coupon.discount, totalToDiscount - 100);
   }
 
-  const finalTotal = Math.max(100, Math.round((baseDetails.totalFee - discountAmount) * 100) / 100);
+  const finalTotal = Math.max(100, Math.round((totalToDiscount - discountAmount) * 100) / 100);
   const finalAmountPaise = Math.round(finalTotal * 100);
+
+  const formattedOriginalTotal = customTotalOverride 
+    ? `₹${customTotalOverride.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` 
+    : baseDetails.formattedTotal;
+
+  const originalBreakup = customTotalOverride 
+    ? `₹${(customTotalOverride / 1.18).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} Base + ₹${(customTotalOverride - (customTotalOverride / 1.18)).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} GST (18%)` 
+    : baseDetails.breakupText;
 
   return {
     success: true,
@@ -545,11 +553,11 @@ async function applyCouponCode(couponCode, programOrTierName) {
     coupon: coupon,
     discountAmount: discountAmount,
     formattedDiscount: `₹${discountAmount.toLocaleString('en-IN')}`,
-    originalTotal: baseDetails.formattedTotal,
+    originalTotal: formattedOriginalTotal,
     finalTotal: finalTotal,
-    formattedFinalTotal: `₹${finalTotal.toLocaleString('en-IN')}`,
+    formattedFinalTotal: `₹${finalTotal.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`,
     finalAmountPaise: finalAmountPaise,
-    breakupText: `${baseDetails.breakupText} — Promo Code '${coupon.code}' (-₹${discountAmount.toLocaleString('en-IN')})`
+    breakupText: `${originalBreakup} — Promo Code '${coupon.code}' (-₹${discountAmount.toLocaleString('en-IN')})`
   };
 }
 
