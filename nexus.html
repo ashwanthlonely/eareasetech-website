@@ -357,37 +357,57 @@
           </div>
         </div>
 
-        <!-- Right Hero Visual Box -->
+        <!-- Right Hero Visual Box with Video Ad -->
         <div class="lg:col-span-5 space-y-4">
-          <div class="bg-slate-900/90 border border-amber-500/30 rounded-3xl p-6 shadow-2xl space-y-4">
+          <div class="bg-slate-900/90 border border-amber-500/30 rounded-3xl p-5 shadow-2xl space-y-4 relative overflow-hidden group">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div class="flex items-center gap-3">
                 <img src="assets/logo.png" alt="EarEase Logo" class="h-9 w-auto" />
                 <div>
-                  <h3 class="text-white font-bold text-sm">EarEase Nexus Labs</h3>
-                  <span class="text-[11px] text-amber-400 italic">we ease your stress</span>
+                  <h3 class="text-white font-bold text-sm">EarEase Nexus AI Showcase</h3>
+                  <span class="text-[11px] text-amber-400 italic">Official Video Reel</span>
                 </div>
               </div>
-              <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-bold">Admissions Open</span>
+              <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Showcase
+              </span>
             </div>
 
-            <div class="space-y-3 text-xs text-slate-300">
-              <div class="flex justify-between items-center bg-slate-800/60 p-3 rounded-xl">
+            <!-- Video Player Container -->
+            <div class="relative rounded-2xl overflow-hidden aspect-video border border-amber-400/30 shadow-2xl bg-slate-950 group/video">
+              <video id="hero-nexus-video" autoplay loop muted playsinline class="w-full h-full object-cover">
+                <source src="assets/animations/nexus ad 2-1.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video playback.
+              </video>
+              
+              <!-- Video Overlay Controls -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/20 pointer-events-none"></div>
+              
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white z-10">
+                <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-md border border-slate-700/60 rounded-lg text-[10px] font-bold text-amber-300 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5"/></svg>
+                  EarEase Nexus AI Innovation Reel
+                </span>
+                <button type="button" id="btn-toggle-hero-audio" onclick="toggleHeroVideoAudio()" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-[10px] shadow transition-all flex items-center gap-1 cursor-pointer">
+                  <svg id="hero-audio-icon" class="w-3.5 h-3.5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.414 0-.75-.336-.75-.75V9.75c0-.414.336-.75.75-.75h4.24z"/></svg>
+                  <span id="hero-audio-text">Unmute Sound</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs text-slate-300 pt-1">
+              <div class="flex justify-between items-center bg-slate-800/60 p-2.5 rounded-xl">
                 <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg> 30-Day Express Bootcamp</span>
                 <strong class="text-amber-400">₹15,338.82 Total</strong>
               </div>
-              <div class="flex justify-between items-center bg-slate-800/60 p-3 rounded-xl">
-                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147L12 14.638l7.74-4.491a1.5 1.5 0 000-2.592L12 3.063 4.26 7.555a1.5 1.5 0 000 2.592z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 12v4.5a3 3 0 003 3h6a3 3 0 003-3V12"/></svg> 3-Month Professional Program</span>
-                <strong class="text-amber-400">₹54,278.82 Total</strong>
-              </div>
-              <div class="flex justify-between items-center bg-slate-800/60 p-3 rounded-xl">
-                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> AI Tools for Working Professionals</span>
+              <div class="flex justify-between items-center bg-slate-800/60 p-2.5 rounded-xl">
+                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> AI Tools for Professionals</span>
                 <strong class="text-purple-300">₹15,338.82 Total</strong>
               </div>
             </div>
 
-            <div class="pt-2 text-center">
-              <button onclick="openEnrollModal('Quick Syllabus Callback', 'Immediate Batch')" class="w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl transition-all">
+            <div class="pt-1 text-center">
+              <button onclick="openEnrollModal('Quick Syllabus Callback', 'Immediate Batch')" class="w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-lg">
                 Get Instant Syllabus & Call Back &rarr;
               </button>
             </div>
@@ -1040,6 +1060,14 @@
 
   <script src="js/firebase-config.js"></script>
   <script>
+    function toggleHeroVideoAudio() {
+      const vid = document.getElementById('hero-nexus-video');
+      const text = document.getElementById('hero-audio-text');
+      if (!vid) return;
+      vid.muted = !vid.muted;
+      if (text) text.innerText = vid.muted ? 'Unmute Sound' : 'Mute Sound';
+    }
+
     function updateHeroSeatTracker() {
       if (window.getNexusSeatStatus) {
         const seatStatus = window.getNexusSeatStatus();
