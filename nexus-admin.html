@@ -95,21 +95,19 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <a href="nexus.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700 transition-all flex items-center gap-1.5">
+      <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-start sm:justify-end">
+        <a href="nexus.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700 transition-all flex items-center gap-1.5 w-full sm:w-auto justify-center">
           <span>🌐 View Live Nexus Portal</span>
         </a>
 
-        <button id="btn-export-csv" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+        <button id="btn-export-csv" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-all flex-grow sm:flex-grow-0">
           📥 Export Admissions CSV
         </button>
 
-        <button id="btn-lock-nexus" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+        <button id="btn-lock-nexus" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl border border-slate-700 transition-all flex-grow sm:flex-grow-0">
           🔒 Lock Dashboard
         </button>
       </div>
-
-    </div>
   </header>
 
   <!-- Main Body -->
@@ -267,7 +265,7 @@
               <input type="text" id="course-title" placeholder="e.g. Generative AI & Autonomous LLM Agents" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-400 font-semibold mb-1">Mentorship Tier</label>
                 <select id="course-duration" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none">
@@ -284,7 +282,9 @@
                   <option value="⏳ WAITLIST OPEN">⏳ Waitlist Open</option>
                 </select>
               </div>
-            </div>            <div class="grid grid-cols-2 gap-2">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-400 font-semibold mb-1">Base Fee (₹)</label>
                 <input type="number" id="course-base-fee" placeholder="e.g. 13000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
@@ -295,7 +295,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-400 font-semibold mb-1">Registration Deadline</label>
                 <input type="date" id="course-reg-deadline" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
@@ -305,6 +305,7 @@
                 <input type="date" id="course-batch-start" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-emerald-400" required />
               </div>
             </div>
+
             <div id="course-fee-calculation" class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-[10px] space-y-0.5 text-slate-400">
               <div class="flex justify-between">
                 <span>Base Fee:</span>
@@ -346,7 +347,7 @@
           </div>
 
           <form id="form-manage-coupons" class="space-y-2.5 text-xs">
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-400 font-semibold mb-1">Coupon Code</label>
                 <input type="text" id="coupon-code" placeholder="e.g. EAREASE10" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-amber-400 font-mono font-bold uppercase outline-none focus:border-purple-400" required />
@@ -385,17 +386,17 @@
           <h2 class="text-xl font-bold text-white">EarEase Nexus Admissions Queue</h2>
           <p class="text-xs text-slate-400">Real-time enrollment applications, payment status, and seat cohort allocations.</p>
         </div>
-        
-        <div class="flex items-center gap-3">
-          <input type="text" id="nexus-search" placeholder="Search applicant name, email, or program..." class="px-4 py-2 bg-slate-800 border border-slate-700 text-white rounded-xl text-xs outline-none focus:border-amber-400 w-64" />
-          <select id="nexus-filter-cohort" class="px-3 py-2 bg-slate-800 border border-slate-700 text-amber-400 rounded-xl text-xs outline-none cursor-pointer">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+          <input type="text" id="nexus-search" placeholder="Search applicant name, email, or program..." class="px-4 py-2 bg-slate-800 border border-slate-700 text-white rounded-xl text-xs outline-none focus:border-amber-400 w-full sm:w-64" />
+          <select id="nexus-filter-cohort" class="px-3 py-2 bg-slate-800 border border-slate-700 text-amber-400 rounded-xl text-xs outline-none cursor-pointer w-full sm:w-auto">
             <option value="all">All Cohorts</option>
             <option value="active">Active Month Cohort (Seats 1-50)</option>
             <option value="rollover">Next Month Rollover Waitlist</option>
           </select>
-          <button id="btn-open-offline-modal" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-lg hover:shadow-emerald-950/50 cursor-pointer">➕ Manual Offline Enrollment</button>
+          <button id="btn-open-offline-modal" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg hover:shadow-emerald-950/50 cursor-pointer w-full sm:w-auto">
+            ➕ Manual Offline Enrollment
+          </button>
         </div>
-      </div>
 
       <div class="crm-card overflow-x-auto">
         <table class="w-full text-left text-xs text-slate-300">

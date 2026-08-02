@@ -41,10 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="text-[11px] text-[#D89B1F] font-medium tracking-wide lowercase italic">we ease your stress</span>
               </div>
             </a>
-
             <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-              
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">              
               <a href="index.html" class="nav-link ${currentPage === 'index.html' || currentPage === '' ? 'text-amber-800 font-bold' : 'text-slate-700 hover:text-amber-800'}">
                 Home
               </a>
@@ -157,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <!-- Mobile Hamburger Toggle -->
-            <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-amber-50 focus:outline-none">
+            <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-amber-50 focus:outline-none">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
@@ -167,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <!-- Mobile Drawer -->
-        <div id="mobile-drawer" class="hidden md:hidden bg-white border-b border-amber-100 px-4 py-6 space-y-4 shadow-xl">
+        <div id="mobile-drawer" class="hidden lg:hidden bg-white border-b border-amber-100 px-4 py-6 space-y-4 shadow-xl">
           <a href="index.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Home</a>
 
           <div class="space-y-2 py-2 border-b border-slate-100">

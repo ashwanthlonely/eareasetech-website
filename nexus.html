@@ -295,7 +295,6 @@
           <a href="#reviews" class="hover:text-amber-400 transition-colors">1200+ Reviews & MNCs</a>
           <a href="#labs" class="hover:text-amber-400 transition-colors">Research & Labs</a>
         </nav>
-
         <!-- Header Action CTA -->
         <div class="hidden sm:flex items-center gap-3">
           <button onclick="openEnrollModal('Admissions Advisory', 'Immediate Callback')" class="px-5 py-2.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all hover:scale-105">
@@ -303,10 +302,32 @@
           </button>
         </div>
 
+        <!-- Mobile hamburger toggle -->
+        <button id="nexus-mobile-menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none ml-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+    
+    <!-- Standalone Mobile Drawer -->
+    <div id="nexus-mobile-drawer" class="hidden md:hidden bg-[#0F1E36] border-t border-amber-500/20 px-4 py-6 space-y-4 shadow-xl text-xs font-semibold text-slate-300">
+      <a href="nexus.html" class="block py-2 border-b border-slate-800 text-amber-400 font-bold">Home</a>
+      <a href="#durations" class="block py-2 border-b border-slate-800 hover:text-amber-400">Program Tiers</a>
+      <a href="#curriculum" class="block py-2 border-b border-slate-800 hover:text-amber-400">Curriculum</a>
+      <a href="#courses" class="block py-2 border-b border-slate-800 hover:text-amber-400">Tech Verticals</a>
+      <a href="#brochures" class="block py-2 border-b border-slate-800 hover:text-amber-400">Brochures</a>
+      <a href="#reviews" class="block py-2 border-b border-slate-800 hover:text-amber-400">1200+ Reviews & MNCs</a>
+      <a href="#labs" class="block py-2 border-b border-slate-800 hover:text-amber-400">Research & Labs</a>
+      <div class="pt-2">
+        <button onclick="openEnrollModal('Admissions Advisory', 'Immediate Callback')" class="w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-lg text-center">
+          Contact Admissions &rarr;
+        </button>
       </div>
     </div>
   </header>
-
   <!-- MAIN NEXUS BODY -->
   <main class="flex-grow">
 
@@ -1677,14 +1698,27 @@
       });
       renderReviewsGrid(courseKey);
     };
-
     document.addEventListener('DOMContentLoaded', async () => {
+      // Standalone Nexus Mobile Drawer Toggle
+      const nexusMobileBtn = document.getElementById('nexus-mobile-menu-btn');
+      const nexusMobileDrawer = document.getElementById('nexus-mobile-drawer');
+      if (nexusMobileBtn && nexusMobileDrawer) {
+        nexusMobileBtn.addEventListener('click', () => {
+          nexusMobileDrawer.classList.toggle('hidden');
+        });
+        // Auto-close on link click
+        nexusMobileDrawer.querySelectorAll('a, button').forEach(el => {
+          el.addEventListener('click', () => {
+            nexusMobileDrawer.classList.add('hidden');
+          });
+        });
+      }
+
       renderReviewsGrid('all');
       renderBrochuresGrid();
       switchCurriculumTab('30D-AIML');
       updateHeroSeatTracker();
       await renderNexusCourses();
-
       const courseSelect = document.getElementById('enroll-course-select');
       const tierSelect = document.getElementById('enroll-tier');
 
