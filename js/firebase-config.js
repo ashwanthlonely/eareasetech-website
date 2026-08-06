@@ -87,9 +87,9 @@ const defaultCoupons = [
 const defaultCourses = [
   { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, brochurePath: 'assets/Courses/p8.png', regDeadline: '2026-08-10', batchStart: '2026-08-15', description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
   { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
-  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' },
-  { id: 'course_ds_6m', title: 'Data Science & Advanced Analytics (6M)', duration: '6-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 25000, brochurePath: 'assets/Courses/p3.png', regDeadline: '2026-08-12', batchStart: '2026-08-18', description: 'Data cleaning, EDA, SQL databases, statistical modeling, machine learning algorithms, and guaranteed enterprise internship.', docType: 'course' }
+  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' }
 ];
+
 
 /**
  * Dynamic Program Fee Manager
@@ -366,16 +366,15 @@ async function saveProgramFee(tierKey, baseFee, gstPercent = 18) {
 
   return { success: true, fees: customFees[tierKey] };
 }
-
 function getSavedCourses() {
   syncAllCloudData();
   const saved = localStorage.getItem('eet_courses');
+  let coursesList = defaultCourses;
   if (saved) {
-    try { return JSON.parse(saved); } catch(e){}
+    try { coursesList = JSON.parse(saved); } catch(e){}
   }
-  return defaultCourses;
+  return coursesList.filter(c => c && c.duration !== '6-Month' && c.id !== 'course_ds_6m');
 }
-
 async function saveCourse(courseData) {
   const courses = getSavedCourses();
   courseData.docType = 'course';
