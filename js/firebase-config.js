@@ -241,27 +241,13 @@ async function syncAllCloudData(force = false) {
     }
     const data = await res.json();
     if (!data) return;
-
-    if (data.coupons && Array.isArray(data.coupons) && data.coupons.length > 0) {
-      const merged = [...defaultCoupons];
-      data.coupons.forEach(cc => {
-        const idx = merged.findIndex(m => m.code === cc.code || m.id === cc.id);
-        if (idx >= 0) merged[idx] = cc;
-        else merged.push(cc);
-      });
-      localStorage.setItem('eet_coupons', JSON.stringify(merged));
+    if (data.coupons && Array.isArray(data.coupons)) {
+      localStorage.setItem('eet_coupons', JSON.stringify(data.coupons));
     }
 
-    if (data.courses && Array.isArray(data.courses) && data.courses.length > 0) {
-      const mergedCourses = [...defaultCourses];
-      data.courses.forEach(cc => {
-        const idx = mergedCourses.findIndex(m => m.id === cc.id);
-        if (idx >= 0) mergedCourses[idx] = cc;
-        else mergedCourses.push(cc);
-      });
-      localStorage.setItem('eet_courses', JSON.stringify(mergedCourses));
+    if (data.courses && Array.isArray(data.courses)) {
+      localStorage.setItem('eet_courses', JSON.stringify(data.courses));
     }
-
     if (data.fees && typeof data.fees === 'object') {
       const mergedFees = { ...defaultFeeStructure, ...data.fees };
       localStorage.setItem('eet_program_fees', JSON.stringify(mergedFees));
