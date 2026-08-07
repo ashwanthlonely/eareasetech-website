@@ -1901,6 +1901,33 @@
           showPaymentSuccessModal(candidateId, 'pay_OFFICIAL_GATEWAY', assignedCohort, email);
         }
       });
+
+      // Marketing Campaign Router for Quick Signup Auto-Admissions Popup
+      const urlParams = new URLSearchParams(window.location.search);
+      const shouldApply = urlParams.get('apply') === 'true' || urlParams.get('enroll') === 'true' || window.location.hash === '#apply' || window.location.hash === '#enroll';
+      
+      if (shouldApply) {
+        let courseName = 'AI & Machine Learning (30-Day Express)';
+        let tierName = '30-Day Express';
+        
+        const courseParam = (urlParams.get('course') || urlParams.get('program') || '').toLowerCase();
+        if (courseParam.includes('3m') || courseParam.includes('3-month') || courseParam.includes('mentorship')) {
+          courseName = 'AI & Machine Learning (3-Month Mentorship)';
+          tierName = '3-Month Mentorship';
+        } else if (courseParam.includes('tools') || courseParam.includes('aitools') || courseParam.includes('professional')) {
+          courseName = 'AI Tools for Working Professionals';
+          tierName = '30-Day Express';
+        } else if (courseParam.includes('30d') || courseParam.includes('30-day') || courseParam.includes('express') || courseParam.includes('bootcamp')) {
+          courseName = 'AI & Machine Learning (30-Day Express)';
+          tierName = '30-Day Express';
+        }
+        
+        setTimeout(() => {
+          if (typeof openEnrollModal === 'function') {
+            openEnrollModal(courseName, tierName);
+          }
+        }, 300);
+      }
     });
   </script>
 </body>
