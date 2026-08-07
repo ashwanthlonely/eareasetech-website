@@ -82,12 +82,8 @@
 
     </div>
   </div>
-
-  <!-- Header Navigation -->
   <header class="bg-[#0b172d] border-b border-slate-800 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
-      
-      <div class="flex items-center gap-3">
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4"><div class="flex items-center gap-3">
         <img src="assets/E2n-logo.png" alt="EarEase Nexus Logo" class="h-10 w-auto object-contain" />
         <div>
           <h1 class="text-lg font-bold text-white leading-none">EarEase <span class="text-[#D4A017]">Nexus</span> Admissions Hub</h1>
@@ -109,11 +105,8 @@
         </button>
       </div>
   </header>
-
   <!-- Main Body -->
-  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
-    
-    <!-- RAZORPAY INTEGRATION & SEAT CAP BANNER -->
+  <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8"><!-- RAZORPAY INTEGRATION & SEAT CAP BANNER -->
     <div class="crm-card p-6 bg-gradient-to-r from-slate-900 via-[#111e38] to-slate-900 border-amber-500/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="space-y-1">
         <div class="flex items-center gap-2">
@@ -356,39 +349,39 @@
 
       <div class="crm-card overflow-x-auto">
         <table class="w-full text-left text-xs text-slate-300">
-          <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+          <thead class="bg-slate-900/90 text-slate-200 capitalize text-[11px] font-bold border-b border-slate-800">
             <tr>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
+              <th class="p-4 min-w-[140px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
                 Applicant Name <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('candidateId')">
+              <th class="p-4 min-w-[110px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('candidateId')">
                 Candidate ID <span id="sort-icon-candidateId" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4">Email</th>
-              <th class="p-4">Phone / WhatsApp</th>
-              <th class="p-4">Govt ID Details</th>
-              <th class="p-4">Location</th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
+              <th class="p-4 min-w-[180px]">Email</th>
+              <th class="p-4 min-w-[130px]">Phone / WhatsApp</th>
+              <th class="p-4 min-w-[170px]">Govt ID Details</th>
+              <th class="p-4 min-w-[140px]">Location</th>
+              <th class="p-4 min-w-[180px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
                 Selected Program Track <span id="sort-icon-service" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
+              <th class="p-4 min-w-[160px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
                 Assigned Cohort Batch <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('seatNumber')">
+              <th class="p-4 min-w-[70px] text-center cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('seatNumber')">
                 Seat # <span id="sort-icon-seatNumber" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4">Original Fee</th>
-              <th class="p-4">Coupon Applied</th>
-              <th class="p-4">Discount</th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
+              <th class="p-4 min-w-[100px]">Original Fee</th>
+              <th class="p-4 min-w-[125px]">Coupon Applied</th>
+              <th class="p-4 min-w-[90px]">Discount</th>
+              <th class="p-4 min-w-[110px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
                 Amount Paid Only <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
+              <th class="p-4 min-w-[160px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
                 Payment Status <span id="sort-icon-paymentStatus" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4">Admissions Stage</th>
-              <th class="p-4">Source & Referral</th>
-              <th class="p-4 text-right">Actions</th>
+              <th class="p-4 min-w-[130px]">Admissions Stage</th>
+              <th class="p-4 min-w-[160px]">Source & Referral</th>
+              <th class="p-4 text-right min-w-[210px]">Actions</th>
             </tr>
           </thead>
           <tbody id="nexus-tbody" class="divide-y divide-slate-800">
