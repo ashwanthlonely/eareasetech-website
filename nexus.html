@@ -1883,11 +1883,10 @@
                 razorpayPaymentId: txId,
                 stage: 'Enrolled & Paid'
               };
-
-              if (leadRecordId && window.updateLeadDetails) {
-                await window.updateLeadDetails(leadRecordId, paidPayload);
+              const updateId = leadRecordId || candidateId;
+              if (updateId && window.updateLeadDetails) {
+                await window.updateLeadDetails(updateId, paidPayload);
               }
-
               // Dispatch payment success invoice email immediately to candidate & HR
               if (window.dispatchEmailAlert) {
                 await window.dispatchEmailAlert(paidPayload);
