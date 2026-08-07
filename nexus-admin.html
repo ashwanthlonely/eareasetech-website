@@ -354,12 +354,16 @@
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
                 Applicant Name <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
               </th>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('candidateId')">
+                Applicant ID <span id="sort-icon-candidateId" class="text-[9px] opacity-60">↕</span>
+              </th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
                 Selected Program Track <span id="sort-icon-service" class="text-[9px] opacity-60">↕</span>
               </th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
-                 Cohort & Seat <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
+                Cohort & Seat <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
               </th>
+              <th class="p-4">Coupon Applied</th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
                 Amount Paid <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
               </th>
@@ -650,36 +654,41 @@
           const finalAmount = parseFloat((l.estimateAmount || '0').replace(/[^0-9.]/g, '')) || 0;
           const discountAmount = parseFloat((l.discountAmount || '0').replace(/[^0-9.]/g, '')) || 0;
           const originalAmount = finalAmount + discountAmount;
-          const displayDiscount = discountAmount > 0 ? `₹${discountAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₹0.00';
+           const displayDiscount = discountAmount > 0 ? `₹${discountAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₹0.00';
           return `
             <tr class="hover:bg-slate-800/40 transition-colors cursor-pointer" onclick="showCandidateDetails('${l.id}')">
-              <!-- 1. Applicant Name & ID -->
-              <td class="p-4">
-                <div class="font-bold text-white text-sm leading-snug">${l.name}</div>
-                <div class="text-[10px] text-amber-400 font-mono mt-0.5">${l.candidateId || 'EET-NEX-REG'}</div>
-              </td>
+              <!-- 1. Applicant Name -->
+              <td class="p-4 font-bold text-white text-sm">${l.name}</td>
               
-              <!-- 2. Selected Program Track -->
+              <!-- 2. Applicant ID -->
+              <td class="p-4 text-amber-400 font-mono text-[11px] font-bold">${l.candidateId || 'EET-NEX-REG'}</td>
+              
+              <!-- 3. Selected Program Track -->
               <td class="p-4 font-semibold text-amber-300">${l.service}</td>
               
-              <!-- 3. Cohort & Seat -->
+              <!-- 4. Cohort & Seat -->
               <td class="p-4 space-y-1">
                 ${cohortBadge}
                 <div class="text-[10px] text-slate-400 font-bold">${l.seatNumber ? 'Seat #' + l.seatNumber : 'Queue'}</div>
               </td>
               
-              <!-- 4. Amount Paid Only -->
+              <!-- 5. Coupon Applied -->
+              <td class="p-4 font-mono font-bold text-purple-300">
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `🎟️ ${l.appliedCouponCode}` : '<span class="text-slate-600">-</span>'}
+              </td>
+              
+              <!-- 6. Amount Paid -->
               <td class="p-4 font-bold text-white font-mono">
                 ₹${finalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
               </td>
               
-              <!-- 5. Payment Status -->
+              <!-- 7. Payment Status -->
               <td class="p-4">${isPaid ? `<span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid</span>` : payBadge}</td>
               
-              <!-- 6. Admissions Stage -->
+              <!-- 8. Admissions Stage -->
               <td class="p-4">${acceptBadge}</td>
               
-              <!-- 7. Actions -->
+              <!-- 9. Actions -->
               <td class="p-4 text-right">
                 <div class="flex flex-col gap-1 justify-end items-end">
                   <div class="flex items-center gap-1">
@@ -693,8 +702,7 @@
                 </div>
               </td>
             </tr>
-          `;
-        }).join('');
+          `;}).join('');
       };
 
       window.acceptCandidate = async function(id) {
