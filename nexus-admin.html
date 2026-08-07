@@ -359,8 +359,12 @@
           <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
             <tr>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
-                Applicant & Contact <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
+                Applicant & ID <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
               </th>
+              <th class="p-4">Email</th>
+              <th class="p-4">Phone / WhatsApp</th>
+              <th class="p-4">Govt ID Details</th>
+              <th class="p-4">Location</th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
                 Selected Program Track <span id="sort-icon-service" class="text-[9px] opacity-60">↕</span>
               </th>
@@ -370,12 +374,17 @@
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('seatNumber')">
                 Seat # <span id="sort-icon-seatNumber" class="text-[9px] opacity-60">↕</span>
               </th>
+              <th class="p-4">Original Fee</th>
+              <th class="p-4">Coupon Applied</th>
+              <th class="p-4">Discount</th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
-                Fee / Estimate <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
+                Amount Paid Only <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
               </th>
               <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
                 Payment Status <span id="sort-icon-paymentStatus" class="text-[9px] opacity-60">↕</span>
               </th>
+              <th class="p-4">Admissions Stage</th>
+              <th class="p-4">Source & Referral</th>
               <th class="p-4 text-right">Actions</th>
             </tr>
           </thead>
@@ -644,10 +653,7 @@
             acceptBadge = `<span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded text-[10px] font-bold border border-rose-500/30">🔴 ${acceptanceStatus}</span>`;
           }
 
-          const displayFee = (l.estimateAmount || '').startsWith('₹') ? l.estimateAmount : `₹${l.estimateAmount || '15,338.82'}`;
           const txId = l.transactionId || l.razorpayPaymentId || '';
-
-          // Govt ID Masking Helper
           const isRevealed = revealedGovtIds.has(l.id);
           let rawGovtId = l.govtId || 'Aadhaar / Govt ID';
           let displayGovtId = rawGovtId;
@@ -658,34 +664,88 @@
             displayGovtId = `${parts[0]}: ${maskedVal}`;
           }
 
+          // Financial Math
+          const finalAmount = parseFloat((l.estimateAmount || '0').replace(/[^0-9.]/g, '')) || 0;
+          const discountAmount = parseFloat((l.discountAmount || '0').replace(/[^0-9.]/g, '')) || 0;
+          const originalAmount = finalAmount + discountAmount;
+          const displayDiscount = discountAmount > 0 ? `₹${discountAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₹0.00';
+
           return `
             <tr class="hover:bg-slate-800/50 transition-colors">
-              <td class="p-4 space-y-1 min-w-[220px]">
+              <!-- 1. Applicant & ID -->
+              <td class="p-4 min-w-[160px]">
                 <div class="font-bold text-white text-sm">${l.name}</div>
                 <div class="text-amber-400 font-mono text-[10px] font-extrabold">${l.candidateId || 'EET-NEX-REG'}</div>
-                <div class="text-slate-400 text-[11px]">${l.email} • ${l.phone}</div>
-                <div class="text-slate-400 text-[10px]">
-                  📍 ${l.city || 'N/A'}, ${l.state || 'N/A'} • 
-                  <span>${displayGovtId}</span>
-                  <button onclick="toggleGovtIdMask('${l.id}')" class="text-[9px] text-amber-400 font-bold hover:underline ml-1">${isRevealed ? '🔒 Mask' : '👁️ Reveal'}</button>
-                </div>
-                ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Referrer: ${l.referral}</div>` : ''}
-                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-purple-300 font-mono text-[10px] font-bold flex items-center gap-1">🎟️ Coupon: ${l.appliedCouponCode} ${l.discountAmount && l.discountAmount !== '₹0' ? `(Saved ${l.discountAmount})` : ''} <button onclick="copyCouponCode('${l.appliedCouponCode}')" class="text-[8px] px-1 py-0.2 bg-purple-950 text-purple-200 border border-purple-800 rounded hover:bg-purple-900">📋 Copy</button></div>` : ''}
               </td>
+              
+              <!-- 2. Email -->
+              <td class="p-4 min-w-[160px] text-slate-300 font-medium">${l.email || 'N/A'}</td>
+              
+              <!-- 3. Phone / WhatsApp -->
+              <td class="p-4 min-w-[130px] text-slate-300 font-medium font-mono">${l.phone || 'N/A'}</td>
+              
+              <!-- 4. Govt ID Details -->
+              <td class="p-4 min-w-[170px] space-y-1">
+                <span class="text-slate-300 font-medium">${displayGovtId}</span>
+                <button onclick="toggleGovtIdMask('${l.id}')" class="text-[9px] text-amber-400 font-bold hover:underline block">${isRevealed ? '🔒 Mask ID' : '👁️ Reveal ID'}</button>
+              </td>
+              
+              <!-- 5. Location -->
+              <td class="p-4 min-w-[140px] text-slate-300 font-medium">📍 ${l.city || 'N/A'}, ${l.state || 'N/A'}</td>
+              
+              <!-- 6. Selected Program Track -->
               <td class="p-4 font-semibold text-amber-300 min-w-[180px]">${l.service}</td>
-              <td class="p-4 min-w-[170px]">${cohortBadge}<div class="text-[10px] text-slate-400 mt-1">${l.cohort || 'Active Batch'}</div></td>
-              <td class="p-4 font-bold text-white">${l.seatNumber ? '#' + l.seatNumber : 'Queue'}</td>
-              <td class="p-4 font-bold text-white min-w-[110px]">
-                ${displayFee}
-                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `<div class="text-[9px] text-emerald-400 font-semibold">Discounted</div>` : ''}
+              
+              <!-- 7. Assigned Cohort Batch -->
+              <td class="p-4 min-w-[150px] space-y-1">
+                ${cohortBadge}
+                <div class="text-[10px] text-slate-400">${l.cohort || 'Active Batch'}</div>
               </td>
-              <td class="p-4 min-w-[200px] space-y-1.5">
-                ${isPaid ? `<div class="space-y-1">
+              
+              <!-- 8. Seat # -->
+              <td class="p-4 font-bold text-white text-center">${l.seatNumber ? '#' + l.seatNumber : 'Queue'}</td>
+              
+              <!-- 9. Original Fee -->
+              <td class="p-4 font-semibold text-slate-400 font-mono">
+                ₹${originalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </td>
+              
+              <!-- 10. Coupon Applied -->
+              <td class="p-4 font-mono font-bold text-purple-300 min-w-[120px]">
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `
+                  <span class="flex items-center gap-1">
+                    🎟️ ${l.appliedCouponCode}
+                    <button onclick="copyCouponCode('${l.appliedCouponCode}')" class="text-[8px] px-1 py-0.2 bg-purple-950 text-purple-200 border border-purple-800 rounded hover:bg-purple-900">📋</button>
+                  </span>
+                ` : '<span class="text-slate-600">None</span>'}
+              </td>
+              
+              <!-- 11. Discount -->
+              <td class="p-4 font-mono font-semibold text-rose-400">
+                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `-${displayDiscount}` : '₹0.00'}
+              </td>
+              
+              <!-- 12. Amount Paid Only -->
+              <td class="p-4 font-bold text-white font-mono">
+                ₹${finalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </td>
+              
+              <!-- 13. Payment Status -->
+              <td class="p-4 min-w-[160px]">${isPaid ? `<div class="space-y-1">
                   <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid (Seat Confirmed)</span>
-                  ${txId ? `<div class="text-[10px] font-mono text-emerald-300">Tx ID: ${txId}</div>` : ''}
-                </div>` : payBadge}
-                <div>${acceptBadge}</div>
+                  ${txId ? `<div class="text-[10px] font-mono text-emerald-300">Tx: ${txId}</div>` : ''}
+                </div>` : payBadge}</td>
+                
+              <!-- 14. Admissions Stage -->
+              <td class="p-4 min-w-[130px]">${acceptBadge}</td>
+              
+              <!-- 15. Source & Referral -->
+              <td class="p-4 min-w-[160px] space-y-1.5">
+                <div class="text-[10px] text-slate-400">BG: <span class="text-white font-medium">${l.background || 'Not Specified'}</span></div>
+                ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Ref: <strong>${l.referral}</strong></div>` : `<div class="text-slate-500 text-[10px]">Direct Applicant</div>`}
               </td>
+              
+              <!-- 16. Actions -->
               <td class="p-4 text-right min-w-[210px]">
                 <div class="flex flex-col gap-1.5 justify-end items-end">
                   <div class="flex items-center gap-1">
