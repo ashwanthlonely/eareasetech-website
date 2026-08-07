@@ -361,6 +361,16 @@ async function saveCourse(courseData) {
   const courses = getSavedCourses();
   courseData.docType = 'course';
 
+  // Prevent duplicate course titles in catalog
+  const cleanTitle = (courseData.title || '').trim().toLowerCase();
+  const isDuplicate = courses.some(c => 
+    c.id !== courseData.id && 
+    (c.title || '').trim().toLowerCase() === cleanTitle
+  );
+  if (isDuplicate) {
+    return { success: false, error: `A course track with the title "${courseData.title}" already exists in the catalog.` };
+  }
+
   if (courseData.id) {
     const idx = courses.findIndex(c => c.id === courseData.id);
     if (idx >= 0) courses[idx] = { ...courses[idx], ...courseData };
@@ -381,7 +391,7 @@ async function saveCourse(courseData) {
     }
   }
 
-  return courses;
+  return { success: true, courses: courses };
 }
 
 async function deleteCourse(courseId) {
@@ -414,6 +424,16 @@ async function saveCoupon(couponData) {
   const coupons = getSavedCoupons();
   couponData.code = (couponData.code || '').trim().toUpperCase();
   if (!couponData.code) return { success: false, error: 'Coupon code is required' };
+
+  // Prevent duplicate coupon promo codes
+  const cleanCode = couponData.code;
+  const isDuplicate = coupons.some(c => 
+    c.id !== couponData.id && 
+    (c.code || '').trim().toUpperCase() === cleanCode
+  );
+  if (isDuplicate) {
+    return { success: false, error: `A coupon with the promo code "${couponData.code}" already exists.` };
+  }
 
   couponData.docType = 'coupon';
   couponData.active = true;

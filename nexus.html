@@ -1848,11 +1848,79 @@
           stage: 'New Lead',
           source: 'EarEase Nexus Portal (nexus.html)'
         };
-
         enrollStatus.className = 'text-xs text-center font-bold p-3 rounded-xl bg-amber-100 text-amber-900 border border-amber-300';
-        enrollStatus.innerText = 'Registering seat & initializing admission checkout...';
+        enrollStatus.innerText = 'Verifying registration status & initializing checkout...';
         enrollStatus.classList.remove('hidden');
 
+        // Fetch all leads to check for duplicates
+        let leadsList = [];
+        if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
+          leadsList = await window.EarEaseFirebase.getLeads();
+        } else {
+          leadsList = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+        }
+
+        const govtIdToCheck = `${idType}: ${idNumber}`;
+        const serviceToCheck = `EarEase Nexus - ${course}`;
+        const existingLead = leadsList.find(l => l.govtId === govtIdToCheck && l.service === serviceToCheck);
+
+        if (existingLead) {
+          const isPaid = (existingLead.paymentStatus || '').toLowerCase().includes('paid');
+          if (isPaid) {
+            enrollStatus.className = 'text-xs text-center font-bold p-3 rounded-xl bg-rose-950/50 text-rose-400 border border-rose-800';
+            enrollStatus.innerText = '⚠️ You are already enrolled in this course track with this Government ID. Duplicate registrations are not permitted.';
+            enrollStatus.classList.remove('hidden');
+            return;
+          } else {
+            // Unpaid/failed lead - update/overwrite it instead of adding a new one
+            const candidateId = existingLead.candidateId;
+            const leadRecordId = existingLead.id;
+
+            if (window.updateLeadDetails) {
+              await window.updateLeadDetails(leadRecordId, {
+                ...payload,
+                candidateId: candidateId,
+                updatedAt: new Date().toISOString()
+              });
+            }
+
+            enrollModal.classList.add('hidden');
+
+            if (window.launchRazorpayCheckout) {
+              window.launchRazorpayCheckout(
+                { name: name, email: email, phone: phone },
+                tier || course,
+                async (response) => {
+                  const txId = (response && response.razorpay_payment_id) ? response.razorpay_payment_id : ('pay_LIVE_' + Date.now());
+                  const paidPayload = {
+                    ...payload,
+                    candidateId: candidateId,
+                    cohort: existingLead.cohort || 'Active Cohort',
+                    seatNumber: existingLead.seatNumber || null,
+                    paymentStatus: 'PAID via Razorpay',
+                    transactionId: txId,
+                    razorpayPaymentId: txId,
+                    stage: 'Enrolled & Paid'
+                  };
+                  if (leadRecordId && window.updateLeadDetails) {
+                    await window.updateLeadDetails(leadRecordId, paidPayload);
+                  }
+                  if (window.dispatchEmailAlert) {
+                    await window.dispatchEmailAlert(paidPayload);
+                  }
+                  showPaymentSuccessModal(candidateId, txId, existingLead.cohort || 'Active Cohort', email);
+                },
+                paymentDetails
+              );
+            } else {
+              showPaymentSuccessModal(candidateId, 'pay_OFFICIAL_GATEWAY', existingLead.cohort || 'Active Cohort', email);
+            }
+            return;
+          }
+        }
+
+        // Default path: no duplicate exists
+        enrollStatus.innerText = 'Registering seat & initializing admission checkout...';
         let res = null;
         if (window.submitLeadToFirebase) {
           res = await window.submitLeadToFirebase(payload);
@@ -1864,10 +1932,8 @@
         const assignedCohort = (res && res.payload) ? res.payload.cohort : 'Active Cohort';
         const leadRecordId = (res && res.id) ? res.id : null;
 
-        // Hide application modal before opening Razorpay Live Checkout
         enrollModal.classList.add('hidden');
 
-        // Trigger Razorpay Live Checkout Modal immediately
         if (window.launchRazorpayCheckout) {
           window.launchRazorpayCheckout(
             { name: name, email: email, phone: phone },
@@ -1887,11 +1953,9 @@
               if (updateId && window.updateLeadDetails) {
                 await window.updateLeadDetails(updateId, paidPayload);
               }
-              // Dispatch payment success invoice email immediately to candidate & HR
               if (window.dispatchEmailAlert) {
                 await window.dispatchEmailAlert(paidPayload);
               }
-
               showPaymentSuccessModal(candidateId, txId, assignedCohort, email);
             },
             paymentDetails

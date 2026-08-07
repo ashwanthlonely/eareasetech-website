@@ -995,9 +995,8 @@
         if (!brochurePathVal || brochurePathVal.trim().length === 0) {
           showAdminToast(`⚠️ Please upload or provide the brochure image/pdf path for this course to ensure it displays correctly.`, 'warning');
         }
-
         if (window.saveCourse) {
-          await window.saveCourse({
+          const res = await window.saveCourse({
             id: courseId || undefined,
             title: title,
             duration: duration,
@@ -1009,6 +1008,10 @@
             batchStart: batchStartVal,
             isLive: !badge.includes('SOLD OUT')
           });
+          if (res && res.success === false) {
+            showAdminToast(`⚠️ ${res.error}`, 'error');
+            return;
+          }
           showAdminToast(`✓ Course '${title}' saved & synced to cloud!`, 'success');
           document.getElementById('form-manage-courses').reset();
           document.getElementById('course-id').value = '';
@@ -1077,11 +1080,13 @@
             discount: val,
             active: true
           });
-          if (res.success) {
-            showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active & synced to cloud!`, 'success');
-            document.getElementById('form-manage-coupons').reset();
-            await renderCouponPreviewList();
+          if (res && res.success === false) {
+            showAdminToast(`⚠️ ${res.error}`, 'error');
+            return;
           }
+          showAdminToast(`✓ Discount promo code '${code.toUpperCase()}' active & synced to cloud!`, 'success');
+          document.getElementById('form-manage-coupons').reset();
+          await renderCouponPreviewList();
         }
       });
 
