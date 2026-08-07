@@ -351,37 +351,23 @@
         <table class="w-full text-left text-xs text-slate-300">
           <thead class="bg-slate-900/90 text-slate-200 capitalize text-[11px] font-bold border-b border-slate-800">
             <tr>
-              <th class="p-4 min-w-[140px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('name')">
                 Applicant Name <span id="sort-icon-name" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 min-w-[110px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('candidateId')">
-                Candidate ID <span id="sort-icon-candidateId" class="text-[9px] opacity-60">↕</span>
-              </th>
-              <th class="p-4 min-w-[180px]">Email</th>
-              <th class="p-4 min-w-[130px]">Phone / WhatsApp</th>
-              <th class="p-4 min-w-[170px]">Govt ID Details</th>
-              <th class="p-4 min-w-[140px]">Location</th>
-              <th class="p-4 min-w-[180px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('service')">
                 Selected Program Track <span id="sort-icon-service" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 min-w-[160px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
-                Assigned Cohort Batch <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('cohort')">
+                Cohort & Seat <span id="sort-icon-cohort" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 min-w-[70px] text-center cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('seatNumber')">
-                Seat # <span id="sort-icon-seatNumber" class="text-[9px] opacity-60">↕</span>
-              </th>
-              <th class="p-4 min-w-[100px]">Original Fee</th>
-              <th class="p-4 min-w-[125px]">Coupon Applied</th>
-              <th class="p-4 min-w-[90px]">Discount</th>
-              <th class="p-4 min-w-[110px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('estimateAmount')">
                 Amount Paid Only <span id="sort-icon-estimateAmount" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 min-w-[160px] cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
+              <th class="p-4 cursor-pointer hover:text-amber-400 select-none" onclick="sortNexusTable('paymentStatus')">
                 Payment Status <span id="sort-icon-paymentStatus" class="text-[9px] opacity-60">↕</span>
               </th>
-              <th class="p-4 min-w-[130px]">Admissions Stage</th>
-              <th class="p-4 min-w-[160px]">Source & Referral</th>
-              <th class="p-4 text-right min-w-[210px]">Actions</th>
+              <th class="p-4">Admissions Stage</th>
+              <th class="p-4 text-right">Actions</th>
             </tr>
           </thead>
           <tbody id="nexus-tbody" class="divide-y divide-slate-800">
@@ -665,91 +651,44 @@
           const discountAmount = parseFloat((l.discountAmount || '0').replace(/[^0-9.]/g, '')) || 0;
           const originalAmount = finalAmount + discountAmount;
           const displayDiscount = discountAmount > 0 ? `₹${discountAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₹0.00';
-
           return `
-            <tr class="hover:bg-slate-800/50 transition-colors">
-              <!-- 1. Applicant Name -->
-              <td class="p-4 min-w-[160px] font-bold text-white text-sm">${l.name}</td>
-              
-              <!-- 2. Candidate ID -->
-              <td class="p-4 min-w-[120px] text-amber-400 font-mono text-[11px] font-bold">${l.candidateId || 'EET-NEX-REG'}</td>
-              <!-- 2. Email -->
-              <td class="p-4 min-w-[160px] text-slate-300 font-medium">${l.email || 'N/A'}</td>
-              
-              <!-- 3. Phone / WhatsApp -->
-              <td class="p-4 min-w-[130px] text-slate-300 font-medium font-mono">${l.phone || 'N/A'}</td>
-              
-              <!-- 4. Govt ID Details -->
-              <td class="p-4 min-w-[170px] space-y-1">
-                <span class="text-slate-300 font-medium">${displayGovtId}</span>
-                <button onclick="toggleGovtIdMask('${l.id}')" class="text-[9px] text-amber-400 font-bold hover:underline block">${isRevealed ? '🔒 Mask ID' : '👁️ Reveal ID'}</button>
+            <tr class="hover:bg-slate-800/40 transition-colors cursor-pointer" onclick="showCandidateDetails('${l.id}')">
+              <!-- 1. Applicant Name & ID -->
+              <td class="p-4">
+                <div class="font-bold text-white text-sm leading-snug">${l.name}</div>
+                <div class="text-[10px] text-amber-400 font-mono mt-0.5">${l.candidateId || 'EET-NEX-REG'}</div>
               </td>
               
-              <!-- 5. Location -->
-              <td class="p-4 min-w-[140px] text-slate-300 font-medium">📍 ${l.city || 'N/A'}, ${l.state || 'N/A'}</td>
+              <!-- 2. Selected Program Track -->
+              <td class="p-4 font-semibold text-amber-300">${l.service}</td>
               
-              <!-- 6. Selected Program Track -->
-              <td class="p-4 font-semibold text-amber-300 min-w-[180px]">${l.service}</td>
-              
-              <!-- 7. Assigned Cohort Batch -->
-              <td class="p-4 min-w-[150px] space-y-1">
+              <!-- 3. Cohort & Seat -->
+              <td class="p-4 space-y-1">
                 ${cohortBadge}
-                <div class="text-[10px] text-slate-400">${l.cohort || 'Active Batch'}</div>
+                <div class="text-[10px] text-slate-400 font-bold">${l.seatNumber ? 'Seat #' + l.seatNumber : 'Queue'}</div>
               </td>
               
-              <!-- 8. Seat # -->
-              <td class="p-4 font-bold text-white text-center">${l.seatNumber ? '#' + l.seatNumber : 'Queue'}</td>
-              
-              <!-- 9. Original Fee -->
-              <td class="p-4 font-semibold text-slate-400 font-mono">
-                ₹${originalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-              </td>
-              
-              <!-- 10. Coupon Applied -->
-              <td class="p-4 font-mono font-bold text-purple-300 min-w-[120px]">
-                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `
-                  <span class="flex items-center gap-1">
-                    🎟️ ${l.appliedCouponCode}
-                    <button onclick="copyCouponCode('${l.appliedCouponCode}')" class="text-[8px] px-1 py-0.2 bg-purple-950 text-purple-200 border border-purple-800 rounded hover:bg-purple-900">📋</button>
-                  </span>
-                ` : '<span class="text-slate-600">None</span>'}
-              </td>
-              
-              <!-- 11. Discount -->
-              <td class="p-4 font-mono font-semibold text-rose-400">
-                ${l.appliedCouponCode && l.appliedCouponCode !== 'None' ? `-${displayDiscount}` : '₹0.00'}
-              </td>
-              
-              <!-- 12. Amount Paid Only -->
+              <!-- 4. Amount Paid Only -->
               <td class="p-4 font-bold text-white font-mono">
                 ₹${finalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
               </td>
               
-              <!-- 13. Payment Status -->
-              <td class="p-4 min-w-[160px]">${isPaid ? `<div class="space-y-1">
-                  <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid (Seat Confirmed)</span>
-                  ${txId ? `<div class="text-[10px] font-mono text-emerald-300">Tx: ${txId}</div>` : ''}
-                </div>` : payBadge}</td>
-                
-              <!-- 14. Admissions Stage -->
-              <td class="p-4 min-w-[130px]">${acceptBadge}</td>
+              <!-- 5. Payment Status -->
+              <td class="p-4">${isPaid ? `<span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid</span>` : payBadge}</td>
               
-              <!-- 15. Source & Referral -->
-              <td class="p-4 min-w-[160px] space-y-1.5">
-                <div class="text-[10px] text-slate-400">BG: <span class="text-white font-medium">${l.background || 'Not Specified'}</span></div>
-                ${l.referral && l.referral !== 'Direct Candidate' ? `<div class="text-emerald-400 text-[10px]">Ref: <strong>${l.referral}</strong></div>` : `<div class="text-slate-500 text-[10px]">Direct Applicant</div>`}
-              </td>
+              <!-- 6. Admissions Stage -->
+              <td class="p-4">${acceptBadge}</td>
               
-              <!-- 16. Actions -->
-              <td class="p-4 text-right min-w-[210px]">
-                <div class="flex flex-col gap-1.5 justify-end items-end">
+              <!-- 7. Actions -->
+              <td class="p-4 text-right">
+                <div class="flex flex-col gap-1 justify-end items-end">
                   <div class="flex items-center gap-1">
-                    <button onclick="acceptCandidate('${l.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-[10px] rounded transition-all shadow">✓ Accept Candidate</button>
-                    <button onclick="declineAndRefundCandidate('${l.id}')" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] rounded transition-all shadow">✕ Decline & Refund</button>
+                    <button onclick="event.stopPropagation(); acceptCandidate('${l.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-[10px] rounded transition-all shadow">✓ Accept</button>
+                    <button onclick="event.stopPropagation(); declineAndRefundCandidate('${l.id}')" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] rounded transition-all shadow">✕ Decline</button>
                   </div>
                   <div class="flex items-center gap-1 pt-0.5">
-                    <button onclick="markPaymentPaid('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded text-[9px] border border-slate-700">Mark Paid</button>
-                    <button onclick="confirmDeleteLead('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded text-[9px] border border-slate-700">Delete</button>
+                    <button onclick="event.stopPropagation(); markPaymentPaid('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded text-[9px] border border-slate-700">Mark Paid</button>
+                    <button onclick="event.stopPropagation(); confirmDeleteLead('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded text-[9px] border border-slate-700">Delete</button>
                   </div>
                 </div>
               </td>
@@ -823,9 +762,133 @@
         }
       };
 
+      // Candidate Detail Modal Logic
+      let currentDetailLeadId = null;
+      let detailGovtIdRevealed = false;
 
+      window.showCandidateDetails = function(leadId) {
+        const lead = allLeads.find(l => l.id === leadId);
+        if (!lead) return;
 
-      // Course Manager logic
+        currentDetailLeadId = leadId;
+        detailGovtIdRevealed = false;
+
+        document.getElementById('detail-name').innerText = lead.name || 'N/A';
+        document.getElementById('detail-id').innerText = lead.candidateId || 'EET-NEX-REG';
+        document.getElementById('detail-email').innerText = lead.email || 'N/A';
+        document.getElementById('detail-phone').innerText = lead.phone || 'N/A';
+        document.getElementById('detail-location').innerText = `📍 ${lead.city || 'N/A'}, ${lead.state || 'N/A'}`;
+        document.getElementById('detail-referral').innerText = lead.referral || 'Direct Applicant';
+        document.getElementById('detail-background').innerText = lead.background || 'Not Specified';
+        document.getElementById('detail-service').innerText = lead.service || 'N/A';
+        
+        let cohortStatusText = lead.cohort || 'Active Cohort';
+        if (lead.seatNumber) {
+          cohortStatusText += ` (Seat #${lead.seatNumber})`;
+        } else {
+          cohortStatusText += ` (Queue Waitlist)`;
+        }
+        document.getElementById('detail-cohort').innerText = `⚡ ${cohortStatusText}`;
+
+        // Financial Details
+        const finalAmount = parseFloat((lead.estimateAmount || '0').replace(/[^0-9.]/g, '')) || 0;
+        const discountAmount = parseFloat((lead.discountAmount || '0').replace(/[^0-9.]/g, '')) || 0;
+        const originalAmount = finalAmount + discountAmount;
+
+        document.getElementById('detail-price-original').innerText = `₹${originalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('detail-price-coupon').innerText = lead.appliedCouponCode && lead.appliedCouponCode !== 'None' ? `🎟️ ${lead.appliedCouponCode}` : 'None';
+        document.getElementById('detail-price-discount').innerText = discountAmount > 0 ? `-₹${discountAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₹0.00';
+        document.getElementById('detail-price-paid').innerText = `₹${finalAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+        // Payment status badge
+        const isPaid = (lead.paymentStatus || '').toLowerCase().includes('paid');
+        const isRefunded = (lead.paymentStatus || '').toLowerCase().includes('refund');
+        const statusBadgeEl = document.getElementById('detail-payment-status');
+        if (isPaid) {
+          statusBadgeEl.innerHTML = `<span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-extrabold border border-emerald-500/40">✓ Paid (Seat Confirmed)</span>`;
+        } else if (isRefunded) {
+          statusBadgeEl.innerHTML = `<span class="px-2.5 py-0.5 bg-rose-500/20 text-rose-300 rounded-full text-[10px] font-bold border border-rose-500/40">↩ Refunded</span>`;
+        } else {
+          statusBadgeEl.innerHTML = `<span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/30">💳 Awaiting Payment</span>`;
+        }
+
+        // Admissions Stage
+        const stageEl = document.getElementById('detail-stage');
+        let stageText = lead.acceptanceStatus || 'Pending Review';
+        if (stageText.includes('Accepted')) {
+          stageEl.innerHTML = `<span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-bold border border-emerald-500/30">🟢 ${stageText}</span>`;
+        } else if (stageText.includes('Declined')) {
+          stageEl.innerHTML = `<span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded text-[10px] font-bold border border-rose-500/30">🔴 ${stageText}</span>`;
+        } else {
+          stageEl.innerHTML = `<span class="px-2 py-0.5 bg-slate-800 text-slate-400 rounded text-[10px]">⏳ Pending Review</span>`;
+        }
+
+        // Transaction ID
+        const txId = lead.transactionId || lead.razorpayPaymentId || '';
+        const txRow = document.getElementById('detail-transaction-row');
+        if (txId) {
+          document.getElementById('detail-transaction-id').innerText = txId;
+          txRow.classList.remove('hidden');
+        } else {
+          txRow.classList.add('hidden');
+        }
+
+        // Govt ID masking logic helper
+        updateDetailGovtIdView(lead);
+
+        // Bind Detail Quick Actions onclick handlers dynamically
+        document.getElementById('btn-detail-accept').onclick = async () => {
+          await window.acceptCandidate(lead.id);
+          window.showCandidateDetails(lead.id);
+        };
+        document.getElementById('btn-detail-decline').onclick = async () => {
+          await window.declineAndRefundCandidate(lead.id);
+          document.getElementById('modal-candidate-detail').classList.add('hidden');
+        };
+        document.getElementById('btn-detail-mark-paid').onclick = async () => {
+          await window.markPaymentPaid(lead.id);
+          window.showCandidateDetails(lead.id);
+        };
+        document.getElementById('btn-detail-delete').onclick = async () => {
+          await window.confirmDeleteLead(lead.id);
+          document.getElementById('modal-candidate-detail').classList.add('hidden');
+        };
+
+        // Show Modal
+        document.getElementById('modal-candidate-detail').classList.remove('hidden');
+      };
+
+      function updateDetailGovtIdView(lead) {
+        let rawGovtId = lead.govtId || 'Aadhaar: None';
+        let displayGovtId = rawGovtId;
+        if (!detailGovtIdRevealed && rawGovtId.includes(':')) {
+          const parts = rawGovtId.split(':');
+          const val = parts[1].trim();
+          const maskedVal = val.length > 4 ? ('•'.repeat(Math.max(4, val.length - 4)) + val.slice(-4)) : '••••';
+          displayGovtId = `${parts[0]}: ${maskedVal}`;
+        }
+        document.getElementById('detail-govt-id').innerText = displayGovtId;
+        document.getElementById('btn-detail-toggle-mask').innerText = detailGovtIdRevealed ? '🔒 Mask ID' : '👁️ Reveal ID';
+      }
+
+      document.getElementById('btn-detail-toggle-mask')?.addEventListener('click', () => {
+        const lead = allLeads.find(l => l.id === currentDetailLeadId);
+        if (!lead) return;
+        detailGovtIdRevealed = !detailGovtIdRevealed;
+        updateDetailGovtIdView(lead);
+      });
+
+      document.getElementById('btn-close-detail-modal')?.addEventListener('click', () => {
+        document.getElementById('modal-candidate-detail').classList.add('hidden');
+      });
+
+      // Close modal on background overlay click
+      document.getElementById('modal-candidate-detail')?.addEventListener('click', (e) => {
+        if (e.target.id === 'modal-candidate-detail') {
+          document.getElementById('modal-candidate-detail').classList.add('hidden');
+        }
+      });
+
       function syncCourseFeeCalculation() {
         const baseInput = document.getElementById('course-base-fee');
         const baseVal = parseFloat(baseInput?.value || 0);
@@ -1200,6 +1263,112 @@
           <button type="submit" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-950/50 cursor-pointer">✓ Submit Offline Enrollment</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Candidate Detail View Modal -->
+  <div id="modal-candidate-detail" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="crm-card max-w-xl w-full p-6 space-y-5 relative text-slate-300">
+      <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+        <div>
+          <h3 id="detail-name" class="text-xl font-bold text-white">Rahul Sharma</h3>
+          <p id="detail-id" class="text-xs text-amber-400 font-mono font-extrabold mt-0.5">EET-NEX-129381</p>
+        </div>
+        <button id="btn-close-detail-modal" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <!-- Contact Section -->
+        <div class="space-y-3">
+          <h4 class="text-slate-400 font-bold border-b border-slate-800 pb-1 uppercase tracking-wider text-[10px]">Contact Info</h4>
+          <div>
+            <span class="block text-slate-500 font-semibold">Email:</span>
+            <span id="detail-email" class="text-white font-medium">rahul@example.com</span>
+          </div>
+          <div>
+            <span class="block text-slate-500 font-semibold">Phone / WhatsApp:</span>
+            <span id="detail-phone" class="text-white font-medium font-mono">+91 98765 43210</span>
+          </div>
+          <div>
+            <span class="block text-slate-500 font-semibold">Location:</span>
+            <span id="detail-location" class="text-white font-medium">📍 Bengaluru, Karnataka</span>
+          </div>
+        </div>
+
+        <!-- Identity & Referral -->
+        <div class="space-y-3">
+          <h4 class="text-slate-400 font-bold border-b border-slate-800 pb-1 uppercase tracking-wider text-[10px]">Verification & Origin</h4>
+          <div>
+            <span class="block text-slate-500 font-semibold">Government ID:</span>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span id="detail-govt-id" class="text-white font-medium">Aadhaar Card: •••• •••• 1234</span>
+              <button id="btn-detail-toggle-mask" class="text-[9px] text-amber-400 font-extrabold hover:underline">👁️ Reveal</button>
+            </div>
+          </div>
+          <div>
+            <span class="block text-slate-500 font-semibold">Referral & Origin:</span>
+            <span id="detail-referral" class="text-white font-medium">Walk-in Candidate</span>
+          </div>
+          <div>
+            <span class="block text-slate-500 font-semibold">Background:</span>
+            <span id="detail-background" class="text-white font-medium">Working Professional</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Breakdown -->
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs space-y-2.5">
+        <h4 class="text-slate-400 font-bold border-b border-slate-800 pb-1 uppercase tracking-wider text-[10px]">Financial Breakdown</h4>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <span class="text-slate-500 font-semibold">Selected Track:</span>
+            <span id="detail-service" class="block text-amber-400 font-bold">AI & Machine Learning (3-Month Mentorship)</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-semibold">Cohort Allocation:</span>
+            <span id="detail-cohort" class="block text-white font-medium">⚡ Active Month Cohort (Seat #12)</span>
+          </div>
+        </div>
+        <div class="border-t border-slate-800 pt-2 space-y-1.5 font-mono text-[11px]">
+          <div class="flex justify-between text-slate-400">
+            <span>Original Total Price (Base + GST):</span>
+            <span id="detail-price-original">₹54,278.82</span>
+          </div>
+          <div class="flex justify-between text-purple-300">
+            <span>Coupon Applied:</span>
+            <span id="detail-price-coupon">SHAILI150</span>
+          </div>
+          <div class="flex justify-between text-rose-400 pb-1.5 border-b border-slate-800">
+            <span>Discount Subtraction:</span>
+            <span id="detail-price-discount">-₹150.00</span>
+          </div>
+          <div class="flex justify-between font-bold text-white text-sm pt-1.5">
+            <span class="font-sans font-bold">Amount Paid Only:</span>
+            <span id="detail-price-paid" class="text-emerald-400">₹54,128.82</span>
+          </div>
+        </div>
+        <div class="pt-2 text-[10px] text-slate-400 flex justify-between items-center">
+          <div>
+            <span class="block text-slate-500 font-semibold font-sans">Payment Status:</span>
+            <span id="detail-payment-status" class="text-emerald-400 font-bold">✓ Paid (Seat Confirmed)</span>
+          </div>
+          <div>
+            <span class="block text-slate-500 font-semibold font-sans">Admissions Stage:</span>
+            <span id="detail-stage" class="text-emerald-300 font-bold">🟢 Accepted by Admin</span>
+          </div>
+        </div>
+        <div id="detail-transaction-row" class="text-[10px] font-mono text-slate-400 border-t border-slate-800/50 pt-2 hidden">
+          <span>Transaction ID:</span> <span id="detail-transaction-id" class="text-white">pay_LIVE_123456</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions inside details modal -->
+      <div id="detail-actions" class="pt-3 flex flex-wrap gap-2 justify-end border-t border-slate-800">
+        <button id="btn-detail-accept" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl transition-all shadow">✓ Accept</button>
+        <button id="btn-detail-decline" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition-all shadow">✕ Decline & Refund</button>
+        <button id="btn-detail-mark-paid" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-xl text-xs border border-slate-700">Mark Paid</button>
+        <button id="btn-detail-delete" class="px-3 py-2 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded-xl text-xs border border-slate-700">Delete</button>
+      </div>
     </div>
   </div>
 </body>
