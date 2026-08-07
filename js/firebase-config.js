@@ -79,11 +79,7 @@ const defaultFeeStructure = {
   }
 };
 
-const defaultCoupons = [
-  { id: 'cpn_10', code: 'EAREASE10', type: 'percent', discount: 10, description: '10% Off Instant Discount', active: true, docType: 'coupon' },
-  { id: 'cpn_5k', code: 'EARLY5000', type: 'flat', discount: 5000, description: 'Flat ₹5,000 Off Early Bird', active: true, docType: 'coupon' },
-  { id: 'cpn_20', code: 'NEXUS20', type: 'percent', discount: 20, description: '20% Off Special Promo', active: true, docType: 'coupon' }
-];
+const defaultCoupons = [];
 const defaultCourses = [
   { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, brochurePath: 'assets/Courses/p8.png', regDeadline: '2026-08-10', batchStart: '2026-08-15', description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
   { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
