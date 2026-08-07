@@ -967,12 +967,9 @@
           await renderCouponPreviewList();
         }
       };
-
       // Initial sync calls
-      syncFeeEditorPreview();
       renderCoursePreviewList();
       renderCouponPreviewList();
-
       document.getElementById('nexus-search')?.addEventListener('input', window.renderNexusDashboard);
       document.getElementById('nexus-filter-cohort')?.addEventListener('change', window.renderNexusDashboard);
 
