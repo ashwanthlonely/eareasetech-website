@@ -204,51 +204,9 @@
         </div>
         <span class="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full text-xs font-bold">⚡ Admin Control Hub</span>
       </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        <!-- TOOL 1: CHANGE PROGRAM FEES -->
-        <div class="crm-card p-5 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">💰</span>
-              <h3 class="text-sm font-bold text-white">Change Program Fees</h3>
-            </div>
-            <span class="text-[10px] text-amber-400 font-mono">18% GST Auto</span>
-          </div>
-
-          <form id="form-manage-fees" class="space-y-3 text-xs">
-            <div>
-              <label class="block text-slate-400 font-semibold mb-1">Select Mentorship Tier</label>
-              <select id="fee-tier-select" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 cursor-pointer">
-                <option value="30-Day">30-Day Express Bootcamp / AI Tools</option>
-                <option value="3-Month">3-Month AI & ML Industry Mentorship</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-slate-400 font-semibold mb-1">Base Fee Amount (INR ₹)</label>
-              <input type="number" id="fee-base-amount" placeholder="e.g. 13000" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-mono" required />
-            </div>
-
-            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-[11px] space-y-1">
-              <div class="flex justify-between text-slate-400">
-                <span>GST (18%):</span>
-                <span id="preview-fee-gst" class="font-mono text-slate-300">₹2,338.82</span>
-              </div>
-              <div class="flex justify-between font-bold text-amber-400 pt-1 border-t border-slate-800">
-                <span>Total Fee Payable:</span>
-                <span id="preview-fee-total" class="font-mono">₹15,338.82</span>
-              </div>
-            </div>
-
-            <button type="submit" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow">
-              Save Updated Fee Structure
-            </button>
-          </form>
-        </div>
-
-        <!-- TOOL 2: CREATE & MANAGE COURSES -->
+        <!-- TOOL 1: CREATE & MANAGE COURSES -->
         <div class="crm-card p-5 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
@@ -810,44 +768,7 @@
         }
       };
 
-      // Fee Editor logic
-      function syncFeeEditorPreview() {
-        const tier = document.getElementById('fee-tier-select')?.value || '30-Day';
-        const baseInput = document.getElementById('fee-base-amount');
-        const fees = window.getSavedProgramFees ? window.getSavedProgramFees() : {};
-        const currentTierFee = fees[tier] || {};
 
-        if (baseInput && (!baseInput.value || document.activeElement !== baseInput)) {
-          baseInput.value = currentTierFee.baseFee || 13000;
-        }
-
-        const baseVal = parseFloat(baseInput?.value || 0);
-        const gstVal = Math.round(((baseVal * 18) / 100) * 100) / 100;
-        const totalVal = Math.round((baseVal + gstVal) * 100) / 100;
-
-        document.getElementById('preview-fee-gst').innerText = `₹${gstVal.toLocaleString('en-IN')}`;
-        document.getElementById('preview-fee-total').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
-      }
-
-      document.getElementById('fee-tier-select')?.addEventListener('change', () => {
-        const baseInput = document.getElementById('fee-base-amount');
-        if (baseInput) baseInput.value = '';
-        syncFeeEditorPreview();
-      });
-      document.getElementById('fee-base-amount')?.addEventListener('input', syncFeeEditorPreview);
-
-      document.getElementById('form-manage-fees')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const tier = document.getElementById('fee-tier-select').value;
-        const baseVal = document.getElementById('fee-base-amount').value;
-        if (window.saveProgramFee) {
-          const res = await window.saveProgramFee(tier, baseVal);
-          if (res.success) {
-            showAdminToast(`✓ Updated ${tier} fee structure: Total ${res.fees.formattedTotal} (Synced)`, 'success');
-            renderNexusDashboard();
-          }
-        }
-      });
 
       // Course Manager logic
       function syncCourseFeeCalculation() {
