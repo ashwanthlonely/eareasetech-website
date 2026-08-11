@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
               <a href="index.html" class="nav-link ${currentPage === 'index.html' || currentPage === '' ? 'text-amber-800 font-bold' : 'text-slate-700 hover:text-amber-800'}">
                 Home
               </a>
+              <a href="solutions.html" class="nav-link ${currentPage === 'solutions.html' ? 'text-amber-800 font-bold' : 'text-slate-700 hover:text-amber-800'}">
+                Solutions
+              </a>
 
               <!-- Services Dropdown (Desktop Hover) -->
               <div class="relative group py-6">
@@ -167,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Mobile Drawer -->
         <div id="mobile-drawer" class="hidden lg:hidden bg-white border-b border-amber-100 px-4 py-6 space-y-4 shadow-xl">
           <a href="index.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Home</a>
+          <a href="solutions.html" class="block text-sm font-semibold text-slate-800 py-2 border-b border-slate-100">Solutions</a>
 
           <div class="space-y-2 py-2 border-b border-slate-100">
             <span class="block text-xs font-bold uppercase tracking-wider text-amber-800">Our Services</span>
