@@ -763,7 +763,6 @@ async function dispatchEmailAlert(payload) {
       formData.append('PHONE / WHATSAPP', payload.phone || 'N/A');
       formData.append('SERVICE OF INTEREST', payload.service || 'N/A');
       formData.append('MESSAGE / INQUIRY DETAILS', payload.message || 'No additional details provided.');
-      formData.append('ESTIMATE AMOUNT / BUDGET', payload.estimateAmount || 'N/A');
       formData.append('INQUIRY SOURCE', payload.source || 'Website Form');
       formData.append('SUBMISSION TIME', payload.createdAt || new Date().toISOString());
       formData.append('NEXT STEPS', 'A sales executive from EarEase Tech will review the requirement details and contact the client via email/phone.');
