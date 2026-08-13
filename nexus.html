@@ -1674,7 +1674,7 @@
 
       grid.innerHTML = brochures.map(b => `
         <div onclick="previewBrochure('${b.path}', '${b.title}')" class="brochure-thumb group bg-slate-950 p-3 rounded-2xl border border-slate-800 hover:border-amber-400 transition-all flex flex-col justify-between space-y-2 cursor-pointer shadow-lg">
-          <div class="relative overflow-hidden rounded-xl aspect-[3/4] bg-slate-900">
+          <div class="relative overflow-hidden rounded-xl aspect-square bg-slate-900">
             <img src="${b.path}" alt="${b.title} Brochure" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
             <span class="absolute bottom-2 left-2 right-2 px-2 py-1 bg-amber-500/90 text-slate-950 font-extrabold text-[10px] rounded-lg text-center shadow">
