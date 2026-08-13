@@ -3,7 +3,20 @@
  * Includes Hyperlinked Social Media Logos (LinkedIn, YouTube, Instagram), Services Hover Dropdown, and Clean Footer
  */
 
+// Optional Navbar Toggle: Set to false to hide "Contact Sales" button, true to show
+const showContactUsButton = true;
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Global FOUC Protection: Prevent large unstyled logo on initial loading
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    img[src*="logo"], img[alt*="Logo"], img[alt*="logo"] {
+      max-height: 80px !important;
+      width: auto !important;
+    }
+  `;
+  document.head.appendChild(styleEl);
+
   const headerContainer = document.getElementById('global-header');
   const footerContainer = document.getElementById('global-footer');
 
@@ -28,14 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render Global Header
   if (headerContainer) {
+    headerContainer.className = "sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-amber-100/50 shadow-sm transition-all duration-300";
     headerContainer.innerHTML = `
-      <header class="site-header sticky top-0 z-50 transition-all duration-300">
+      <header class="site-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-20">
             
             <!-- Logo -->
             <a href="index.html" class="flex items-center gap-3 group">
-              <img src="assets/logo.png" alt="EarEase-Tech Logo" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+              <img src="assets/logo.png" alt="EarEase-Tech Logo" style="height: 40px; width: auto;" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
               <div class="flex flex-col">
                 <span class="font-bold text-lg leading-none tracking-tight text-slate-900">EarEase-Tech</span>
                 <span class="text-[11px] text-[#D89B1F] font-medium tracking-wide lowercase italic">we ease your stress</span>
@@ -152,9 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <a href="nexus.html" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105 flex items-center gap-1.5">
                 <span>EarEase Nexus 🚀</span>
               </a>
+              ${showContactUsButton ? `
               <a href="contact-us.html" class="px-5 py-2.5 bg-[#D4A017] hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all hover:scale-105">
                 Contact Sales &rarr;
               </a>
+              ` : ''}
             </div>
 
             <!-- Mobile Hamburger Toggle -->
@@ -192,9 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="nexus.html" class="block text-center w-full py-3 bg-slate-800 text-amber-400 font-extrabold text-xs rounded-xl border border-slate-700 shadow-md">
               EarEase Nexus 🚀
             </a>
+            ${showContactUsButton ? `
             <a href="contact-us.html" class="block text-center w-full py-3 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md">
               Contact Sales &rarr;
             </a>
+            ` : ''}
           </div>
         </div>
       </header>
@@ -219,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Col 1: Brand Info & Social Media Hyperlinks with Logos -->
             <div class="lg:col-span-2 space-y-4">
               <div class="flex items-center gap-3">
-                <img src="assets/logo.png" alt="EarEase-Tech Logo" class="h-8 w-auto object-contain" />
+                <img src="assets/logo.png" alt="EarEase-Tech Logo" style="height: 32px; width: auto;" class="h-8 w-auto object-contain" />
                 <span class="font-bold text-white text-lg">EarEase-Tech</span>
               </div>
               <p class="text-slate-400 text-xs leading-relaxed max-w-sm">

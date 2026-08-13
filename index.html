@@ -454,6 +454,11 @@
       object-fit: cover;
       border-radius: 999px;
     }
+    /* FOUC Protection: Prevent large unstyled logo on initial loading */
+    img[src*="logo"], img[alt*="Logo"], img[alt*="logo"] {
+      max-height: 80px !important;
+      width: auto !important;
+    }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
@@ -531,9 +536,9 @@
         <!-- Right Hero Visual Video Column -->
         <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col items-center lg:items-end justify-center gap-6">
           <div class="hero-visual shadow-2xl">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-full">
+            <video autoplay loop muted playsinline controlslist="nodownload" oncontextmenu="return false;" class="w-full h-full object-cover rounded-full">
               <source src="assets/Logo-v.mp4" type="video/mp4" />
-              <img src="assets/logo.png" alt="EarEase-Tech Logo" />
+              <img src="assets/logo.png" alt="EarEase-Tech Logo" style="height: 40px; width: auto;" />
             </video>
           </div>
 
