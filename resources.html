@@ -138,26 +138,55 @@
 
   <div id="global-footer"></div>
 
+  <script src="js/firebase-config.js"></script>
   <script src="js/navigation.js"></script>
 
   <script>
-
-    // Handle form submissions to mimic CRM/Lead capture
+    // Handle form submissions for CRM/Lead capture and email dispatch
     document.querySelectorAll('.download-form').forEach(form => {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const msg = form.querySelector('.form-message');
         const btn = form.querySelector('button');
+        const magnetName = form.getAttribute('data-magnet') || 'B2B Resource';
+        const nameInput = form.querySelector('input[name="name"]').value;
+        const emailInput = form.querySelector('input[name="email"]').value;
+
         btn.textContent = 'Sending...';
         btn.disabled = true;
         btn.classList.add('opacity-50', 'cursor-not-allowed');
-        
-        // Simulate network request
-        setTimeout(() => {
-          msg.classList.remove('hidden');
-          btn.textContent = 'Check Your Inbox';
-          form.reset();
-        }, 1500);
+
+        const payload = {
+          name: nameInput,
+          email: emailInput,
+          phone: 'N/A - Resource Download',
+          service: `Resource Download - ${magnetName}`,
+          estimateAmount: '₹0.00 (Free Resource)',
+          govtId: 'Aadhaar / Govt ID',
+          message: `[B2B Lead Magnet Request] Requested download link for resource: ${magnetName}`,
+          priority: 'Warm',
+          stage: 'New Lead',
+          source: 'EarEase Tech Resources (resources.html)'
+        };
+
+        try {
+          if (window.submitLeadToFirebase) {
+            await window.submitLeadToFirebase(payload);
+          } else {
+            const existing = JSON.parse(localStorage.getItem('eet_leads') || '[]');
+            payload.id = 'lead_' + Date.now();
+            payload.createdAt = new Date().toISOString();
+            existing.unshift(payload);
+            localStorage.setItem('eet_leads', JSON.stringify(existing));
+          }
+        } catch (err) {
+          console.warn("Resource lead submit error:", err);
+        }
+
+        // Show feedback to user
+        msg.classList.remove('hidden');
+        btn.textContent = 'Check Your Inbox';
+        form.reset();
       });
     });
   </script>

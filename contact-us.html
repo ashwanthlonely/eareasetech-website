@@ -246,6 +246,21 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/navigation.js"></script>
   <script>
+    // Pre-fill form details if coming from the Sourcing Calculator
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const est = params.get('est');
+      const currency = params.get('currency');
+      const options = params.get('options');
+
+      if (est && currency) {
+        const messageBox = document.getElementById('contact-message');
+        if (messageBox) {
+          messageBox.value = `Sourcing Cost Estimation details:\n- Selected Modules/Features: ${options || 'None'}\n- Calculated Estimate: ${est} ${currency}\n\nPlease contact me with a formal proposal.`;
+        }
+      }
+    });
+
     // Handle Contact Form Submission
     document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -253,11 +268,14 @@
       status.className = 'text-center p-3 rounded-xl text-xs font-semibold bg-amber-100 text-amber-900 block';
       status.innerText = 'Submitting your inquiry...';
 
+      const serviceEl = document.getElementById('contact-service');
+      const serviceText = serviceEl ? serviceEl.options[serviceEl.selectedIndex].text : 'General Inquiry';
+
       const payload = {
         name: document.getElementById('contact-name').value,
         email: document.getElementById('contact-email').value,
         phone: document.getElementById('contact-phone').value,
-        service: document.getElementById('contact-service').value,
+        service: serviceText,
         message: document.getElementById('contact-message').value,
         timestamp: new Date().toISOString()
       };

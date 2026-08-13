@@ -691,15 +691,9 @@ function executeCheckoutModal(studentDetails, paymentDetails, onPaymentSuccess) 
  */
 async function dispatchEmailAlert(payload) {
   try {
-    const isPaid = (payload.paymentStatus || '').toLowerCase().includes('paid');
-    const txId = payload.transactionId || 'Awaiting Payment';
+    const isNexus = (payload.source || '').includes('Nexus') || (payload.service || '').includes('Nexus') || (payload.govtId && payload.govtId !== 'B2B Corporate Client' && payload.govtId !== 'Aadhaar / Govt ID');
 
-    // Send FormSubmit payload to hr@eareasetech.com, and CC candidate email for direct delivery
     const formData = new FormData();
-    formData.append('_subject', isPaid 
-      ? `✓ CONFIRMED & PAID: Tax Invoice - EarEase Nexus (${payload.candidateId})` 
-      : `APPLICATION REGISTERED: EarEase Nexus (${payload.candidateId})`
-    );
     formData.append('_replyto', 'hr@eareasetech.com');
     if (payload.email) {
       formData.append('_cc', payload.email);
@@ -707,26 +701,73 @@ async function dispatchEmailAlert(payload) {
     formData.append('_template', 'table');
     formData.append('_captcha', 'false');
 
-    formData.append('COMPANY NAME', 'EarEase Tech Private Limited');
-    formData.append('COMPANY GSTIN', '29AAJCE2794F1ZA');
-    formData.append('ADDRESS', 'Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008');
-    formData.append('SUPPORT PHONE', '+91 78936 91717');
-    formData.append('SUPPORT EMAIL', 'hr@eareasetech.com');
-    formData.append('INVOICE NUMBER', `INV-${payload.candidateId || '001'}`);
-    formData.append('REGISTRATION ID', payload.candidateId || 'EET-NEXUS-REG');
-    formData.append('CANDIDATE NAME (AADHAAR)', payload.name || 'Candidate');
-    formData.append('CANDIDATE EMAIL', payload.email || 'N/A');
-    formData.append('PHONE / WHATSAPP', payload.phone || 'N/A');
-    formData.append('GOVT ID DETAILS', payload.govtId || 'N/A');
-    formData.append('CITY & STATE', `${payload.city || 'N/A'}, ${payload.state || 'N/A'}`);
-    formData.append('REFERRAL NAME', payload.referral || 'Direct Applicant');
-    formData.append('PROGRAM TRACK', payload.service || 'AI & Machine Learning Track');
-    formData.append('BATCH COHORT', payload.cohort || 'Active Cohort');
-    formData.append('TOTAL INVOICE AMOUNT', payload.estimateAmount || 'N/A');
-    formData.append('FEE BREAKUP', payload.feeBreakup || 'Includes 18% GST');
-    formData.append('PAYMENT STATUS', isPaid ? '✓ PAID via Razorpay' : 'Awaiting Payment');
-    formData.append('RAZORPAY TRANSACTION ID', txId);
-    formData.append('NEXT STEPS', 'The EarEase Team will call you within the next 24 hours or next working day to confirm your slot.');
+    if (isNexus) {
+      // -------------------------------------------------------------
+      // EAR EASE NEXUS STUDENT REGISTRATION RECEIPT & TAX INVOICE
+      // -------------------------------------------------------------
+      const isPaid = (payload.paymentStatus || '').toLowerCase().includes('paid');
+      const txId = payload.transactionId || 'Awaiting Payment';
+
+      formData.append('_subject', isPaid 
+        ? `✓ CONFIRMED & PAID: Tax Invoice - EarEase Nexus (${payload.candidateId})` 
+        : `APPLICATION REGISTERED: EarEase Nexus (${payload.candidateId})`
+      );
+
+      formData.append('COMPANY NAME', 'EarEase Tech Private Limited');
+      formData.append('COMPANY GSTIN', '29AAJCE2794F1ZA');
+      formData.append('ADDRESS', 'Unit 101, Oxford Towers, 139, HAL Old Airport Rd, Kodihalli, Bengaluru, Karnataka 560008');
+      formData.append('SUPPORT PHONE', '+91 78936 91717');
+      formData.append('SUPPORT EMAIL', 'hr@eareasetech.com');
+      formData.append('INVOICE NUMBER', `INV-${payload.candidateId || '001'}`);
+      formData.append('REGISTRATION ID', payload.candidateId || 'EET-NEXUS-REG');
+      formData.append('CANDIDATE NAME (AADHAAR)', payload.name || 'Candidate');
+      formData.append('CANDIDATE EMAIL', payload.email || 'N/A');
+      formData.append('PHONE / WHATSAPP', payload.phone || 'N/A');
+      formData.append('GOVT ID DETAILS', payload.govtId || 'N/A');
+      formData.append('CITY & STATE', `${payload.city || 'N/A'}, ${payload.state || 'N/A'}`);
+      formData.append('REFERRAL NAME', payload.referral || 'Direct Applicant');
+      formData.append('PROGRAM TRACK', payload.service || 'AI & Machine Learning Track');
+      formData.append('BATCH COHORT', payload.cohort || 'Active Cohort');
+      formData.append('TOTAL INVOICE AMOUNT', payload.estimateAmount || 'N/A');
+      formData.append('FEE BREAKUP', payload.feeBreakup || 'Includes 18% GST');
+      formData.append('PAYMENT STATUS', isPaid ? '✓ PAID via Razorpay' : 'Awaiting Payment');
+      formData.append('RAZORPAY TRANSACTION ID', txId);
+      formData.append('NEXT STEPS', 'The EarEase Team will call you within the next 24 hours or next working day to confirm your slot.');
+    } else {
+      // -------------------------------------------------------------
+      // EAR EASE TECH B2B / WEBSITE GENERAL INQUIRY EMAIL
+      // -------------------------------------------------------------
+      const isB2B = (payload.service || '').includes('B2B Solutions') || (payload.source || '').includes('solutions.html');
+      const isContact = (payload.source || '').includes('contact-us') || (payload.source || '').includes('Contact');
+      const isCalculator = (payload.source || '').includes('lead-calculator') || (payload.source || '').includes('Calculator');
+
+      let subjectPrefix = '[WEBSITE INQUIRY]';
+      let inquiryType = 'General Proposal Request';
+
+      if (isB2B) {
+        subjectPrefix = '[B2B SOLUTIONS INQUIRY]';
+        inquiryType = 'B2B Solutions Assessment Request';
+      } else if (isContact) {
+        subjectPrefix = '[CONTACT SALES INQUIRY]';
+        inquiryType = 'Contact Us Sales Inquiry';
+      } else if (isCalculator) {
+        subjectPrefix = '[ESTIMATE / QUOTE REQUEST]';
+        inquiryType = 'Sourcing Cost Estimate Request';
+      }
+
+      formData.append('_subject', `${subjectPrefix} ${payload.name || 'Client'} - ${payload.service || 'General'}`);
+
+      formData.append('INQUIRY TYPE', inquiryType);
+      formData.append('CONTACT NAME', payload.name || 'N/A');
+      formData.append('CONTACT EMAIL', payload.email || 'N/A');
+      formData.append('PHONE / WHATSAPP', payload.phone || 'N/A');
+      formData.append('SERVICE OF INTEREST', payload.service || 'N/A');
+      formData.append('MESSAGE / INQUIRY DETAILS', payload.message || 'No additional details provided.');
+      formData.append('ESTIMATE AMOUNT / BUDGET', payload.estimateAmount || 'N/A');
+      formData.append('INQUIRY SOURCE', payload.source || 'Website Form');
+      formData.append('SUBMISSION TIME', payload.createdAt || new Date().toISOString());
+      formData.append('NEXT STEPS', 'A sales executive from EarEase Tech will review the requirement details and contact the client via email/phone.');
+    }
 
     await fetch('https://formsubmit.co/ajax/hr@eareasetech.com', {
       method: 'POST',
@@ -735,7 +776,7 @@ async function dispatchEmailAlert(payload) {
     });
 
   } catch (err) {
-    console.warn("EarEase-Tech: Email dispatch notice", err);
+    console.warn("EarEase-Tech: Email dispatch notice error", err);
   }
 }
 
