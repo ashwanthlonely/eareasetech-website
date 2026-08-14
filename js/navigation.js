@@ -313,9 +313,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-500">
             <div>© 2026 EarEase-Tech Private Limited. All rights reserved.</div>
             <div class="flex gap-4">
-              <span>Privacy Policy</span>
-              <span>Terms of Service</span>
-              <span>Security Protocols</span>
+              <a href="privacy-policy.html" class="hover:text-amber-400 transition-colors">Privacy Policy</a>
+              <a href="terms-of-service.html" class="hover:text-amber-400 transition-colors">Terms of Service</a>
+              <span class="hover:text-amber-400 cursor-pointer">Security Protocols</span>
             </div>
           </div>
         </div>
