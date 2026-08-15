@@ -83,7 +83,8 @@ const defaultCoupons = [];
 const defaultCourses = [
   { id: 'course_ai_3m', title: 'AI & Machine Learning (3-Month Mentorship)', duration: '3-Month', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 45999, brochurePath: 'assets/Courses/p8.png', regDeadline: '2026-08-10', batchStart: '2026-08-15', description: 'Master Python, Math/Stats, Scikit-Learn, Supervised/Unsupervised ML, Deep Learning, and production model deployment.', docType: 'course' },
   { id: 'course_ai_30d', title: 'AI & Machine Learning (30-Day Express)', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: '30 Live daily intensive sessions covering ML fundamentals, OpenCV, hands-on projects, and Streamlit app building.', docType: 'course' },
-  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' }
+  { id: 'course_ai_tools', title: 'AI Tools for Working Professionals', duration: '30-Day', badge: '🟢 LIVE ADMISSIONS OPEN', isLive: true, baseFee: 13000, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: '2026-08-05', batchStart: '2026-08-07', description: 'ChatGPT 4o, Claude 3.5, Gemini, GitHub Copilot, Midjourney, n8n workflow automation, and 10x workplace efficiency.', docType: 'course' },
+  { id: 'course_ds_assessment', title: 'Data Science Career Assessment', duration: '1-Session', badge: '⚡ WEEKLY ASSESSMENT', isLive: true, baseFee: 83.90, brochurePath: 'assets/Courses/30 days ai ml.jpeg', regDeadline: 'Weekly Batches', batchStart: 'Weekly Saturdays', description: '1-on-1 career mapping, syllabus evaluation, resume audit, and customized technical learning roadmap with a senior solutions architect.', docType: 'course' }
 ];
 
 
@@ -181,6 +182,21 @@ async function syncFirestoreCoursesToLocal() {
             fsCourses.push({ ...data, id: doc.id });
           }
         });
+
+        // Self-healing: seed missing default courses to Firestore dynamically
+        let updated = false;
+        for (const defC of defaultCourses) {
+          if (!fsCourses.some(c => c.id === defC.id)) {
+            try {
+              await db.collection('courses').doc(defC.id).set(defC);
+              fsCourses.push(defC);
+              updated = true;
+            } catch (err) {
+              console.warn(`Failed to auto-seed course: ${defC.id}`, err);
+            }
+          }
+        }
+
         if (fsCourses.length > 0) {
           localStorage.setItem('eet_courses', JSON.stringify(fsCourses));
           return;
@@ -834,7 +850,9 @@ async function submitLeadToFirebase(leadData) {
     }
   }
 
-  const candidateId = leadData.candidateId || 'EET-NEX-' + Math.floor(100000 + Math.random() * 900000);
+  const isAssessment = (leadData.service || '').includes('Assessment') || (leadData.message || '').includes('Assessment');
+  const prefix = isAssessment ? 'EET-DSC-' : 'EET-NEX-';
+  const candidateId = leadData.candidateId || prefix + Math.floor(100000 + Math.random() * 900000);
 
   const payload = {
     docType: 'lead',

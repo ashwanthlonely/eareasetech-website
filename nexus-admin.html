@@ -1150,7 +1150,8 @@
         const txRef = document.getElementById('offline-tx-ref').value || `OFFLINE-${Date.now()}`;
         const notes = document.getElementById('offline-notes').value || 'Manual Offline Enrollment';
 
-        const candidateId = 'EET-OFFLINE-' + Math.floor(100000 + Math.random() * 900000);
+        const isAssessment = program.includes('Assessment');
+        const candidateId = (isAssessment ? 'EET-DSC-OFFLINE-' : 'EET-OFFLINE-') + Math.floor(100000 + Math.random() * 900000);
         const formattedAmount = rawAmount.startsWith('₹') ? rawAmount : `₹${parseFloat(rawAmount.replace(/[^0-9.]/g, '') || 0).toLocaleString('en-IN')}`;
 
         const payload = {
@@ -1241,6 +1242,7 @@
               <option value="AI & Machine Learning (3-Month Mentorship)">3-Month Mentorship (₹54,278.82)</option>
               <option value="AI & Machine Learning (30-Day Express)">30-Day Express Bootcamp (₹15,338.82)</option>
               <option value="AI Tools for Working Professionals">AI Tools Bootcamp (₹15,338.82)</option>
+              <option value="Data Science Career Assessment">Data Science Career Assessment (₹99.00)</option>
             </select>
           </div>
         </div>

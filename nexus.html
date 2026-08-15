@@ -955,6 +955,7 @@
             <select id="enroll-tier" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl outline-none focus:border-[#D89B1F]">
               <option value="30-Day Express Bootcamp (₹15,338.82)">⚡ 30-Day Express (₹15,338.82)</option>
               <option value="3-Month Mentorship (₹54,278.82)">🎓 3-Month Mentorship (₹54,278.82)</option>
+              <option value="1-Session Career Assessment (₹99.00)">⚡ 1-Session Career Assessment (₹99.00)</option>
             </select>
           </div>
         </div>
@@ -1169,19 +1170,25 @@
             ? 'card-nexus border-emerald-400 bg-emerald-50/30 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
             : (c.duration.includes('30-Day')
                 ? 'card-nexus border-amber-300 bg-amber-50/40 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
-                : 'card-nexus border-amber-400 bg-white relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all');
+                : (c.id === 'course_ds_assessment'
+                    ? 'card-nexus border-purple-400 bg-purple-50/20 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
+                    : 'card-nexus border-amber-400 bg-white relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'));
 
           const buttonClass = c.duration.includes('6-Month')
             ? 'px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-lg shadow'
-            : 'px-3 py-1.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow';
+            : (c.id === 'course_ds_assessment'
+                ? 'px-3 py-1.5 bg-purple-700 hover:bg-purple-600 text-white font-bold text-xs rounded-lg shadow'
+                : 'px-3 py-1.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow');
 
           const tags = c.title.includes('Tools') 
             ? ['Copilot', 'Claude', 'n8n']
-            : (c.title.includes('Data Science') 
-                ? ['SQL', 'Python', 'Guaranteed Internship'] 
-                : (c.duration.includes('30-Day') 
-                    ? ['30 Days', 'Scikit-Learn', 'Streamlit'] 
-                    : ['Python', 'Pandas', 'TensorFlow', 'FastAPI']));
+            : (c.id === 'course_ds_assessment'
+                ? ['1-on-1 Session', 'Resume Audit', 'Roadmap']
+                : (c.title.includes('Data Science') 
+                    ? ['SQL', 'Python', 'Guaranteed Internship'] 
+                    : (c.duration.includes('30-Day') 
+                        ? ['30 Days', 'Scikit-Learn', 'Streamlit'] 
+                        : ['Python', 'Pandas', 'TensorFlow', 'FastAPI'])));
 
           return `
             <div class="${cardClass}">
@@ -1294,7 +1301,12 @@
       const breakupEl = document.getElementById('modal-calc-breakup');
 
       if (courseEl) courseEl.innerText = courseSel;
-      if (badgeEl) badgeEl.innerText = tierSel.includes('3-Month') ? '3-Month Mentorship' : (tierSel.includes('6-Month') ? '6-Month Internship' : '30-Day Express');
+      if (badgeEl) {
+        if (tierSel.includes('3-Month')) badgeEl.innerText = '3-Month Mentorship';
+        else if (tierSel.includes('6-Month')) badgeEl.innerText = '6-Month Internship';
+        else if (tierSel.includes('1-Session')) badgeEl.innerText = '1-Session Assessment';
+        else badgeEl.innerText = '30-Day Express';
+      }
       if (totalEl) totalEl.innerText = paymentDetails.formattedTotal;
       if (breakupEl) breakupEl.innerText = paymentDetails.breakupText;
     }
@@ -1334,6 +1346,9 @@
             tierSel.value = opt.value;
             break;
           } else if ((lowerTier.includes('30-day') || lowerTier.includes('30d') || lowerTier.includes('bootcamp')) && lowerOpt.includes('30-day')) {
+            tierSel.value = opt.value;
+            break;
+          } else if ((lowerTier.includes('1-session') || lowerTier.includes('session') || lowerTier.includes('assessment')) && lowerOpt.includes('1-session')) {
             tierSel.value = opt.value;
             break;
           }
@@ -1933,7 +1948,9 @@
 
         updateHeroSeatTracker();
 
-        const candidateId = (res && res.payload) ? res.payload.candidateId : 'EET-NEX-' + Math.floor(100000 + Math.random() * 900000);
+        const isAssessmentCourse = course.includes('Assessment');
+        const candidateIdFallback = (isAssessmentCourse ? 'EET-DSC-' : 'EET-NEX-') + Math.floor(100000 + Math.random() * 900000);
+        const candidateId = (res && res.payload) ? res.payload.candidateId : candidateIdFallback;
         const assignedCohort = (res && res.payload) ? res.payload.cohort : 'Active Cohort';
         const leadRecordId = (res && res.id) ? res.id : null;
 
