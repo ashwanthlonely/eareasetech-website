@@ -294,11 +294,9 @@
         <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
           <a href="nexus.html" class="text-amber-400 font-bold">Home</a>
           <a href="#durations" class="hover:text-amber-400 transition-colors">Program Tiers</a>
-          <a href="#curriculum" class="hover:text-amber-400 transition-colors">Curriculum</a>
-          <a href="#courses" class="hover:text-amber-400 transition-colors">Tech Verticals</a>
-          <a href="#brochures" class="hover:text-amber-400 transition-colors">Brochures</a>
-          <a href="#reviews" class="hover:text-amber-400 transition-colors">1200+ Reviews & MNCs</a>
-          <a href="#labs" class="hover:text-amber-400 transition-colors">Research & Labs</a>
+          <a href="#curriculum" class="hover:text-amber-400 transition-colors">Syllabus</a>
+          <a href="#reviews" class="hover:text-amber-400 transition-colors">Student Reviews</a>
+          <a href="#labs" class="hover:text-amber-400 transition-colors">Research Labs</a>
         </nav>
         <!-- Header Action CTA -->
         <div class="hidden sm:flex items-center gap-3">
@@ -321,11 +319,9 @@
     <div id="nexus-mobile-drawer" class="hidden md:hidden bg-[#0F1E36] border-t border-amber-500/20 px-4 py-6 space-y-4 shadow-xl text-xs font-semibold text-slate-300">
       <a href="nexus.html" class="block py-2 border-b border-slate-800 text-amber-400 font-bold">Home</a>
       <a href="#durations" class="block py-2 border-b border-slate-800 hover:text-amber-400">Program Tiers</a>
-      <a href="#curriculum" class="block py-2 border-b border-slate-800 hover:text-amber-400">Curriculum</a>
-      <a href="#courses" class="block py-2 border-b border-slate-800 hover:text-amber-400">Tech Verticals</a>
-      <a href="#brochures" class="block py-2 border-b border-slate-800 hover:text-amber-400">Brochures</a>
-      <a href="#reviews" class="block py-2 border-b border-slate-800 hover:text-amber-400">1200+ Reviews & MNCs</a>
-      <a href="#labs" class="block py-2 border-b border-slate-800 hover:text-amber-400">Research & Labs</a>
+      <a href="#curriculum" class="block py-2 border-b border-slate-800 hover:text-amber-400">Syllabus</a>
+      <a href="#reviews" class="block py-2 border-b border-slate-800 hover:text-amber-400">Student Reviews</a>
+      <a href="#labs" class="block py-2 border-b border-slate-800 hover:text-amber-400">Research Labs</a>
       <div class="pt-2">
         <button onclick="openEnrollModal('Admissions Advisory', 'Immediate Callback')" class="w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-lg text-center">
           Contact Admissions &rarr;
@@ -373,13 +369,24 @@
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-4 pt-4">
-            <a href="#durations" class="px-8 py-4 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-2xl shadow-xl transition-all hover:scale-105">
-              Explore All Programs &rarr;
-            </a>
-            <button onclick="openEnrollModal('General Nexus Inquiry', 'All Tiers')" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-2xl border border-slate-700 transition-all shadow-md">
-              Book Free 1:1 Counseling
+          <!-- Featured Weekly Assessment Funnel Banner -->
+          <div class="p-4 bg-purple-950/40 border border-purple-500/20 rounded-2xl space-y-1.5 max-w-lg shadow-inner">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 bg-purple-500 text-white rounded text-[9px] font-extrabold uppercase tracking-wider">⚡ Weekly Intake</span>
+              <span class="text-xs font-semibold text-purple-300">Data Science Career Assessment</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Measure your skill gaps. Answers profile, coding, SQL, and math queries to get a customized roadmap and verified readiness score.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button onclick="openEnrollModal('Data Science Career Assessment', '1-Session')" class="px-8 py-4 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-2xl shadow-xl transition-all hover:scale-105 cursor-pointer">
+              Book Weekly Assessment (₹99) &rarr;
             </button>
+            <a href="#durations" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-2xl border border-slate-700 transition-all shadow-md flex items-center justify-center text-center">
+              Explore All Programs
+            </a>
           </div>
         </div>
 
