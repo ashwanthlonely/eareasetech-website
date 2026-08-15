@@ -1282,7 +1282,10 @@
 
     async function updateModalDynamicPrice(overrideCourseName, overrideTierName) {
       // Prefer override values passed directly (from card click) over DOM reads
-      const courseSel = overrideCourseName || document.getElementById('enroll-course-select')?.value || '';
+      // Only accept string overrides — reject event objects accidentally passed by DOM listeners
+      const courseSel = (typeof overrideCourseName === 'string' && overrideCourseName)
+        ? overrideCourseName
+        : (document.getElementById('enroll-course-select')?.value || '');
       const lowerCourse = courseSel.toLowerCase();
 
       const courses = window.getSavedCourses ? window.getSavedCourses() : [];
@@ -1855,7 +1858,7 @@
         }).join('');
       }
 
-      courseSelect?.addEventListener('change', updateModalDynamicPrice);
+      courseSelect?.addEventListener('change', () => updateModalDynamicPrice());
       // tierSelect is now a hidden input — no change event needed
 
       const enrollModal = document.getElementById('modal-nexus-enroll');
