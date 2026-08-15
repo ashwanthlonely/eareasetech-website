@@ -651,6 +651,14 @@
             <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
             AI Tools for Professionals
           </button>
+          <button onclick="switchCurriculumTab('DS-ASSESSMENT')" id="curriculum-tab-ASSESSMENT" class="curriculum-tab-btn px-5 py-3 bg-slate-800 text-slate-300 hover:text-white font-bold rounded-2xl text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.03 0 1.9.693 2.166 1.638m-7.377 0A48.536 48.536 0 0112 3.75c-1.13-.093-1.976-1.057-1.976-2.192V16.5A2.25 2.25 0 0012.27 18.75h.897m-1.62-10.5a2.25 2.25 0 00-2.247 2.118L8.622 16.5a2.25 2.25 0 01-2.247 2.118L5.75 18.75m1.37-13.5a2.25 2.25 0 012.247-2.118L10.378 3.75M3.75 6.108c0-1.135.845-2.098 1.976-2.192a48.424 48.424 0 011.123-.08M3.75 6.108h.008v10.392h-.008z"/></svg>
+            Data Science Career Assessment
+          </button>
+          <button onclick="switchCurriculumTab('AI-WORKSHOP')" id="curriculum-tab-WORKSHOP" class="curriculum-tab-btn px-5 py-3 bg-slate-800 text-slate-300 hover:text-white font-bold rounded-2xl text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925-3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 002.25 12a3.75 3.75 0 003.75 3.75h6z"/></svg>
+            3-Hour AI Tools Workshop
+          </button>
         </div>
 
         <!-- Curriculum Content Cards Container -->
@@ -1162,6 +1170,9 @@
           if (c.title.includes('Tools')) {
             svgIcon = `<svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 01-3.602 0l-.066-.066a2.548 2.548 0 010-3.602l5.653-4.655m3.117-2.332L8.25 4.5A3.75 3.75 0 0113.5 3.75l.375.375a3.75 3.75 0 01.75 5.25l-1.428 1.428z"/></svg>`;
           }
+          if (c.id === 'course_ai_workshop') {
+            svgIcon = `<svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>`;
+          }
           if (c.title.includes('Data Science') || c.title.includes('Analytics')) {
             svgIcon = `<svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>`;
           }
@@ -1172,23 +1183,29 @@
                 ? 'card-nexus border-amber-300 bg-amber-50/40 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
                 : (c.id === 'course_ds_assessment'
                     ? 'card-nexus border-purple-400 bg-purple-50/20 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
-                    : 'card-nexus border-amber-400 bg-white relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'));
+                    : (c.id === 'course_ai_workshop'
+                        ? 'card-nexus border-pink-400 bg-pink-50/20 relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all'
+                        : 'card-nexus border-amber-400 bg-white relative flex flex-col justify-between shadow-lg hover:shadow-xl transition-all')));
 
           const buttonClass = c.duration.includes('6-Month')
             ? 'px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-lg shadow'
             : (c.id === 'course_ds_assessment'
                 ? 'px-3 py-1.5 bg-purple-700 hover:bg-purple-600 text-white font-bold text-xs rounded-lg shadow'
-                : 'px-3 py-1.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow');
+                : (c.id === 'course_ai_workshop'
+                    ? 'px-3 py-1.5 bg-pink-700 hover:bg-pink-600 text-white font-bold text-xs rounded-lg shadow'
+                    : 'px-3 py-1.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg shadow'));
 
-          const tags = c.title.includes('Tools') 
+          const tags = c.title.includes('Tools') && !c.title.includes('Workshop')
             ? ['Copilot', 'Claude', 'n8n']
             : (c.id === 'course_ds_assessment'
                 ? ['1-on-1 Session', 'Resume Audit', 'Roadmap']
-                : (c.title.includes('Data Science') 
-                    ? ['SQL', 'Python', 'Guaranteed Internship'] 
-                    : (c.duration.includes('30-Day') 
-                        ? ['30 Days', 'Scikit-Learn', 'Streamlit'] 
-                        : ['Python', 'Pandas', 'TensorFlow', 'FastAPI'])));
+                : (c.id === 'course_ai_workshop'
+                    ? ['n8n automation', 'Prompt Secrets', 'Cursor AI']
+                    : (c.title.includes('Data Science') 
+                        ? ['SQL', 'Python', 'Guaranteed Internship'] 
+                        : (c.duration.includes('30-Day') 
+                            ? ['30 Days', 'Scikit-Learn', 'Streamlit'] 
+                            : ['Python', 'Pandas', 'TensorFlow', 'FastAPI']))));
 
           return `
             <div class="${cardClass}">
@@ -1587,6 +1604,80 @@
         ],
         projects: ['10x Automated Sales Lead Qualification & Response System (n8n + OpenAI)', 'Executive AI Business Intelligence & Market Research Assistant (Claude + Perplexity)', 'Custom Branded Visual & Slide Deck Generator (Midjourney + Gamma)'],
         tools: ['ChatGPT 4o', 'Claude 3.5', 'Gemini 1.5', 'n8n', 'GitHub Copilot', 'Midjourney v6', 'Perplexity', 'Gamma']
+      },
+      'DS-ASSESSMENT': {
+        title: 'Data Science Career Assessment Framework',
+        duration: '1-Session (1-on-1 Consultation)',
+        targetAudience: 'Aspiring Data Scientists, graduates & career switchers wanting a verified roadmap',
+        brochurePath: 'assets/Courses/30 days ai ml.jpeg',
+        modules: [
+          {
+            num: '01',
+            title: 'Candidate Profile & Aspiration Mapping',
+            details: [
+              'Evaluation of educational background and current academic/industry standing',
+              'Analysis of career goals, desired job roles, and specific industry directions',
+              'Determination of available learning time, commitment bandwidth & budget range constraints'
+            ]
+          },
+          {
+            num: '02',
+            title: 'Technical Skill Level Diagnostic',
+            details: [
+              'Python coding knowledge check: data structures, loops, and custom libraries',
+              'SQL & database query basics assessment: joins, aggregation, and query performance',
+              'Machine Learning conceptual baseline: supervised vs unsupervised models, training split'
+            ]
+          },
+          {
+            num: '03',
+            title: 'Readiness Scoring & Pathway Architecting',
+            details: [
+              'Generation of a comprehensive Data Science Readiness Score (e.g. 42/100 scale)',
+              'Actionable feedback on core conceptual gaps, coding weaknesses, and project needs',
+              'Formulation of a customized academic pathway matching EarEase Nexus training modules'
+            ]
+          }
+        ],
+        projects: ['1-on-1 Personalized Data Science Learning Roadmap', 'Custom Technical Gap Analysis Report', 'Resume Feedback & Portfolio Enhancement Guide'],
+        tools: ['Python diagnostic', 'SQL diagnostic', 'Readiness Score Engine']
+      },
+      'AI-WORKSHOP': {
+        title: '3-Hour AI Tools & Automation Workshop',
+        duration: '3-Hour Intensive Live Session (Saturdays/Sundays)',
+        targetAudience: 'Working professionals, students, and founders looking to master generative AI tools in one afternoon',
+        brochurePath: 'assets/Courses/p2.png',
+        modules: [
+          {
+            num: '01',
+            title: 'Advanced Prompting & Personal Chatbot Setup (1 Hour)',
+            details: [
+              'Zero-shot, few-shot, and chain-of-thought prompt templates for ChatGPT-4o & Claude 3.5',
+              'Configuring custom GPTs, system instructions, and setting up Claude Projects with local knowledge bases',
+              'Automating research synthesis, document drafting, and data extraction using AI assistants'
+            ]
+          },
+          {
+            num: '02',
+            title: 'No-Code Workflow Automation with n8n (1 Hour)',
+            details: [
+              'n8n dashboard layout, node architecture, webhook triggers, and HTTP integrations',
+              'Connecting LLM reasoning nodes with external databases, sheets, and WhatsApp APIs',
+              'Building a live human-in-the-loop content generation or lead scoring automation workflow'
+            ]
+          },
+          {
+            num: '03',
+            title: 'AI-Assisted Coding & Productivity Stack (1 Hour)',
+            details: [
+              'Using GitHub Copilot and Cursor AI to generate clean code and prototypes 5x faster',
+              'Debugging, unit test generation, and automated documentation workflows',
+              'Integrating Midjourney, Runway, and Gamma AI into your daily presentation and asset creation pipeline'
+            ]
+          }
+        ],
+        projects: ['Personalized n8n Automation Workflow', 'Custom GPT/Claude Workspace Assistant', 'Cursor AI Coding Demo Web App'],
+        tools: ['ChatGPT 4o', 'Claude 3.5', 'n8n', 'Cursor AI', 'GitHub Copilot', 'Midjourney v6']
       }
     };
 
@@ -1598,7 +1689,15 @@
         btn.classList.add('bg-slate-800', 'text-slate-300', 'border', 'border-slate-700');
       });
 
-      const activeBtn = document.getElementById(key === '30D-AIML' ? 'curriculum-tab-30D' : (key === '3M-AIML' ? 'curriculum-tab-3M' : 'curriculum-tab-TOOLS'));
+      const tabIds = {
+        '30D-AIML': 'curriculum-tab-30D',
+        '3M-AIML': 'curriculum-tab-3M',
+        'AI-TOOLS': 'curriculum-tab-TOOLS',
+        'DS-ASSESSMENT': 'curriculum-tab-ASSESSMENT',
+        'AI-WORKSHOP': 'curriculum-tab-WORKSHOP'
+      };
+
+      const activeBtn = document.getElementById(tabIds[key] || 'curriculum-tab-30D');
       if (activeBtn) {
         activeBtn.classList.remove('bg-slate-800', 'text-slate-300', 'border', 'border-slate-700');
         activeBtn.classList.add('bg-amber-500', 'text-slate-950', 'active', 'shadow-lg');
@@ -1948,7 +2047,7 @@
 
         updateHeroSeatTracker();
 
-        const isAssessmentCourse = course.includes('Assessment');
+        const isAssessmentCourse = course.includes('Assessment') || course.includes('Workshop');
         const candidateIdFallback = (isAssessmentCourse ? 'EET-DSC-' : 'EET-NEX-') + Math.floor(100000 + Math.random() * 900000);
         const candidateId = (res && res.payload) ? res.payload.candidateId : candidateIdFallback;
         const assignedCohort = (res && res.payload) ? res.payload.cohort : 'Active Cohort';
