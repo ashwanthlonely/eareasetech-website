@@ -1290,34 +1290,51 @@
 
     async function updateModalDynamicPrice(overrideCourseName, overrideTierName) {
       // Prefer override values passed directly (from card click) over DOM reads
-      const courseSel = overrideCourseName || document.getElementById('enroll-course-select')?.value || 'AI & Machine Learning';
-      const tierSel = overrideTierName || document.getElementById('enroll-tier')?.value || '30-Day Express';
-      
-      const courses = window.getSavedCourses ? window.getSavedCourses() : [];
-      // Try exact title match first, then partial match, then keyword fallback
-      const matched = courses.find(c => 
-        c.title === courseSel ||
-        courseSel.toLowerCase().includes(c.title.toLowerCase()) ||
-        c.title.toLowerCase().includes(courseSel.toLowerCase())
-      );
-      
-      let base = 13000;
-      // Special case: Assessment / Workshop combo is always ₹83.90 base (₹99 total with GST)
-      const isAssessmentWorkshop = courseSel.toLowerCase().includes('assessment') || 
-                                   courseSel.toLowerCase().includes('workshop') ||
-                                   tierSel.toLowerCase().includes('3-hour');
-      
-      if (isAssessmentWorkshop) {
-        base = 83.90;
-      } else if (matched && matched.baseFee) {
-        base = parseFloat(matched.baseFee);
-      } else {
-        const fees = window.getSavedProgramFees ? window.getSavedProgramFees() : {};
-        const key = tierSel.includes('3-Month') ? '3-Month' : (tierSel.includes('6-Month') ? '6-Month' : '30-Day');
-        if (fees[key]) base = parseFloat(fees[key].baseFee);
-      }
+      const courseSel = overrideCourseName || document.getElementById('enroll-course-select')?.value || '';
+      const tierSel   = overrideTierName   || document.getElementById('enroll-tier')?.value || '';
 
-      const gst = Math.round(((base * 18) / 100) * 100) / 100;
+      const lowerCourse = courseSel.toLowerCase();
+      const lowerTier   = tierSel.toLowerCase();
+
+      const courses = window.getSavedCourses ? window.getSavedCourses() : [];
+
+      // ── Fee Resolution (tier takes priority over course title) ──────────────
+      let base = 13000; // safe default
+
+      // 1. Assessment / Workshop is always ₹83.90 (₹99 incl. GST)
+      if (lowerCourse.includes('assessment') || lowerCourse.includes('workshop') || lowerTier.includes('3-hour')) {
+        base = 83.90;
+
+      // 2. 3-Month tier → find 3-Month course fee
+      } else if (lowerTier.includes('3-month')) {
+        const c = courses.find(c => c.duration && c.duration.includes('3-Month'));
+        base = c && c.baseFee ? parseFloat(c.baseFee) : 45999;
+
+      // 3. 6-Month tier → find 6-Month course fee
+      } else if (lowerTier.includes('6-month')) {
+        const c = courses.find(c => c.duration && c.duration.includes('6-Month'));
+        base = c && c.baseFee ? parseFloat(c.baseFee) : 45999;
+
+      // 4. 30-Day tier → find matching 30-Day course fee
+      } else if (lowerTier.includes('30-day') || lowerCourse.includes('30-day') || lowerCourse.includes('30 day')) {
+        const c = courses.find(c => 
+          (c.duration && c.duration.includes('30-Day')) &&
+          (lowerCourse.includes('tools') ? c.title.toLowerCase().includes('tools') : !c.title.toLowerCase().includes('tools'))
+        ) || courses.find(c => c.duration && c.duration.includes('30-Day'));
+        base = c && c.baseFee ? parseFloat(c.baseFee) : 13000;
+
+      // 5. Fall back to exact course title match
+      } else {
+        const matched = courses.find(c =>
+          c.title === courseSel ||
+          lowerCourse.includes(c.title.toLowerCase()) ||
+          c.title.toLowerCase().includes(lowerCourse)
+        );
+        if (matched && matched.baseFee) base = parseFloat(matched.baseFee);
+      }
+      // ────────────────────────────────────────────────────────────────────────
+
+      const gst   = Math.round(((base * 18) / 100) * 100) / 100;
       const total = Math.round((base + gst) * 100) / 100;
 
       let paymentDetails = {
@@ -1325,34 +1342,33 @@
         breakupText: `₹${base.toLocaleString('en-IN')} Base + ₹${gst.toLocaleString('en-IN')} GST (18%)`
       };
 
-      // Only apply coupon if one was explicitly entered — don't carry over from previous modal open
+      // Only apply coupon if explicitly typed — never carry over from a previous card
       const couponInputVal = document.getElementById('enroll-coupon-code')?.value.trim();
       if (couponInputVal && window.applyCouponCode) {
         const couponRes = await window.applyCouponCode(couponInputVal, tierSel, total);
         if (couponRes.success) {
           currentAppliedCoupon = couponRes;
-          paymentDetails = {
-            formattedTotal: couponRes.formattedFinalTotal,
-            breakupText: couponRes.breakupText
-          };
+          paymentDetails = { formattedTotal: couponRes.formattedFinalTotal, breakupText: couponRes.breakupText };
         }
       }
-      // Note: we intentionally skip re-applying currentAppliedCoupon here on modal re-open
-      // because openEnrollModal resets it to null every time
 
-      const courseEl = document.getElementById('modal-calc-course-name');
-      const badgeEl = document.getElementById('modal-calc-tier-badge');
-      const totalEl = document.getElementById('modal-calc-total');
+      // ── Update UI ────────────────────────────────────────────────────────────
+      // Display a clean course label (strip long parenthetical suffixes for readability)
+      const displayName = courseSel.replace(/\s*\(\d+-(?:Day|Month)[^)]*\)/i, '').trim() || courseSel;
+
+      const courseEl  = document.getElementById('modal-calc-course-name');
+      const badgeEl   = document.getElementById('modal-calc-tier-badge');
+      const totalEl   = document.getElementById('modal-calc-total');
       const breakupEl = document.getElementById('modal-calc-breakup');
 
-      if (courseEl) courseEl.innerText = courseSel;
+      if (courseEl) courseEl.innerText = displayName;
       if (badgeEl) {
-        if (tierSel.includes('3-Month')) badgeEl.innerText = '3-Month Mentorship';
-        else if (tierSel.includes('6-Month')) badgeEl.innerText = '6-Month Internship';
-        else if (tierSel.toLowerCase().includes('3-hour')) badgeEl.innerText = '3-Hour Live Workshop';
-        else badgeEl.innerText = '30-Day Express';
+        if (lowerTier.includes('3-month'))      badgeEl.innerText = '3-Month Mentorship';
+        else if (lowerTier.includes('6-month')) badgeEl.innerText = '6-Month Internship';
+        else if (lowerTier.includes('3-hour'))  badgeEl.innerText = '3-Hour Live Workshop';
+        else                                    badgeEl.innerText = '30-Day Express';
       }
-      if (totalEl) totalEl.innerText = paymentDetails.formattedTotal;
+      if (totalEl)   totalEl.innerText   = paymentDetails.formattedTotal;
       if (breakupEl) breakupEl.innerText = paymentDetails.breakupText;
     }
 
