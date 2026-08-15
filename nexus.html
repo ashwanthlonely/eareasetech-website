@@ -1288,9 +1288,10 @@
 
     let currentAppliedCoupon = null;
 
-    async function updateModalDynamicPrice() {
-      const courseSel = document.getElementById('enroll-course-select')?.value || 'AI & Machine Learning';
-      const tierSel = document.getElementById('enroll-tier')?.value || '30-Day Express';
+    async function updateModalDynamicPrice(overrideCourseName, overrideTierName) {
+      // Prefer override values passed directly (from card click) over DOM reads
+      const courseSel = overrideCourseName || document.getElementById('enroll-course-select')?.value || 'AI & Machine Learning';
+      const tierSel = overrideTierName || document.getElementById('enroll-tier')?.value || '30-Day Express';
       
       const courses = window.getSavedCourses ? window.getSavedCourses() : [];
       // Try exact title match first, then partial match, then keyword fallback
@@ -1324,6 +1325,7 @@
         breakupText: `₹${base.toLocaleString('en-IN')} Base + ₹${gst.toLocaleString('en-IN')} GST (18%)`
       };
 
+      // Only apply coupon if one was explicitly entered — don't carry over from previous modal open
       const couponInputVal = document.getElementById('enroll-coupon-code')?.value.trim();
       if (couponInputVal && window.applyCouponCode) {
         const couponRes = await window.applyCouponCode(couponInputVal, tierSel, total);
@@ -1334,15 +1336,9 @@
             breakupText: couponRes.breakupText
           };
         }
-      } else if (currentAppliedCoupon && currentAppliedCoupon.code) {
-        const couponRes = await window.applyCouponCode(currentAppliedCoupon.code, tierSel, total);
-        if (couponRes.success) {
-          paymentDetails = {
-            formattedTotal: couponRes.formattedFinalTotal,
-            breakupText: couponRes.breakupText
-          };
-        }
       }
+      // Note: we intentionally skip re-applying currentAppliedCoupon here on modal re-open
+      // because openEnrollModal resets it to null every time
 
       const courseEl = document.getElementById('modal-calc-course-name');
       const badgeEl = document.getElementById('modal-calc-tier-badge');
@@ -1353,14 +1349,15 @@
       if (badgeEl) {
         if (tierSel.includes('3-Month')) badgeEl.innerText = '3-Month Mentorship';
         else if (tierSel.includes('6-Month')) badgeEl.innerText = '6-Month Internship';
-        else if (tierSel.includes('3-Hour')) badgeEl.innerText = '3-Hour Live Workshop';
+        else if (tierSel.toLowerCase().includes('3-hour')) badgeEl.innerText = '3-Hour Live Workshop';
         else badgeEl.innerText = '30-Day Express';
       }
       if (totalEl) totalEl.innerText = paymentDetails.formattedTotal;
       if (breakupEl) breakupEl.innerText = paymentDetails.breakupText;
     }
 
-    function openEnrollModal(courseName, tier) {
+    async function openEnrollModal(courseName, tier) {
+      // Reset coupon state so previous card's coupon never bleeds into new modal
       currentAppliedCoupon = null;
       const couponInput = document.getElementById('enroll-coupon-code');
       const couponFeedback = document.getElementById('coupon-feedback');
@@ -1405,7 +1402,8 @@
         }
       }
 
-      updateModalDynamicPrice();
+      // Pass course name and tier DIRECTLY to price calculator — don't rely on DOM re-read
+      await updateModalDynamicPrice(courseName, tier);
       document.getElementById('modal-nexus-enroll').classList.remove('hidden');
     }
 
