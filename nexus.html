@@ -963,6 +963,8 @@
               <option value="AI & Machine Learning (3-Month Mentorship)">🧠 AI & ML (3-Month Mentorship)</option>
               <option value="AI & Machine Learning (30-Day Express)">⚡ AI & ML (30-Day Express Bootcamp)</option>
               <option value="AI Tools for Working Professionals">🛠️ AI Tools for Professionals (30-Day)</option>
+              <option value="Data Science Career Assessment">📊 Data Science Career Assessment</option>
+              <option value="3-Hour AI Tools Workshop">⏰ 3-Hour AI Tools Workshop</option>
             </select>
           </div>
           <div>
@@ -971,6 +973,7 @@
               <option value="30-Day Express Bootcamp (₹15,338.82)">⚡ 30-Day Express (₹15,338.82)</option>
               <option value="3-Month Mentorship (₹54,278.82)">🎓 3-Month Mentorship (₹54,278.82)</option>
               <option value="1-Session Career Assessment (₹99.00)">⚡ 1-Session Career Assessment (₹99.00)</option>
+              <option value="3-Hour Live Workshop (₹99.00)">⏰ 3-Hour Live Workshop (₹99.00)</option>
             </select>
           </div>
         </div>
@@ -1329,6 +1332,7 @@
         if (tierSel.includes('3-Month')) badgeEl.innerText = '3-Month Mentorship';
         else if (tierSel.includes('6-Month')) badgeEl.innerText = '6-Month Internship';
         else if (tierSel.includes('1-Session')) badgeEl.innerText = '1-Session Assessment';
+        else if (tierSel.includes('3-Hour')) badgeEl.innerText = '3-Hour Live Workshop';
         else badgeEl.innerText = '30-Day Express';
       }
       if (totalEl) totalEl.innerText = paymentDetails.formattedTotal;
@@ -1359,20 +1363,24 @@
       }
 
       const tierSel = document.getElementById('enroll-tier');
-      if (tierSel && tier) {
-        const lowerTier = tier.toLowerCase();
+      if (tierSel && (tier || courseName)) {
+        const lowerTier = (tier || '').toLowerCase();
+        const lowerCourse = (courseName || '').toLowerCase();
         for (let opt of tierSel.options) {
           const lowerOpt = opt.value.toLowerCase();
-          if ((lowerTier.includes('3-month') || lowerTier.includes('3m')) && lowerOpt.includes('3-month')) {
+          if ((lowerTier.includes('3-month') || lowerCourse.includes('3-month')) && lowerOpt.includes('3-month')) {
             tierSel.value = opt.value;
             break;
-          } else if ((lowerTier.includes('6-month') || lowerTier.includes('6m') || lowerTier.includes('internship')) && lowerOpt.includes('6-month')) {
+          } else if ((lowerTier.includes('6-month') || lowerCourse.includes('6-month')) && lowerOpt.includes('6-month')) {
             tierSel.value = opt.value;
             break;
-          } else if ((lowerTier.includes('30-day') || lowerTier.includes('30d') || lowerTier.includes('bootcamp')) && lowerOpt.includes('30-day')) {
+          } else if ((lowerTier.includes('30-day') || lowerCourse.includes('30-day')) && lowerOpt.includes('30-day')) {
             tierSel.value = opt.value;
             break;
-          } else if ((lowerTier.includes('1-session') || lowerTier.includes('session') || lowerTier.includes('assessment')) && lowerOpt.includes('1-session')) {
+          } else if ((lowerTier.includes('1-session') || lowerTier.includes('assessment') || lowerCourse.includes('assessment')) && lowerOpt.includes('1-session')) {
+            tierSel.value = opt.value;
+            break;
+          } else if ((lowerTier.includes('3-hour') || lowerTier.includes('workshop') || lowerCourse.includes('workshop') || lowerCourse.includes('3-hour')) && lowerOpt.includes('3-hour')) {
             tierSel.value = opt.value;
             break;
           }
