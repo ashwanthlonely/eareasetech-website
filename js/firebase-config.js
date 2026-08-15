@@ -197,8 +197,25 @@ async function syncFirestoreCoursesToLocal() {
           }
         }
 
-        if (fsCourses.length > 0) {
-          localStorage.setItem('eet_courses', JSON.stringify(fsCourses));
+        // Cleanup: delete retired individual Assessment/Workshop courses permanently from Firestore
+        const RETIRED_COURSE_IDS = ['course_ds_assessment', 'course_ai_workshop'];
+        for (const retiredId of RETIRED_COURSE_IDS) {
+          if (fsCourses.some(c => c.id === retiredId)) {
+            try {
+              await db.collection('courses').doc(retiredId).delete();
+              console.log(`Cleaned up retired course: ${retiredId}`);
+              updated = true;
+            } catch (err) {
+              console.warn(`Could not delete retired course ${retiredId}:`, err);
+            }
+          }
+        }
+
+        // Filter retired courses out of the local list before caching
+        const cleanedCourses = fsCourses.filter(c => !RETIRED_COURSE_IDS.includes(c.id));
+
+        if (cleanedCourses.length > 0) {
+          localStorage.setItem('eet_courses', JSON.stringify(cleanedCourses));
           return;
         }
       } else {

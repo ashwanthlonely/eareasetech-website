@@ -1129,7 +1129,32 @@
     async function renderNexusCourses() {
       if (window.syncFirestoreCoursesToLocal) await window.syncFirestoreCoursesToLocal();
       if (window.syncAllCloudData) await window.syncAllCloudData();
-      const courses = window.getSavedCourses ? window.getSavedCourses() : [];
+      let courses = window.getSavedCourses ? window.getSavedCourses() : [];
+
+      // --- Normalize: remove old individual Assessment/Workshop cards & inject merged entry ---
+      const RETIRED_IDS = ['course_ds_assessment', 'course_ai_workshop'];
+      const RETIRED_TITLES = ['Data Science Career Assessment', '3-Hour AI Tools Workshop'];
+      const hasOldIndividual = courses.some(c => RETIRED_IDS.includes(c.id) || RETIRED_TITLES.includes(c.title));
+      const hasMergedAlready = courses.some(c => c.id === 'course_ds_assessment_workshop' || (c.title && c.title.includes('Assessment') && c.title.includes('Workshop')));
+      // Filter out the retired individual entries
+      courses = courses.filter(c => !RETIRED_IDS.includes(c.id) && !RETIRED_TITLES.includes(c.title));
+      // Inject the merged entry if it doesn't already exist
+      if (hasOldIndividual && !hasMergedAlready) {
+        courses.push({
+          id: 'course_ds_assessment_workshop',
+          title: 'Data Science Career Assessment & AI Tools Workshop',
+          duration: '3-Hour',
+          badge: '⚡ LIVE WORKSHOP',
+          isLive: true,
+          baseFee: 83.90,
+          brochurePath: 'assets/Courses/p2.png',
+          regDeadline: 'Weekly Batches',
+          batchStart: 'Weekly Saturdays',
+          description: 'Interactive 3-hour live workshop covering ChatGPT prompts, Claude projects, n8n automations, and Cursor coding. Includes a 1-on-1 career readiness score and learning roadmap.',
+          docType: 'course'
+        });
+      }
+      // --- End normalization ---
 
       function formatDisplayDate(dateStr) {
         if (!dateStr) return 'Immediate';
