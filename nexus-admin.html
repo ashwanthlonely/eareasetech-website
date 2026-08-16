@@ -696,6 +696,7 @@
                     <button onclick="event.stopPropagation(); declineAndRefundCandidate('${l.id}')" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] rounded transition-all shadow">✕ Decline</button>
                   </div>
                   <div class="flex items-center gap-1 pt-0.5">
+                    <button onclick="event.stopPropagation(); window.open('verify-certificate.html?id=' + encodeURIComponent('${l.candidateId || l.id}'), '_blank')" class="px-2 py-0.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-[9px] border border-amber-500/30 font-semibold" title="View / Issue Official Certificate">🎓 Certificate</button>
                     <button onclick="event.stopPropagation(); markPaymentPaid('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded text-[9px] border border-slate-700">Mark Paid</button>
                     <button onclick="event.stopPropagation(); confirmDeleteLead('${l.id}')" class="px-2 py-0.5 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded text-[9px] border border-slate-700">Delete</button>
                   </div>
@@ -856,6 +857,10 @@
         document.getElementById('btn-detail-mark-paid').onclick = async () => {
           await window.markPaymentPaid(lead.id);
           window.showCandidateDetails(lead.id);
+        };
+        document.getElementById('btn-detail-cert').onclick = () => {
+          const targetId = lead.candidateId || lead.id;
+          window.open(`verify-certificate.html?id=${encodeURIComponent(targetId)}`, '_blank');
         };
         document.getElementById('btn-detail-delete').onclick = async () => {
           await window.confirmDeleteLead(lead.id);
@@ -1379,6 +1384,7 @@
 
       <!-- Quick Actions inside details modal -->
       <div id="detail-actions" class="pt-3 flex flex-wrap gap-2 justify-end border-t border-slate-800">
+        <button id="btn-detail-cert" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl transition-all shadow flex items-center gap-1.5">🎓 View / Issue Certificate</button>
         <button id="btn-detail-accept" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl transition-all shadow">✓ Accept</button>
         <button id="btn-detail-decline" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition-all shadow">✕ Decline & Refund</button>
         <button id="btn-detail-mark-paid" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-xl text-xs border border-slate-700">Mark Paid</button>

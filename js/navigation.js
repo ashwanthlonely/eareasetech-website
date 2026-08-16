@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li><a href="about-us.html" class="hover:text-amber-400">About EarEase-Tech</a></li>
                 <li><a href="case-studies.html" class="hover:text-amber-400">Case Studies & Outcomes</a></li>
                 <li><a href="careers.html" class="hover:text-amber-400">Careers & Opportunities</a></li>
+                <li><a href="verify-certificate.html" class="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1">🎓 Verify Certificate</a></li>
                 <li><a href="contact-us.html" class="hover:text-amber-400">Contact & Proposal</a></li>
                 <li><a href="eet-admin.html" class="hover:text-amber-400">Admin Portal</a></li>
               </ul>
@@ -313,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-500">
             <div>© 2026 EarEase-Tech Private Limited. All rights reserved.</div>
             <div class="flex gap-4">
+              <a href="verify-certificate.html" class="text-amber-400 hover:underline">Verify Certificate</a>
               <a href="privacy-policy.html" class="hover:text-amber-400 transition-colors">Privacy Policy</a>
               <a href="terms-of-service.html" class="hover:text-amber-400 transition-colors">Terms of Service</a>
               <span class="hover:text-amber-400 cursor-pointer">Security Protocols</span>
