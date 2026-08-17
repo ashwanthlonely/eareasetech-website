@@ -78,19 +78,56 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Option Radio Card Selection */
-    .diagnostic-option {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Interactive Diagnostic Quiz App Shell */
+    .diagnostic-terminal {
+      background: linear-gradient(180deg, #07152B 0%, #050E1E 100%);
+      border: 2px solid rgba(216, 155, 31, 0.45);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(216, 155, 31, 0.18);
+      position: relative;
     }
-    .diagnostic-option:hover {
-      border-color: rgba(216, 155, 31, 0.7);
-      background-color: rgba(216, 155, 31, 0.08);
+
+    /* Tactile Interactive Option Cards */
+    .diagnostic-card {
+      background: linear-gradient(135deg, rgba(15, 30, 58, 0.8) 0%, rgba(9, 20, 39, 0.95) 100%);
+      border: 2px solid rgba(51, 65, 85, 0.6);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+    .diagnostic-card:hover {
+      border-color: rgba(216, 155, 31, 0.8);
+      background: linear-gradient(135deg, rgba(216, 155, 31, 0.12) 0%, rgba(15, 30, 58, 0.9) 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(216, 155, 31, 0.2);
+    }
+    .diagnostic-card:hover .key-badge {
+      background-color: #D89B1F;
+      color: #050B14;
+      border-color: #F6CD68;
+    }
+    .diagnostic-card:hover .radio-circle {
+      border-color: #D89B1F;
+    }
+    .diagnostic-card.selected {
+      border-color: #D89B1F !important;
+      background: linear-gradient(135deg, rgba(216, 155, 31, 0.25) 0%, rgba(11, 29, 53, 0.95) 100%) !important;
+      box-shadow: 0 0 25px rgba(216, 155, 31, 0.35), inset 0 0 15px rgba(216, 155, 31, 0.15) !important;
       transform: translateY(-2px);
     }
-    .diagnostic-option.selected {
-      border-color: #D89B1F;
-      background-color: rgba(216, 155, 31, 0.15);
-      box-shadow: 0 0 20px rgba(216, 155, 31, 0.25);
+    .diagnostic-card.selected .key-badge {
+      background: linear-gradient(135deg, #F6CD68 0%, #D89B1F 100%) !important;
+      color: #050B14 !important;
+      font-weight: 800 !important;
+      border-color: #FFF !important;
+    }
+    .diagnostic-card.selected .radio-circle {
+      border-color: #D89B1F !important;
+      background-color: #D89B1F !important;
+    }
+    .diagnostic-card.selected .radio-dot {
+      background-color: #050B14 !important;
+      transform: scale(1) !important;
     }
 
     /* Custom Infinite Marquee */
@@ -286,390 +323,736 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- 2. THE 10-POINT INTERACTIVE DIAGNOSTIC ASSESSMENT ENGINE -->
+    <!-- 2. THE 10-POINT INTERACTIVE DIAGNOSTIC ASSESSMENT TERMINAL APP -->
     <!-- ========================================================================= -->
     <section id="assessment-engine" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="glass-card-3d rounded-3xl p-6 sm:p-10 space-y-8 relative overflow-hidden">
+      <div class="diagnostic-terminal rounded-3xl p-6 sm:p-10 space-y-8 overflow-hidden">
         
-        <!-- Engine Header -->
-        <div class="text-center space-y-3">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-            <span>⚡</span> STEP-BY-STEP CAREER READINESS WIZARD
+        <!-- Terminal Header with System Dot Badges -->
+        <div class="border-b border-amber-500/30 pb-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500 shadow-sm"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></span>
+              <span class="ml-2 font-mono text-[11px] text-amber-300 font-bold uppercase tracking-wider bg-slate-900 px-3 py-1 rounded-full border border-amber-500/30">
+                ⚡ Interactive Career Diagnostic Terminal v2.6
+              </span>
+            </div>
+            <div class="text-xs text-slate-400 font-mono flex items-center gap-1">
+              <span>Status:</span>
+              <span class="text-emerald-400 font-bold">● Active Session</span>
+            </div>
           </div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Data Science & AI <span class="gold-gradient-text">Readiness Diagnostic</span>
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto">
-            Answer the 10 diagnostic questions below. Our algorithm calculates your score across Python, Data Modeling, PyTorch, and GenAI workflows.
-          </p>
 
-          <!-- Step Progress Indicator -->
-          <div class="space-y-2 pt-2 max-w-md mx-auto">
-            <div class="flex justify-between text-xs text-slate-400 font-semibold">
-              <span id="wizard-step-label">Question 1 of 10</span>
-              <span id="wizard-percent-label" class="text-amber-400 font-mono">10% Completed</span>
+          <div class="text-center space-y-2 pt-2">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Data Science & AI <span class="gold-gradient-text">Readiness Assessment</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto">
+              Select your responses below. Each question measures your market readiness across Python, SQL, Machine Learning, and GenAI workflows.
+            </p>
+          </div>
+
+          <!-- 10-Step Interactive Dots Breadcrumb Navigation -->
+          <div class="pt-2">
+            <div class="flex items-center justify-between gap-1 max-w-xl mx-auto overflow-x-auto pb-2 custom-scrollbar">
+              <div id="step-dot-1" class="step-dot active w-8 h-8 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center font-mono shadow-md cursor-pointer" onclick="jumpToStep(1)">1</div>
+              <div id="step-dot-2" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(2)">2</div>
+              <div id="step-dot-3" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(3)">3</div>
+              <div id="step-dot-4" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(4)">4</div>
+              <div id="step-dot-5" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(5)">5</div>
+              <div id="step-dot-6" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(6)">6</div>
+              <div id="step-dot-7" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(7)">7</div>
+              <div id="step-dot-8" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(8)">8</div>
+              <div id="step-dot-9" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(9)">9</div>
+              <div id="step-dot-10" class="step-dot w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 font-extrabold text-xs flex items-center justify-center font-mono shadow-sm cursor-pointer" onclick="jumpToStep(10)">10</div>
             </div>
-            <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
-              <div id="wizard-progress-bar" class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
+            
+            <div class="flex justify-between items-center text-xs text-slate-400 font-mono pt-2 max-w-xl mx-auto">
+              <span id="wizard-step-label" class="text-amber-300 font-bold">Step 1: Academic & Professional Status</span>
+              <span id="wizard-percent-label" class="text-emerald-400 font-bold">10% Completed</span>
             </div>
           </div>
+
         </div>
 
         <!-- ===================================================================== -->
         <!-- THE INTERACTIVE QUESTIONS FORM -->
         <!-- ===================================================================== -->
-        <form id="infinity-diagnostic-form" onsubmit="handleDiagnosticSubmit(event)">
+        <form id="infinity-diagnostic-form" onsubmit="handleDiagnosticSubmit(event)" class="space-y-6">
 
           <!-- Q1: Current Background -->
           <div id="step-q1" class="wizard-step space-y-4">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 1 • Profile Baseline</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">What best describes your current academic / career status?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 01 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">What best describes your current academic / career status?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q1_status" value="Final-year B.Tech / BCA / MCA Student" required class="hidden" onchange="selectOption(this, 1)" />
-                <div class="font-bold text-white text-sm">🎓 Final-Year Student</div>
-                <div class="text-slate-400 mt-1">Graduating soon in B.Tech, BCA, MCA, or Data Sciences</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 1, 'Final-year B.Tech / BCA / MCA Student')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🎓 Final-Year Student</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Graduating soon in B.Tech, BCA, MCA, or Data Sciences</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q1_status" value="Final-year B.Tech / BCA / MCA Student" required class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q1_status" value="Recent College Graduate / Job Seeker" class="hidden" onchange="selectOption(this, 1)" />
-                <div class="font-bold text-white text-sm">🚀 Recent Graduate / Fresher</div>
-                <div class="text-slate-400 mt-1">Seeking first high-paying technical job in Data & AI</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 1, 'Recent College Graduate / Job Seeker')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🚀 Recent Graduate / Fresher</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Seeking first high-paying technical job in Data & AI</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q1_status" value="Recent College Graduate / Job Seeker" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q1_status" value="Working Professional in IT / Tech" class="hidden" onchange="selectOption(this, 1)" />
-                <div class="font-bold text-white text-sm">💼 Working Professional (IT / Tech)</div>
-                <div class="text-slate-400 mt-1">Currently working in QA, Software, Support, or Analytics</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 1, 'Working Professional in IT / Tech')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">💼 Working Professional (IT/Tech)</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Currently working in QA, Software, Support, or Analytics</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q1_status" value="Working Professional in IT / Tech" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q1_status" value="Non-Tech Career Switcher" class="hidden" onchange="selectOption(this, 1)" />
-                <div class="font-bold text-white text-sm">🔄 Non-Tech Career Switcher</div>
-                <div class="text-slate-400 mt-1">Switching from Mechanical, Civil, Sales, Operations to AI</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 1, 'Non-Tech Career Switcher')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔄 Non-Tech Career Switcher</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Switching from Mechanical, Civil, Sales, Operations to AI</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q1_status" value="Non-Tech Career Switcher" class="hidden" />
+              </div>
             </div>
           </div>
 
           <!-- Q2: Primary Career Goal -->
           <div id="step-q2" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 2 • Career Objective</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">What is your primary career goal in the next 3 to 6 months?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 02 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">What is your primary career goal in the next 3 to 6 months?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q2_goal" value="Get First High-Paying Tech Job (₹6–18 LPA)" class="hidden" onchange="selectOption(this, 2)" />
-                <div class="font-bold text-white text-sm">🎯 Crack First AI/Data Science Job</div>
-                <div class="text-slate-400 mt-1">Land entry-level or junior role in top product/MNC tech firm</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 2, 'Get First High-Paying Tech Job (₹6–18 LPA)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🎯 Crack First AI / DS Job</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Land entry-level or junior role in top product/MNC tech firm</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q2_goal" value="Get First High-Paying Tech Job (₹6–18 LPA)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q2_goal" value="Career Switch with 100%+ Salary Hike" class="hidden" onchange="selectOption(this, 2)" />
-                <div class="font-bold text-white text-sm">📈 100%+ Salary Hike & Domain Transition</div>
-                <div class="text-slate-400 mt-1">Transition into specialized AI Engineering or Data Science</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 2, 'Career Switch with 100%+ Salary Hike')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">📈 100%+ Salary Hike & Switch</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Transition into specialized AI Engineering or Data Science</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q2_goal" value="Career Switch with 100%+ Salary Hike" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q2_goal" value="Build Real Enterprise AI Portfolio" class="hidden" onchange="selectOption(this, 2)" />
-                <div class="font-bold text-white text-sm">🛠️ Build Live Enterprise Portfolio</div>
-                <div class="text-slate-400 mt-1">Replace toy tutorials with real PyTorch & GenAI systems</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 2, 'Build Real Enterprise AI Portfolio')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🛠️ Build Live Enterprise Portfolio</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Replace toy tutorials with real PyTorch & GenAI systems</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q2_goal" value="Build Real Enterprise AI Portfolio" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q2_goal" value="Executive AI Tools & 5x Productivity" class="hidden" onchange="selectOption(this, 2)" />
-                <div class="font-bold text-white text-sm">⚡ 5x Productivity via AI Automation</div>
-                <div class="text-slate-400 mt-1">Master n8n, Claude, Cursor, and ChatGPT for business output</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 2, 'Executive AI Tools & 5x Productivity')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">⚡ 5x Productivity via AI Tools</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Master n8n, Claude, Cursor, and ChatGPT for business output</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q2_goal" value="Executive AI Tools & 5x Productivity" class="hidden" />
+              </div>
             </div>
           </div>
 
           <!-- Q3: Python Programming Skill -->
           <div id="step-q3" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 3 • Coding Baseline</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">How comfortable are you with Python programming?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 03 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">How comfortable are you with Python programming?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q3_python" value="Complete Beginner (0 Coding Background)" class="hidden" onchange="selectOption(this, 3)" />
-                <div class="font-bold text-white text-sm">🟢 Complete Beginner</div>
-                <div class="text-slate-400 mt-1">No prior coding experience; starting from ground zero</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 3, 'Complete Beginner (0 Coding Background)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟢 Complete Beginner</div>
+                    <div class="text-slate-400 text-xs mt-0.5">No prior coding experience; starting from ground zero</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q3_python" value="Complete Beginner (0 Coding Background)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q3_python" value="Basic Syntax (Variables, Loops, Functions)" class="hidden" onchange="selectOption(this, 3)" />
-                <div class="font-bold text-white text-sm">🟡 Basic Syntax & Logic</div>
-                <div class="text-slate-400 mt-1">Know variables, loops, lists, dicts, and simple functions</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 3, 'Basic Syntax (Variables, Loops, Functions)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟡 Basic Syntax & Logic</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Know variables, loops, lists, dicts, and simple functions</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q3_python" value="Basic Syntax (Variables, Loops, Functions)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q3_python" value="Intermediate (Pandas, NumPy, Matplotlib)" class="hidden" onchange="selectOption(this, 3)" />
-                <div class="font-bold text-white text-sm">🔵 Data Wrangling (Pandas & NumPy)</div>
-                <div class="text-slate-400 mt-1">Can clean CSVs, manipulate dataframes, and plot graphs</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 3, 'Intermediate (Pandas, NumPy, Matplotlib)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔵 Data Wrangling (Pandas/NumPy)</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Can clean CSVs, manipulate dataframes, and plot graphs</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q3_python" value="Intermediate (Pandas, NumPy, Matplotlib)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q3_python" value="Advanced (OOP, API Deployment, FastAPI)" class="hidden" onchange="selectOption(this, 3)" />
-                <div class="font-bold text-white text-sm">🟣 Production OOP & FastAPI</div>
-                <div class="text-slate-400 mt-1">Can write modular object-oriented code and build REST APIs</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 3, 'Advanced (OOP, API Deployment, FastAPI)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟣 Production OOP & FastAPI</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Can write modular object-oriented code and build REST APIs</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q3_python" value="Advanced (OOP, API Deployment, FastAPI)" class="hidden" />
+              </div>
             </div>
           </div>
 
-          <!-- Q4: SQL & Data Engineering Level -->
+          <!-- Q4: SQL & Database Level -->
           <div id="step-q4" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 4 • Database & SQL</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">What is your current proficiency in SQL & relational databases?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 04 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">What is your current proficiency in SQL & relational databases?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q4_sql" value="No SQL Knowledge" class="hidden" onchange="selectOption(this, 4)" />
-                <div class="font-bold text-white text-sm">🟢 No Prior SQL Experience</div>
-                <div class="text-slate-400 mt-1">Have never written queries or created database schemas</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 4, 'No SQL Knowledge')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟢 No Prior SQL Experience</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Have never written queries or created database schemas</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q4_sql" value="No SQL Knowledge" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q4_sql" value="Basic SELECT, WHERE, and INSERT" class="hidden" onchange="selectOption(this, 4)" />
-                <div class="font-bold text-white text-sm">🟡 Basic Filtering (SELECT / WHERE)</div>
-                <div class="text-slate-400 mt-1">Comfortable pulling rows and simple column filters</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 4, 'Basic SELECT, WHERE, and INSERT')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟡 Basic Filtering (SELECT / WHERE)</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Comfortable pulling rows and simple column filters</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q4_sql" value="Basic SELECT, WHERE, and INSERT" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q4_sql" value="Intermediate JOINs, GROUP BY, and Aggregations" class="hidden" onchange="selectOption(this, 4)" />
-                <div class="font-bold text-white text-sm">🔵 Multi-Table JOINs & GROUP BY</div>
-                <div class="text-slate-400 mt-1">Can join tables, perform aggregations, and write subqueries</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 4, 'Intermediate JOINs, GROUP BY, and Aggregations')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔵 JOINs & Aggregations (GROUP BY)</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Can join tables, perform aggregations, and write subqueries</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q4_sql" value="Intermediate JOINs, GROUP BY, and Aggregations" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q4_sql" value="Advanced Window Functions, CTEs, and ETL" class="hidden" onchange="selectOption(this, 4)" />
-                <div class="font-bold text-white text-sm">🟣 Window Functions & ETL Pipelines</div>
-                <div class="text-slate-400 mt-1">Expert in CTEs, ranking window functions, and warehousing</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 4, 'Advanced Window Functions, CTEs, and ETL')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟣 Window Functions & ETL</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Expert in CTEs, ranking window functions, and warehousing</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q4_sql" value="Advanced Window Functions, CTEs, and ETL" class="hidden" />
+              </div>
             </div>
           </div>
 
-          <!-- Q5: Machine Learning & Math Foundation -->
+          <!-- Q5: Machine Learning Knowledge -->
           <div id="step-q5" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 5 • Machine Learning</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">How would you describe your Machine Learning & Statistical knowledge?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 05 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">How would you describe your Machine Learning & Math knowledge?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q5_ml" value="Never Studied Machine Learning" class="hidden" onchange="selectOption(this, 5)" />
-                <div class="font-bold text-white text-sm">🟢 Pure Beginner</div>
-                <div class="text-slate-400 mt-1">Never built a predictive model or calculated statistical metrics</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 5, 'Never Studied Machine Learning')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟢 Pure Beginner</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Never built a predictive model or calculated statistical metrics</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q5_ml" value="Never Studied Machine Learning" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q5_ml" value="Theoretical Understanding (Watched YouTube/Articles)" class="hidden" onchange="selectOption(this, 5)" />
-                <div class="font-bold text-white text-sm">🟡 Theoretical Knowledge Only</div>
-                <div class="text-slate-400 mt-1">Know definitions of regression & classification but haven't coded</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 5, 'Theoretical Understanding (Watched YouTube/Articles)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟡 Theoretical Knowledge Only</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Know definitions of regression & classification but haven't coded</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q5_ml" value="Theoretical Understanding (Watched YouTube/Articles)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q5_ml" value="Practical Scikit-Learn (RandomForest, XGBoost)" class="hidden" onchange="selectOption(this, 5)" />
-                <div class="font-bold text-white text-sm">🔵 Scikit-Learn Practitioner</div>
-                <div class="text-slate-400 mt-1">Trained Decision Trees, Random Forests, and XGBoost models</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 5, 'Practical Scikit-Learn (RandomForest, XGBoost)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔵 Scikit-Learn Practitioner</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Trained Decision Trees, Random Forests, and XGBoost models</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q5_ml" value="Practical Scikit-Learn (RandomForest, XGBoost)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q5_ml" value="Deep Learning & PyTorch / Neural Nets" class="hidden" onchange="selectOption(this, 5)" />
-                <div class="font-bold text-white text-sm">🟣 Deep Learning & PyTorch</div>
-                <div class="text-slate-400 mt-1">Built CNNs, Transformers, and LLM fine-tuning pipelines</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 5, 'Deep Learning & PyTorch / Neural Nets')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟣 Deep Learning & PyTorch</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Built CNNs, Transformers, and LLM fine-tuning pipelines</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q5_ml" value="Deep Learning & PyTorch / Neural Nets" class="hidden" />
+              </div>
             </div>
           </div>
 
-          <!-- Q6: GenAI & AI Tools Adoption -->
+          <!-- Q6: Modern AI Tools & GenAI -->
           <div id="step-q6" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 6 • Modern AI Toolstack</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">How actively do you leverage modern AI tools & Autonomous Agents?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 06 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">How actively do you leverage modern AI tools & Autonomous Agents?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q6_tools" value="Basic ChatGPT Prompts Only" class="hidden" onchange="selectOption(this, 6)" />
-                <div class="font-bold text-white text-sm">🟢 Basic Chatbot Prompts</div>
-                <div class="text-slate-400 mt-1">Use ChatGPT or Gemini occasionally for writing text/emails</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 6, 'Basic ChatGPT Prompts Only')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟢 Basic Chatbot Prompts</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Use ChatGPT or Gemini occasionally for writing text/emails</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q6_tools" value="Basic ChatGPT Prompts Only" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q6_tools" value="Advanced System Prompts & Code Assistants" class="hidden" onchange="selectOption(this, 6)" />
-                <div class="font-bold text-white text-sm">🟡 Advanced Prompts & Copilot</div>
-                <div class="text-slate-400 mt-1">Use Claude 3.5, GitHub Copilot, and custom instructions</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 6, 'Advanced System Prompts & Code Assistants')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟡 Prompts & Copilot</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Use Claude 3.5, GitHub Copilot, and custom instructions</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q6_tools" value="Advanced System Prompts & Code Assistants" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q6_tools" value="Cursor AI & n8n Autonomous Workflow Builder" class="hidden" onchange="selectOption(this, 6)" />
-                <div class="font-bold text-white text-sm">🔵 Cursor AI & n8n Automation</div>
-                <div class="text-slate-400 mt-1">Build autonomous workflows with n8n, webhooks & Cursor IDE</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 6, 'Cursor AI & n8n Autonomous Workflow Builder')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔵 Cursor AI & n8n Automation</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Build autonomous workflows with n8n, webhooks & Cursor IDE</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q6_tools" value="Cursor AI & n8n Autonomous Workflow Builder" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q6_tools" value="Custom LLM RAG & Agentic Architectures" class="hidden" onchange="selectOption(this, 6)" />
-                <div class="font-bold text-white text-sm">🟣 Production RAG & Vector DBs</div>
-                <div class="text-slate-400 mt-1">Design LangChain, Chroma/Pinecone vector pipelines & agents</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 6, 'Custom LLM RAG & Agentic Architectures')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🟣 Production RAG & Agents</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Design LangChain, Chroma/Pinecone vector pipelines & agents</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q6_tools" value="Custom LLM RAG & Agentic Architectures" class="hidden" />
+              </div>
             </div>
           </div>
 
           <!-- Q7: Desired Target Role -->
           <div id="step-q7" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 7 • Target Role</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">Which role are you targeting in your next career leap?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 07 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">Which role are you targeting in your next career leap?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q7_role" value="Data Scientist (₹10–24 LPA)" class="hidden" onchange="selectOption(this, 7)" />
-                <div class="font-bold text-white text-sm">📊 Data Scientist</div>
-                <div class="text-slate-400 mt-1">Statistical modeling, predictive analytics, enterprise forecasting</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 7, 'Data Scientist (₹10–24 LPA)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">📊 Data Scientist</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Statistical modeling, predictive analytics, enterprise forecasting</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q7_role" value="Data Scientist (₹10–24 LPA)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q7_role" value="AI & Machine Learning Engineer (₹12–28 LPA)" class="hidden" onchange="selectOption(this, 7)" />
-                <div class="font-bold text-white text-sm">🧠 AI & Machine Learning Engineer</div>
-                <div class="text-slate-400 mt-1">PyTorch, model deployment, MLOps inference architectures</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 7, 'AI & Machine Learning Engineer (₹12–28 LPA)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🧠 AI / Machine Learning Engineer</div>
+                    <div class="text-slate-400 text-xs mt-0.5">PyTorch, model deployment, MLOps inference architectures</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q7_role" value="AI & Machine Learning Engineer (₹12–28 LPA)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q7_role" value="Data Analyst / BI Specialist (₹6–14 LPA)" class="hidden" onchange="selectOption(this, 7)" />
-                <div class="font-bold text-white text-sm">📈 Data Analyst / BI Specialist</div>
-                <div class="text-slate-400 mt-1">SQL data pipelines, Tableau/PowerBI, executive dashboards</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 7, 'Data Analyst / BI Specialist (₹6–14 LPA)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">📈 Data Analyst / BI Specialist</div>
+                    <div class="text-slate-400 text-xs mt-0.5">SQL data pipelines, Tableau/PowerBI, executive dashboards</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q7_role" value="Data Analyst / BI Specialist (₹6–14 LPA)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q7_role" value="AI Automation & Product Lead (₹14–32 LPA)" class="hidden" onchange="selectOption(this, 7)" />
-                <div class="font-bold text-white text-sm">⚡ AI Automation & Tools Specialist</div>
-                <div class="text-slate-400 mt-1">Autonomous agent workflows, LLM business integrations</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 7, 'AI Automation & Product Lead (₹14–32 LPA)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">⚡ AI Automation & Tools Specialist</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Autonomous agent workflows, LLM business integrations</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q7_role" value="AI Automation & Product Lead (₹14–32 LPA)" class="hidden" />
+              </div>
             </div>
           </div>
 
           <!-- Q8: Daily Time Dedication -->
           <div id="step-q8" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 8 • Time Commitment</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">How much time can you realistically invest per day for project coding?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 08 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">How much time can you realistically invest per day for project coding?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block text-center">
-                <input type="radio" name="q8_time" value="1–2 Hours Daily (Working Professionals Track)" class="hidden" onchange="selectOption(this, 8)" />
+              <div class="diagnostic-card flex flex-col items-center justify-center p-5 rounded-2xl text-center" onclick="triggerCardSelect(this, 8, '1–2 Hours Daily (Working Professionals Track)')">
+                <span class="key-badge w-7 h-7 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono mb-2">A</span>
                 <div class="text-2xl mb-1">⏱️</div>
                 <div class="font-bold text-white text-sm">1–2 Hours / Day</div>
-                <div class="text-slate-400 mt-1">Evenings & Weekends</div>
-              </label>
+                <div class="text-slate-400 text-[11px] mt-1">Evenings & Weekends</div>
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center mt-3">
+                  <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q8_time" value="1–2 Hours Daily (Working Professionals Track)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block text-center">
-                <input type="radio" name="q8_time" value="2–4 Hours Daily (Intensive Fast-Track)" class="hidden" onchange="selectOption(this, 8)" />
+              <div class="diagnostic-card flex flex-col items-center justify-center p-5 rounded-2xl text-center" onclick="triggerCardSelect(this, 8, '2–4 Hours Daily (Intensive Fast-Track)')">
+                <span class="key-badge w-7 h-7 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono mb-2">B</span>
                 <div class="text-2xl mb-1">⚡</div>
                 <div class="font-bold text-white text-sm">2–4 Hours / Day</div>
-                <div class="text-slate-400 mt-1">Dedicated Fast-Track</div>
-              </label>
+                <div class="text-slate-400 text-[11px] mt-1">Dedicated Fast-Track</div>
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center mt-3">
+                  <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q8_time" value="2–4 Hours Daily (Intensive Fast-Track)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block text-center">
-                <input type="radio" name="q8_time" value="4+ Hours Daily (Full-Time Fellowship Immersion)" class="hidden" onchange="selectOption(this, 8)" />
+              <div class="diagnostic-card flex flex-col items-center justify-center p-5 rounded-2xl text-center" onclick="triggerCardSelect(this, 8, '4+ Hours Daily (Full-Time Fellowship Immersion)')">
+                <span class="key-badge w-7 h-7 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono mb-2">C</span>
                 <div class="text-2xl mb-1">🚀</div>
                 <div class="font-bold text-white text-sm">4+ Hours / Day</div>
-                <div class="text-slate-400 mt-1">Full-Time Fellowship</div>
-              </label>
+                <div class="text-slate-400 text-[11px] mt-1">Full-Time Fellowship</div>
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center mt-3">
+                  <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q8_time" value="4+ Hours Daily (Full-Time Fellowship Immersion)" class="hidden" />
+              </div>
             </div>
           </div>
 
-          <!-- Q9: Target Start Timeline -->
+          <!-- Q9: Start Timeline -->
           <div id="step-q9" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 9 • Transition Urgency</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">How soon are you planning to start your preparation?</h3>
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div class="space-y-0.5">
+                <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">QUESTION 09 / 10</span>
+                <h3 class="text-base sm:text-xl font-bold text-white">How soon are you planning to start your preparation?</h3>
+              </div>
+              <span class="text-[10px] text-slate-500 italic hidden sm:inline">Click an option to select &rarr;</span>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q9_timeline" value="Immediately (Upcoming Cohort)" class="hidden" onchange="selectOption(this, 9)" />
-                <div class="font-bold text-white text-sm">⚡ Immediately (This Month)</div>
-                <div class="text-slate-400 mt-1">Ready to join immediate active batch and begin coding</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 9, 'Immediately (Upcoming Cohort)')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">A</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">⚡ Immediately (This Month)</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Ready to join immediate active batch and begin coding</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q9_timeline" value="Immediately (Upcoming Cohort)" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q9_timeline" value="Within Next 30 Days" class="hidden" onchange="selectOption(this, 9)" />
-                <div class="font-bold text-white text-sm">📅 Within 30 Days</div>
-                <div class="text-slate-400 mt-1">Wrapping up college exams or notice period first</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 9, 'Within Next 30 Days')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">B</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">📅 Within 30 Days</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Wrapping up college exams or notice period first</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q9_timeline" value="Within Next 30 Days" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q9_timeline" value="1 to 3 Months" class="hidden" onchange="selectOption(this, 9)" />
-                <div class="font-bold text-white text-sm">⏳ 1–3 Months</div>
-                <div class="text-slate-400 mt-1">Planning for next quarterly batch</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 9, '1 to 3 Months')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">C</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">⏳ 1–3 Months</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Planning for next quarterly batch</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q9_timeline" value="1 to 3 Months" class="hidden" />
+              </div>
 
-              <label class="diagnostic-option p-4 rounded-2xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                <input type="radio" name="q9_timeline" value="Just Exploring Knowledge" class="hidden" onchange="selectOption(this, 9)" />
-                <div class="font-bold text-white text-sm">🔍 Just Exploring</div>
-                <div class="text-slate-400 mt-1">Assessing options and market trends</div>
-              </label>
+              <div class="diagnostic-card flex items-center justify-between p-4 rounded-2xl" onclick="triggerCardSelect(this, 9, 'Just Exploring Knowledge')">
+                <div class="flex items-center gap-3.5">
+                  <span class="key-badge w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs flex items-center justify-center font-mono shrink-0">D</span>
+                  <div>
+                    <div class="font-bold text-white text-sm">🔍 Just Exploring</div>
+                    <div class="text-slate-400 text-xs mt-0.5">Assessing options and market trends</div>
+                  </div>
+                </div>
+                <div class="radio-circle w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center shrink-0">
+                  <div class="radio-dot w-3 h-3 rounded-full bg-transparent"></div>
+                </div>
+                <input type="radio" name="q9_timeline" value="Just Exploring Knowledge" class="hidden" />
+              </div>
             </div>
           </div>
 
           <!-- Q10: Program Investment & Contact Verification -->
-          <div id="step-q10" class="wizard-step space-y-4 hidden">
-            <div class="space-y-1">
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Step 10 • Final Validation & Contact</span>
-              <h3 class="text-lg sm:text-xl font-bold text-white">Where should we deliver your Diagnostic Score & Workshop Pass?</h3>
+          <div id="step-q10" class="wizard-step space-y-5 hidden">
+            <div class="border-b border-slate-800/80 pb-3 space-y-1">
+              <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">FINAL STEP 10 / 10 • VERIFICATION & RESULTS DELIVERY</span>
+              <h3 class="text-lg sm:text-2xl font-extrabold text-white">Where should we deliver your Diagnostic Score & Workshop Pass?</h3>
               <p class="text-xs text-slate-400">EarEase Nexus advanced mentorships invest ~₹15,000 + GST for full 1-on-1 industry project guidance with flexible installment/EMI plans.</p>
             </div>
 
             <!-- Investment Comfort Check -->
             <div class="space-y-2">
-              <label class="block text-slate-300 font-semibold text-xs">If your diagnostic demonstrates a strong fit, are you open to structured mentorship?</label>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <label class="diagnostic-option p-3 rounded-xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                  <input type="radio" name="q10_investment" value="Yes, comfortable investing in career growth" required class="hidden" onchange="selectOption(this, 10)" />
-                  <div class="font-bold text-white">✓ Yes, ready to invest in serious career growth</div>
-                </label>
-                <label class="diagnostic-option p-3 rounded-xl border border-slate-800 bg-slate-900/60 cursor-pointer block">
-                  <input type="radio" name="q10_investment" value="Interested in flexible No-Cost EMI options" class="hidden" onchange="selectOption(this, 10)" />
-                  <div class="font-bold text-white">💳 Need flexible 0% No-Cost EMI options</div>
-                </label>
+              <label class="block text-slate-300 font-semibold text-xs">If your diagnostic demonstrates a strong technical fit, are you open to structured mentorship?</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="diagnostic-card flex items-center justify-between p-3.5 rounded-2xl" onclick="triggerCardSelect(this, 10, 'Yes, comfortable investing in career growth', false)">
+                  <div class="flex items-center gap-3">
+                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center font-mono">✓</span>
+                    <div class="font-bold text-white text-xs">Yes, ready to invest in career growth</div>
+                  </div>
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center">
+                    <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                  </div>
+                  <input type="radio" name="q10_investment" value="Yes, comfortable investing in career growth" required class="hidden" />
+                </div>
+
+                <div class="diagnostic-card flex items-center justify-between p-3.5 rounded-2xl" onclick="triggerCardSelect(this, 10, 'Interested in flexible No-Cost EMI options', false)">
+                  <div class="flex items-center gap-3">
+                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center font-mono">💳</span>
+                    <div class="font-bold text-white text-xs">Need flexible 0% No-Cost EMI options</div>
+                  </div>
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center">
+                    <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                  </div>
+                  <input type="radio" name="q10_investment" value="Interested in flexible No-Cost EMI options" class="hidden" />
+                </div>
               </div>
             </div>
 
             <!-- Candidate Contact Form Fields -->
-            <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-3 text-xs">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-5 bg-slate-950/90 rounded-2xl border-2 border-slate-800 space-y-4 text-xs shadow-inner">
+              <div class="font-bold text-white text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
+                <span>👤</span> Candidate Contact Details
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-slate-400 mb-1 font-semibold">Your Full Name *</label>
-                  <input type="text" id="candidate-name" required placeholder="e.g. Rahul Sharma" class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-medium" />
+                  <label class="block text-slate-300 mb-1.5 font-bold">Your Full Name *</label>
+                  <input type="text" id="candidate-name" required placeholder="e.g. Rahul Sharma" class="w-full px-4 py-3 bg-slate-900 border-2 border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-medium transition-colors" />
                 </div>
                 <div>
-                  <label class="block text-slate-400 mb-1 font-semibold">WhatsApp / Phone Number *</label>
-                  <input type="tel" id="candidate-phone" required placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-mono" />
+                  <label class="block text-slate-300 mb-1.5 font-bold">WhatsApp / Phone Number *</label>
+                  <input type="tel" id="candidate-phone" required placeholder="+91 98765 43210" class="w-full px-4 py-3 bg-slate-900 border-2 border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-mono transition-colors" />
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-slate-400 mb-1 font-semibold">Email Address (For Diagnostic Report) *</label>
-                  <input type="email" id="candidate-email" required placeholder="rahul@example.com" class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" />
+                  <label class="block text-slate-300 mb-1.5 font-bold">Email Address (For Instant Report) *</label>
+                  <input type="email" id="candidate-email" required placeholder="rahul@example.com" class="w-full px-4 py-3 bg-slate-900 border-2 border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 transition-colors" />
                 </div>
                 <div>
-                  <label class="block text-slate-400 mb-1 font-semibold">City & State *</label>
-                  <input type="text" id="candidate-city" required placeholder="e.g. Bengaluru, Karnataka" class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" />
+                  <label class="block text-slate-300 mb-1.5 font-bold">City & State *</label>
+                  <input type="text" id="candidate-city" required placeholder="e.g. Bengaluru, Karnataka" class="w-full px-4 py-3 bg-slate-900 border-2 border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 transition-colors" />
                 </div>
               </div>
             </div>
 
-            <button type="submit" id="btn-submit-diagnostic" class="w-full py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm rounded-2xl shadow-xl shadow-amber-500/20 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
-              <span>Generate My AI Readiness Score & Free Workshop Pass</span>
-              <span class="text-base">&rarr;</span>
+            <button type="submit" id="btn-submit-diagnostic" class="w-full py-4.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-2xl shadow-amber-500/30 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-amber-300">
+              <span>🚀 Unlock My AI Readiness Score & Get Free Workshop Ticket</span>
+              <span class="text-lg">&rarr;</span>
             </button>
 
-            <p class="text-[10px] text-center text-slate-500">
-              🔒 We respect your privacy. No spam. Data is strictly processed under EarEase Tech Academic Governance.
+            <p class="text-[10px] text-center text-slate-400">
+              🔒 100% Confidential • Instant Automated Evaluation • No Sales Pressure
             </p>
 
           </div>
@@ -677,15 +1060,15 @@
         </form>
 
         <!-- Navigation Buttons for Wizard -->
-        <div id="wizard-nav-controls" class="flex justify-between items-center pt-4 border-t border-slate-800 text-xs">
-          <button type="button" id="btn-wizard-prev" onclick="prevWizardStep()" class="hidden px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-xl border border-slate-800 transition-all">
-            &larr; Previous Question
+        <div id="wizard-nav-controls" class="flex justify-between items-center pt-4 border-t border-slate-800/80 text-xs">
+          <button type="button" id="btn-wizard-prev" onclick="prevWizardStep()" class="hidden px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl border border-slate-700 transition-all font-bold flex items-center gap-1.5 cursor-pointer">
+            <span>&larr;</span> Previous Question
           </button>
           <div class="text-[11px] text-slate-500 font-mono">
-            EarEase Infinity • AI Diagnostic
+            EarEase Infinity • Interactive Form
           </div>
-          <button type="button" id="btn-wizard-next" onclick="nextWizardStep()" class="px-5 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold rounded-xl border border-amber-500/40 transition-all">
-            Next &rarr;
+          <button type="button" id="btn-wizard-next" onclick="nextWizardStep()" class="px-6 py-2.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-extrabold rounded-xl border border-amber-500/40 transition-all flex items-center gap-1.5 cursor-pointer">
+            Next Question <span>&rarr;</span>
           </button>
         </div>
 
@@ -710,7 +1093,7 @@
         <div id="diagnostic-result-card" class="hidden space-y-6 animate-fade-in">
           
           <!-- Result Header -->
-          <div class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 border border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-6 text-center">
+          <div class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-6 text-center shadow-2xl">
             
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold uppercase">
               <span>✓</span> Diagnostic Profile Authenticated
@@ -793,17 +1176,6 @@
             </div>
 
           </div>
-
-          <!-- Retake Option -->
-          <div class="text-center pt-2">
-            <button type="button" onclick="restartDiagnostic()" class="text-xs text-slate-400 hover:text-amber-400 underline transition-colors">
-              ⟳ Retake Diagnostic with Different Inputs
-            </button>
-          </div>
-
-        </div>
-
-      </div>
 
     </section>
 
@@ -901,7 +1273,7 @@
             Why We Test Your Skills <span class="gold-gradient-text">Before Selling You a Course</span>
           </h2>
           <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Most edtech companies sell generic ₹30,000–₹1,00,000 courses to anyone with a credit card. At EarEase Nexus, we believe in **strict qualification and personal mentoring**.
+            Most edtech companies sell generic ₹30,000–₹1,00,000 courses to anyone with a credit card. At EarEase Nexus, we believe in <strong>strict qualification and personal mentoring</strong>.
           </p>
         </div>
 
@@ -1047,6 +1419,19 @@
     const totalSteps = 10;
     const userAnswers = {};
 
+    const stepTitles = [
+      "Step 1: Academic & Professional Status",
+      "Step 2: Primary 3–6 Month Objective",
+      "Step 3: Python Coding Baseline",
+      "Step 4: Database & SQL Proficiency",
+      "Step 5: Machine Learning & Math Foundation",
+      "Step 6: GenAI & AI Tools Adoption",
+      "Step 7: Target Career Role",
+      "Step 8: Daily Dedicated Coding Time",
+      "Step 9: Target Preparation Urgency",
+      "Step 10: Final Verification & Results Delivery"
+    ];
+
     // Mobile menu toggle
     document.getElementById('infinity-mobile-menu-btn')?.addEventListener('click', () => {
       document.getElementById('infinity-mobile-drawer')?.classList.toggle('hidden');
@@ -1059,16 +1444,27 @@
         if (stepEl) {
           stepEl.classList.toggle('hidden', i !== currentStep);
         }
+
+        // Update Step Breadcrumb Dots
+        const dotEl = document.getElementById(`step-dot-${i}`);
+        if (dotEl) {
+          dotEl.classList.remove('bg-amber-500', 'text-slate-950', 'bg-emerald-500', 'ring-2', 'ring-amber-400', 'bg-slate-900', 'text-slate-400');
+          if (i === currentStep) {
+            dotEl.classList.add('bg-amber-500', 'text-slate-950', 'ring-2', 'ring-amber-400', 'font-black');
+          } else if (userAnswers[`q${i}`]) {
+            dotEl.classList.add('bg-emerald-500', 'text-slate-950', 'font-bold');
+          } else {
+            dotEl.classList.add('bg-slate-900', 'border', 'border-slate-800', 'text-slate-400');
+          }
+        }
       }
 
-      // Update progress bar
+      // Update text progress labels
       const progressPercent = Math.round((currentStep / totalSteps) * 100);
-      const progressBar = document.getElementById('wizard-progress-bar');
       const stepLabel = document.getElementById('wizard-step-label');
       const percentLabel = document.getElementById('wizard-percent-label');
 
-      if (progressBar) progressBar.style.width = `${progressPercent}%`;
-      if (stepLabel) stepLabel.innerText = `Question ${currentStep} of ${totalSteps}`;
+      if (stepLabel) stepLabel.innerText = stepTitles[currentStep - 1] || `Step ${currentStep} of ${totalSteps}`;
       if (percentLabel) percentLabel.innerText = `${progressPercent}% Completed`;
 
       // Update Nav Buttons
@@ -1079,22 +1475,34 @@
       if (nextBtn) nextBtn.classList.toggle('hidden', currentStep === totalSteps);
     }
 
-    function selectOption(inputEl, stepNumber) {
-      if (!inputEl) return;
-      userAnswers[`q${stepNumber}`] = inputEl.value;
-
-      // Update visual selection
+    function triggerCardSelect(cardEl, stepNumber, value, autoAdvance = true) {
+      if (!cardEl) return;
+      
       const parentStep = document.getElementById(`step-q${stepNumber}`);
       if (parentStep) {
-        parentStep.querySelectorAll('.diagnostic-option').forEach(el => el.classList.remove('selected'));
-        inputEl.closest('.diagnostic-option')?.classList.add('selected');
+        parentStep.querySelectorAll('.diagnostic-card').forEach(el => el.classList.remove('selected'));
       }
+      
+      cardEl.classList.add('selected');
+      const radioInput = cardEl.querySelector('input[type="radio"]');
+      if (radioInput) {
+        radioInput.checked = true;
+      }
+      
+      userAnswers[`q${stepNumber}`] = value;
 
-      // Auto advance after short delay if not last question
-      if (stepNumber < totalSteps) {
+      // Auto advance with pleasant interactive micro-delay
+      if (autoAdvance && stepNumber < totalSteps) {
         setTimeout(() => {
           nextWizardStep();
-        }, 250);
+        }, 220);
+      }
+    }
+
+    function jumpToStep(stepNum) {
+      if (stepNum >= 1 && stepNum <= totalSteps) {
+        currentStep = stepNum;
+        updateWizardProgress();
       }
     }
 
@@ -1195,12 +1603,12 @@
         console.warn("Firebase lead sync notice:", err);
       }
 
-      // Simulate calculation steps
-      await new Promise(r => setTimeout(r, 800));
-      document.getElementById('diagnostic-calc-step').innerText = "Analyzing skill gap radar against 2026 hiring benchmarks...";
-      await new Promise(r => setTimeout(r, 900));
-      document.getElementById('diagnostic-calc-step').innerText = "Generating your personalized career roadmap & workshop pass...";
+      // Calculation simulation steps
       await new Promise(r => setTimeout(r, 700));
+      document.getElementById('diagnostic-calc-step').innerText = "Analyzing skill gap radar against 2026 hiring benchmarks...";
+      await new Promise(r => setTimeout(r, 800));
+      document.getElementById('diagnostic-calc-step').innerText = "Generating your personalized career roadmap & workshop pass...";
+      await new Promise(r => setTimeout(r, 600));
 
       // Reveal results
       loaderCard.classList.add('hidden');
@@ -1220,7 +1628,7 @@
     function restartDiagnostic() {
       currentStep = 1;
       document.getElementById('infinity-diagnostic-form').reset();
-      document.querySelectorAll('.diagnostic-option').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('.diagnostic-card').forEach(el => el.classList.remove('selected'));
       document.getElementById('diagnostic-result-card').classList.add('hidden');
       document.getElementById('infinity-diagnostic-form').classList.remove('hidden');
       document.getElementById('wizard-nav-controls').classList.remove('hidden');
