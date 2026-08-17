@@ -86,24 +86,32 @@
       position: relative;
     }
 
-    /* Tactile Interactive Option Cards - Light Theme */
+    /* Tactile Interactive Option Cards - Light Theme High Contrast */
     .diagnostic-card {
-      background: #F8FAFC;
-      border: 2px solid #E2E8F0;
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
       transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
       user-select: none;
     }
+    .diagnostic-card .font-bold,
+    .diagnostic-card div {
+      color: #0F172A !important;
+    }
+    .diagnostic-card .text-slate-400,
+    .diagnostic-card .text-xs {
+      color: #475569 !important;
+    }
     .diagnostic-card:hover {
       border-color: #D89B1F;
       background: #FFFDF5;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(216, 155, 31, 0.15);
+      box-shadow: 0 8px 20px rgba(216, 155, 31, 0.18);
     }
     .diagnostic-card:hover .key-badge {
       background-color: #D89B1F;
-      color: #FFFFFF;
+      color: #FFFFFF !important;
       border-color: #D89B1F;
     }
     .diagnostic-card:hover .radio-circle {
@@ -112,8 +120,17 @@
     .diagnostic-card.selected {
       border-color: #D89B1F !important;
       background: #FEF3C7 !important;
-      box-shadow: 0 0 20px rgba(216, 155, 31, 0.25) !important;
+      box-shadow: 0 0 20px rgba(216, 155, 31, 0.3) !important;
       transform: translateY(-2px);
+    }
+    .diagnostic-card.selected .font-bold,
+    .diagnostic-card.selected div {
+      color: #0F172A !important;
+      font-weight: 800 !important;
+    }
+    .diagnostic-card.selected .text-slate-400,
+    .diagnostic-card.selected .text-xs {
+      color: #1E293B !important;
     }
     .diagnostic-card.selected .key-badge {
       background: #D89B1F !important;
@@ -1101,22 +1118,22 @@
 
           <!-- Q10: Program Investment & Contact Verification -->
           <div id="step-q10" class="wizard-step space-y-5 hidden">
-            <div class="border-b border-slate-800/80 pb-3 space-y-1">
-              <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider font-mono">FINAL STEP 10 / 10 • VERIFICATION & RESULTS DELIVERY</span>
-              <h3 class="text-lg sm:text-2xl font-extrabold text-white">Where should we deliver your Diagnostic Score & Workshop Pass?</h3>
-              <p class="text-xs text-slate-400">EarEase Nexus advanced mentorships invest ~₹15,000 + GST for full 1-on-1 industry project guidance with flexible installment/EMI plans.</p>
+            <div class="border-b border-slate-200 pb-3 space-y-1">
+              <span class="text-[11px] text-amber-800 font-extrabold uppercase tracking-wider font-mono">FINAL STEP 10 / 10 • REGISTRATION & CONTACT DETAILS</span>
+              <h3 class="text-lg sm:text-2xl font-extrabold text-slate-900">Enter Your Contact Details to Reserve Workshop Seat</h3>
+              <p class="text-xs text-slate-700 font-medium leading-relaxed">EarEase Nexus advanced mentorships invest ~₹15,000 + GST for full 1-on-1 industry project guidance with flexible installment/EMI plans.</p>
             </div>
 
             <!-- Investment Comfort Check -->
             <div class="space-y-2">
-              <label class="block text-slate-300 font-semibold text-xs">If your diagnostic demonstrates a strong technical fit, are you open to structured mentorship?</label>
+              <label class="block text-slate-900 font-extrabold text-xs">If your diagnostic demonstrates a strong technical fit, are you open to structured mentorship?</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div class="diagnostic-card flex items-center justify-between p-3.5 rounded-2xl" onclick="triggerCardSelect(this, 10, 'Yes, comfortable investing in career growth', false)">
                   <div class="flex items-center gap-3">
-                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center font-mono">✓</span>
-                    <div class="font-bold text-white text-xs">Yes, ready to invest in career growth</div>
+                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-bold text-[11px] flex items-center justify-center font-mono">✓</span>
+                    <div class="font-bold text-slate-900 text-xs">Yes, ready to invest in career growth</div>
                   </div>
-                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center">
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center">
                     <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
                   </div>
                   <input type="radio" name="q10_investment" value="Yes, comfortable investing in career growth" required class="hidden" />
@@ -1124,10 +1141,10 @@
 
                 <div class="diagnostic-card flex items-center justify-between p-3.5 rounded-2xl" onclick="triggerCardSelect(this, 10, 'Interested in flexible No-Cost EMI options', false)">
                   <div class="flex items-center gap-3">
-                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 text-amber-300 font-bold text-[11px] flex items-center justify-center font-mono">💳</span>
-                    <div class="font-bold text-white text-xs">Need flexible 0% No-Cost EMI options</div>
+                    <span class="key-badge w-6 h-6 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-bold text-[11px] flex items-center justify-center font-mono">💳</span>
+                    <div class="font-bold text-slate-900 text-xs">Need flexible 0% No-Cost EMI options</div>
                   </div>
-                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center">
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center">
                     <div class="radio-dot w-2.5 h-2.5 rounded-full bg-transparent"></div>
                   </div>
                   <input type="radio" name="q10_investment" value="Interested in flexible No-Cost EMI options" class="hidden" />
@@ -1154,7 +1171,7 @@
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-slate-700 mb-1.5 font-bold">Email Address (For Instant Report) *</label>
+                  <label class="block text-slate-700 mb-1.5 font-bold">Email Address (For Registration & Ticket) *</label>
                   <input type="email" id="candidate-email" required placeholder="rahul@example.com" class="w-full px-4 py-3 bg-white border-2 border-slate-300 rounded-xl text-slate-900 outline-none focus:border-amber-500 transition-colors shadow-sm" />
                 </div>
                 <div>
@@ -1164,8 +1181,8 @@
               </div>
             </div>
 
-            <button type="submit" id="btn-submit-diagnostic" class="w-full py-4.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-amber-300">
-              <span>🚀 Unlock My AI Readiness Score & Get Free Workshop Ticket</span>
+            <button type="submit" id="btn-submit-diagnostic" class="w-full py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-amber-300">
+              <span>💳 Reserve Workshop Seat (₹99 Total)</span>
               <span class="text-lg">&rarr;</span>
             </button>
 
@@ -1211,94 +1228,45 @@
         </div>
 
         <!-- ===================================================================== -->
-        <!-- DIAGNOSTIC RESULT & PERSONALIZED ROADMAP CARD -->
+        <!-- WORKSHOP SEAT REGISTRATION & PAYMENT CONFIRMATION CARD -->
         <!-- ===================================================================== -->
         <div id="diagnostic-result-card" class="hidden space-y-6 animate-fade-in">
           
           <!-- Result Header -->
           <div class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-6 text-center shadow-2xl">
             
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold uppercase">
-              <span>✓</span> Diagnostic Profile Authenticated
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold uppercase">
+              <span>🎟️</span> Registration Details Recorded
             </div>
 
-            <!-- Score Circle -->
-            <div class="flex flex-col items-center justify-center">
-              <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1">Your AI & Data Science Readiness Score</div>
-              <div class="flex items-baseline gap-1">
-                <span id="res-score-number" class="text-5xl sm:text-7xl font-extrabold text-amber-400 font-grotesk tracking-tight">68</span>
-                <span class="text-2xl sm:text-3xl text-slate-400 font-bold">/ 100</span>
-              </div>
-              <div id="res-score-badge" class="mt-2 px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full text-xs font-bold">
-                Moderate Foundation • Strong Upskill Potential
-              </div>
+            <div class="space-y-2 max-w-xl mx-auto">
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Complete ₹99 Registration to Confirm Your Seat</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Thank you, <strong class="text-amber-400" id="res-candidate-name">Candidate</strong>! Your registration details have been saved. Complete your ₹99 Workshop fee to receive your Official Pass ID & Live Zoom link. Your 1-on-1 Career Assessment & Skill Diagnostic will be evaluated <strong>LIVE during the Workshop</strong> by lead mentors.
+              </p>
             </div>
 
-            <!-- Diagnostic Summary Text -->
-            <p id="res-score-summary" class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-              You possess a solid understanding of fundamentals, but require structured hands-on implementation in PyTorch neural pipelines, real-world MLOps, and Autonomous AI Agents to command top-tier industry compensation.
-            </p>
-
-            <!-- Skill Gap Breakdown Cards -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-left pt-2">
-              <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800">
-                <span class="text-[10px] text-slate-400 block uppercase">Python & Logic</span>
-                <span id="res-gap-python" class="font-bold text-white text-xs">70% (Proficient)</span>
+            <!-- Workshop Pass Confirmation Ticket Card -->
+            <div class="max-w-md mx-auto p-6 rounded-2xl bg-slate-950/90 border-2 border-amber-400/50 space-y-4 shadow-xl text-left text-xs">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="font-bold text-white text-sm">🎟️ Data Science & AI Tools Workshop</div>
+                <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-400/40 rounded-full text-[10px] font-bold">₹99 Total</span>
               </div>
-              <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800">
-                <span class="text-[10px] text-slate-400 block uppercase">SQL & Data Eng</span>
-                <span id="res-gap-sql" class="font-bold text-white text-xs">55% (Needs Practice)</span>
+              <div class="space-y-2.5 font-mono text-xs">
+                <div class="flex justify-between"><span class="text-slate-400">Status:</span> <strong class="text-amber-400">Seat Reserved (Pending ₹99 Fee)</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Schedule:</span> <strong class="text-white">Upcoming Saturday @ 11:00 AM IST</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Diagnostic:</span> <strong class="text-cyan-300">Live 1-on-1 Evaluation in Workshop</strong></div>
               </div>
-              <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800">
-                <span class="text-[10px] text-slate-400 block uppercase">ML & PyTorch</span>
-                <span id="res-gap-ml" class="font-bold text-amber-300 text-xs">40% (Primary Gap)</span>
-              </div>
-              <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800">
-                <span class="text-[10px] text-slate-400 block uppercase">GenAI & Agents</span>
-                <span id="res-gap-genai" class="font-bold text-cyan-300 text-xs">65% (Emerging)</span>
-              </div>
+              
+              <button type="button" onclick="triggerWorkshopPayment()" class="w-full py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm rounded-xl shadow-xl transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 border border-amber-300">
+                <span>💳 Pay ₹99 & Lock Official Pass ID</span>
+                <span class="text-lg">&rarr;</span>
+              </button>
             </div>
 
           </div>
 
-          <!-- Recommended Pathway & Workshop Ticket -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            
-            <!-- Recommended Track -->
-            <div class="p-5 rounded-2xl bg-slate-900/90 border border-amber-500/40 space-y-3">
-              <div class="flex items-center gap-2">
-                <span class="text-lg">🎯</span>
-                <h4 class="font-bold text-white text-sm">Recommended EarEase Nexus Pathway</h4>
-              </div>
-              <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1">
-                <div class="text-amber-400 font-bold text-sm" id="res-rec-program">6 Months Data Science with AI Mentorship</div>
-                <div class="text-slate-400 text-[11px]" id="res-rec-reason">Perfect for your career switch target with guaranteed project portfolio reviews.</div>
-              </div>
-              <a href="nexus.html#durations" class="block w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-center transition-all shadow">
-                View Recommended Curriculum &rarr;
-              </a>
-            </div>
-
-            <!-- Free Workshop Pass Card -->
-            <div class="p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/40 space-y-3">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="text-lg">🎟️</span>
-                  <h4 class="font-bold text-white text-sm">Exclusive Workshop Pass</h4>
-                </div>
-                <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[9px] font-bold">100% Free Entry</span>
-              </div>
-              <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1 font-mono text-[11px]">
-                <div class="text-slate-300">Event: <strong class="text-cyan-300">Live 90-Min AI & Tools Masterclass</strong></div>
-                <div class="text-slate-400">Pass ID: <strong class="text-amber-400" id="res-pass-id">EET-INF-98214</strong></div>
-                <div class="text-slate-400">Schedule: <strong class="text-white">Upcoming Sunday @ 11:00 AM IST</strong></div>
-              </div>
-              <div class="text-[11px] text-slate-400">
-                ✓ Our academic coordinator will share your Zoom meeting link via WhatsApp shortly.
-              </div>
-            </div>
-
-          </div>
+        </div>
 
     </section>
 
@@ -1694,7 +1662,7 @@
       }
     }
 
-    // Diagnostic Scoring & Lead Submission
+    // Diagnostic Submission & Lead Sync (Pending ₹99 Payment)
     async function handleDiagnosticSubmit(e) {
       e.preventDefault();
       
@@ -1716,52 +1684,17 @@
       const loaderCard = document.getElementById('diagnostic-loading-card');
       loaderCard.classList.remove('hidden');
 
-      const passId = `EET-INF-${Math.floor(10000 + Math.random() * 90000)}`;
-
-      // Calculate Readiness Score Algorithm
-      let score = 40; // Base score
-
-      if ((userAnswers.q3 || '').includes('Intermediate')) score += 15;
-      else if ((userAnswers.q3 || '').includes('Advanced')) score += 20;
-      else if ((userAnswers.q3 || '').includes('Basic')) score += 8;
-
-      if ((userAnswers.q4 || '').includes('Intermediate')) score += 10;
-      else if ((userAnswers.q4 || '').includes('Advanced')) score += 15;
-
-      if ((userAnswers.q5 || '').includes('Practical')) score += 12;
-      else if ((userAnswers.q5 || '').includes('Deep Learning')) score += 18;
-
-      if ((userAnswers.q6 || '').includes('Cursor')) score += 8;
-      else if ((userAnswers.q6 || '').includes('Production RAG')) score += 12;
-
-      score = Math.min(94, Math.max(38, score));
-
-      // Determine Pathway Recommendation
-      let recommendedTrack = '6 Months Data Science with AI Mentorship';
-      let trackReason = 'Matches your goal for complete end-to-end industry transition with guaranteed portfolio guidance.';
-
-      if ((userAnswers.q2 || '').includes('5x Productivity')) {
-        recommendedTrack = 'Executive AI Tools for Working Professionals';
-        trackReason = 'Fast-track mastery of n8n, Claude, Cursor, and ChatGPT for immediate workplace multiplier output.';
-      } else if ((userAnswers.q8 || '').includes('1–2 Hours')) {
-        recommendedTrack = '3-Month AI & Machine Learning Intensive';
-        trackReason = 'Optimal evening/weekend cadence tailored specifically for busy tech professionals.';
-      }
-
       // Prepare Payload for Firestore
       const leadPayload = {
         name: name,
         phone: phone,
         email: email,
         city: city,
-        service: 'EarEase Infinity - Career Assessment & Workshop',
-        estimateAmount: '₹0.00 (Free Assessment Lead)',
-        paymentStatus: '✓ Free Workshop Candidate',
-        candidateId: passId,
-        readinessScore: score,
-        recommendedTrack: recommendedTrack,
+        service: 'Data Science Career Assessment & AI Tools Workshop',
+        estimateAmount: '₹99.00',
+        paymentStatus: 'Pending ₹99 Workshop Fee',
         answers: userAnswers,
-        stage: 'Free Assessment Taken',
+        stage: 'Workshop Registered (Pending Payment)',
         acceptanceStatus: 'Qualified Lead',
         isNexus: true,
         isInfinity: true,
@@ -1778,25 +1711,28 @@
       }
 
       // Calculation simulation steps
-      await new Promise(r => setTimeout(r, 700));
-      document.getElementById('diagnostic-calc-step').innerText = "Analyzing skill gap radar against 2026 hiring benchmarks...";
-      await new Promise(r => setTimeout(r, 800));
-      document.getElementById('diagnostic-calc-step').innerText = "Generating your personalized career roadmap & workshop pass...";
       await new Promise(r => setTimeout(r, 600));
+      document.getElementById('diagnostic-calc-step').innerText = "Reserving your workshop seat & preparing enrollment invoice...";
+      await new Promise(r => setTimeout(r, 700));
 
       // Reveal results
       loaderCard.classList.add('hidden');
       const resCard = document.getElementById('diagnostic-result-card');
       resCard.classList.remove('hidden');
 
-      // Populate Result Card
-      document.getElementById('res-score-number').innerText = score;
-      document.getElementById('res-pass-id').innerText = passId;
-      document.getElementById('res-rec-program').innerText = recommendedTrack;
-      document.getElementById('res-rec-reason').innerText = trackReason;
+      const nameEl = document.getElementById('res-candidate-name');
+      if (nameEl) nameEl.innerText = name || 'Candidate';
 
-      // Scroll to result smoothly
       resCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function triggerWorkshopPayment() {
+      // Open enrollment / payment modal for ₹99 Workshop
+      if (typeof openEnrollModal === 'function') {
+        openEnrollModal('Data Science Career Assessment & AI Tools Workshop', '₹99 Registration Fee');
+      } else {
+        alert("Redirecting to ₹99 Workshop Payment Gateway...");
+      }
     }
 
     function restartDiagnostic() {
