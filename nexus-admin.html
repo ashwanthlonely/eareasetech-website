@@ -106,7 +106,25 @@
       </div>
   </header>
   <!-- Main Body -->
-  <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8"><!-- RAZORPAY INTEGRATION & SEAT CAP BANNER -->
+  <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- TOP NAVIGATION TABS -->
+    <div class="flex flex-wrap items-center gap-3 border-b border-slate-800 pb-4">
+      <button id="tab-btn-admissions" onclick="switchAdminTab('admissions')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-amber-500 text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer">
+        <span>📋 Admissions & Sales Desk</span>
+      </button>
+      <button id="tab-btn-graduates" onclick="switchAdminTab('graduates')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer">
+        <span>🎓 Alumni & Certified Graduates Registry</span>
+        <span id="badge-grad-count" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono">0</span>
+      </button>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 1: ADMISSIONS & SALES DESK -->
+    <!-- ========================================================================= -->
+    <div id="view-admissions-tab" class="space-y-8">
+
+    <!-- RAZORPAY INTEGRATION & SEAT CAP BANNER -->
     <div class="crm-card p-6 bg-gradient-to-r from-slate-900 via-[#111e38] to-slate-900 border-amber-500/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="space-y-1">
         <div class="flex items-center gap-2">
@@ -380,10 +398,185 @@
         </table>
       </div>
     </div>
+    <!-- END VIEW 1: ADMISSIONS TAB -->
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 2: CERTIFIED GRADUATES & CERTIFICATE MANAGER TAB -->
+    <!-- ========================================================================= -->
+    <div id="view-graduates-tab" class="space-y-6 hidden">
+      
+      <!-- Top Grid: Signatory Settings & Issue Certificate Form -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- CARD 1: CERTIFICATE SIGNATORIES & ACADEMIC COUNCIL SETTINGS -->
+        <div class="crm-card p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">✍️</span>
+              <div>
+                <h3 class="text-sm font-bold text-white">Certificate Signatories & Authority</h3>
+                <p class="text-[11px] text-slate-400">Configure executive signatures & academic council details</p>
+              </div>
+            </div>
+            <span class="text-[10px] text-amber-400 font-mono font-semibold">Live Template Sync</span>
+          </div>
+
+          <form id="form-cert-settings" class="space-y-3 text-xs">
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 space-y-2">
+              <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Signatory 1 (Founder & CTO)</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 font-semibold mb-1">Signatory Name</label>
+                  <input type="text" id="cert-cfg-sig1-name" value="Ashwanth K" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-medium" required />
+                </div>
+                <div>
+                  <label class="block text-slate-400 font-semibold mb-1">Official Designation</label>
+                  <input type="text" id="cert-cfg-sig1-title" value="Founder & Chief Technology Officer" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required />
+                </div>
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Organization / Legal Entity</label>
+                <input type="text" id="cert-cfg-sig1-org" value="EarEase Tech Private Limited" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required />
+              </div>
+            </div>
+
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 space-y-2">
+              <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider block">Signatory 2 (Soft Skills Trainer)</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 font-semibold mb-1">Signatory Name</label>
+                  <input type="text" id="cert-cfg-sig2-name" value="Monisha CL" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400 font-medium" required />
+                </div>
+                <div>
+                  <label class="block text-slate-400 font-semibold mb-1">Official Designation</label>
+                  <input type="text" id="cert-cfg-sig2-title" value="Soft Skills Trainer" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required />
+                </div>
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Division / Research Lab</label>
+                <input type="text" id="cert-cfg-sig2-org" value="EarEase Nexus Innovation Labs" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Corporate GSTIN</label>
+                <input type="text" id="cert-cfg-gstin" value="29AAJCE2794F1ZA" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono outline-none" required />
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Seal Text</label>
+                <input type="text" id="cert-cfg-seal" value="EAREASE TECH • OFFICIAL VERIFIED SEAL 2026" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" required />
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-[#D4A017] hover:bg-amber-500 text-slate-950 font-bold rounded-xl transition-all shadow-lg cursor-pointer">
+              💾 Save Signatories & Certificate Settings
+            </button>
+          </form>
+        </div>
+
+        <!-- CARD 2: ISSUE CERTIFICATE / MARK CANDIDATE COMPLETED -->
+        <div class="crm-card p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🎓</span>
+              <div>
+                <h3 class="text-sm font-bold text-white">Issue Graduate Certificate</h3>
+                <p class="text-[11px] text-slate-400">Award official certificate upon workshop or course completion</p>
+              </div>
+            </div>
+            <span class="text-[10px] text-emerald-400 font-mono font-semibold">1-Click Issuance</span>
+          </div>
+
+          <form id="form-issue-certificate" class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Select Candidate *</label>
+              <select id="issue-candidate-select" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required>
+                <option value="">-- Choose Candidate from Admissions List --</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Assessment Score / Grade *</label>
+                <select id="issue-grade-select" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400">
+                  <option value="Mastery Level - 96% Assessment Score">Mastery Level - 96% Assessment Score</option>
+                  <option value="Distinction with Honors">Distinction with Honors</option>
+                  <option value="Passed with Excellence">Passed with Excellence</option>
+                  <option value="Certified Professional Graduate">Certified Professional Graduate</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1">Issue Date *</label>
+                <input type="date" id="issue-cert-date" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" required />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1">Core Competencies / Mastered Skills (Comma separated)</label>
+              <input type="text" id="issue-cert-skills" placeholder="e.g. ChatGPT Prompt Engineering, n8n Autonomous Agents, Cursor AI, Model Architecture" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none focus:border-amber-400" />
+            </div>
+
+            <div class="p-3 bg-emerald-950/30 rounded-xl border border-emerald-500/20 text-[11px] text-emerald-300 flex items-center gap-2">
+              <span>✓</span>
+              <span>Generates a unique QR code and cryptographic verification record on Firebase.</span>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-lg cursor-pointer">
+              🎓 Issue Certificate & Generate Live QR Link
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: CERTIFIED GRADUATES REGISTRY TABLE -->
+      <div class="crm-card p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <div>
+              <h3 class="text-sm font-bold text-white">Certified Graduates & Workshop Completion Registry</h3>
+              <p class="text-[11px] text-slate-400">All alumni with issued certificates and verified records</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <input 
+              type="text" 
+              id="grad-search-input" 
+              placeholder="Search by name, ID or course..." 
+              class="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 outline-none w-full sm:w-64"
+            />
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/90 text-slate-200 capitalize text-[11px] font-bold border-b border-slate-800">
+              <tr>
+                <th class="p-4">Graduate Name</th>
+                <th class="p-4">Candidate ID</th>
+                <th class="p-4">Program Track</th>
+                <th class="p-4">Cohort</th>
+                <th class="p-4">Grade / Score</th>
+                <th class="p-4">Certificate ID</th>
+                <th class="p-4">Issue Date</th>
+                <th class="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="graduates-tbody" class="divide-y divide-slate-800">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <!-- END VIEW 2: GRADUATES TAB -->
 
   </main>
 
-  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-config.js?v=3.0"></script>
   <script>
     // Senior Engineering Admin Toast Engine
     function showAdminToast(msg, type = 'success') {
@@ -410,6 +603,17 @@
         toast.classList.add('opacity-0', '-translate-y-2');
         setTimeout(() => toast.remove(), 300);
       }, 3500);
+    }
+
+    // Enterprise Security: XSS Sanitization Helper
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
     let currentSort = { col: 'createdAt', dir: 'desc' };
@@ -498,8 +702,6 @@
         showAdminToast('🔒 Dashboard locked successfully.', 'info');
       });
 
-      checkAuth();
-
       async function loadNexusData() {
         if (window.EarEaseFirebase && window.EarEaseFirebase.getLeads) {
           allLeads = await window.EarEaseFirebase.getLeads();
@@ -509,11 +711,16 @@
         renderNexusDashboard();
       }
 
-      window.renderNexusDashboard = function() {
+      function renderNexusDashboard() {
+        window.renderNexusDashboard = renderNexusDashboard;
         const seatStatus = window.getNexusSeatStatus ? window.getNexusSeatStatus() : { activeSeatsCount: 0, rolloverSeatsCount: 0, remainingSeats: 50 };
         
-        // Filter Nexus Leads
-        const nexusLeads = allLeads.filter(l => l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day') || (l.source || '').includes('nexus'));
+        // Filter Nexus Leads (exclude completed/certified alumni — they appear in Graduates tab only)
+        const nexusLeads = allLeads.filter(l => {
+          const isNexus = l.isNexus || (l.service || '').includes('Nexus') || (l.service || '').includes('30-Day') || (l.source || '').includes('nexus');
+          const isCertified = l.certIssued || l.stage === 'Certified Alumnus';
+          return isNexus && !isCertified;
+        });
 
         // Calculate Revenue
         let totalRevenue = 0;
@@ -1188,6 +1395,278 @@
         offlineModal.classList.add('hidden');
         await loadNexusData();
       });
+
+      // -------------------------------------------------------------
+      // TAB SWITCHER LOGIC (Admissions vs Certified Graduates)
+      // -------------------------------------------------------------
+      window.switchAdminTab = function(tabName) {
+        const btnAdmissions = document.getElementById('tab-btn-admissions');
+        const btnGraduates = document.getElementById('tab-btn-graduates');
+        const viewAdmissions = document.getElementById('view-admissions-tab');
+        const viewGraduates = document.getElementById('view-graduates-tab');
+
+        if (tabName === 'graduates') {
+          if (btnGraduates) btnGraduates.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-[#D4A017] text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer';
+          if (btnAdmissions) btnAdmissions.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer';
+          if (viewAdmissions) viewAdmissions.classList.add('hidden');
+          if (viewGraduates) viewGraduates.classList.remove('hidden');
+          if (typeof renderGraduatesRegistry === 'function') renderGraduatesRegistry();
+        } else {
+          if (btnAdmissions) btnAdmissions.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-[#D4A017] text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer';
+          if (btnGraduates) btnGraduates.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer';
+          if (viewGraduates) viewGraduates.classList.add('hidden');
+          if (viewAdmissions) viewAdmissions.classList.remove('hidden');
+          if (typeof renderNexusDashboard === 'function') renderNexusDashboard();
+        }
+      };
+
+      // -------------------------------------------------------------
+      // CERTIFICATE SIGNATORIES & SETTINGS MANAGER
+      // -------------------------------------------------------------
+      function loadCertSettingsForm() {
+        const settings = window.getCertificateSettings ? window.getCertificateSettings() : {};
+        if (document.getElementById('cert-cfg-sig1-name')) document.getElementById('cert-cfg-sig1-name').value = settings.signatory1Name || 'Ashwanth K';
+        if (document.getElementById('cert-cfg-sig1-title')) document.getElementById('cert-cfg-sig1-title').value = settings.signatory1Title || 'Founder & Chief Technology Officer';
+        if (document.getElementById('cert-cfg-sig1-org')) document.getElementById('cert-cfg-sig1-org').value = settings.signatory1Org || 'EarEase Tech Private Limited';
+
+        if (document.getElementById('cert-cfg-sig2-name')) document.getElementById('cert-cfg-sig2-name').value = settings.signatory2Name || 'Monisha CL';
+        if (document.getElementById('cert-cfg-sig2-title')) document.getElementById('cert-cfg-sig2-title').value = settings.signatory2Title || 'Soft Skills Trainer';
+        if (document.getElementById('cert-cfg-sig2-org')) document.getElementById('cert-cfg-sig2-org').value = settings.signatory2Org || 'EarEase Nexus Innovation Labs';
+
+        if (document.getElementById('cert-cfg-gstin')) document.getElementById('cert-cfg-gstin').value = settings.companyGstin || '29AAJCE2794F1ZA';
+        if (document.getElementById('cert-cfg-seal')) document.getElementById('cert-cfg-seal').value = settings.sealText || 'EAREASE TECH • OFFICIAL VERIFIED SEAL 2026';
+      }
+
+      document.getElementById('form-cert-settings')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newSettings = {
+          signatory1Name: document.getElementById('cert-cfg-sig1-name').value.trim(),
+          signatory1Title: document.getElementById('cert-cfg-sig1-title').value.trim(),
+          signatory1Org: document.getElementById('cert-cfg-sig1-org').value.trim(),
+          signatory2Name: document.getElementById('cert-cfg-sig2-name').value.trim(),
+          signatory2Title: document.getElementById('cert-cfg-sig2-title').value.trim(),
+          signatory2Org: document.getElementById('cert-cfg-sig2-org').value.trim(),
+          companyGstin: document.getElementById('cert-cfg-gstin').value.trim(),
+          sealText: document.getElementById('cert-cfg-seal').value.trim()
+        };
+
+        if (window.saveCertificateSettings) {
+          await window.saveCertificateSettings(newSettings);
+        }
+        showAdminToast('✓ Certificate signatory & academic authority settings saved!', 'success');
+      });
+
+      // -------------------------------------------------------------
+      // CERTIFIED GRADUATES REGISTRY TABLE & ISSUANCE ENGINE
+      // -------------------------------------------------------------
+      const certDateInput = document.getElementById('issue-cert-date');
+      if (certDateInput) {
+        certDateInput.value = new Date().toISOString().split('T')[0];
+      }
+
+      function populateCandidateSelectOptions() {
+        const selectEl = document.getElementById('issue-candidate-select');
+        if (!selectEl) return;
+        
+        const currentVal = selectEl.value;
+        selectEl.innerHTML = '<option value="">-- Choose Candidate from Admissions List --</option>';
+
+        allLeads.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l.candidateId || l.id;
+          opt.innerText = `${l.name} (${l.candidateId || 'No ID'}) - ${l.service || 'Track'}`;
+          selectEl.appendChild(opt);
+        });
+
+        if (currentVal) selectEl.value = currentVal;
+      }
+
+      function renderGraduatesRegistry() {
+        window.renderGraduatesRegistry = renderGraduatesRegistry;
+        populateCandidateSelectOptions();
+        loadCertSettingsForm();
+
+        const tbody = document.getElementById('graduates-tbody');
+        if (!tbody) return;
+
+        const searchVal = (document.getElementById('grad-search-input')?.value || '').toLowerCase().trim();
+
+        // 1. Gather all candidates who are either explicitly certIssued or have demo certificates
+        const certifiedLeads = allLeads.filter(l => l.certIssued || l.stage === 'Certified Alumnus');
+        
+        // Add sample demo certificates for rich initial view
+        const demos = (window.DEMO_CERTIFICATES || []).map(d => ({
+          ...d,
+          isDemo: true,
+          id: d.candidateId
+        }));
+
+        const combinedGraduates = [...certifiedLeads, ...demos];
+
+        // Deduplicate by candidateId
+        const seenIds = new Set();
+        const uniqueGrads = [];
+        combinedGraduates.forEach(g => {
+          const key = g.candidateId || g.id;
+          if (!seenIds.has(key)) {
+            seenIds.add(key);
+            uniqueGrads.push(g);
+          }
+        });
+
+        // Update badge count
+        const badgeEl = document.getElementById('badge-grad-count');
+        if (badgeEl) badgeEl.innerText = uniqueGrads.length;
+
+        // Filter by search
+        const filtered = uniqueGrads.filter(g => 
+          (g.name || '').toLowerCase().includes(searchVal) ||
+          (g.candidateId || '').toLowerCase().includes(searchVal) ||
+          (g.certId || '').toLowerCase().includes(searchVal) ||
+          (g.service || '').toLowerCase().includes(searchVal)
+        );
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="p-8 text-center text-slate-500">
+                <div class="text-3xl mb-2">🎓</div>
+                <div class="font-semibold text-slate-400">No certified graduates found matching "${searchVal}"</div>
+                <div class="text-xs text-slate-500 mt-1">Issue a certificate above or accept completed candidates.</div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(g => {
+          const candidateId = g.candidateId || g.id || 'EET-NEXUS';
+          const certId = g.certId || `EET-CERT-2026-${candidateId.replace(/[^0-9]/g, '').slice(-6) || '982103'}`;
+          const issueDate = g.certIssueDate || g.issueDate || (g.createdAt ? g.createdAt.split('T')[0] : '2026-08-16');
+          const grade = g.certGrade || g.grade || 'Mastery Level - Completed with Excellence';
+          const track = g.service || 'AI & Machine Learning Track';
+          const cohort = g.cohort || 'EarEase Nexus Active Batch';
+
+          return `
+            <tr class="hover:bg-slate-900/60 transition-colors">
+              <td class="p-4 font-bold text-white flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center font-bold text-xs">🎓</span>
+                <div>
+                  <div>${g.name || 'Candidate'}</div>
+                  ${g.isDemo ? '<span class="text-[9px] text-amber-400 font-normal">Official Sample</span>' : '<span class="text-[9px] text-emerald-400 font-normal">Verified Alumnus</span>'}
+                </div>
+              </td>
+              <td class="p-4 font-mono text-amber-300 font-semibold">${candidateId}</td>
+              <td class="p-4 text-slate-300 text-xs">${track}</td>
+              <td class="p-4 text-slate-400 text-xs">${cohort}</td>
+              <td class="p-4">
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold">${grade}</span>
+              </td>
+              <td class="p-4 font-mono text-slate-300 text-[11px]">${certId}</td>
+              <td class="p-4 text-slate-400 text-xs">${issueDate}</td>
+              <td class="p-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                  <a 
+                    href="verify-certificate.html?id=${encodeURIComponent(candidateId)}" 
+                    target="_blank" 
+                    class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-lg text-xs font-bold border border-amber-500/30 transition-all flex items-center gap-1"
+                  >
+                    <span>🎓 View / Print</span>
+                  </a>
+                  <button 
+                    onclick="copyCertVerificationLink('${candidateId}')" 
+                    class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs border border-slate-700 transition-all" 
+                    title="Copy Public Verification Link"
+                  >
+                    🔗
+                  </button>
+                  ${!g.isDemo ? `
+                    <button 
+                      onclick="revokeCandidateCertificate('${g.id || candidateId}', '${g.name}')" 
+                      class="px-2 py-1 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded-lg text-xs border border-slate-700 transition-all"
+                      title="Revoke Certificate"
+                    >
+                      ✕
+                    </button>
+                  ` : ''}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      };
+
+      document.getElementById('grad-search-input')?.addEventListener('input', () => {
+        renderGraduatesRegistry();
+      });
+
+      // Submit Form: Issue Certificate
+      document.getElementById('form-issue-certificate')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const candidateId = document.getElementById('issue-candidate-select').value;
+        const grade = document.getElementById('issue-grade-select').value;
+        const issueDate = document.getElementById('issue-cert-date').value;
+        const skillsRaw = document.getElementById('issue-cert-skills').value;
+        const skills = skillsRaw ? skillsRaw.split(',').map(s => s.trim()).filter(Boolean) : undefined;
+
+        if (!candidateId) {
+          return showAdminToast('Please select a candidate to issue certificate.', 'warning');
+        }
+
+        const candidate = allLeads.find(l => (l.candidateId || l.id) === candidateId);
+        const name = candidate ? candidate.name : 'Candidate';
+
+        if (window.issueCandidateCertificate) {
+          const res = await window.issueCandidateCertificate(candidateId, {
+            grade: grade,
+            issueDate: issueDate,
+            skills: skills
+          });
+
+          if (res.success) {
+            showAdminToast(`✓ Official Certificate issued to ${name} (${res.certId})!`, 'success');
+            await loadNexusData();
+            renderGraduatesRegistry();
+            // Prompt to open certificate preview
+            if (confirm(`Certificate issued successfully to ${name}!\n\nOpen certificate page now?`)) {
+              window.open(`verify-certificate.html?id=${encodeURIComponent(candidateId)}`, '_blank');
+            }
+          } else {
+            showAdminToast(res.error || 'Failed to issue certificate.', 'error');
+          }
+        }
+      });
+
+      window.copyCertVerificationLink = function(candidateId) {
+        const url = `${window.location.origin}/verify-certificate.html?id=${encodeURIComponent(candidateId)}`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(() => {
+            showAdminToast(`✓ Verification link for ${candidateId} copied!`, 'success');
+          }).catch(() => {
+            showAdminToast(`Link: ${url}`, 'info');
+          });
+        } else {
+          showAdminToast(`Link: ${url}`, 'info');
+        }
+      };
+
+      window.revokeCandidateCertificate = async function(leadId, name) {
+        if (confirm(`Are you sure you want to revoke the certificate for ${name}?`)) {
+          if (window.updateLeadDetails) {
+            await window.updateLeadDetails(leadId, {
+              certIssued: false,
+              certId: null,
+              stage: 'Enrolled Candidate'
+            });
+            showAdminToast(`Certificate revoked for ${name}.`, 'warning');
+            await loadNexusData();
+            renderGraduatesRegistry();
+          }
+        }
+      };
+
+      // Initialize Authentication and Data Engine
+      checkAuth();
     });
   </script>
 

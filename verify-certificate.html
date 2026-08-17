@@ -10,6 +10,39 @@
   <link rel="canonical" href="https://www.eareasetech.com/verify-certificate.html" />
   <link rel="icon" href="assets/favicon.ico" />
 
+  <!-- Open Graph / LinkedIn / Facebook Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.eareasetech.com/verify-certificate.html" />
+  <meta property="og:title" content="EarEase Tech Official Verified Credential" />
+  <meta property="og:description" content="Official digital certificate verification portal of EarEase Tech Private Limited and EarEase Nexus AI Labs." />
+  <meta property="og:image" content="https://www.eareasetech.com/assets/logo.png" />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EarEase Tech Official Verified Credential" />
+  <meta name="twitter:description" content="Authentic verified graduate credential issued by EarEase Tech Private Limited." />
+  <meta name="twitter:image" content="https://www.eareasetech.com/assets/logo.png" />
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOccupationalCredential",
+    "name": "EarEase Nexus Professional Credential",
+    "credentialCategory": "Certificate",
+    "recognizedBy": {
+      "@type": "Organization",
+      "name": "EarEase Tech Private Limited",
+      "url": "https://www.eareasetech.com"
+    },
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "EarEase Nexus AI Innovation Labs",
+      "url": "https://www.eareasetech.com/nexus.html"
+    }
+  }
+  </script>
+
   <!-- Google Fonts: Luxury Serif & Modern Sans & Calligraphic Script -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +59,7 @@
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-config.js?v=3.0"></script>
 
   <style>
     :root {
@@ -308,14 +341,11 @@
     <!-- 3. ACTIONS TOOLBAR (NO PRINT) -->
     <section id="cert-actions-bar" class="no-print flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
       
-      <!-- Theme Switcher -->
-      <div class="flex items-center gap-2 text-xs">
-        <span class="text-slate-400 font-medium">Certificate Theme:</span>
-        <div class="flex rounded-xl bg-slate-950 p-1 border border-slate-800">
-          <button onclick="setCertTheme('gold')" id="btn-theme-gold" class="px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition-all">Luxury Gold</button>
-          <button onclick="setCertTheme('emerald')" id="btn-theme-emerald" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-emerald-300 transition-all">Executive Emerald</button>
-          <button onclick="setCertTheme('cobalt')" id="btn-theme-cobalt" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-blue-300 transition-all">Royal Cobalt</button>
-        </div>
+      <div class="flex items-center gap-2 text-xs text-slate-300">
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Authentic Credential Verified
+        </span>
       </div>
 
       <!-- Export Action Buttons -->
@@ -477,12 +507,12 @@
               
               <!-- 1. Left Signature: Founder & CTO -->
               <div class="space-y-1">
-                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pl-1">Ashwanth G.</div>
+                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pl-1" id="cert-sig1-script">Ashwanth K.</div>
                 <div class="w-full h-px bg-slate-400"></div>
                 <div>
-                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight">Ashwanth G.</div>
-                  <div class="text-[8px] text-slate-500 font-medium">Founder & Chief Technology Officer</div>
-                  <div class="text-[8px] text-[#8C6211] font-semibold">EarEase Tech Private Limited</div>
+                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig1-name">Ashwanth K.</div>
+                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig1-title">Founder & Chief Technology Officer</div>
+                  <div class="text-[8px] text-[#8C6211] font-semibold" id="cert-sig1-org">EarEase Tech Private Limited</div>
                 </div>
               </div>
 
@@ -510,11 +540,12 @@
 
               <!-- 4. Right Signature: Academic Council & Metadata -->
               <div class="space-y-1 text-right">
-                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pr-1">Dr. S. K. Narayan</div>
+                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pr-1" id="cert-sig2-script">Monisha CL</div>
                 <div class="w-full h-px bg-slate-400"></div>
                 <div>
-                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight">Head of AI & Academic Council</div>
-                  <div class="text-[8px] text-slate-500 font-medium">EarEase Nexus Innovation Labs</div>
+                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig2-name">Monisha CL</div>
+                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig2-title">Soft Skills Trainer</div>
+                  <div class="text-[8px] text-slate-600 font-medium" id="cert-sig2-org">EarEase Nexus Innovation Labs</div>
                   <div class="text-[8px] text-[#8C6211] font-mono font-bold mt-0.5" id="cert-footer-id">EET-CERT-2026-894210</div>
                 </div>
               </div>
@@ -613,20 +644,35 @@
       }, 3500);
     }
 
-    // Generate Scannable QR Code
+    // Generate Scannable QR Code with 100% Fail-Proof Fallback
     function renderQRCode(targetUrl) {
       const qrContainer = document.getElementById('cert-qrcode');
       if (!qrContainer) return;
       qrContainer.innerHTML = '';
       
-      qrCodeInstance = new QRCode(qrContainer, {
-        text: targetUrl,
-        width: 58,
-        height: 58,
-        colorDark: "#0B1D35",
-        colorLight: "#FFFFFF",
-        correctLevel: QRCode.CorrectLevel.M
-      });
+      try {
+        if (typeof QRCode !== 'undefined') {
+          qrCodeInstance = new QRCode(qrContainer, {
+            text: targetUrl,
+            width: 58,
+            height: 58,
+            colorDark: "#0B1D35",
+            colorLight: "#FFFFFF",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+          return;
+        }
+      } catch (err) {
+        console.warn("Local QRCode generator notice, using high-res QR engine fallback:", err);
+      }
+
+      // High-Res Fallback QR image
+      const img = document.createElement('img');
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(targetUrl)}&color=0b1d35&bgcolor=ffffff`;
+      img.alt = "Verified Certificate QR Code";
+      img.className = "w-[58px] h-[58px] block mx-auto";
+      img.crossOrigin = "anonymous";
+      qrContainer.appendChild(img);
     }
 
     // Populate Certificate DOM with Data Object
@@ -656,11 +702,25 @@
       // Update Status Banner
       const statusPanel = document.getElementById('verification-status-panel');
       if (statusPanel) {
-        document.getElementById('meta-candidate-name').innerText = data.name;
-        document.getElementById('meta-cert-id').innerText = data.certId || data.candidateId;
-        document.getElementById('meta-issue-date').innerText = data.issueDate;
+        document.getElementById('meta-candidate-name').innerText = data.name || 'Candidate';
+        document.getElementById('meta-cert-id').innerText = data.certId || data.candidateId || '';
+        document.getElementById('meta-issue-date').innerText = data.issueDate || 'August 16, 2026';
         document.getElementById('meta-hash').innerText = (data.securityHash || '').slice(0, 16);
         statusPanel.classList.remove('hidden');
+      }
+
+      // Apply Signatory Settings dynamically if configured in admin panel
+      const settings = data.settings || (window.getCertificateSettings ? window.getCertificateSettings() : null);
+      if (settings) {
+        if (document.getElementById('cert-sig1-script')) document.getElementById('cert-sig1-script').innerText = settings.signatory1Name || 'Ashwanth K.';
+        if (document.getElementById('cert-sig1-name')) document.getElementById('cert-sig1-name').innerText = settings.signatory1Name || 'Ashwanth K.';
+        if (document.getElementById('cert-sig1-title')) document.getElementById('cert-sig1-title').innerText = settings.signatory1Title || 'Founder & Chief Technology Officer';
+        if (document.getElementById('cert-sig1-org')) document.getElementById('cert-sig1-org').innerText = settings.signatory1Org || 'EarEase Tech Private Limited';
+
+        if (document.getElementById('cert-sig2-script')) document.getElementById('cert-sig2-script').innerText = settings.signatory2Name || 'Monisha CL';
+        if (document.getElementById('cert-sig2-name')) document.getElementById('cert-sig2-name').innerText = settings.signatory2Name || 'Monisha CL';
+        if (document.getElementById('cert-sig2-title')) document.getElementById('cert-sig2-title').innerText = settings.signatory2Title || 'Soft Skills Trainer';
+        if (document.getElementById('cert-sig2-org')) document.getElementById('cert-sig2-org').innerText = settings.signatory2Org || 'EarEase Nexus Innovation Labs';
       }
 
       // Generate Live QR Code for the verification URL
@@ -718,26 +778,27 @@
       }
     }
 
-    // Theme Switcher
+    // Theme Switcher (Safe Helper)
     function setCertTheme(theme) {
       const sheet = document.getElementById('certificate-sheet');
+      if (!sheet) return;
       const btnGold = document.getElementById('btn-theme-gold');
       const btnEmerald = document.getElementById('btn-theme-emerald');
       const btnCobalt = document.getElementById('btn-theme-cobalt');
 
       sheet.classList.remove('theme-emerald', 'theme-cobalt');
-      btnGold.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-amber-300 transition-all';
-      btnEmerald.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-emerald-300 transition-all';
-      btnCobalt.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-blue-300 transition-all';
+      if (btnGold) btnGold.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-amber-300 transition-all';
+      if (btnEmerald) btnEmerald.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-emerald-300 transition-all';
+      if (btnCobalt) btnCobalt.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-blue-300 transition-all';
 
       if (theme === 'emerald') {
         sheet.classList.add('theme-emerald');
-        btnEmerald.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 transition-all';
+        if (btnEmerald) btnEmerald.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 transition-all';
       } else if (theme === 'cobalt') {
         sheet.classList.add('theme-cobalt');
-        btnCobalt.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-all';
+        if (btnCobalt) btnCobalt.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-all';
       } else {
-        btnGold.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition-all';
+        if (btnGold) btnGold.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition-all';
       }
     }
 

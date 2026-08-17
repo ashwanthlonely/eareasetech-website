@@ -13,6 +13,9 @@ service cloud.firestore {
     match /program_fees/{feeId} {
       allow read, write: if true;
     }
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
     match /{document=**} {
       allow read, write: if true;
     }

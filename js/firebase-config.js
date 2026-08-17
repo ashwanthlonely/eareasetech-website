@@ -1029,6 +1029,53 @@ function clearAllLocalLeads() {
  * -------------------------------------------------------------
  */
 
+const defaultCertSettings = {
+  signatory1Name: 'Ashwanth K',
+  signatory1Title: 'Founder & Chief Technology Officer',
+  signatory1Org: 'EarEase Tech Private Limited',
+  signatory2Name: 'Monisha CL',
+  signatory2Title: 'Soft Skills Trainer',
+  signatory2Org: 'EarEase Nexus Innovation Labs',
+  sealText: 'EAREASE TECH • OFFICIAL VERIFIED SEAL 2026',
+  companyName: 'EarEase Tech Private Limited',
+  companyGstin: '29AAJCE2794F1ZA',
+  isoCompliance: 'ISO 9001:2015 Compliant Academic Governance'
+};
+
+function getCertificateSettings() {
+  try {
+    const saved = localStorage.getItem('eet_cert_settings');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Migration: clear old signatory2 defaults so new Monisha CL defaults apply
+      if (parsed.signatory2Title === 'Head of AI & Academic Council') {
+        delete parsed.signatory2Name;
+        delete parsed.signatory2Title;
+        localStorage.setItem('eet_cert_settings', JSON.stringify(parsed));
+      }
+      return { ...defaultCertSettings, ...parsed };
+    }
+  } catch (e) {
+    console.warn("Cert settings read warning:", e);
+  }
+  return defaultCertSettings;
+}
+
+async function saveCertificateSettings(newSettings) {
+  const merged = { ...getCertificateSettings(), ...newSettings };
+  localStorage.setItem('eet_cert_settings', JSON.stringify(merged));
+  await pushCloudBlobState();
+
+  if (isFirebaseInitialized && db) {
+    try {
+      await db.collection('settings').doc('certificate_config').set(merged);
+    } catch (err) {
+      console.warn("Firestore save certificate settings notice:", err);
+    }
+  }
+  return merged;
+}
+
 const DEMO_CERTIFICATES = [
   {
     candidateId: 'EET-DSC-129381',
@@ -1093,6 +1140,7 @@ async function verifyCertificateById(queryId) {
   
   const cleanId = String(queryId).trim();
   const lowerQuery = cleanId.toLowerCase();
+  const certSettings = getCertificateSettings();
 
   // 1. Check local leads database first
   const leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
@@ -1161,12 +1209,13 @@ async function verifyCertificateById(queryId) {
         completionStatus: 'Certified & Officially Verified',
         grade: matchedLead.certGrade || 'Mastery Level - Completed with Excellence',
         skills: matchedLead.certSkills || skillsList,
-        issuer: 'EarEase Tech Private Limited',
-        division: 'EarEase Nexus AI Innovation Labs',
+        issuer: certSettings.companyName,
+        division: certSettings.signatory2Org,
         credentialType: certType,
         govtIdMasked: matchedLead.govtId ? `Govt ID: ${matchedLead.govtId.slice(-4).padStart(matchedLead.govtId.length, '•')}` : 'Verified Identity',
         securityHash: generateSecurityHash(`${certId}-${matchedLead.name}-${courseTitle}`),
-        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(matchedLead.candidateId || certId)}`
+        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(matchedLead.candidateId || certId)}`,
+        settings: certSettings
       }
     };
   }
@@ -1184,7 +1233,8 @@ async function verifyCertificateById(queryId) {
       data: {
         ...demoMatch,
         securityHash: generateSecurityHash(`${demoMatch.certId}-${demoMatch.name}-${demoMatch.service}`),
-        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(demoMatch.candidateId)}`
+        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(demoMatch.candidateId)}`,
+        settings: certSettings
       }
     };
   }
@@ -1210,11 +1260,12 @@ async function verifyCertificateById(queryId) {
         completionStatus: 'Certified & Verified',
         grade: 'Passed with Honors',
         skills: ['ChatGPT & Claude Advanced Workflows', 'Python & Data Analysis', 'AI Agent Automations', 'Model Deployment'],
-        issuer: 'EarEase Tech Private Limited',
-        division: 'EarEase Nexus AI Innovation Labs',
+        issuer: certSettings.companyName,
+        division: certSettings.signatory2Org,
         credentialType: isWorkshop ? 'Executive Workshop Certification of Mastery' : 'Certificate of Professional Completion',
         securityHash: generateSecurityHash(`${certId}-Candidate-${title}`),
-        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(formattedId)}`
+        verificationUrl: `https://eareasetech.com/verify-certificate.html?id=${encodeURIComponent(formattedId)}`,
+        settings: certSettings
       }
     };
   }
@@ -1282,6 +1333,8 @@ window.clearAllLocalLeads = clearAllLocalLeads;
 window.getNexusSeatStatus = getNexusSeatStatus;
 window.verifyCertificateById = verifyCertificateById;
 window.issueCandidateCertificate = issueCandidateCertificate;
+window.getCertificateSettings = getCertificateSettings;
+window.saveCertificateSettings = saveCertificateSettings;
 window.DEMO_CERTIFICATES = DEMO_CERTIFICATES;
 
 window.EarEaseFirebase = {
@@ -1305,6 +1358,8 @@ window.EarEaseFirebase = {
   deleteCoupon: deleteCoupon,
   applyCoupon: applyCouponCode,
   verifyCertificate: verifyCertificateById,
-  issueCertificate: issueCandidateCertificate
+  issueCertificate: issueCandidateCertificate,
+  getCertSettings: getCertificateSettings,
+  saveCertSettings: saveCertificateSettings
 };
 
