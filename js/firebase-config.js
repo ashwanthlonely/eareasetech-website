@@ -1136,57 +1136,6 @@ const DEMO_CERTIFICATES = [
     issuer: 'EarEase Tech Private Limited',
     division: 'EarEase Nexus AI Innovation Labs',
     credentialType: 'Master Internship & Research Fellowship Diploma'
-  },
-  {
-    candidateId: 'EET-DSC-129381',
-    certId: 'EET-CERT-2026-894210',
-    name: 'Aditi Sharma',
-    phone: '9876543210',
-    email: 'aditi.sharma@example.com',
-    service: 'Data Science Career Assessment & AI Tools Workshop',
-    duration: '3-Hour Intensive Workshop',
-    cohort: 'August 2026 Batch #04',
-    issueDate: '2026-08-16',
-    completionStatus: 'Certified & Verified',
-    grade: 'Mastery Level - 96% Assessment Score',
-    skills: ['ChatGPT & Claude Advanced Prompt Engineering', 'Autonomous AI Workflows with n8n & Python', 'Cursor AI Accelerated Prototyping', 'Predictive Modeling & Scikit-Learn', 'Production Model Deployment Architecture'],
-    issuer: 'EarEase Tech Private Limited',
-    division: 'EarEase Nexus AI Innovation Labs',
-    credentialType: 'Executive Workshop Certification of Mastery'
-  },
-  {
-    candidateId: 'EET-NEX-582910',
-    certId: 'EET-CERT-2026-582910',
-    name: 'Rahul Verma',
-    phone: '9823456789',
-    email: 'rahul.verma@example.com',
-    service: 'AI & Machine Learning (3-Month Mentorship)',
-    duration: '3-Month Industry Mentorship',
-    cohort: 'June - August 2026 Cohort',
-    issueDate: '2026-08-15',
-    completionStatus: 'Certified & Verified',
-    grade: 'Distinction with Honors',
-    skills: ['Deep Learning & PyTorch', 'Full-Stack Machine Learning Systems', 'Computer Vision & OpenCV', 'Large Language Models & RAG', 'MLOps & Cloud Pipeline Deployment'],
-    issuer: 'EarEase Tech Private Limited',
-    division: 'EarEase Nexus AI Innovation Labs',
-    credentialType: 'Professional Industry Mentorship Diploma'
-  },
-  {
-    candidateId: 'EET-DEMO-2026',
-    certId: 'EET-CERT-2026-DEMO99',
-    name: 'Ashwanth Reddy',
-    phone: '9845012345',
-    email: 'ashwanth.reddy@example.com',
-    service: 'AI Tools for Working Professionals',
-    duration: '30-Day Express Bootcamp',
-    cohort: 'August 2026 Active Batch',
-    issueDate: '2026-08-16',
-    completionStatus: 'Certified & Verified',
-    grade: 'Certified Professional',
-    skills: ['Generative AI for Enterprise Workflows', 'Prompt Optimization & Evaluation', 'Low-Code Automation Pipelines', 'Document Intelligence & Vector Search'],
-    issuer: 'EarEase Tech Private Limited',
-    division: 'EarEase Nexus AI Innovation Labs',
-    credentialType: 'Executive Bootcamp Certificate of Completion'
   }
 ];
 
