@@ -278,18 +278,18 @@
           </button>
         </form>
 
-        <!-- Demo Quick Click Tags -->
+        <!-- Confidential Search Format Examples (No Private Data Exposed) -->
         <div class="pt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
-          <span>Quick Lookup Tags:</span>
-          <button type="button" onclick="searchById('9392476935')" class="px-2.5 py-0.5 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-mono border border-slate-700 transition-colors" title="Lookup Ganesh Dumpala via Mobile">
-            Ganesh D. (9392476935) ↗
-          </button>
-          <button type="button" onclick="searchById('9014656437')" class="px-2.5 py-0.5 rounded-full bg-slate-800 hover:bg-slate-700 text-purple-300 font-mono border border-slate-700 transition-colors" title="Lookup Sagiraju Jyothsna via Mobile">
-            Sagiraju J. (9014656437) ↗
-          </button>
-          <button type="button" onclick="searchById('6206799613')" class="px-2.5 py-0.5 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-300 font-mono border border-slate-700 transition-colors" title="Lookup Shaili Jaiswal via Mobile">
-            Shaili J. (6206799613) ↗
-          </button>
+          <span>Search Format Examples:</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-slate-800/80 text-amber-300 font-mono border border-slate-700">
+            ID: EET-DSAI-XXXXXX
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full bg-slate-800/80 text-purple-300 font-mono border border-slate-700">
+            Mobile: 9XXXXXXXXX
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full bg-slate-800/80 text-emerald-300 font-mono border border-slate-700">
+            Name: First & Last Name
+          </span>
         </div>
       </div>
     </section>
@@ -466,7 +466,7 @@
             <!-- CANDIDATE FULL NAME -->
             <div class="py-0.5">
               <h1 id="cert-candidate-name" class="font-cinzel text-3xl sm:text-4xl font-extrabold tracking-wide text-[#0B1D35] drop-shadow-sm">
-                Ganesh Dumpala
+                [Candidate Full Name]
               </h1>
               <div class="w-56 h-0.5 bg-[#D89B1F]/40 mx-auto mt-1.5"></div>
             </div>
@@ -483,9 +483,9 @@
               <div class="flex items-center justify-center gap-3 text-[10px] text-[#8C6211] font-semibold mt-0.5">
                 <span id="cert-duration">6-Month Industry Mentorship & Research Fellowship</span>
                 <span>•</span>
-                <span id="cert-cohort">2025 – April 2026 Fellowship Batch</span>
+                <span id="cert-cohort">Verified Alumni Credential</span>
                 <span>•</span>
-                <span id="cert-grade" class="text-emerald-700 font-bold">Mastery with Distinction (98%)</span>
+                <span id="cert-grade" class="text-emerald-700 font-bold">Mastery Level</span>
               </div>
             </div>
 
@@ -887,8 +887,8 @@
       if (queryId) {
         await searchById(queryId);
       } else {
-        // Load Default Featured Alumnus Certificate as initial presentation
-        searchById('EET-DSAI-939247');
+        // Render initial generic QR code without exposing personal data
+        renderQRCode(window.location.href);
       }
     });
   </script>
