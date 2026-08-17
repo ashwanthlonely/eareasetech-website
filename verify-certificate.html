@@ -198,33 +198,64 @@
 <body class="min-h-screen flex flex-col">
 
   <!-- ========================================================================= -->
-  <!-- TOP NAVIGATION HEADER -->
+  <!-- TOP NAVIGATION HEADER (MATCHING NEXUS.HTML) -->
   <!-- ========================================================================= -->
-  <header class="sticky top-0 z-40 bg-[#071324]/90 backdrop-blur-md border-b border-amber-500/20 px-4 sm:px-6 lg:px-8 py-3.5 no-print">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <a href="index.html" class="flex items-center gap-3 group">
-          <img src="assets/logo.png" alt="EarEase Tech Logo" class="h-9 w-auto object-contain transition-transform group-hover:scale-105" />
+  <header class="bg-[#0B1D35] text-white border-b border-amber-500/30 sticky top-0 z-50 shadow-xl no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Standalone Nexus Logo & Brand Title -->
+        <a href="nexus.html" class="flex items-center gap-3 group">
+          <img src="assets/E2n-logo.png" alt="EarEase Nexus Logo" style="height: 48px; width: auto;" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" />
           <div class="flex flex-col">
-            <span class="font-bold text-base leading-none text-white tracking-tight">EarEase-Tech</span>
-            <span class="text-[10px] text-amber-400 font-medium tracking-wide">VERIFIED CREDENTIALS</span>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xl leading-none tracking-tight text-white">EarEase <span class="text-[#D89B1F]">Nexus</span></span>
+              <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded text-[9px] font-bold uppercase tracking-wider">Research Labs</span>
+            </div>
+            <span class="text-[11px] text-amber-400 font-medium tracking-wide lowercase italic mt-0.5">AI Innovation & Research Labs • we ease your stress</span>
           </div>
         </a>
-        <div class="hidden sm:block h-6 w-px bg-slate-700 mx-1"></div>
-        <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/30">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-          EarEase Nexus Issuance Engine
-        </span>
-      </div>
 
-      <!-- Quick Nav Links -->
-      <nav class="flex items-center gap-2 sm:gap-4 text-xs font-medium text-slate-300">
-        <a href="nexus.html" class="hover:text-amber-400 transition-colors px-2 py-1">Nexus Programs</a>
-        <a href="solutions.html" class="hover:text-amber-400 transition-colors px-2 py-1 hidden md:inline">B2B Solutions</a>
-        <a href="nexus-admin.html" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold border border-slate-700 transition-all flex items-center gap-1.5">
-          <span>🔒 Admin Desk</span>
+        <!-- Standalone Nexus Navigation -->
+        <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
+          <a href="nexus.html" class="hover:text-amber-400 transition-colors">Home</a>
+          <a href="nexus.html#durations" class="hover:text-amber-400 transition-colors">Program Tiers</a>
+          <a href="nexus.html#curriculum" class="hover:text-amber-400 transition-colors">Syllabus</a>
+          <a href="nexus.html#reviews" class="hover:text-amber-400 transition-colors">Student Reviews</a>
+          <a href="nexus.html#certificates" class="hover:text-amber-400 transition-colors">Certificates</a>
+          <a href="verify-certificate.html" class="text-amber-400 font-bold flex items-center gap-1 border-b-2 border-amber-400 pb-0.5">🎓 Verify Certificate</a>
+        </nav>
+
+        <!-- Header Action CTA -->
+        <div class="hidden sm:flex items-center gap-3">
+          <a href="nexus.html#admissions" class="px-5 py-2.5 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all hover:scale-105">
+            Contact Admissions &rarr;
+          </a>
+        </div>
+
+        <!-- Mobile hamburger toggle -->
+        <button id="nexus-mobile-menu-btn" onclick="document.getElementById('nexus-mobile-drawer').classList.toggle('hidden')" aria-label="Toggle Navigation Menu" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none ml-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+    
+    <!-- Standalone Mobile Drawer -->
+    <div id="nexus-mobile-drawer" class="hidden md:hidden bg-[#0F1E36] border-t border-amber-500/20 px-4 py-6 space-y-4 shadow-xl text-xs font-semibold text-slate-300">
+      <a href="nexus.html" class="block py-2 border-b border-slate-800 hover:text-amber-400">Home</a>
+      <a href="nexus.html#durations" class="block py-2 border-b border-slate-800 hover:text-amber-400">Program Tiers</a>
+      <a href="nexus.html#curriculum" class="block py-2 border-b border-slate-800 hover:text-amber-400">Syllabus</a>
+      <a href="nexus.html#reviews" class="block py-2 border-b border-slate-800 hover:text-amber-400">Student Reviews</a>
+      <a href="nexus.html#certificates" class="block py-2 border-b border-slate-800 hover:text-amber-400">Certificates</a>
+      <a href="verify-certificate.html" class="block py-2 border-b border-slate-800 text-amber-400 font-bold">🎓 Verify Certificate</a>
+      <div class="pt-2">
+        <a href="nexus.html#admissions" class="block w-full py-3 bg-[#D89B1F] hover:bg-amber-500 text-slate-950 font-bold rounded-xl shadow-lg text-center">
+          Contact Admissions &rarr;
         </a>
-      </nav>
+      </div>
     </div>
   </header>
 
