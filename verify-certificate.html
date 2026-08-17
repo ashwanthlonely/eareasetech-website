@@ -756,19 +756,25 @@
         statusPanel.classList.remove('hidden');
       }
 
-      // Apply Signatory Settings dynamically if configured in admin panel
-      const settings = data.settings || (window.getCertificateSettings ? window.getCertificateSettings() : null);
-      if (settings) {
-        if (document.getElementById('cert-sig1-script')) document.getElementById('cert-sig1-script').innerText = settings.signatory1Name || 'Ashwanth K.';
-        if (document.getElementById('cert-sig1-name')) document.getElementById('cert-sig1-name').innerText = settings.signatory1Name || 'Ashwanth K.';
-        if (document.getElementById('cert-sig1-title')) document.getElementById('cert-sig1-title').innerText = settings.signatory1Title || 'Founder & Chief Technology Officer';
-        if (document.getElementById('cert-sig1-org')) document.getElementById('cert-sig1-org').innerText = settings.signatory1Org || 'EarEase Tech Private Limited';
+      // Apply Signatory Settings dynamically with guaranteed fallbacks
+      const settings = data.settings || (window.getCertificateSettings ? window.getCertificateSettings() : {});
+      const sig1 = (settings && settings.signatory1Name) || 'Ashwanth K.';
+      const sig1Title = (settings && settings.signatory1Title) || 'Founder & Chief Technology Officer';
+      const sig1Org = (settings && settings.signatory1Org) || 'EarEase Tech Private Limited';
 
-        if (document.getElementById('cert-sig2-script')) document.getElementById('cert-sig2-script').innerText = settings.signatory2Name || 'Monisha CL';
-        if (document.getElementById('cert-sig2-name')) document.getElementById('cert-sig2-name').innerText = settings.signatory2Name || 'Monisha CL';
-        if (document.getElementById('cert-sig2-title')) document.getElementById('cert-sig2-title').innerText = settings.signatory2Title || 'Soft Skills Trainer';
-        if (document.getElementById('cert-sig2-org')) document.getElementById('cert-sig2-org').innerText = settings.signatory2Org || 'EarEase Nexus Innovation Labs';
-      }
+      const sig2 = (settings && settings.signatory2Name) || 'Monisha CL';
+      const sig2Title = (settings && settings.signatory2Title) || 'Soft Skills Trainer';
+      const sig2Org = (settings && settings.signatory2Org) || 'EarEase Nexus Innovation Labs';
+
+      if (document.getElementById('cert-sig1-script')) document.getElementById('cert-sig1-script').innerText = sig1;
+      if (document.getElementById('cert-sig1-name')) document.getElementById('cert-sig1-name').innerText = sig1;
+      if (document.getElementById('cert-sig1-title')) document.getElementById('cert-sig1-title').innerText = sig1Title;
+      if (document.getElementById('cert-sig1-org')) document.getElementById('cert-sig1-org').innerText = sig1Org;
+
+      if (document.getElementById('cert-sig2-script')) document.getElementById('cert-sig2-script').innerText = sig2;
+      if (document.getElementById('cert-sig2-name')) document.getElementById('cert-sig2-name').innerText = sig2;
+      if (document.getElementById('cert-sig2-title')) document.getElementById('cert-sig2-title').innerText = sig2Title;
+      if (document.getElementById('cert-sig2-org')) document.getElementById('cert-sig2-org').innerText = sig2Org;
 
       // Generate Live QR Code for the verification URL
       const currentUrl = new URL(window.location.href);

@@ -1364,6 +1364,9 @@ async function issueCandidateCertificate(candidateId, certificateMeta = {}) {
     return { success: true, certId: certId, lead: leads[leadIndex] };
   }
 
+  return { success: false, error: 'Candidate record not found.' };
+}
+
 // ============================================================================
 // STUDENT REVIEWS & TESTIMONIALS MODERATION SYSTEM
 // ============================================================================
