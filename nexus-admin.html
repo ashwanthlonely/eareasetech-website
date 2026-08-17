@@ -1518,12 +1518,14 @@
         const badgeEl = document.getElementById('badge-grad-count');
         if (badgeEl) badgeEl.innerText = uniqueGrads.length;
 
-        // Filter by search
+        // Filter by search (name, candidateId, certId, service, phone, email)
         const filtered = uniqueGrads.filter(g => 
           (g.name || '').toLowerCase().includes(searchVal) ||
           (g.candidateId || '').toLowerCase().includes(searchVal) ||
           (g.certId || '').toLowerCase().includes(searchVal) ||
-          (g.service || '').toLowerCase().includes(searchVal)
+          (g.service || '').toLowerCase().includes(searchVal) ||
+          (g.phone || '').includes(searchVal) ||
+          (g.email || '').toLowerCase().includes(searchVal)
         );
 
         if (filtered.length === 0) {
@@ -1531,8 +1533,8 @@
             <tr>
               <td colspan="8" class="p-8 text-center text-slate-500">
                 <div class="text-3xl mb-2">🎓</div>
-                <div class="font-semibold text-slate-400">No certified graduates found matching "${searchVal}"</div>
-                <div class="text-xs text-slate-500 mt-1">Issue a certificate above or accept completed candidates.</div>
+                <div class="font-semibold text-slate-400">No certified graduates found matching "${escapeHtml(searchVal)}"</div>
+                <div class="text-xs text-slate-500 mt-1">Issue a certificate above or search by Name, Phone or ID.</div>
               </td>
             </tr>
           `;
@@ -1546,17 +1548,19 @@
           const grade = g.certGrade || g.grade || 'Mastery Level - Completed with Excellence';
           const track = g.service || 'AI & Machine Learning Track';
           const cohort = g.cohort || 'EarEase Nexus Active Batch';
+          const contactInfo = g.phone ? `${g.phone} ${g.email ? '• ' + g.email : ''}` : (g.email || '');
 
           return `
             <tr class="hover:bg-slate-900/60 transition-colors">
               <td class="p-4 font-bold text-white flex items-center gap-2">
-                <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center font-bold text-xs">🎓</span>
+                <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0">🎓</span>
                 <div>
-                  <div>${g.name || 'Candidate'}</div>
+                  <div>${escapeHtml(g.name || 'Candidate')}</div>
+                  ${contactInfo ? `<div class="text-[10px] text-slate-400 font-mono font-normal">${escapeHtml(contactInfo)}</div>` : ''}
                   ${g.isDemo ? '<span class="text-[9px] text-amber-400 font-normal">Official Sample</span>' : '<span class="text-[9px] text-emerald-400 font-normal">Verified Alumnus</span>'}
                 </div>
               </td>
-              <td class="p-4 font-mono text-amber-300 font-semibold">${candidateId}</td>
+              <td class="p-4 font-mono text-amber-300 font-semibold">${escapeHtml(candidateId)}</td>
               <td class="p-4 text-slate-300 text-xs">${track}</td>
               <td class="p-4 text-slate-400 text-xs">${cohort}</td>
               <td class="p-4">

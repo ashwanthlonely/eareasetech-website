@@ -1078,9 +1078,68 @@ async function saveCertificateSettings(newSettings) {
 
 const DEMO_CERTIFICATES = [
   {
+    candidateId: 'EET-DSAI-939247',
+    certId: 'EET-CERT-2026-GD9392',
+    name: 'Ganesh Dumpala',
+    phone: '9392476935',
+    email: 'dumpalaganesh27@gmail.com',
+    address: 'Chinna Harichandrapuram, Kotabommali (Mandal), Srikakulam, Andhra Pradesh - 532430',
+    joiningDate: '2025-06-30',
+    service: '6 Months Data Science with AI Mentorship',
+    duration: '6-Month Industry Mentorship & Research Fellowship',
+    cohort: 'June 2025 – December 2025 Batch',
+    issueDate: '2025-12-30',
+    completionStatus: 'Certified & Verified',
+    grade: 'Mastery with Distinction - 98% Assessment Score',
+    skills: ['Data Science & Advanced Machine Learning', 'Deep Learning & PyTorch', 'Generative AI & LLM Systems', 'MLOps & Real-time Cloud Deployment', 'Python & Predictive Data Engineering', 'Production Model Governance'],
+    issuer: 'EarEase Tech Private Limited',
+    division: 'EarEase Nexus AI Innovation Labs',
+    credentialType: 'Master Internship & Research Fellowship Diploma'
+  },
+  {
+    candidateId: 'EET-DSAI-901465',
+    certId: 'EET-CERT-2026-SJ9014',
+    name: 'Sagiraju Jyothsna',
+    phone: '9014656437',
+    email: 'jyothsnasagiraju@gmail.com',
+    address: 'Atreyapuram, Andhra Pradesh - 533235',
+    joiningDate: '2025-10-02',
+    service: '6 Months Data Science with AI Mentorship',
+    duration: '6-Month Industry Mentorship & Research Fellowship',
+    cohort: 'October 2025 – April 2026 Batch',
+    issueDate: '2026-04-02',
+    completionStatus: 'Certified & Verified',
+    grade: 'Mastery with Honors - 97% Assessment Score',
+    skills: ['Data Science & Statistical Modeling', 'Computer Vision & PyTorch', 'Large Language Models & RAG Architectures', 'MLOps & Autonomous Agents', 'Python for AI Engineering', 'Full-Stack Model Systems'],
+    issuer: 'EarEase Tech Private Limited',
+    division: 'EarEase Nexus AI Innovation Labs',
+    credentialType: 'Master Internship & Research Fellowship Diploma'
+  },
+  {
+    candidateId: 'EET-DSAI-620679',
+    certId: 'EET-CERT-2026-SH6206',
+    name: 'Shaili Jaiswal',
+    phone: '6206799613',
+    email: 'shailijaiswal94@gmail.com',
+    address: 'Gomia Basti, Near Hanuman Mandir, Ps- Gomia, Dist- Bokaro, Jharkhand - 829111',
+    joiningDate: '2025-09-01',
+    service: '6 Months Data Science with AI Mentorship',
+    duration: '6-Month Industry Mentorship & Research Fellowship',
+    cohort: 'September 2025 – March 2026 Batch',
+    issueDate: '2026-03-01',
+    completionStatus: 'Certified & Verified',
+    grade: 'Mastery with Distinction - 99% Assessment Score',
+    skills: ['Data Science & Predictive Modeling', 'Deep Learning & Neural Networks', 'Generative AI Pipelines & Agents', 'Autonomous AI Workflows', 'Production MLOps & Vector Databases', 'Enterprise AI System Architecture'],
+    issuer: 'EarEase Tech Private Limited',
+    division: 'EarEase Nexus AI Innovation Labs',
+    credentialType: 'Master Internship & Research Fellowship Diploma'
+  },
+  {
     candidateId: 'EET-DSC-129381',
     certId: 'EET-CERT-2026-894210',
     name: 'Aditi Sharma',
+    phone: '9876543210',
+    email: 'aditi.sharma@example.com',
     service: 'Data Science Career Assessment & AI Tools Workshop',
     duration: '3-Hour Intensive Workshop',
     cohort: 'August 2026 Batch #04',
@@ -1096,6 +1155,8 @@ const DEMO_CERTIFICATES = [
     candidateId: 'EET-NEX-582910',
     certId: 'EET-CERT-2026-582910',
     name: 'Rahul Verma',
+    phone: '9823456789',
+    email: 'rahul.verma@example.com',
     service: 'AI & Machine Learning (3-Month Mentorship)',
     duration: '3-Month Industry Mentorship',
     cohort: 'June - August 2026 Cohort',
@@ -1111,6 +1172,8 @@ const DEMO_CERTIFICATES = [
     candidateId: 'EET-DEMO-2026',
     certId: 'EET-CERT-2026-DEMO99',
     name: 'Ashwanth Reddy',
+    phone: '9845012345',
+    email: 'ashwanth.reddy@example.com',
     service: 'AI Tools for Working Professionals',
     duration: '30-Day Express Bootcamp',
     cohort: 'August 2026 Active Batch',
@@ -1135,21 +1198,58 @@ function generateSecurityHash(str) {
   return `SHA256-${hex.substring(0, 4)}-${hex.substring(4, 8)}-${Date.now().toString(16).slice(-4).toUpperCase()}`;
 }
 
+// Universal Candidate Matcher (Matches ID, Mobile Number, Full Name, Email)
+function matchCandidateRecord(record, query) {
+  if (!record || !query) return false;
+  const lowerQuery = String(query).trim().toLowerCase();
+  const digitsQuery = String(query).replace(/[^0-9]/g, '');
+
+  const candId = (record.candidateId || '').toLowerCase();
+  const certId = (record.certId || '').toLowerCase();
+  const recId = (record.id || '').toLowerCase();
+  const recEmail = (record.email || '').toLowerCase();
+  const recName = (record.name || '').toLowerCase();
+  const recPhoneDigits = (record.phone || record.contact || '').replace(/[^0-9]/g, '');
+
+  // 1. Direct ID matches
+  if (candId === lowerQuery || certId === lowerQuery || recId === lowerQuery) return true;
+  if (candId.replace(/[^a-z0-9]/g, '') === lowerQuery.replace(/[^a-z0-9]/g, '')) return true;
+
+  // 2. Email exact match
+  if (recEmail && recEmail === lowerQuery) return true;
+
+  // 3. Phone / Mobile number match (handles +91, leading 0, exact suffix or substring matching)
+  if (digitsQuery.length >= 7) {
+    if (recPhoneDigits && (recPhoneDigits.includes(digitsQuery) || digitsQuery.includes(recPhoneDigits) || recPhoneDigits.endsWith(digitsQuery) || digitsQuery.endsWith(recPhoneDigits))) {
+      return true;
+    }
+  }
+
+  // 4. Name match (exact, trimmed, or contains if search query length is >= 3)
+  if (lowerQuery.length >= 3) {
+    if (recName === lowerQuery) return true;
+    if (recName.includes(lowerQuery) || lowerQuery.includes(recName)) return true;
+    // Check individual name parts (e.g. "Ganesh" or "Jyothsna")
+    const nameParts = recName.split(/\s+/);
+    if (nameParts.some(part => part.length >= 3 && (part === lowerQuery || lowerQuery.includes(part)))) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 async function verifyCertificateById(queryId) {
-  if (!queryId) return { success: false, message: 'Please provide a valid Candidate ID or Certificate ID.' };
+  if (!queryId) return { success: false, message: 'Please provide a valid Candidate ID, Certificate ID, Mobile Number, or Full Name.' };
   
   const cleanId = String(queryId).trim();
   const lowerQuery = cleanId.toLowerCase();
+  const digitsQuery = cleanId.replace(/[^0-9]/g, '');
   const certSettings = getCertificateSettings();
 
   // 1. Check local leads database first
   const leads = JSON.parse(localStorage.getItem('eet_leads') || '[]');
-  let matchedLead = leads.find(l => 
-    (l.candidateId && l.candidateId.toLowerCase() === lowerQuery) ||
-    (l.id && l.id.toLowerCase() === lowerQuery) ||
-    (l.certId && l.certId.toLowerCase() === lowerQuery) ||
-    (l.email && l.email.toLowerCase() === lowerQuery)
-  );
+  let matchedLead = leads.find(l => matchCandidateRecord(l, cleanId));
 
   // 2. Query Firestore live database if not found locally
   if (!matchedLead && isFirebaseInitialized && db) {
@@ -1161,6 +1261,11 @@ async function verifyCertificateById(queryId) {
         const certSnap = await db.collection('leads').where('certId', '==', cleanId).limit(1).get();
         if (!certSnap.empty) {
           matchedLead = { ...certSnap.docs[0].data(), id: certSnap.docs[0].id };
+        } else if (digitsQuery.length >= 10) {
+          const phoneSnap = await db.collection('leads').where('phone', '==', cleanId).limit(1).get();
+          if (!phoneSnap.empty) {
+            matchedLead = { ...phoneSnap.docs[0].data(), id: phoneSnap.docs[0].id };
+          }
         }
       }
     } catch (e) {
@@ -1173,7 +1278,7 @@ async function verifyCertificateById(queryId) {
     const courseTitle = matchedLead.service || 'AI & Machine Learning Track';
     const isWorkshop = courseTitle.toLowerCase().includes('workshop') || courseTitle.toLowerCase().includes('assessment');
     const is3Month = courseTitle.toLowerCase().includes('3-month');
-    const is6Month = courseTitle.toLowerCase().includes('6-month');
+    const is6Month = courseTitle.toLowerCase().includes('6-month') || courseTitle.toLowerCase().includes('6 month');
 
     let durationLabel = '30-Day Express Bootcamp';
     let certType = 'Certificate of Professional Completion';
@@ -1188,9 +1293,9 @@ async function verifyCertificateById(queryId) {
       certType = 'Professional Industry Mentorship Diploma';
       skillsList = ['Deep Learning & Neural Networks', 'PyTorch & TensorFlow Model Pipelines', 'Computer Vision & LLM RAG Systems', 'MLOps & Real-time Cloud Inference'];
     } else if (is6Month) {
-      durationLabel = '6-Month Research Internship';
+      durationLabel = '6-Month Research Internship & Mentorship';
       certType = 'Master Internship & Research Fellowship Diploma';
-      skillsList = ['Production AI System Architecture', 'Scalable Data Engineering & Vector DBs', 'Custom Transformer Fine-tuning', 'Enterprise Model Governance & Security'];
+      skillsList = ['Data Science & Advanced Machine Learning', 'Deep Learning & PyTorch', 'Generative AI & LLM Systems', 'MLOps & Real-time Cloud Deployment', 'Python & Predictive Data Engineering', 'Production Model Governance'];
     }
 
     const certId = matchedLead.certId || `EET-CERT-2026-${(matchedLead.candidateId || 'NEXUS').replace(/[^0-9]/g, '').slice(-6) || Math.floor(100000 + Math.random() * 900000)}`;
@@ -1202,6 +1307,8 @@ async function verifyCertificateById(queryId) {
         candidateId: matchedLead.candidateId || cleanId,
         certId: certId,
         name: matchedLead.name || 'Certified Candidate',
+        phone: matchedLead.phone || matchedLead.contact || '',
+        email: matchedLead.email || '',
         service: courseTitle,
         duration: durationLabel,
         cohort: matchedLead.cohort || 'EarEase Nexus Active Batch',
@@ -1220,12 +1327,8 @@ async function verifyCertificateById(queryId) {
     };
   }
 
-  // 4. Check Demo / Sample Certificates fallback
-  const demoMatch = DEMO_CERTIFICATES.find(d => 
-    d.candidateId.toLowerCase() === lowerQuery ||
-    d.certId.toLowerCase() === lowerQuery ||
-    d.name.toLowerCase().includes(lowerQuery)
-  );
+  // 4. Check Demo & Persistent Alumni Certificates
+  const demoMatch = DEMO_CERTIFICATES.find(d => matchCandidateRecord(d, cleanId));
 
   if (demoMatch) {
     return {
