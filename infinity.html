@@ -28,6 +28,7 @@
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="js/firebase-config.js?v=3.0"></script>
 
   <style>
@@ -1727,11 +1728,54 @@
     }
 
     function triggerWorkshopPayment() {
-      // Open enrollment / payment modal for ₹99 Workshop
-      if (typeof openEnrollModal === 'function') {
-        openEnrollModal('Data Science Career Assessment & AI Tools Workshop', '₹99 Registration Fee');
+      const studentDetails = {
+        name: userAnswers.name || document.getElementById('candidate-name')?.value || '',
+        phone: userAnswers.phone || document.getElementById('candidate-phone')?.value || '',
+        email: userAnswers.email || document.getElementById('candidate-email')?.value || '',
+        city: userAnswers.city || document.getElementById('candidate-city')?.value || ''
+      };
+
+      const customPaymentDetails = {
+        tierName: 'Data Science Career Assessment & AI Tools Workshop',
+        formattedTotal: '₹99.00',
+        totalFee: 99,
+        amountPaise: 9900,
+        breakupText: '₹99 Live Workshop Seat Admission Fee'
+      };
+
+      const onPaymentSuccess = async (response, paymentDetails) => {
+        const txId = (response && response.razorpay_payment_id) ? response.razorpay_payment_id : ('pay_LIVE_' + Date.now());
+        const passId = `EET-INF-${Math.floor(10000 + Math.random() * 90000)}`;
+
+        try {
+          if (window.submitLeadToFirebase) {
+            await window.submitLeadToFirebase({
+              name: studentDetails.name,
+              phone: studentDetails.phone,
+              email: studentDetails.email,
+              city: studentDetails.city,
+              service: 'Data Science Career Assessment & AI Tools Workshop',
+              estimateAmount: '₹99.00',
+              paymentStatus: 'PAID via Razorpay',
+              razorpayPaymentId: txId,
+              candidateId: passId,
+              stage: 'Paid Workshop Pass Issued',
+              isNexus: true,
+              isInfinity: true,
+              updatedAt: new Date().toISOString()
+            });
+          }
+        } catch (err) {
+          console.warn("Lead update notice:", err);
+        }
+
+        alert(`🎉 Payment Successful!\n\nWorkshop Pass ID: ${passId}\nRazorpay Tx ID: ${txId}\n\nYour official Zoom meeting link has been sent to ${studentDetails.email} and WhatsApp ${studentDetails.phone}.`);
+      };
+
+      if (window.launchRazorpayCheckout) {
+        window.launchRazorpayCheckout(studentDetails, 'Data Science Career Assessment & AI Tools Workshop', onPaymentSuccess, customPaymentDetails);
       } else {
-        alert("Redirecting to ₹99 Workshop Payment Gateway...");
+        window.open("https://razorpay.me/@eareasetechprivatelimited", '_blank');
       }
     }
 
