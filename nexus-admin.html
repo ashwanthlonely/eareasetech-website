@@ -117,6 +117,10 @@
         <span>🎓 Alumni & Certified Graduates Registry</span>
         <span id="badge-grad-count" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono">0</span>
       </button>
+      <button id="tab-btn-reviews" onclick="switchAdminTab('reviews')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer">
+        <span>💬 Student Reviews & Testimonials</span>
+        <span id="badge-reviews-pending" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono">0</span>
+      </button>
     </div>
 
     <!-- ========================================================================= -->
@@ -573,6 +577,86 @@
 
     </div>
     <!-- END VIEW 2: GRADUATES TAB -->
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 3: STUDENT REVIEWS & MODERATION TAB -->
+    <!-- ========================================================================= -->
+    <div id="view-reviews-tab" class="space-y-6 hidden">
+      
+      <!-- Metrics Overview Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="crm-card p-5 space-y-1">
+          <div class="text-[11px] text-slate-400 font-semibold uppercase">Total Submitted Reviews</div>
+          <div class="text-2xl font-extrabold text-white" id="rev-stat-total">0</div>
+          <div class="text-[10px] text-slate-500">All student feedback</div>
+        </div>
+
+        <div class="crm-card p-5 space-y-1 border-amber-500/40">
+          <div class="text-[11px] text-amber-400 font-semibold uppercase">Awaiting Moderation</div>
+          <div class="text-2xl font-extrabold text-amber-300" id="rev-stat-pending">0</div>
+          <div class="text-[10px] text-amber-400/80 font-bold">Needs Admin Approval</div>
+        </div>
+
+        <div class="crm-card p-5 space-y-1 border-emerald-500/40">
+          <div class="text-[11px] text-emerald-400 font-semibold uppercase">Approved & Published</div>
+          <div class="text-2xl font-extrabold text-emerald-300" id="rev-stat-approved">0</div>
+          <div class="text-[10px] text-emerald-400">Live on Nexus Reviews Section</div>
+        </div>
+
+        <div class="crm-card p-5 space-y-1 border-purple-500/40">
+          <div class="text-[11px] text-purple-400 font-semibold uppercase">Average Rating</div>
+          <div class="text-2xl font-extrabold text-purple-300" id="rev-stat-avg">5.0 ★</div>
+          <div class="text-[10px] text-slate-400">Verified student satisfaction</div>
+        </div>
+      </div>
+
+      <!-- Main Reviews Management Table Card -->
+      <div class="crm-card p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div class="space-y-0.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span>💬</span> Student Reviews & Testimonial Moderation
+            </h3>
+            <p class="text-xs text-slate-400">Review student feedback submitted via the certificate portal before publishing live to Nexus.</p>
+          </div>
+
+          <!-- Filter & Search Controls -->
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1 text-xs">
+              <button onclick="filterReviewsAdmin('all')" id="rev-filter-all" class="px-3 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition-all cursor-pointer">All</button>
+              <button onclick="filterReviewsAdmin('pending')" id="rev-filter-pending" class="px-3 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer">Pending</button>
+              <button onclick="filterReviewsAdmin('approved')" id="rev-filter-approved" class="px-3 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer">Approved</button>
+            </div>
+            <button onclick="loadReviewsAdmin()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700 transition-all cursor-pointer">
+              ⟳ Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- Reviews Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950/60 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-4">Candidate & Details</th>
+                <th class="p-4">Program Track</th>
+                <th class="p-4">Rating</th>
+                <th class="p-4 max-w-xs">Student Feedback Quote</th>
+                <th class="p-4">Submitted</th>
+                <th class="p-4">Status</th>
+                <th class="p-4 text-right">Moderation Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reviews-admin-tbody" class="divide-y divide-slate-800">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- END VIEW 3: REVIEWS TAB -->
 
   </main>
 
@@ -1397,27 +1481,197 @@
       });
 
       // -------------------------------------------------------------
-      // TAB SWITCHER LOGIC (Admissions vs Certified Graduates)
+      // TAB SWITCHER LOGIC (Admissions vs Certified Graduates vs Reviews)
       // -------------------------------------------------------------
       window.switchAdminTab = function(tabName) {
         const btnAdmissions = document.getElementById('tab-btn-admissions');
         const btnGraduates = document.getElementById('tab-btn-graduates');
+        const btnReviews = document.getElementById('tab-btn-reviews');
+
         const viewAdmissions = document.getElementById('view-admissions-tab');
         const viewGraduates = document.getElementById('view-graduates-tab');
+        const viewReviews = document.getElementById('view-reviews-tab');
+
+        const activeClass = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-[#D4A017] text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer';
+        const inactiveClass = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer';
+
+        if (btnAdmissions) btnAdmissions.className = tabName === 'admissions' ? activeClass : inactiveClass;
+        if (btnGraduates) btnGraduates.className = tabName === 'graduates' ? activeClass : inactiveClass;
+        if (btnReviews) btnReviews.className = tabName === 'reviews' ? activeClass : inactiveClass;
+
+        if (viewAdmissions) viewAdmissions.classList.toggle('hidden', tabName !== 'admissions');
+        if (viewGraduates) viewGraduates.classList.toggle('hidden', tabName !== 'graduates');
+        if (viewReviews) viewReviews.classList.toggle('hidden', tabName !== 'reviews');
 
         if (tabName === 'graduates') {
-          if (btnGraduates) btnGraduates.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-[#D4A017] text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer';
-          if (btnAdmissions) btnAdmissions.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer';
-          if (viewAdmissions) viewAdmissions.classList.add('hidden');
-          if (viewGraduates) viewGraduates.classList.remove('hidden');
           if (typeof renderGraduatesRegistry === 'function') renderGraduatesRegistry();
+        } else if (tabName === 'reviews') {
+          loadReviewsAdmin();
         } else {
-          if (btnAdmissions) btnAdmissions.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-[#D4A017] text-slate-950 shadow-lg flex items-center gap-2 transition-all cursor-pointer';
-          if (btnGraduates) btnGraduates.className = 'px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-800 text-slate-300 hover:text-amber-400 border border-slate-700 flex items-center gap-2 transition-all cursor-pointer';
-          if (viewGraduates) viewGraduates.classList.add('hidden');
-          if (viewAdmissions) viewAdmissions.classList.remove('hidden');
           if (typeof renderNexusDashboard === 'function') renderNexusDashboard();
         }
+      };
+
+      // -------------------------------------------------------------
+      // STUDENT REVIEWS & TESTIMONIAL MODERATION ENGINE
+      // -------------------------------------------------------------
+      let allAdminReviews = [];
+      let currentReviewFilter = 'all';
+
+      window.filterReviewsAdmin = function(filter) {
+        currentReviewFilter = filter;
+        const allBtn = document.getElementById('rev-filter-all');
+        const pendBtn = document.getElementById('rev-filter-pending');
+        const appBtn = document.getElementById('rev-filter-approved');
+
+        if (allBtn) {
+          allBtn.className = filter === 'all' ? 'px-3 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition-all cursor-pointer' : 'px-3 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer';
+        }
+        if (pendBtn) {
+          pendBtn.className = filter === 'pending' ? 'px-3 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition-all cursor-pointer' : 'px-3 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer';
+        }
+        if (appBtn) {
+          appBtn.className = filter === 'approved' ? 'px-3 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition-all cursor-pointer' : 'px-3 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer';
+        }
+        renderReviewsTable();
+      };
+
+      async function loadReviewsAdmin() {
+        if (window.getAllReviewsAdmin) {
+          allAdminReviews = await window.getAllReviewsAdmin();
+        } else {
+          try {
+            allAdminReviews = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+          } catch(e) { allAdminReviews = []; }
+        }
+
+        // Calculate statistics
+        const total = allAdminReviews.length;
+        const pending = allAdminReviews.filter(r => !r.approved && r.status !== 'rejected').length;
+        const approved = allAdminReviews.filter(r => r.approved || r.status === 'published').length;
+        
+        let avgRating = '5.0';
+        if (total > 0) {
+          const sum = allAdminReviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+          avgRating = (sum / total).toFixed(1);
+        }
+
+        const totalEl = document.getElementById('rev-stat-total');
+        if (totalEl) totalEl.innerText = total;
+        const pendEl = document.getElementById('rev-stat-pending');
+        if (pendEl) pendEl.innerText = pending;
+        const appEl = document.getElementById('rev-stat-approved');
+        if (appEl) appEl.innerText = approved;
+        const avgEl = document.getElementById('rev-stat-avg');
+        if (avgEl) avgEl.innerText = `${avgRating} ★`;
+
+        const badge = document.getElementById('badge-reviews-pending');
+        if (badge) {
+          badge.innerText = pending;
+          badge.className = pending > 0 
+            ? 'px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-mono animate-pulse'
+            : 'px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 text-[10px] font-mono';
+        }
+
+        renderReviewsTable();
+      }
+      window.loadReviewsAdmin = loadReviewsAdmin;
+
+      function renderReviewsTable() {
+        const tbody = document.getElementById('reviews-admin-tbody');
+        if (!tbody) return;
+
+        let filtered = allAdminReviews;
+        if (currentReviewFilter === 'pending') {
+          filtered = allAdminReviews.filter(r => !r.approved && r.status !== 'rejected');
+        } else if (currentReviewFilter === 'approved') {
+          filtered = allAdminReviews.filter(r => r.approved || r.status === 'published');
+        }
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" class="p-8 text-center text-slate-500">
+                <div class="text-3xl mb-2">💬</div>
+                <div class="font-bold text-white text-sm">No Reviews Found</div>
+                <div class="text-xs text-slate-500">Submitted student reviews will appear here for moderation.</div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(r => {
+          const isApproved = r.approved || r.status === 'published';
+          const isRejected = r.status === 'rejected';
+
+          let statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/30">⏳ Pending Approval</span>`;
+          if (isApproved) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/40">✓ Published Live</span>`;
+          } else if (isRejected) {
+            statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold border border-rose-500/40">✕ Rejected</span>`;
+          }
+
+          const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+          const dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent';
+
+          return `
+            <tr class="hover:bg-slate-800/40 transition-colors">
+              <td class="p-4">
+                <div class="font-bold text-white text-sm">${r.name}</div>
+                <div class="text-[10px] font-mono text-amber-400">${r.candidateId || 'EET-ALUMNUS'}</div>
+                <div class="text-[10px] text-slate-400">${r.location || 'India'} • ${r.role || 'Alumnus'}</div>
+              </td>
+              <td class="p-4 font-medium text-slate-300 text-xs">${r.course || 'Data Science with AI'}</td>
+              <td class="p-4 font-bold text-amber-400 text-sm whitespace-nowrap">${stars}</td>
+              <td class="p-4 max-w-xs text-xs text-slate-200 leading-relaxed italic">"${r.quote || 'No comment provided'}"</td>
+              <td class="p-4 text-[11px] text-slate-400 whitespace-nowrap">${dateStr}</td>
+              <td class="p-4 whitespace-nowrap">${statusBadge}</td>
+              <td class="p-4 text-right whitespace-nowrap">
+                <div class="flex items-center justify-end gap-1.5">
+                  ${!isApproved ? `
+                    <button onclick="adminApproveReview('${r.id}')" class="px-2.5 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-lg text-xs transition-all shadow cursor-pointer">
+                      ✓ Approve
+                    </button>
+                  ` : ''}
+                  ${!isRejected ? `
+                    <button onclick="adminRejectReview('${r.id}')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-rose-950 text-rose-300 hover:text-rose-200 border border-slate-700 rounded-lg text-xs transition-all cursor-pointer">
+                      ✕ Reject
+                    </button>
+                  ` : ''}
+                  <button onclick="adminDeleteReview('${r.id}')" class="p-1.5 text-slate-500 hover:text-rose-400 transition-colors cursor-pointer" title="Delete Review">
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      window.adminApproveReview = async function(reviewId) {
+        if (window.updateReviewStatus) {
+          await window.updateReviewStatus(reviewId, true);
+        }
+        showAdminToast('✓ Review approved & published live to Nexus review section!', 'success');
+        await loadReviewsAdmin();
+      };
+
+      window.adminRejectReview = async function(reviewId) {
+        if (window.updateReviewStatus) {
+          await window.updateReviewStatus(reviewId, false);
+        }
+        showAdminToast('Review rejected and hidden from public portal.', 'warning');
+        await loadReviewsAdmin();
+      };
+
+      window.adminDeleteReview = async function(reviewId) {
+        if (!confirm('Are you sure you want to permanently delete this review?')) return;
+        if (window.deleteReview) {
+          await window.deleteReview(reviewId);
+        }
+        showAdminToast('Review permanently deleted.', 'info');
+        await loadReviewsAdmin();
       };
 
       // -------------------------------------------------------------

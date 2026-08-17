@@ -1364,10 +1364,140 @@ async function issueCandidateCertificate(candidateId, certificateMeta = {}) {
     return { success: true, certId: certId, lead: leads[leadIndex] };
   }
 
-  return { success: false, error: 'Candidate record not found.' };
+// ============================================================================
+// STUDENT REVIEWS & TESTIMONIALS MODERATION SYSTEM
+// ============================================================================
+async function submitCandidateReview(reviewData) {
+  if (!reviewData) return { success: false, message: 'Invalid review data' };
+
+  const id = reviewData.id || `rev_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+  const review = {
+    id: id,
+    candidateId: reviewData.candidateId || 'EET-ALUMNUS',
+    name: reviewData.name || 'Nexus Graduate',
+    course: reviewData.course || '6 Months Data Science with AI Mentorship',
+    location: reviewData.location || 'India',
+    role: reviewData.role || 'Data & AI Specialist',
+    rating: Number(reviewData.rating) || 5,
+    quote: reviewData.quote || '',
+    badge: 'Verified Graduate',
+    createdAt: reviewData.createdAt || new Date().toISOString(),
+    status: 'pending_approval',
+    approved: false
+  };
+
+  // 1. Save to LocalStorage
+  try {
+    let localReviews = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+    localReviews.unshift(review);
+    localStorage.setItem('nexus_reviews', JSON.stringify(localReviews));
+  } catch (e) {
+    console.warn("LocalStorage save review error:", e);
+  }
+
+  // 2. Save to Firestore collection 'nexus_reviews' if online
+  if (db) {
+    try {
+      await db.collection('nexus_reviews').doc(id).set(review);
+    } catch (err) {
+      console.warn("Firestore save review error:", err);
+    }
+  }
+
+  return { success: true, message: 'Review submitted successfully for moderation', data: review };
+}
+
+async function getAllReviewsAdmin() {
+  let reviewsMap = new Map();
+
+  // Load from local storage
+  try {
+    const local = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+    local.forEach(r => { if (r && r.id) reviewsMap.set(r.id, r); });
+  } catch (e) {}
+
+  // Load from Firestore
+  if (db) {
+    try {
+      const snap = await db.collection('nexus_reviews').orderBy('createdAt', 'desc').get();
+      snap.forEach(doc => {
+        const d = doc.data();
+        reviewsMap.set(doc.id, { ...d, id: doc.id });
+      });
+    } catch (err) {
+      console.warn("Firestore get reviews error:", err);
+    }
+  }
+
+  return Array.from(reviewsMap.values());
+}
+
+async function updateReviewStatus(reviewId, approved) {
+  if (!reviewId) return false;
+
+  const status = approved ? 'published' : 'rejected';
+
+  // 1. Update LocalStorage
+  try {
+    let local = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+    local = local.map(r => {
+      if (r.id === reviewId) {
+        return { ...r, approved: !!approved, status: status, moderatedAt: new Date().toISOString() };
+      }
+      return r;
+    });
+    localStorage.setItem('nexus_reviews', JSON.stringify(local));
+  } catch (e) {}
+
+  // 2. Update Firestore
+  if (db) {
+    try {
+      await db.collection('nexus_reviews').doc(reviewId).update({
+        approved: !!approved,
+        status: status,
+        moderatedAt: new Date().toISOString()
+      });
+    } catch (err) {
+      console.warn("Firestore update review status error:", err);
+    }
+  }
+
+  return true;
+}
+
+async function deleteReview(reviewId) {
+  if (!reviewId) return false;
+
+  // 1. Remove from LocalStorage
+  try {
+    let local = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+    local = local.filter(r => r.id !== reviewId);
+    localStorage.setItem('nexus_reviews', JSON.stringify(local));
+  } catch (e) {}
+
+  // 2. Remove from Firestore
+  if (db) {
+    try {
+      await db.collection('nexus_reviews').doc(reviewId).delete();
+    } catch (err) {
+      console.warn("Firestore delete review error:", err);
+    }
+  }
+
+  return true;
+}
+
+async function getApprovedReviews() {
+  const all = await getAllReviewsAdmin();
+  return all.filter(r => r.approved === true || r.status === 'published');
 }
 
 // Make globally accessible
+window.submitCandidateReview = submitCandidateReview;
+window.getAllReviewsAdmin = getAllReviewsAdmin;
+window.updateReviewStatus = updateReviewStatus;
+window.deleteReview = deleteReview;
+window.getApprovedReviews = getApprovedReviews;
 window.razorpayNexusConfig = razorpayNexusConfig;
 window.defaultFeeStructure = defaultFeeStructure;
 window.getSavedProgramFees = getSavedProgramFees;
@@ -1394,6 +1524,11 @@ window.issueCandidateCertificate = issueCandidateCertificate;
 window.getCertificateSettings = getCertificateSettings;
 window.saveCertificateSettings = saveCertificateSettings;
 window.DEMO_CERTIFICATES = DEMO_CERTIFICATES;
+window.submitCandidateReview = submitCandidateReview;
+window.getAllReviewsAdmin = getAllReviewsAdmin;
+window.updateReviewStatus = updateReviewStatus;
+window.deleteReview = deleteReview;
+window.getApprovedReviews = getApprovedReviews;
 
 window.EarEaseFirebase = {
   submitLead: submitLeadToFirebase,
@@ -1418,6 +1553,10 @@ window.EarEaseFirebase = {
   verifyCertificate: verifyCertificateById,
   issueCertificate: issueCandidateCertificate,
   getCertSettings: getCertificateSettings,
-  saveCertSettings: saveCertificateSettings
+  saveCertSettings: saveCertificateSettings,
+  submitReview: submitCandidateReview,
+  getAllReviews: getAllReviewsAdmin,
+  updateReviewStatus: updateReviewStatus,
+  deleteReview: deleteReview,
+  getApprovedReviews: getApprovedReviews
 };
-

@@ -1555,24 +1555,68 @@
       { id: 60, course: '6M-DS', name: 'Nitin Saxena', location: 'Delhi NCR', role: 'Senior Data Analytics Specialist @ KPMG', rating: 5, quote: 'Completed 6 months of intense mentorship and earned a ₹16 LPA job offer right after internship completion.', badge: 'Verified Alumni' }
     ];
 
-    function renderReviewsGrid(filterCourse = 'all') {
+    async function getCombinedReviews() {
+      let approvedDynamic = [];
+      if (window.getApprovedReviews) {
+        try {
+          approvedDynamic = await window.getApprovedReviews();
+        } catch(e) {}
+      }
+      if (!approvedDynamic || approvedDynamic.length === 0) {
+        try {
+          const local = JSON.parse(localStorage.getItem('nexus_reviews') || '[]');
+          approvedDynamic = local.filter(r => r.approved === true || r.status === 'published');
+        } catch(e) {}
+      }
+
+      // Map dynamic reviews to match the schema
+      const formattedDynamic = approvedDynamic.map((r, i) => {
+        let courseTag = '6M-DS';
+        const cLower = (r.course || '').toLowerCase();
+        if (cLower.includes('30') && cLower.includes('tool')) courseTag = '30D-TOOLS';
+        else if (cLower.includes('30')) courseTag = '30D-AIML';
+        else if (cLower.includes('3') || cLower.includes('three')) courseTag = '3M-AIML';
+        else if (cLower.includes('data science') || cLower.includes('6')) courseTag = '6M-DS';
+
+        return {
+          id: `dyn_${r.id || i}`,
+          course: courseTag,
+          name: r.name,
+          location: r.location || 'India',
+          role: r.role || 'Data & AI Specialist',
+          rating: Number(r.rating) || 5,
+          quote: r.quote,
+          badge: '⭐ Verified Graduate',
+          isLive: true
+        };
+      });
+
+      return [...formattedDynamic, ...nexusReviewsData];
+    }
+
+    async function renderReviewsGrid(filterCourse = 'all') {
       const container = document.getElementById('reviews-grid');
       if (!container) return;
 
+      const allReviews = await getCombinedReviews();
+
       const filteredData = filterCourse === 'all' 
-        ? nexusReviewsData 
-        : nexusReviewsData.filter(r => r.course === filterCourse);
+        ? allReviews 
+        : allReviews.filter(r => r.course === filterCourse);
 
       container.innerHTML = filteredData.map(r => {
         const initials = r.name.split(' ').map(n => n[0]).join('');
+        const badgeColor = r.isLive 
+          ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' 
+          : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
         return `
-          <div class="p-5 bg-slate-900/90 rounded-2xl border border-slate-800 flex flex-col justify-between space-y-4 hover:border-amber-500/50 transition-all duration-300 shadow-lg">
+          <div class="p-5 bg-slate-900/90 rounded-2xl border ${r.isLive ? 'border-amber-500/50 shadow-amber-500/10' : 'border-slate-800'} flex flex-col justify-between space-y-4 hover:border-amber-500/50 transition-all duration-300 shadow-lg">
             <div class="space-y-3">
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-1 text-amber-400 text-sm">
                   ${'★'.repeat(r.rating)}
                 </div>
-                <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded text-[9px] font-bold">
+                <span class="px-2 py-0.5 ${badgeColor} rounded text-[9px] font-bold">
                   ${r.badge}
                 </span>
               </div>
