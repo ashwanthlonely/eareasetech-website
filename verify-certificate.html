@@ -369,8 +369,30 @@
       </div>
     </section>
 
+    <!-- AWAITING SEARCH PLACEHOLDER CARD (SHOWN BEFORE CANDIDATE ENTERS DATA) -->
+    <section id="awaiting-search-placeholder" class="no-print bg-slate-900/70 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl backdrop-blur-md max-w-3xl mx-auto my-4 space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl text-amber-400 shadow-inner">
+        🎓
+      </div>
+      <h3 class="text-xl font-bold text-white tracking-tight">Ready to Verify or Obtain Your Credential</h3>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+        Enter your Candidate ID, Registered Mobile Number, or Full Name in the search box above to authenticate and generate your official EarEase Nexus certificate.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 pt-2 font-medium">
+        <span class="flex items-center gap-1.5 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 256-Bit Cryptographic Seal
+        </span>
+        <span class="flex items-center gap-1.5 text-amber-300">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span> Live Academic Registry
+        </span>
+        <span class="flex items-center gap-1.5 text-purple-300">
+          <span class="w-2 h-2 rounded-full bg-purple-400"></span> Instant PDF & PNG Export
+        </span>
+      </div>
+    </section>
+
     <!-- 3. ACTIONS TOOLBAR (NO PRINT) -->
-    <section id="cert-actions-bar" class="no-print flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+    <section id="cert-actions-bar" class="no-print hidden flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
       
       <div class="flex items-center gap-2 text-xs text-slate-300">
         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-semibold">
@@ -432,7 +454,7 @@
     <!-- ========================================================================= -->
     <!-- 4. LUXURY CERTIFICATE CANVAS (RESPONSIVE SCALED WRAPPER) -->
     <!-- ========================================================================= -->
-    <section class="flex justify-center overflow-x-auto py-2">
+    <section id="cert-display-section" class="hidden flex justify-center overflow-x-auto py-2">
       <div id="certificate-canvas-wrapper" class="inline-block p-1">
         
         <!-- THE CERTIFICATE SHEET -->
@@ -775,7 +797,7 @@
       }
     }
 
-    // Execute Verification Lookup
+    // Execute Verification Lookup with Video Generation Animation
     async function searchById(queryId) {
       if (!queryId) return;
       const clean = queryId.trim();
@@ -786,18 +808,61 @@
       btn.innerHTML = `<span class="inline-block animate-spin">⟳</span> Verifying...`;
       btn.disabled = true;
 
+      const overlay = document.getElementById('cert-generating-overlay');
+      const videoEl = document.getElementById('cert-generating-video');
+      const stepText = document.getElementById('cert-generating-step');
+      const progressBar = document.getElementById('cert-generating-progress');
+
       try {
         if (window.verifyCertificateById) {
           const result = await window.verifyCertificateById(clean);
           if (result.success && result.data) {
+            // Show video animation overlay while generating certificate
+            if (overlay) {
+              overlay.classList.remove('hidden');
+              if (videoEl) {
+                videoEl.currentTime = 0;
+                videoEl.play().catch(() => {});
+              }
+              if (stepText) stepText.innerText = "Querying Academic Registry for candidate record...";
+              if (progressBar) progressBar.style.width = "35%";
+
+              await new Promise(r => setTimeout(r, 650));
+              if (stepText) stepText.innerText = "Binding Cryptographic SHA256 Signature & Seal...";
+              if (progressBar) progressBar.style.width = "75%";
+
+              await new Promise(r => setTimeout(r, 700));
+              if (stepText) stepText.innerText = "Generating High-Resolution Certificate & Scannable QR Code...";
+              if (progressBar) progressBar.style.width = "100%";
+
+              await new Promise(r => setTimeout(r, 650));
+              overlay.classList.add('hidden');
+            }
+
+            // Hide placeholder and reveal certificate
+            const placeholder = document.getElementById('awaiting-search-placeholder');
+            if (placeholder) placeholder.classList.add('hidden');
+
+            const certDisplay = document.getElementById('cert-display-section');
+            if (certDisplay) certDisplay.classList.remove('hidden');
+
+            const actionsBar = document.getElementById('cert-actions-bar');
+            if (actionsBar) actionsBar.classList.remove('hidden');
+
             applyCertificateData(result.data);
             showToast(`✓ Certificate for ${result.data.name} verified!`, true);
+
             // Update browser URL query parameter without page reload
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('id', clean);
             window.history.replaceState({}, '', newUrl.toString());
+
+            // Smooth scroll to certificate
+            setTimeout(() => {
+              document.getElementById('verification-status-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
           } else {
-            showToast(result.message || 'Credential ID not found.', false);
+            showToast(result.message || 'Credential not found. Please check Candidate ID, Mobile, or Name.', false);
           }
         }
       } catch (err) {
@@ -806,6 +871,7 @@
       } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
+        if (overlay) overlay.classList.add('hidden');
       }
     }
 
@@ -923,5 +989,38 @@
       }
     });
   </script>
+  <!-- ========================================================================= -->
+  <!-- GENERATING CERTIFICATE VIDEO ANIMATION OVERLAY -->
+  <!-- ========================================================================= -->
+  <div id="cert-generating-overlay" class="hidden fixed inset-0 z-50 bg-[#050B14]/95 backdrop-blur-xl flex flex-col items-center justify-center p-4">
+    <div class="max-w-md w-full text-center space-y-6 bg-slate-950/90 border border-amber-500/40 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+      <!-- Ambient Glow -->
+      <div class="absolute -top-20 -left-20 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Video Card -->
+      <div class="w-36 h-36 mx-auto rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl bg-black relative flex items-center justify-center">
+        <video id="cert-generating-video" src="assets/Logo-v.mp4" autoplay muted playsinline loop class="w-full h-full object-cover"></video>
+      </div>
+
+      <!-- Animated Generating Status & Progress -->
+      <div class="space-y-3">
+        <h3 class="text-xl font-bold text-white tracking-wide">Generating Verified Certificate</h3>
+        <p id="cert-generating-step" class="text-xs text-amber-300 font-mono transition-all duration-300">
+          Querying Academic Registry for candidate record...
+        </p>
+        
+        <!-- Glowing Progress Bar -->
+        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-slate-800">
+          <div id="cert-generating-progress" class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 h-1.5 rounded-full transition-all duration-500" style="width: 25%;"></div>
+        </div>
+      </div>
+
+      <div class="text-[10px] text-slate-500 font-mono uppercase tracking-wider flex items-center justify-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>EarEase Nexus Cryptographic Verification</span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
