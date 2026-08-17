@@ -325,7 +325,7 @@
     </section>
 
     <!-- 2. REAL-TIME VERIFICATION STATUS BANNER (DYNAMIC) -->
-    <section id="verification-status-panel" class="no-print hidden transition-all duration-300">
+    <section id="verification-status-panel" style="display: none !important;" class="no-print transition-all duration-300">
       <div class="bg-emerald-950/40 border border-emerald-500/40 rounded-3xl p-5 sm:p-6 shadow-xl backdrop-blur-md">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           
@@ -348,19 +348,19 @@
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full md:w-auto text-xs">
             <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
               <span class="text-[10px] text-slate-400 block uppercase font-semibold">Candidate</span>
-              <span id="meta-candidate-name" class="font-bold text-white truncate block">Aditi Sharma</span>
+              <span id="meta-candidate-name" class="font-bold text-white truncate block"></span>
             </div>
             <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
               <span class="text-[10px] text-slate-400 block uppercase font-semibold">Credential ID</span>
-              <span id="meta-cert-id" class="font-bold font-mono text-amber-300 truncate block">EET-CERT-2026</span>
+              <span id="meta-cert-id" class="font-bold font-mono text-amber-300 truncate block"></span>
             </div>
             <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
               <span class="text-[10px] text-slate-400 block uppercase font-semibold">Issued Date</span>
-              <span id="meta-issue-date" class="font-bold text-slate-200 block">Aug 16, 2026</span>
+              <span id="meta-issue-date" class="font-bold text-slate-200 block"></span>
             </div>
             <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
               <span class="text-[10px] text-slate-400 block uppercase font-semibold">Verification Hash</span>
-              <span id="meta-hash" class="font-mono text-emerald-400 text-[11px] truncate block">SHA256-8F4B</span>
+              <span id="meta-hash" class="font-mono text-emerald-400 text-[11px] truncate block"></span>
             </div>
           </div>
 
@@ -391,7 +391,7 @@
     </section>
 
     <!-- 3. ACTIONS TOOLBAR (NO PRINT) -->
-    <section id="cert-actions-bar" class="no-print hidden flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+    <section id="cert-actions-bar" style="display: none !important;" class="no-print flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
       
       <div class="flex items-center gap-2 text-xs text-slate-300">
         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-semibold">
@@ -453,7 +453,7 @@
     <!-- ========================================================================= -->
     <!-- 4. LUXURY CERTIFICATE CANVAS (RESPONSIVE SCALED WRAPPER) -->
     <!-- ========================================================================= -->
-    <section id="cert-display-section" class="hidden flex justify-center overflow-x-auto py-2">
+    <section id="cert-display-section" style="display: none !important;" class="justify-center overflow-x-auto py-2">
       <div id="certificate-canvas-wrapper" class="inline-block p-1">
         
         <!-- THE CERTIFICATE SHEET -->
@@ -517,9 +517,7 @@
 
             <!-- CANDIDATE FULL NAME -->
             <div class="py-0.5">
-              <h1 id="cert-candidate-name" class="font-cinzel text-3xl sm:text-4xl font-extrabold tracking-wide text-[#0B1D35] drop-shadow-sm">
-                [Candidate Full Name]
-              </h1>
+              <h1 id="cert-candidate-name" class="font-cinzel text-3xl sm:text-4xl font-extrabold tracking-wide text-[#0B1D35] drop-shadow-sm"></h1>
               <div class="w-56 h-0.5 bg-[#D89B1F]/40 mx-auto mt-1.5"></div>
             </div>
 
@@ -529,25 +527,18 @@
 
             <!-- PROGRAM TRACK TITLE -->
             <div class="bg-amber-50/60 border border-amber-200/80 rounded-xl py-2 px-6 max-w-2xl mx-auto shadow-sm">
-              <h3 id="cert-course-title" class="font-cinzel text-lg font-bold text-[#0B1D35] leading-tight">
-                6 Months Data Science with AI Mentorship
-              </h3>
+              <h3 id="cert-course-title" class="font-cinzel text-lg font-bold text-[#0B1D35] leading-tight"></h3>
               <div class="flex items-center justify-center gap-3 text-[10px] text-[#8C6211] font-semibold mt-0.5">
-                <span id="cert-duration">6-Month Industry Mentorship & Research Fellowship</span>
+                <span id="cert-duration"></span>
                 <span>•</span>
-                <span id="cert-cohort">Verified Alumni Credential</span>
+                <span id="cert-cohort"></span>
                 <span>•</span>
-                <span id="cert-grade" class="text-emerald-700 font-bold">Mastery Level</span>
+                <span id="cert-grade" class="text-emerald-700 font-bold"></span>
               </div>
             </div>
 
             <!-- CURRICULUM HIGHLIGHTS (PILLS) -->
-            <div id="cert-skills-container" class="flex flex-wrap items-center justify-center gap-1.5 max-w-2xl mx-auto pt-0.5">
-              <span class="px-2 py-0.5 rounded-full bg-white text-[9px] font-semibold text-slate-700 border border-amber-200">ChatGPT & Claude Advanced Workflows</span>
-              <span class="px-2 py-0.5 rounded-full bg-white text-[9px] font-semibold text-slate-700 border border-amber-200">n8n Autonomous AI Agents</span>
-              <span class="px-2 py-0.5 rounded-full bg-white text-[9px] font-semibold text-slate-700 border border-amber-200">Cursor AI Prototyping</span>
-              <span class="px-2 py-0.5 rounded-full bg-white text-[9px] font-semibold text-slate-700 border border-amber-200">Production ML Model Architecture</span>
-            </div>
+            <div id="cert-skills-container" class="flex flex-wrap items-center justify-center gap-1.5 max-w-2xl mx-auto pt-0.5"></div>
 
           </div>
 
@@ -559,12 +550,12 @@
               
               <!-- 1. Left Signature: Founder & CTO -->
               <div class="space-y-1">
-                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pl-1" id="cert-sig1-script">Ashwanth K.</div>
+                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pl-1" id="cert-sig1-script"></div>
                 <div class="w-full h-px bg-slate-400"></div>
                 <div>
-                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig1-name">Ashwanth K.</div>
-                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig1-title">Founder & Chief Technology Officer</div>
-                  <div class="text-[8px] text-[#8C6211] font-semibold" id="cert-sig1-org">EarEase Tech Private Limited</div>
+                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig1-name"></div>
+                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig1-title"></div>
+                  <div class="text-[8px] text-[#8C6211] font-semibold" id="cert-sig1-org"></div>
                 </div>
               </div>
 
@@ -592,13 +583,13 @@
 
               <!-- 4. Right Signature: Academic Council & Metadata -->
               <div class="space-y-1 text-right">
-                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pr-1" id="cert-sig2-script">Monisha CL</div>
+                <div class="font-script text-2xl text-[#0B1D35] leading-none select-none pr-1" id="cert-sig2-script"></div>
                 <div class="w-full h-px bg-slate-400"></div>
                 <div>
-                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig2-name">Monisha CL</div>
-                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig2-title">Soft Skills Trainer</div>
-                  <div class="text-[8px] text-slate-600 font-medium" id="cert-sig2-org">EarEase Nexus Innovation Labs</div>
-                  <div class="text-[8px] text-[#8C6211] font-mono font-bold mt-0.5" id="cert-footer-id">EET-CERT-2026-894210</div>
+                  <div class="text-[10px] font-bold text-[#0B1D35] leading-tight" id="cert-sig2-name"></div>
+                  <div class="text-[8px] text-slate-500 font-medium" id="cert-sig2-title"></div>
+                  <div class="text-[8px] text-slate-600 font-medium" id="cert-sig2-org"></div>
+                  <div class="text-[8px] text-[#8C6211] font-mono font-bold mt-0.5" id="cert-footer-id"></div>
                 </div>
               </div>
 
@@ -607,8 +598,8 @@
             <!-- Bottom Sub-Footer Info -->
             <div class="flex justify-between items-center text-[7.5px] text-slate-400 border-t border-slate-200 mt-2 pt-1 font-mono">
               <div>Corporate GSTIN: 29AAJCE2794F1ZA • ISO 9001:2015 Compliant Academic Governance</div>
-              <div id="cert-security-hash">HASH: SHA256-8F4B-92A1-F03E</div>
-              <div id="cert-footer-date">Issued on: August 16, 2026</div>
+              <div id="cert-security-hash"></div>
+              <div id="cert-footer-date"></div>
             </div>
 
           </div>
@@ -838,15 +829,30 @@
               overlay.classList.add('hidden');
             }
 
-            // Hide placeholder and reveal certificate
+            // Hide placeholder and securely reveal authenticated certificate
             const placeholder = document.getElementById('awaiting-search-placeholder');
-            if (placeholder) placeholder.classList.add('hidden');
+            if (placeholder) {
+              placeholder.style.setProperty('display', 'none', 'important');
+              placeholder.classList.add('hidden');
+            }
 
             const certDisplay = document.getElementById('cert-display-section');
-            if (certDisplay) certDisplay.classList.remove('hidden');
+            if (certDisplay) {
+              certDisplay.style.setProperty('display', 'flex', 'important');
+              certDisplay.classList.remove('hidden');
+            }
 
             const actionsBar = document.getElementById('cert-actions-bar');
-            if (actionsBar) actionsBar.classList.remove('hidden');
+            if (actionsBar) {
+              actionsBar.style.setProperty('display', 'flex', 'important');
+              actionsBar.classList.remove('hidden');
+            }
+
+            const statusPanel = document.getElementById('verification-status-panel');
+            if (statusPanel) {
+              statusPanel.style.setProperty('display', 'block', 'important');
+              statusPanel.classList.remove('hidden');
+            }
 
             applyCertificateData(result.data);
             showToast(`✓ Certificate for ${result.data.name} verified!`, true);
