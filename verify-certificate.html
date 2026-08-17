@@ -54,6 +54,7 @@
   <!-- External Libraries: QR Code, Canvas Image, PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <!-- Firebase Compat SDKs -->
@@ -88,11 +89,14 @@
       width: 1040px;
       height: 735px;
       min-width: 1040px;
+      max-width: 1040px;
       min-height: 735px;
+      max-height: 735px;
       background: #FDFAF2;
       color: #0B1D35;
       position: relative;
       box-sizing: border-box;
+      overflow: hidden;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(216, 155, 31, 0.3);
     }
 
@@ -457,7 +461,7 @@
       <div id="certificate-canvas-wrapper" class="inline-block p-1">
         
         <!-- THE CERTIFICATE SHEET -->
-        <div id="certificate-sheet" class="certificate-sheet rounded-none p-10 flex flex-col justify-between select-none">
+        <div id="certificate-sheet" class="certificate-sheet rounded-none px-10 py-6 flex flex-col justify-between select-none">
           
           <!-- Outer Architectural Borders -->
           <div class="cert-border-outer"></div>
@@ -1022,7 +1026,7 @@
       }
     }
 
-    // High-Res PDF Download
+    // High-Res Single-Page Centered PDF Download
     async function downloadPDF() {
       const element = document.getElementById('certificate-sheet');
       if (!element) return;
@@ -1030,17 +1034,58 @@
       btn.innerText = 'Generating PDF...';
 
       const filename = `EarEase_Certificate_${(currentCertData?.candidateId || 'Credential').replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf`;
-      const opt = {
-        margin: [0, 0, 0, 0],
-        filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2.5, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-      };
 
       try {
-        await html2pdf().set(opt).from(element).save();
-        showToast('✓ Certificate PDF downloaded successfully!', true);
+        const canvas = await html2canvas(element, {
+          scale: 3,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#FDFAF2'
+        });
+
+        // Initialize jsPDF with standard A4 Landscape (297mm x 210mm)
+        const jsPDFConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        if (!jsPDFConstructor) {
+          throw new Error('jsPDF library not available');
+        }
+
+        const pdf = new jsPDFConstructor({
+          orientation: 'landscape',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        const pageWidth = 297;
+        const pageHeight = 210;
+        
+        // Exact proportional fit & perfect centering with 4mm safe margin
+        const safeMargin = 4;
+        const targetW = pageWidth - (safeMargin * 2);
+        const targetH = pageHeight - (safeMargin * 2);
+
+        const canvasAspect = canvas.width / canvas.height;
+        const targetAspect = targetW / targetH;
+
+        let renderWidth = targetW;
+        let renderHeight = targetH;
+
+        if (canvasAspect > targetAspect) {
+          renderWidth = targetW;
+          renderHeight = targetW / canvasAspect;
+        } else {
+          renderHeight = targetH;
+          renderWidth = targetH * canvasAspect;
+        }
+
+        // Mathematical centering
+        const xOffset = safeMargin + ((targetW - renderWidth) / 2);
+        const yOffset = safeMargin + ((targetH - renderHeight) / 2);
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        pdf.addImage(imgData, 'JPEG', xOffset, yOffset, renderWidth, renderHeight, undefined, 'FAST');
+        pdf.save(filename);
+        showToast('✓ High-Resolution Certificate PDF downloaded successfully!', true);
       } catch (err) {
         console.error("PDF export error:", err);
         showToast('Failed to generate PDF. Please try Print instead.', false);
